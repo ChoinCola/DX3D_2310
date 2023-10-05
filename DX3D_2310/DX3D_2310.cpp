@@ -5,7 +5,7 @@
 #include "DX3D_2310.h"
 
 #define MAX_LOADSTRING 100
-
+#define PI 3.1415926
 // 정점(Vertex) : 3차원 공간에 있는 한 점
 struct Vertex
 {
@@ -23,14 +23,15 @@ struct Vertex
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
-HWND hWnd;
+HWND hWnd;                                      // 윈도우 기본 핸들
+int SCount = 100;
 
 ID3D11Device* device;   // CPU
 ID3D11DeviceContext* deviceContext; // GPU
 // 하드웨어 정보부터 알아야 DX를 할 수 있다.
 // CPU와 GPU가 있다. CPU와 GPU를 연결한다.
 
-IDXGISwapChain* swapChain; // 백버퍼 관리
+IDXGISwapChain* swapChain; // 백버퍼 관리 인터페이스
 ID3D11RenderTargetView* renderTargetView; // GPU쪽 관련 메모리를 접근하는 용도. 중재역활
 // 렌더타겟뷰 = 도화지를 만들어서 스왑체인형태로 만드는것.
 
@@ -123,18 +124,18 @@ void InitDevice()
     // 1이라는건 이걸 안쓰고 1개의 이미지만 사용한다는것.
 
     D3D11CreateDeviceAndSwapChain(
-        nullptr,                    // 1. 어답터 : 창관리, 창화면의 사이즈를 바꾸어 줄 수 있는것.
-        D3D_DRIVER_TYPE_HARDWARE,   // 2. 드라이버 타입 : 하드웨어 가상X
-        0,                          // 3. 소프트웨어 타입 : 가상 하드웨어
-        D3D11_CREATE_DEVICE_DEBUG,  // 4. 플레그 : 다이렉트x 버전
-        nullptr,                    // 5. 피쳐레벨 : 하드웨어 레벨 쓸껀지 
-        0,                          // 6. 피쳐레벨 : 하드웨어 레벨 성능이 어느정도인지? 안씀 0임
-        D3D11_SDK_VERSION,
-        &swapChainDesc,
-        &swapChain,
-        &device,
-        nullptr,
-        &deviceContext
+        nullptr,                    // 1. 어답터 : 창관리어뎁터, null이 들어가면 기본이 사용됨
+        D3D_DRIVER_TYPE_HARDWARE,   // 2. 드라이버 타입 : 하드웨어 인지 가상드라이브인지 등 을 설정한다.
+        0,                          // 3. 소프트웨어 타입 : 드라이버타입 에서 소프트웨어 유형을 설정했을때만 지정한다.
+        D3D11_CREATE_DEVICE_DEBUG,  // 4. 플레그 : 현재 진행하는 디바이스가 디버그인지 일반인지 지정한다.
+        nullptr,                    // 5. 피쳐레벨 : 어플리케이션이 하드웨어 성능을 얼마나 쓰는지 지정
+        0,                          // 6. 피쳐레벨 : 위 값이 있을경우 배열의 개수를 지정한다.
+        D3D11_SDK_VERSION,          // 7. SDK버전 : 현재 SDK버전 을 기입한다.
+        &swapChainDesc,             // 8. 스왑체인 : 현재 스왑체인의 기입사항을 지정해준다.
+        &swapChain,                 // 9. 스왑체인인터페이스 : 인터페이스 포인터를 기입한다.
+        &device,                    // 10. 디바이스(CPU) : CPU 인터페이스 포인터를 기입한다.
+        nullptr,                    // 11. 디바이스수준 : CPU기능수준을 기입한다. null일경우 사용X
+        &deviceContext              // 12. 디바이스(GPU) : GPU 인터페이스 포인터를 기입한다.
     );
 
     ID3D11Texture2D* backBuffer;
@@ -165,17 +166,16 @@ void InitDevice()
     DWORD flags = D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_DEBUG;
     // 쉐이더 로드하는 일반적인 옵션이다.
 
-    ID3DBlob* blob;
-    // 로드하는 그래픽의 데이터
+    ID3DBlob* blob;// 로드하는 그래픽의 데이터
     D3DCompileFromFile(L"Shaders/Tutorial.hlsl", nullptr, nullptr,
         "VS", "vs_5_0", flags, 0, &blob, nullptr);
     
-    device->CreateVertexShader
-    (blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, &vertexShader);
+    device->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), 
+        nullptr, &vertexShader);
 
     D3D11_INPUT_ELEMENT_DESC layoutDesc[] = 
     {
-        {"POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0,
+        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
         D3D11_INPUT_PER_VERTEX_DATA, 0}
     };  // 인스턴싱할때 바꾼다.
     
@@ -189,20 +189,29 @@ void InitDevice()
     D3DCompileFromFile(L"Shaders/Tutorial.hlsl", nullptr, nullptr,
         "PS", "ps_5_0", flags, 0, &blob, nullptr);
 
-    Vertex vertex(0,0); // 이대로는 못한다 vram에 넘겨야함
+    device->CreatePixelShader
+    (blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, &pixelShader);
+
+    //Vertex vertex(0,0); // 이대로는 못한다 vram에 넘겨야함
+    vector<Vertex> vertices;
+    double mag = 0.5;
+    for (double i = 0; i < SCount; i++) {
+        double angle = 2.0 * PI * i / SCount;
+        vertices.emplace_back(cos(angle) * 720 / 1280 * mag, sin(angle) * mag);
+    }
+    vertices.emplace_back(cos(0) * 720 / 1280 * mag, sin(0) * mag);
 
     { // VertexBuffer
         D3D11_BUFFER_DESC bufferDesc = {};
         bufferDesc.Usage = D3D11_USAGE_DEFAULT; // 허가권한
-        bufferDesc.ByteWidth = sizeof(Vertex);
+        bufferDesc.ByteWidth = sizeof(Vertex) * vertices.size();
         bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
         D3D11_SUBRESOURCE_DATA subData = {};
-        subData.pSysMem = &vertex;
+        subData.pSysMem = vertices.data();
 
         device->CreateBuffer(&bufferDesc, &subData, &vertexBuffer);
     }
-    
 }
 
 void Render()
@@ -217,12 +226,11 @@ void Render()
 
     deviceContext->IASetInputLayout(inputLayout);
     deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-    deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST); // 점밖에 못그림
-
+    deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP); // 선 그림
     deviceContext->VSSetShader(vertexShader, nullptr, 0);
     deviceContext->PSSetShader(pixelShader, nullptr, 0);
 
-    deviceContext->DrawIndexed(1, 0, 0);
+    deviceContext->Draw(SCount+1, 0);
 
     swapChain->Present(0, 0);
 }
