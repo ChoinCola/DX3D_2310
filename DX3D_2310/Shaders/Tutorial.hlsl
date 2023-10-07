@@ -1,10 +1,38 @@
-float4 VS( float4 pos : POSITION ) : SV_POSITION
+
+cbuffer WVPBuffer : register(b0)
 {
-	return pos;
+	matrix world;
+	float4x4 view;
+	matrix projection;
+}
+
+struct VertexInput
+{
+	float4 pos : POSITION;
+	float4 color : COLOR;
+};
+
+struct PixelInput
+{
+	float4 pos : SV_Position;
+	float4 color : COLOR;
+};
+
+PixelInput VS(VertexInput input)
+{
+	PixelInput output;
+	output.pos = mul(input.pos, world);
+	output.pos = mul(output.pos, view);
+	output.pos = mul(output.pos, projection);
+	
+	output.color = input.color;
+	
+	return output;
+    
 }
 // VS에서는 받은 pos를 그냥 넘겨주기만 한다.
-float4 PS() : SV_TARGET
+float4 PS(PixelInput input) : SV_TARGET
 {
-    return float4(1, 1, 0, 1);
+    return input.color;
 }
-// PS에서는 받은 픽셀값을 그냥 1,1,0,1로 칠해버린다.
+
