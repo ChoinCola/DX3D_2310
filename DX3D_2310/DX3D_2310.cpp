@@ -212,10 +212,43 @@ void InitDevice()
     vertices.emplace_back(+1, -1, -1, 0, 0, 1);
     vertices.emplace_back(+1, +1, -1, 1, 1, 0);
 
-    //vertices.emplace_back(-1, -1, +1, 1, 0, 1);
-    //vertices.emplace_back(-1, +1, +1, 0, 1, 1);
-    //vertices.emplace_back(+1, -1, +1, 1, 1, 1);
-    //vertices.emplace_back(+1, +1, +1, 0, 0, 0);
+    vertices.emplace_back(-1, -1, +1, 1, 0, 1);
+    vertices.emplace_back(-1, +1, +1, 0, 1, 1);
+    vertices.emplace_back(+1, -1, +1, 1, 1, 1);
+    vertices.emplace_back(+1, +1, +1, 0, 0, 0);
+
+    XMFLOAT4 tri = { 0, 1, -1, 2};
+    vertices.emplace_back(tri.w / 2 + tri.x, +tri.y, +tri.z, 1, 0, 1);
+    vertices.emplace_back(-tri.w / 2 + tri.x, +tri.y, +tri.z, 1, 1, 1);
+    vertices.emplace_back(+tri.x, +tri.y, sqrt(pow(tri.w, 2) - pow(tri.w / 2, 2)) + tri.z, 0, 1, 1);
+    vertices.emplace_back(+tri.x, tri.w * sqrt(6) / 3 + tri.y, sqrt(pow(tri.w, 2) - pow(tri.w / 2, 2)) / 3 + tri.z, 0, 0, 0);
+
+    vector<UINT> indices =
+    {
+        // 정육면체
+        //Front
+        0, 1, 2 ,2, 1 ,3,
+        //UP
+        1, 5, 3, 3, 5, 7,
+        //Left
+        0, 4, 1, 1, 4, 5,
+        //Right
+        2, 3, 6, 6, 3, 7,
+        //Down
+        0, 2, 4, 4, 2, 6,
+        //Back
+        6, 7, 5, 5, 4, 6,
+
+        // 정사면체
+        //Front
+        8, 10, 9,
+        //Left
+        8, 11, 10,
+        //Right
+        9, 10, 11,
+        //Down
+        8, 9, 11
+    };
 
     // emplace_back 과 push_back의 차이점.
     // push_back은 한번 생성해서 복사되어서 대입. 복사대입이 된다.
@@ -235,13 +268,7 @@ void InitDevice()
 
         device->CreateBuffer(&bufferDesc, &subData, &vertexBuffer);
     }
-    vector<UINT> indices = 
-    { 
-        //Front
-        0, 1, 2 ,2, 1 ,3
-        //UP
-        //1, 5, 3, 3, 5, 7
-    };
+
 
     { // IndexBuffer
         D3D11_BUFFER_DESC bufferDesc = {};
@@ -286,10 +313,10 @@ void Render()
     deviceContext->ClearRenderTargetView(renderTargetView, clearColor);
     // 디바이스 컨텍스트, 렌더타겟뷰를 컬러로 초기화 하겠다.
 
-    //static float angle = 0.0f;
-    //angle += 0.0001;
+    static float angle = 0.0f;
+    angle += 0.0001;
 
-    //wvp.world = XMMatrixRotationY(angle);
+    wvp.world = XMMatrixRotationY(angle);
 
     WVP temp; // 전치행렬로 바꾸어서 넘겨야 쉐이더에서는 정상적으로 연산한다.
     temp.world = XMMatrixTranspose(wvp.world);
@@ -312,8 +339,7 @@ void Render()
     deviceContext->VSSetShader(vertexShader, nullptr, 0);
     deviceContext->PSSetShader(pixelShader, nullptr, 0);
 
-    //deviceContext->DrawIndexed(12, 0, 0);
-    deviceContext->DrawIndexed(6, 0, 0);
+    deviceContext->DrawIndexed(48, 0, 0);
     swapChain->Present(0, 0);
 }
 
