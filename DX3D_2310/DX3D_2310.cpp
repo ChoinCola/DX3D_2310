@@ -206,6 +206,7 @@ void InitDevice()
     (blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, &pixelShader);
 
     //Vertex vertex(0,0); // 이대로는 못한다 vram에 넘겨야함
+    // 정육면체
     vector<Vertex> vertices;
     vertices.emplace_back(-1, -1, -1, 1, 0, 0);
     vertices.emplace_back(-1, +1, -1, 0, 1, 0);
@@ -217,6 +218,7 @@ void InitDevice()
     vertices.emplace_back(+1, -1, +1, 1, 1, 1);
     vertices.emplace_back(+1, +1, +1, 0, 0, 0);
 
+    // 정사면체
     XMFLOAT4 tri = { 0, 1, -1, 2};
     vertices.emplace_back(tri.w / 2 + tri.x, +tri.y, +tri.z, 1, 0, 1);
     vertices.emplace_back(-tri.w / 2 + tri.x, +tri.y, +tri.z, 1, 1, 1);
