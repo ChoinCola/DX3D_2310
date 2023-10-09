@@ -75,6 +75,7 @@ void InitDevice();      // 시도
 void Render();          // 렌더
 void ReleaseDevice();   // 메모리 해제하는 것.
 void sphere(float size, int detail, XMFLOAT3 position);
+void sphereRneder();
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -334,6 +335,22 @@ void sphere(float size, int detail, XMFLOAT3 position)
 
 }
 
+void sphereRneder()
+{
+    //Render
+    UINT stride = sizeof(Vertex); // 정점 하나
+    UINT offset = 0; // 어디서부터 잡을껀지
+
+    deviceContext->IASetInputLayout(spinputLayout);
+    deviceContext->IASetVertexBuffers(0, 1, &spvertexBuffer, &stride, &offset);
+    deviceContext->IASetIndexBuffer(spindexBuffer, DXGI_FORMAT_R32_UINT, 0); // 인덱스 버퍼 세팅법
+
+    deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 선 그림
+    deviceContext->VSSetShader(spvertexShader, nullptr, 0);
+    deviceContext->PSSetShader(sppixelShader, nullptr, 0);
+
+    deviceContext->DrawIndexed(countVertex, 0, 0);
+}
 
 void InitDevice()
 {
