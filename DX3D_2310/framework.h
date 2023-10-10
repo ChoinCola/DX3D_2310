@@ -30,3 +30,28 @@
 
 using namespace std;
 using namespace DirectX;
+
+// Framework Header
+#include "Framework/Utilities/Singleton.h"
+
+#include "Framework/Device/Device.h"
+
+#define DEVICE Device::Get()->GetDevice()
+#define DC     Device::Get()->GetDC()
+
+// Buffer Set
+#include "Convertor/Buffer.h"
+
+// Shader Set
+#include "Convertor/Shader.h"
+
+// Obejct Header
+#include "Object/IObject.h"
+#include "Object/Box.h"
+
+// Scene
+#include "Scenes/Scene.h"
+#include "Manager/GameManager.h"
+
+//extern 전역변수가 있다는걸 알려주는 용도
+extern HWND hWnd;

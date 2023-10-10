@@ -104,6 +104,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Framework.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>./</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -133,13 +136,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Convertor\Buffer.h" />
+    <ClInclude Include="Convertor\Shader.h" />
     <ClInclude Include="DX3D_2310.h" />
-    <ClInclude Include="framework.h" />
+    <ClInclude Include="Framework.h" />
+    <ClInclude Include="Framework\Device\Device.h" />
+    <ClInclude Include="Framework\Utilities\Singleton.h" />
+    <ClInclude Include="Manager\GameManager.h" />
+    <ClInclude Include="Object\Box.h" />
+    <ClInclude Include="Object\IObject.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scenes\Scene.h" />
+    <ClInclude Include="Scenes\TutorialScene.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Convertor\Buffer.cpp" />
+    <ClCompile Include="Convertor\Shader.cpp" />
     <ClCompile Include="DX3D_2310.cpp" />
+    <ClCompile Include="Framework.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Framework\Device\Device.cpp" />
+    <ClCompile Include="Manager\GameManager.cpp" />
+    <ClCompile Include="Object\Box.cpp" />
+    <ClCompile Include="Scenes\TutorialScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2310.rc" />
