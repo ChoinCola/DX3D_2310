@@ -1,11 +1,19 @@
+//Tutorial.hlsl
 
-cbuffer WVPBuffer : register(b0)
+cbuffer WordBuffer : register(b0)
 {
 	matrix world;
-	float4x4 view;
-	matrix projection;
 }
 
+cbuffer ViewBuffer : register(b1)
+{
+	matrix view;
+}
+
+cbuffer ProjectionBuffer : register(b2)
+{
+	matrix projection;
+}
 struct VertexInput
 {
 	float4 pos : POSITION;
@@ -14,7 +22,7 @@ struct VertexInput
 
 struct PixelInput
 {
-	float4 pos : SV_Position;
+	float4 pos : SV_POSITION;
 	float4 color : COLOR;
 };
 
@@ -28,11 +36,9 @@ PixelInput VS(VertexInput input)
 	output.color = input.color;
 	
 	return output;
-    
-}
-// VS에서는 받은 pos를 그냥 넘겨주기만 한다.
-float4 PS(PixelInput input) : SV_TARGET
-{
-    return input.color;
 }
 
+float4 PS(PixelInput input) : SV_TARGET
+{
+	return input.color;
+}

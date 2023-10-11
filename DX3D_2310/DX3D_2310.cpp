@@ -13,21 +13,10 @@ WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 HWND hWnd;
 
-struct WVP
-{
-    XMMATRIX world;
-    XMMATRIX view;
-    XMMATRIX projection;
-}wvp;
-
 // 하드웨어 정보부터 알아야 DX를 할 수 있다.
 // CPU와 GPU가 있다. CPU와 GPU를 연결한다.
 
-
 // 렌더타겟뷰 = 도화지를 만들어서 스왑체인형태로 만드는것.
-
-ID3D11Buffer* constantBuffer;       // 월드버퍼
-
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -61,41 +50,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     GameManager* gameManager = new GameManager();
 
-    D3D11_VIEWPORT viewPort;
-    viewPort.TopLeftX = 0;
-    viewPort.TopLeftY = 0;
-    viewPort.Width = WIN_WIDTH;
-    viewPort.Height = WIN_HEIGHT;
-    viewPort.MinDepth = 0.0f;
-    viewPort.MaxDepth = 1.0f;
-    // ndc좌표계를 스크린으로 쭉 늘려주는 역할을 하는게 뷰포트이다.
-
-    DC->RSSetViewports(1, &viewPort);
-
-
-    { // ConstatntBuffer
-        D3D11_BUFFER_DESC bufferDesc = {};
-        bufferDesc.Usage = D3D11_USAGE_DEFAULT; // 허가권한
-        bufferDesc.ByteWidth = sizeof(WVP);
-        bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER; // 상수 버퍼 형이라고 기입
-
-        DEVICE->CreateBuffer(&bufferDesc, nullptr, &constantBuffer);
-    }
-
-    wvp.world = XMMatrixIdentity(); // 단위행렬이라고 지정한다.
-    // 단위행렬 = 대각선으로 1111이 들어간 행렬상 영향을 안끼치는 행렬이다.
-
-    XMVECTOR forcus = XMVectorSet(0, 0, 0, 0); // 카메라가 바라보는 위치
-    XMVECTOR eye = XMVectorSet(3, 3, -3, 0); // 카메라 위치
-    XMVECTOR up = XMVectorSet(0, 1, 0, 0); // 카메라 업벡터
-
-    wvp.view = XMMatrixLookAtLH(eye, forcus, up);// LeftHand 왼손좌표계 라는뜻
-
-    // fov, 종횡비, 
-    wvp.projection = XMMatrixPerspectiveFovLH(XM_PIDIV4, // 시야각도
-        (float)WIN_WIDTH / WIN_HEIGHT,          // 종횡비
-        0.1f, 1000.0f);                         // 절도체 잡기.
-
     // 기본 메시지 루프입니다:
     while (msg.message != WM_QUIT) // 메세지에 종료가 들어오지 않으면 true를 반환한다.
     {
@@ -109,20 +63,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }   // 게임프로그래밍에서 많이 쓰는 루프방법.
         else
         {
-
-            static float angle = 0.0f;
-            angle += 0.0001;
-
-            wvp.world = XMMatrixRotationY(angle);
-
-            WVP temp; // 전치행렬로 바꾸어서 넘겨야 쉐이더에서는 정상적으로 연산한다.
-            temp.world = XMMatrixTranspose(wvp.world);
-            temp.view = XMMatrixTranspose(wvp.view);
-            temp.projection = XMMatrixTranspose(wvp.projection);
-
-            DC->UpdateSubresource(constantBuffer, 0, nullptr, &temp, 0, 0);
-            DC->VSSetConstantBuffers(0, 1, &constantBuffer); // VS에 지정한다.
-
             // Update
             // 이러면 프레임이 잘 나온다.
             gameManager->Update();
@@ -143,196 +83,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     4. 해당 원의 반지름에서 detail값만큼 분할해서 원을 그려준다.
     5. 그려진 원의 각 vertex끼리 사과껍질을 깎듯이 삼각형으로 이어붙여준다.
     6. 구체 완성.
-*/
-
-/*
-void InitDevice()
-{
-    /////////////////////////////////////////////////////////////////////////////////
-
-    D3D11_VIEWPORT viewPort;
-    viewPort.TopLeftX = 0;
-    viewPort.TopLeftY = 0;
-    viewPort.Width = WIN_WIDTH;
-    viewPort.Height = WIN_HEIGHT;
-    viewPort.MinDepth = 0.0f;
-    viewPort.MaxDepth = 1.0f;
-    // ndc좌표계를 스크린으로 쭉 늘려주는 역할을 하는게 뷰포트이다.
-
-    deviceContext->RSSetViewports(1, &viewPort);
-
-    DWORD flags = D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_DEBUG;
-    // 쉐이더 로드하는 일반적인 옵션이다.
-
-    ID3DBlob* blob;// 로드하는 그래픽의 데이터
-    D3DCompileFromFile(L"Shaders/Tutorial.hlsl", nullptr, nullptr,
-        "VS", "vs_5_0", flags, 0, &blob, nullptr);
-    
-    device->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), 
-        nullptr, &vertexShader);
-
-    D3D11_INPUT_ELEMENT_DESC layoutDesc[] = 
-    {
-        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0,
-        D3D11_INPUT_PER_VERTEX_DATA, 0},
-        // 포지션 인풋을 잡아준다.
-        {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12,// 앞에 몃바이트를 썼나? 표시
-        D3D11_INPUT_PER_VERTEX_DATA, 0} // 컬러 인풋을 잡아준다
-    };  // 인스턴싱할때 바꾼다.
-    
-    UINT layoutSize = ARRAYSIZE(layoutDesc);
-
-    device->CreateInputLayout(layoutDesc, layoutSize, 
-        blob->GetBufferPointer(), blob->GetBufferSize(), &inputLayout);
-    
-    blob->Release();
-
-    D3DCompileFromFile(L"Shaders/Tutorial.hlsl", nullptr, nullptr,
-        "PS", "ps_5_0", flags, 0, &blob, nullptr);
-
-    device->CreatePixelShader
-    (blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, &pixelShader);
-
-    //Vertex vertex(0,0); // 이대로는 못한다 vram에 넘겨야함
-    // 정육면체
-    vector<Vertex> vertices;
-    vertices.emplace_back(-1, -1, -1, 1, 0, 0);
-    vertices.emplace_back(-1, +1, -1, 0, 1, 0);
-    vertices.emplace_back(+1, -1, -1, 0, 0, 1);
-    vertices.emplace_back(+1, +1, -1, 1, 1, 0);
-
-    vertices.emplace_back(-1, -1, +1, 1, 0, 1);
-    vertices.emplace_back(-1, +1, +1, 0, 1, 1);
-    vertices.emplace_back(+1, -1, +1, 1, 1, 1);
-    vertices.emplace_back(+1, +1, +1, 0, 0, 0);
-
-    // 정사면체
-    XMFLOAT4 tri = { 0, 1, -1, 2};
-    vertices.emplace_back(tri.w / 2 + tri.x, +tri.y, +tri.z, 1, 0, 1);
-    vertices.emplace_back(-tri.w / 2 + tri.x, +tri.y, +tri.z, 1, 1, 1);
-    vertices.emplace_back(+tri.x, +tri.y, sqrt(pow(tri.w, 2) - pow(tri.w / 2, 2)) + tri.z, 0, 1, 1);
-    vertices.emplace_back(+tri.x, tri.w * sqrt(6) / 3 + tri.y, sqrt(pow(tri.w, 2) - pow(tri.w / 2, 2)) / 3 + tri.z, 0, 0, 0);
-
-    vector<UINT> indices =
-    {
-        // 정육면체
-        //Front
-        0, 1, 2 ,2, 1 ,3,
-        //UP
-        1, 5, 3, 3, 5, 7,
-        //Left
-        0, 4, 1, 1, 4, 5,
-        //Right
-        2, 3, 6, 6, 3, 7,
-        //Down
-        0, 2, 4, 4, 2, 6,
-        //Back
-        6, 7, 5, 5, 4, 6,
-
-        // 정사면체
-        //Front
-        8, 10, 9,
-        //Left
-        8, 11, 10,
-        //Right
-        9, 10, 11,
-        //Down
-        8, 9, 11
-    };
-
-    // emplace_back 과 push_back의 차이점.
-    // push_back은 한번 생성해서 복사되어서 대입. 복사대입이 된다.
-    // emplace_back은 바로 그자리에 생성된다. 이동대입이 된다.
-    // new로 만들어서 넣는. 포인터 대입방식은 push_back과 emplace_back은 차이가 없다.
-    // 
-    // 인덱스 버퍼를 쓰는방법
-
-    { // VertexBuffer
-        D3D11_BUFFER_DESC bufferDesc = {};
-        bufferDesc.Usage = D3D11_USAGE_DEFAULT; // 허가권한
-        bufferDesc.ByteWidth = sizeof(Vertex) * vertices.size();
-        bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-
-        D3D11_SUBRESOURCE_DATA subData = {};
-        subData.pSysMem = vertices.data();
-
-        device->CreateBuffer(&bufferDesc, &subData, &vertexBuffer);
-    }
-
-
-    { // IndexBuffer
-        D3D11_BUFFER_DESC bufferDesc = {};
-        bufferDesc.Usage = D3D11_USAGE_DEFAULT; // 허가권한
-        bufferDesc.ByteWidth = sizeof(UINT) * indices.size();
-        bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER; // 인덱스 버퍼 형이라고 기입
-
-        D3D11_SUBRESOURCE_DATA subData = {};
-        subData.pSysMem = indices.data();
-
-        device->CreateBuffer(&bufferDesc, &subData, &indexBuffer);
-    }
-
-    { // ConstatntBuffer
-        D3D11_BUFFER_DESC bufferDesc = {};
-        bufferDesc.Usage = D3D11_USAGE_DEFAULT; // 허가권한
-        bufferDesc.ByteWidth = sizeof(WVP);
-        bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER; // 상수 버퍼 형이라고 기입
-
-        device->CreateBuffer(&bufferDesc, nullptr, &constantBuffer);
-    }
-
-    wvp.world = XMMatrixIdentity(); // 단위행렬이라고 지정한다.
-    // 단위행렬 = 대각선으로 1111이 들어간 행렬상 영향을 안끼치는 행렬이다.
-
-    XMVECTOR forcus = XMVectorSet(0, 0, 0, 0); // 카메라가 바라보는 위치
-    XMVECTOR eye = XMVectorSet(3, 3, -3, 0); // 카메라 위치
-    XMVECTOR up = XMVectorSet(0, 1, 0, 0); // 카메라 업벡터
-
-    wvp.view = XMMatrixLookAtLH(eye, forcus, up);// LeftHand 왼손좌표계 라는뜻
-
-    // fov, 종횡비, 
-    wvp.projection = XMMatrixPerspectiveFovLH(XM_PIDIV4, // 시야각도
-        (float)WIN_WIDTH / WIN_HEIGHT,          // 종횡비
-        0.1f, 1000.0f);                         // 절도체 잡기.
-
-}
-
-void Render()
-{
-
-    // 디바이스 컨텍스트, 렌더타겟뷰를 컬러로 초기화 하겠다.
-
-    static float angle = 0.0f;
-    angle += 0.0001;
-
-    wvp.world = XMMatrixRotationY(angle);
-
-    WVP temp; // 전치행렬로 바꾸어서 넘겨야 쉐이더에서는 정상적으로 연산한다.
-    temp.world = XMMatrixTranspose(wvp.world);
-    temp.view = XMMatrixTranspose(wvp.view);
-    temp.projection = XMMatrixTranspose(wvp.projection);
-
-    deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &temp, 0, 0);
-    deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer); // VS에 지정한다.
-
-
-    //Render
-    UINT stride = sizeof(Vertex); // 정점 하나
-    UINT offset = 0; // 어디서부터 잡을껀지
-
-    deviceContext->IASetInputLayout(inputLayout);
-    deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-    deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0); // 인덱스 버퍼 세팅법
-    
-    deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 선 그림
-    deviceContext->VSSetShader(vertexShader, nullptr, 0);
-    deviceContext->PSSetShader(pixelShader, nullptr, 0);
-
-    deviceContext->DrawIndexed(48, 0, 0);
-
-
-
-}
 */
 
 //

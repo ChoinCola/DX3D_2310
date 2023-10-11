@@ -13,5 +13,8 @@ public:
 	void GUIRender() override;
 
 private:
-	vector<Box> Boxs;
+	vector<Cube*> cubes;
+
+	MatrixBuffer* viewBuffer;
+	MatrixBuffer* projectionBuffer;
 };

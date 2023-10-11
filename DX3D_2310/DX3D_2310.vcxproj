@@ -136,30 +136,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Convertor\Buffer.h" />
-    <ClInclude Include="Convertor\Shader.h" />
     <ClInclude Include="DX3D_2310.h" />
     <ClInclude Include="Framework.h" />
+    <ClInclude Include="Framework\Buffer\ConstBuffer.h" />
+    <ClInclude Include="Framework\Buffer\GlobalBuffer.h" />
+    <ClInclude Include="Framework\Buffer\IndexBuffer.h" />
+    <ClInclude Include="Framework\Buffer\VertexBuffer.h" />
+    <ClInclude Include="Framework\Buffer\VertexLayouts.h" />
     <ClInclude Include="Framework\Device\Device.h" />
+    <ClInclude Include="Framework\Shader\PixelShader.h" />
+    <ClInclude Include="Framework\Shader\VertexShader.h" />
     <ClInclude Include="Framework\Utilities\Singleton.h" />
     <ClInclude Include="Manager\GameManager.h" />
-    <ClInclude Include="Object\Box.h" />
-    <ClInclude Include="Object\IObject.h" />
+    <ClInclude Include="Objects\Basic\Cube.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\TutorialScene.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Convertor\Buffer.cpp" />
-    <ClCompile Include="Convertor\Shader.cpp" />
     <ClCompile Include="DX3D_2310.cpp" />
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Framework\Buffer\ConstBuffer.cpp" />
+    <ClCompile Include="Framework\Buffer\IndexBuffer.cpp" />
+    <ClCompile Include="Framework\Buffer\VertexBuffer.cpp" />
     <ClCompile Include="Framework\Device\Device.cpp" />
+    <ClCompile Include="Framework\Shader\PixelShader.cpp" />
+    <ClCompile Include="Framework\Shader\VertexShader.cpp" />
     <ClCompile Include="Manager\GameManager.cpp" />
-    <ClCompile Include="Object\Box.cpp" />
+    <ClCompile Include="Objects\Basic\Cube.cpp" />
     <ClCompile Include="Scenes\TutorialScene.cpp" />
   </ItemGroup>
   <ItemGroup>
