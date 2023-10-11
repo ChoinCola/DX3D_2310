@@ -11,6 +11,11 @@ public:
 
 	void SetPos(float x, float y, float z) { pos = { x, y, z }; }
 private:
+	void Move();
+	void Resize();
+	void Rotation();
+
+private:
 	VertexShader* vertexShader;
 	PixelShader* pixelShader;
 
@@ -22,5 +27,11 @@ private:
 	vector<VertexColor> vertices;
 	vector<UINT> indices;
 
+	Matrix world;
+	Matrix S, R, T;
+
+	Float3 size = {};
+	Float3 rotation = {};
 	Float3 pos = {};
+	Float3 move = {};
 };

@@ -1,6 +1,7 @@
 #include "Framework.h"
 
 Cube::Cube(Float3 size)
+    : size(size)
 {
 	vertexShader = new VertexShader(L"Shaders/Tutorial.hlsl");
 	pixelShader = new PixelShader(L"Shaders/Tutorial.hlsl");
@@ -36,6 +37,7 @@ Cube::Cube(Float3 size)
     indexBuffer = new IndexBuffer(indices.data(), indices.size());
 
     worldBuffer = new MatrixBuffer();
+    pos.x = 1;
 }
 
 Cube::~Cube()
@@ -49,8 +51,17 @@ Cube::~Cube()
 
 void Cube::Update()
 {
+    Move();
+    Resize();
+    Rotation();
+
     // SRT
-    worldBuffer->Set(XMMatrixTranslation(pos.x, pos.y, pos.z));
+    S = XMMatrixScaling(size.x, size.y, size.z);
+    R = XMMatrixRotationX(rotation.x) * XMMatrixRotationY(rotation.y) * XMMatrixRotationZ(rotation.z);
+    T = XMMatrixTranslation(pos.x, pos.y, pos.z);
+    world = S * R * T;
+
+    worldBuffer->Set(world);
 }
 
 void Cube::Render()
@@ -64,4 +75,34 @@ void Cube::Render()
     pixelShader->Set();
 
     DC->DrawIndexed(indices.size(), 0, 0);
+}
+
+void Cube::Move()
+{
+    if (KEYBOARD->Down('W')) { pos.z += +1; }
+    if (KEYBOARD->Down('S')) { pos.z += -1; }
+    if (KEYBOARD->Down('A')) { pos.x += +1; }
+    if (KEYBOARD->Down('W')) { pos.x += -1; }
+    if (KEYBOARD->Down('Q')) { pos.y += +1; }
+    if (KEYBOARD->Down('E')) { pos.y += -1; }
+}
+
+void Cube::Resize()
+{
+    if (KEYBOARD->Press(VK_NUMPAD8)) { size.z = +1; }
+    if (KEYBOARD->Press(VK_NUMPAD5)) { size.z = -1; }
+    if (KEYBOARD->Press(VK_NUMPAD4)) { size.x = +1; }
+    if (KEYBOARD->Press(VK_NUMPAD6)) { size.x = -1; }
+    if (KEYBOARD->Press(VK_NUMPAD7)) { size.y = +1; }
+    if (KEYBOARD->Press(VK_NUMPAD9)) { size.y = -1; }
+}
+
+void Cube::Rotation()
+{
+    if (KEYBOARD->Press('I')) { rotation.z = +1; }
+    if (KEYBOARD->Press('K')) { rotation.z = -1; }
+    if (KEYBOARD->Press('J')) { rotation.x = +1; }
+    if (KEYBOARD->Press('L')) { rotation.x = -1; }
+    if (KEYBOARD->Press('U')) { rotation.y = +1; }
+    if (KEYBOARD->Press('O')) { rotation.y = -1; }
 }

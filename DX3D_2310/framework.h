@@ -11,6 +11,7 @@
 
 #define DEVICE Device::Get()->GetDevice()
 #define DC     Device::Get()->GetDeviceContext()
+#define KEYBOARD	Keyboard::Get()
 
 #include <windows.h>
 #include <string>
@@ -37,7 +38,7 @@ typedef XMFLOAT4X4 Float4x4;
 
 //Framework Header
 #include "Framework/Utilities/Singleton.h"
-
+#include "Framework/Utilities/Keyboard.h"
 #include "Framework/Device/Device.h"
 
 // Shader Header

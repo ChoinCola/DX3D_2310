@@ -146,6 +146,7 @@
     <ClInclude Include="Framework\Device\Device.h" />
     <ClInclude Include="Framework\Shader\PixelShader.h" />
     <ClInclude Include="Framework\Shader\VertexShader.h" />
+    <ClInclude Include="Framework\Utilities\Keyboard.h" />
     <ClInclude Include="Framework\Utilities\Singleton.h" />
     <ClInclude Include="Manager\GameManager.h" />
     <ClInclude Include="Objects\Basic\Cube.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Framework\Device\Device.cpp" />
     <ClCompile Include="Framework\Shader\PixelShader.cpp" />
     <ClCompile Include="Framework\Shader\VertexShader.cpp" />
+    <ClCompile Include="Framework\Utilities\Keyboard.cpp" />
     <ClCompile Include="Manager\GameManager.cpp" />
     <ClCompile Include="Objects\Basic\Cube.cpp" />
     <ClCompile Include="Scenes\TutorialScene.cpp" />

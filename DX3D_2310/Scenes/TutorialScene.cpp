@@ -6,7 +6,7 @@ TutorialScene::TutorialScene()
     Cube* defc = new Cube();
 	cubes.emplace_back(defc);
 
-    XMVECTOR eye = XMVectorSet(3, 30, -30, 0);//Cam Pos
+    XMVECTOR eye = XMVectorSet(3, 3, -3, 0);//Cam Pos
     XMVECTOR focus = XMVectorSet(0, 0, 0, 0);//Cam Look at Pos
     XMVECTOR up = XMVectorSet(0, 1, 0, 0);//Cam Up Vector
 
