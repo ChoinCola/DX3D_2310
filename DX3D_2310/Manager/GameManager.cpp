@@ -19,6 +19,7 @@ GameManager::~GameManager()
 
 void GameManager::Update()
 {
+	KEYBOARD->Update();
 	scene->Update();
 }
 

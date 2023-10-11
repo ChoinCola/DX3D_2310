@@ -14,7 +14,7 @@ private:
 	void Move();
 	void Resize();
 	void Rotation();
-
+	void SRT();
 private:
 	VertexShader* vertexShader;
 	PixelShader* pixelShader;
@@ -34,4 +34,6 @@ private:
 	Float3 rotation = {};
 	Float3 pos = {};
 	Float3 move = {};
+	Keyboard* key;
+	float def = 0;
 };

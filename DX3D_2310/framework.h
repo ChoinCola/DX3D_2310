@@ -51,6 +51,7 @@ typedef XMFLOAT4X4 Float4x4;
 #include "Framework/Buffer/ConstBuffer.h"
 #include "Framework/Buffer/GlobalBuffer.h"
 #include "Framework/Buffer/VertexLayouts.h"
+
 //Obejct Header
 #include "Objects/Basic/Cube.h"
 
