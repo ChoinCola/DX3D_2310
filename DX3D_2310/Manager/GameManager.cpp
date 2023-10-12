@@ -19,7 +19,9 @@ GameManager::~GameManager()
 
 void GameManager::Update()
 {
-	KEYBOARD->Update();
+	KEY->Update();
+	Timer::Get()->Update();
+
 	scene->Update();
 }
 
@@ -39,6 +41,8 @@ void GameManager::Render()
 void GameManager::Create()
 {
 	Device::Get();
+	Keyboard::Get();
+	Timer::Get();
 }
 
 void GameManager::Delete()

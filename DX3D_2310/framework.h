@@ -9,9 +9,10 @@
 #define WIN_WIDTH 1280
 #define WIN_HEIGHT 720
 
-#define DEVICE Device::Get()->GetDevice()
-#define DC     Device::Get()->GetDeviceContext()
-#define KEYBOARD	Keyboard::Get()
+#define DEVICE		Device::Get()->GetDevice()
+#define DC			Device::Get()->GetDeviceContext()
+#define KEY			Keyboard::Get()
+#define DELTA		Timer::Get()->GetElapsedTime()
 
 #include <windows.h>
 #include <string>
@@ -36,9 +37,10 @@ typedef XMMATRIX Matrix;
 typedef XMVECTOR Vector4;	// 다양한 사용방식이 보장된 vector
 typedef XMFLOAT4X4 Float4x4;
 
-//Framework Header
+// Framework Header
 #include "Framework/Utilities/Singleton.h"
 #include "Framework/Utilities/Keyboard.h"
+#include "Framework/Utilities/Timer.h"
 #include "Framework/Device/Device.h"
 
 // Shader Header
@@ -52,10 +54,14 @@ typedef XMFLOAT4X4 Float4x4;
 #include "Framework/Buffer/GlobalBuffer.h"
 #include "Framework/Buffer/VertexLayouts.h"
 
-//Obejct Header
+// Math Header
+#include "Framework/Math/Vector3.h"
+#include "Framework/Math/Transform.h"
+
+// Obejct Header
 #include "Objects/Basic/Cube.h"
 
-//Scene
+// Scene
 #include "Scenes/Scene.h"
 #include "Manager/GameManager.h"
 

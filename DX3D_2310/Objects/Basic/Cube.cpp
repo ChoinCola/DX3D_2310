@@ -1,19 +1,18 @@
 #include "Framework.h"
 
 Cube::Cube(Float3 size)
-    : size(size)
 {
-    key = Keyboard::Get();
+    Float3 halfSize(size.x * 0.5, size.y * 0.5, size.z * 0.5);
 
-    vertices.emplace_back(-1, -1, -1, 1, 0, 0);
-    vertices.emplace_back(-1, +1, -1, 0, 1, 0);
-    vertices.emplace_back(+1, -1, -1, 0, 0, 1);
-    vertices.emplace_back(+1, +1, -1, 1, 1, 0);
+    vertices.emplace_back(-halfSize.x, -halfSize.y, -halfSize.z, 1, 0, 0);
+    vertices.emplace_back(-halfSize.x, +halfSize.y, -halfSize.z, 0, 1, 0);
+    vertices.emplace_back(+halfSize.x, -halfSize.y, -halfSize.z, 0, 0, 1);
+    vertices.emplace_back(+halfSize.x, +halfSize.y, -halfSize.z, 1, 1, 0);
 
-    vertices.emplace_back(-1, -1, +1, 1, 0, 1);
-    vertices.emplace_back(-1, +1, +1, 0, 1, 1);
-    vertices.emplace_back(+1, -1, +1, 1, 1, 1);
-    vertices.emplace_back(+1, +1, +1, 0, 0, 0);
+    vertices.emplace_back(-halfSize.x, -halfSize.y, +halfSize.z, 1, 0, 1);
+    vertices.emplace_back(-halfSize.x, +halfSize.y, +halfSize.z, 0, 1, 1);
+    vertices.emplace_back(+halfSize.x, -halfSize.y, +halfSize.z, 1, 1, 1);
+    vertices.emplace_back(+halfSize.x, +halfSize.y, +halfSize.z, 0, 0, 0);
 
     indices =
     {
@@ -38,6 +37,10 @@ Cube::Cube(Float3 size)
     indexBuffer = new IndexBuffer(indices.data(), indices.size());
 
     worldBuffer = new MatrixBuffer();
+    //matworld._11 = 1;
+    //matworld._22 = 1;
+    //matworld._33 = 1;
+    //matworld._44 = 1;
 }
 
 Cube::~Cube()
@@ -51,62 +54,59 @@ Cube::~Cube()
 
 void Cube::Update()
 {
-    Move();
-    Resize();
-    Rotation();
-    SRT();
+    //if (KEYBOARD->Press('W'))
+    //    matworld._43 += DELTA;
+    //if (KEYBOARD->Press('S'))
+    //    matworld._43 -= DELTA;
+    //if (KEYBOARD->Press('A'))
+    //    matworld._41 -= DELTA;
+    //if (KEYBOARD->Press('D'))
+    //    matworld._41 += DELTA;
+    //if (KEYBOARD->Press('Q'))
+    //    matworld._42 += DELTA;
+    //if (KEYBOARD->Press('E'))
+    //    matworld._42 -= DELTA;
+
+    //if (KEYBOARD->Press('T'))
+    //    matworld._33 += DELTA;
+    //if (KEYBOARD->Press('G'))
+    //    matworld._33 -= DELTA;
+    //if (KEYBOARD->Press('F'))
+    //    matworld._11 -= DELTA;
+    //if (KEYBOARD->Press('H'))
+    //    matworld._11 += DELTA;
+    //if (KEYBOARD->Press('R'))
+    //    matworld._22 += DELTA;
+    //if (KEYBOARD->Press('Y'))
+    //    matworld._22 -= DELTA;
+
+
+    //static float angle = 0.0f;
+    //if (KEYBOARD->Press(VK_UP))
+    //    angle += DELTA;
+    //if (KEYBOARD->Press(VK_DOWN))
+    //    angle -= DELTA;
+
+    //matworld._22 = cos(angle);
+    //matworld._23 = sin(angle);
+    //matworld._32 = -sin(angle);
+    //matworld._33 = cos(angle);
+
+
+    //world = XMLoadFloat4x4(&matworld);
+    //worldBuffer->Set(world);
 }
 
 void Cube::Render()
 {
+    worldBuffer->Set(world);
+    worldBuffer->SetVS(0);
+
     vertexBuffer->Set();
     indexBuffer->Set();
-
-    worldBuffer->SetVS(0);
 
     vertexShader->Set();
     pixelShader->Set();
 
     DC->DrawIndexed(indices.size(), 0, 0);
-}
-
-void Cube::Move()
-{
-    if (KEYBOARD->Press('W')) { pos.z += +0.001; }
-    if (KEYBOARD->Press('S')) { pos.z += -0.001; }
-    if (KEYBOARD->Press('A')) { pos.x += +0.001; }
-    if (KEYBOARD->Press('D')) { pos.x += -0.001; }
-    if (KEYBOARD->Press('Q')) { pos.y += +0.001; }
-    if (KEYBOARD->Press('E')) { pos.y += -0.001; }
-}
-
-void Cube::Resize()
-{
-    if (KEYBOARD->Press(VK_NUMPAD8)) { size.z += +0.001; }
-    if (KEYBOARD->Press(VK_NUMPAD5)) { size.z += -0.001; }
-    if (KEYBOARD->Press(VK_NUMPAD4)) { size.x += +0.001; }
-    if (KEYBOARD->Press(VK_NUMPAD6)) { size.x += -0.001; }
-    if (KEYBOARD->Press(VK_NUMPAD7)) { size.y += +0.001; }
-    if (KEYBOARD->Press(VK_NUMPAD9)) { size.y += -0.001; }
-}
-
-void Cube::Rotation()
-{
-    if (KEYBOARD->Press('I')) { rotation.z += +0.001; }
-    if (KEYBOARD->Press('K')) { rotation.z += -0.001; }
-    if (KEYBOARD->Press('J')) { rotation.x += +0.001; }
-    if (KEYBOARD->Press('L')) { rotation.x += -0.001; }
-    if (KEYBOARD->Press('U')) { rotation.y += +0.001; }
-    if (KEYBOARD->Press('O')) { rotation.y += -0.001; }
-}
-
-void Cube::SRT()
-{
-    // SRT
-    S = XMMatrixScaling(size.x, size.y, size.z);
-    R = XMMatrixRotationX(rotation.x) * XMMatrixRotationY(rotation.y) * XMMatrixRotationZ(rotation.z);
-    T = XMMatrixTranslation(pos.x, pos.y, pos.z);
-    world = S * R * T;
-
-    worldBuffer->Set(world);
 }
