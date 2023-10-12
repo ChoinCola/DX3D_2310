@@ -14,6 +14,13 @@ public:
 
 private:
 	vector<Cube*> cubes;
+	Spher* ObjectTest;
+
+	BaseLine* baseline;
+
+	Moon* moon;
+	Ealth* ealth;
+	Sun* sun;
 
 	MatrixBuffer* viewBuffer;
 	MatrixBuffer* projectionBuffer;

@@ -152,7 +152,12 @@
     <ClInclude Include="Framework\Utilities\Singleton.h" />
     <ClInclude Include="Framework\Utilities\Timer.h" />
     <ClInclude Include="Manager\GameManager.h" />
+    <ClInclude Include="Objects\Basic\BaseLine.h" />
     <ClInclude Include="Objects\Basic\Cube.h" />
+    <ClInclude Include="Objects\Basic\Spher.h" />
+    <ClInclude Include="Objects\Planet\Earth.h" />
+    <ClInclude Include="Objects\Planet\Moon.h" />
+    <ClInclude Include="Objects\Planet\Sun.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\TutorialScene.h" />
@@ -173,7 +178,12 @@
     <ClCompile Include="Framework\Utilities\Keyboard.cpp" />
     <ClCompile Include="Framework\Utilities\Timer.cpp" />
     <ClCompile Include="Manager\GameManager.cpp" />
+    <ClCompile Include="Objects\Basic\BaseLine.cpp" />
     <ClCompile Include="Objects\Basic\Cube.cpp" />
+    <ClCompile Include="Objects\Basic\Spher.cpp" />
+    <ClCompile Include="Objects\Planet\Earth.cpp" />
+    <ClCompile Include="Objects\Planet\Moon.cpp" />
+    <ClCompile Include="Objects\Planet\Sun.cpp" />
     <ClCompile Include="Scenes\TutorialScene.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -3,16 +3,13 @@
 
 TutorialScene::TutorialScene()
 {
-    Cube* defc = new Cube();
-	cubes.emplace_back(defc);
-    cubes.push_back(new Cube());
+    //ObjectTest = new Spher(4, 3);
+    sun = new Sun();
+    ealth = new Ealth({ 0, 0, 0 });
+    moon = new Moon(ealth->GetSelf());
+    baseline = new BaseLine(10, 2000);
 
-    //cubes.back()->SetPivot(Vector3(0.5f, 0.5f, 0.5f));
-
-    cubes.back()->SetLocalPosition({ 2, 0, 0 });
-    cubes[1]->SetParent(cubes[0]);
-
-    XMVECTOR eye = XMVectorSet(3, 3, -3, 0);//Cam Pos
+    XMVECTOR eye = XMVectorSet(3, 300, -300, 0);//Cam Pos
     XMVECTOR focus = XMVectorSet(0, 0, 0, 0);//Cam Look at Pos
     XMVECTOR up = XMVectorSet(0, 1, 0, 0);//Cam Up Vector
 
@@ -29,6 +26,7 @@ TutorialScene::TutorialScene()
 
     projectionBuffer->Set(projection);
     projectionBuffer->SetVS(2);
+    baseline->UpdateWorld();
 }
 
 TutorialScene::~TutorialScene()
@@ -39,34 +37,25 @@ TutorialScene::~TutorialScene()
 
 void TutorialScene::Update()
 {
-    if (KEY->Press('W'))
-        cubes[0]->Translate(Vector3(0, 0, 1) * DELTA);
-    if (KEY->Press('S'))
-        cubes[0]->Translate(Vector3(0, 0, -1) * DELTA);
-    if (KEY->Press('A'))
-        cubes[0]->Translate(Vector3(-1, 0, 0) * DELTA);
-    if (KEY->Press('D'))
-        cubes[0]->Translate(Vector3(1, 0, 0) * DELTA);
-    if (KEY->Press('Q'))
-        cubes[0]->Translate(Vector3(0, 1, 0) * DELTA);
-    if (KEY->Press('E'))
-        cubes[0]->Translate(Vector3(0, -1, 0) * DELTA);
 
-    if (KEY->Press('T'))
-        cubes[0]->Rotate(Vector3(0, 0, 1) * DELTA);
-    if (KEY->Press('G'))
-        cubes[0]->Rotate(Vector3(0, 0, -1) * DELTA);
-    if (KEY->Press('F'))
-        cubes[0]->Rotate(Vector3(-1, 0, 0) * DELTA);
-    if (KEY->Press('H'))
-        cubes[0]->Rotate(Vector3(1, 0, 0) * DELTA);
-    if (KEY->Press('R'))
-        cubes[0]->Rotate(Vector3(0, 1, 0) * DELTA);
-    if (KEY->Press('Y'))
-        cubes[0]->Rotate(Vector3(0, -1, 0) * DELTA);
+    //if (KEY->Press('W')) ObjectTest->Translate(Vector3(0, 0, 1) * DELTA);
+    //if (KEY->Press('S')) ObjectTest->Translate(Vector3(0, 0, -1) * DELTA);
+    //if (KEY->Press('A')) ObjectTest->Translate(Vector3(-1, 0, 0) * DELTA);
+    //if (KEY->Press('D')) ObjectTest->Translate(Vector3(1, 0, 0) * DELTA);
+    //if (KEY->Press('Q')) ObjectTest->Translate(Vector3(0, 1, 0) * DELTA);
+    //if (KEY->Press('E')) ObjectTest->Translate(Vector3(0, -1, 0) * DELTA);
 
-    for (Cube* cube : cubes)
-        cube->UpdateWorld();
+    //if (KEY->Press('T')) ObjectTest->Rotate(Vector3(0, 0, 1) * DELTA);
+    //if (KEY->Press('G')) ObjectTest->Rotate(Vector3(0, 0, -1) * DELTA);
+    //if (KEY->Press('F')) ObjectTest->Rotate(Vector3(-1, 0, 0) * DELTA);
+    //if (KEY->Press('H')) ObjectTest->Rotate(Vector3(1, 0, 0) * DELTA);
+    //if (KEY->Press('R')) ObjectTest->Rotate(Vector3(0, 1, 0) * DELTA);
+    //if (KEY->Press('Y')) ObjectTest->Rotate(Vector3(0, -1, 0) * DELTA);
+
+    //ObjectTest->UpdateWorld();
+    ealth->Update();
+    moon->Update();
+    sun->Update();
 }
 
 void TutorialScene::PreRneder()
@@ -75,8 +64,14 @@ void TutorialScene::PreRneder()
 
 void TutorialScene::Render()
 {
-    for (Cube* cube : cubes)
-        cube->Render();
+    //for (Cube* cube : cubes)
+    //    cube->Render();
+    //ObjectTest->Render();
+    baseline->Render();
+    moon->Render();
+    ealth->Render();
+
+    sun->Render();
 }
 
 void TutorialScene::PostRender()

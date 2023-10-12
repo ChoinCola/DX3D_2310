@@ -18,13 +18,14 @@ public:
 	void SetLocalRotation(const Vector3& rotation) { localRotation = rotation; }
 	void SetLocalScale(const Vector3& scale) { localScale = scale; }
 
+	Transform* GetSelf() { return this; }
 	Transform* GetParent() { return parent; }
 	void SetParent(Transform* transform) { parent = transform; }
 	void SetPivot(Vector3 pivot) { this->pivot = pivot; }
 
 protected:
-	Vector3 localPosition;
-	Vector3 localRotation;
+	Vector3 localPosition = {};
+	Vector3 localRotation = {};
 	Vector3 localScale = { 1, 1, 1 }; // 배율이기 떄문에 0이 되면 안됨.
 
 	Matrix world;

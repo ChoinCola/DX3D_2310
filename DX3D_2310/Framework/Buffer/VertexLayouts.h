@@ -22,4 +22,10 @@ struct VertexColor
         : pos(x, y, z), color(r, g, b, 1)
     {
     }
+
+    VertexColor(float x, float y, float z)
+        : pos(x, y, z), color(1, 1, 1, 1)
+    {
+    }
+
 };

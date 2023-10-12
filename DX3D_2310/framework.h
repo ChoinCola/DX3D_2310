@@ -60,6 +60,13 @@ typedef XMFLOAT4X4 Float4x4;
 
 // Obejct Header
 #include "Objects/Basic/Cube.h"
+#include "Objects/Basic/Spher.h"
+#include "Objects/Basic/BaseLine.h"
+
+// Planet Header
+#include "Objects/Planet/Earth.h"
+#include "Objects/Planet/Sun.h"
+#include "Objects/Planet/Moon.h"
 
 // Scene
 #include "Scenes/Scene.h"
