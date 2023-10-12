@@ -93,6 +93,47 @@ Spher::~Spher()
 
 void Spher::Update()
 {
+    //if (KEYBOARD->Press('W'))
+    //    matworld._43 += DELTA;
+    //if (KEYBOARD->Press('S'))
+    //    matworld._43 -= DELTA;
+    //if (KEYBOARD->Press('A'))
+    //    matworld._41 -= DELTA;
+    //if (KEYBOARD->Press('D'))
+    //    matworld._41 += DELTA;
+    //if (KEYBOARD->Press('Q'))
+    //    matworld._42 += DELTA;
+    //if (KEYBOARD->Press('E'))
+    //    matworld._42 -= DELTA;
+
+    //if (KEYBOARD->Press('T'))
+    //    matworld._33 += DELTA;
+    //if (KEYBOARD->Press('G'))
+    //    matworld._33 -= DELTA;
+    //if (KEYBOARD->Press('F'))
+    //    matworld._11 -= DELTA;
+    //if (KEYBOARD->Press('H'))
+    //    matworld._11 += DELTA;
+    //if (KEYBOARD->Press('R'))
+    //    matworld._22 += DELTA;
+    //if (KEYBOARD->Press('Y'))
+    //    matworld._22 -= DELTA;
+
+
+    //static float angle = 0.0f;
+    //if (KEYBOARD->Press(VK_UP))
+    //    angle += DELTA;
+    //if (KEYBOARD->Press(VK_DOWN))
+    //    angle -= DELTA;
+
+    //matworld._22 = cos(angle);
+    //matworld._23 = sin(angle);
+    //matworld._32 = -sin(angle);
+    //matworld._33 = cos(angle);
+
+
+    //world = XMLoadFloat4x4(&matworld);
+    //worldBuffer->Set(world);
 }
 
 void Spher::Render()
