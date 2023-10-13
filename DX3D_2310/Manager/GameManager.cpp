@@ -2,6 +2,7 @@
 #include "GameManager.h"
 
 #include "Scenes/TutorialScene.h"
+#include "Scenes/GridScene.h"
 
 GameManager::GameManager()
 {
@@ -48,4 +49,7 @@ void GameManager::Create()
 void GameManager::Delete()
 {
 	Device::Delete();
+	Keyboard::Delete();
+	Timer::Delete();
+	Shader::Delete();
 }

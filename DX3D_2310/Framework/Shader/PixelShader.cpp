@@ -12,7 +12,6 @@ PixelShader::PixelShader(wstring file)
 
 PixelShader::~PixelShader()
 {
-    blob->Release();
     pixelShader->Release();
 }
 

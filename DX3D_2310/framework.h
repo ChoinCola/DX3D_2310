@@ -13,6 +13,7 @@
 #define DC			Device::Get()->GetDeviceContext()
 #define KEY			Keyboard::Get()
 #define DELTA		Timer::Get()->GetElapsedTime()
+#define ELE_DESC	Element_desc::Get()
 
 #include <windows.h>
 #include <string>
@@ -26,6 +27,10 @@
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
+
+// DirectXTex
+#include <DirectXTex/DirectXTex.h>
+#pragma comment(lib, "DirectXTex.lib")
 
 using namespace std;
 using namespace DirectX;
@@ -44,8 +49,11 @@ typedef XMFLOAT4X4 Float4x4;
 #include "Framework/Device/Device.h"
 
 // Shader Header
+#include "Framework/Shader/Element_desc.h"
+#include "Framework/Shader/Shader.h"
 #include "Framework/Shader/VertexShader.h"
 #include "Framework/Shader/PixelShader.h"
+
 
 // Buffer Header
 #include "Framework/Buffer/VertexBuffer.h"
@@ -53,6 +61,10 @@ typedef XMFLOAT4X4 Float4x4;
 #include "Framework/Buffer/ConstBuffer.h"
 #include "Framework/Buffer/GlobalBuffer.h"
 #include "Framework/Buffer/VertexLayouts.h"
+
+// Render Header
+#include "Framework/Render/Material.h"
+#include "Framework/Render/Mesh.h"
 
 // Math Header
 #include "Framework/Math/Vector3.h"

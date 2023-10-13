@@ -25,4 +25,6 @@ private:
     IDXGISwapChain* swapChain;//백버퍼 관리
     ID3D11RenderTargetView* renderTargetView;
 
+    ID3D11DepthStencilView* depthStencilView;
+
 };

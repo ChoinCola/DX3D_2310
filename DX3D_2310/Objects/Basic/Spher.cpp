@@ -73,8 +73,8 @@ Spher::Spher(float size, UINT dividecount)
         XMStoreFloat3(&vertices[i].pos, ontoSphere);
     }
 
-    vertexShader = new VertexShader(L"Shaders/Tutorial.hlsl");
-    pixelShader = new PixelShader(L"Shaders/Tutorial.hlsl");
+    vertexShader = Shader::AddVS(L"Shaders/VertexColorShader", VERTEX_COLOR);
+    pixelShader = Shader::AddPS(L"Shaders/VertexColorShader");
 
     vertexBuffer = new VertexBuffer(vertices.data(), sizeof(VertexColor), vertices.size());
     indexBuffer = new IndexBuffer(indices.data(), indices.size());
@@ -84,8 +84,6 @@ Spher::Spher(float size, UINT dividecount)
 
 Spher::~Spher()
 {
-    delete vertexShader;
-    delete pixelShader;
     delete vertexBuffer;
     delete indexBuffer;
     delete worldBuffer;

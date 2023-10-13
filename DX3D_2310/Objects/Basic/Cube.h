@@ -10,14 +10,10 @@ public:
 	void Render();
 
 private:
-	VertexShader* vertexShader;
-	PixelShader* pixelShader;
-
-	VertexBuffer* vertexBuffer;
-	IndexBuffer* indexBuffer;
+	Material* material;
+	Mesh<VertexUV>* mesh;
 
 	MatrixBuffer* worldBuffer;
 
-	vector<VertexColor> vertices;
-	vector<UINT> indices;
+	ID3D11ShaderResourceView* srv;
 };

@@ -4,9 +4,9 @@
 TutorialScene::TutorialScene()
 {
     //ObjectTest = new Spher(4, 3);
-    sun = new Sun();
-    ealth = new Ealth({ 0, 0, 0 });
-    moon = new Moon(ealth->GetSelf());
+    //sun = new Sun();
+    //ealth = new Ealth({ 0, 0, 0 });
+    //moon = new Moon(ealth->GetSelf());
     baseline = new BaseLine(10, 2000);
 
     XMVECTOR eye = XMVectorSet(3, 300, -300, 0);//Cam Pos
@@ -53,9 +53,9 @@ void TutorialScene::Update()
     //if (KEY->Press('Y')) ObjectTest->Rotate(Vector3(0, -1, 0) * DELTA);
 
     //ObjectTest->UpdateWorld();
-    ealth->Update();
-    moon->Update();
-    sun->Update();
+    //ealth->Update();
+    //moon->Update();
+    //sun->Update();
 }
 
 void TutorialScene::PreRneder()
@@ -68,10 +68,10 @@ void TutorialScene::Render()
     //    cube->Render();
     //ObjectTest->Render();
     baseline->Render();
-    moon->Render();
-    ealth->Render();
-
-    sun->Render();
+//    moon->Render();
+//    ealth->Render();
+//
+//    sun->Render();
 }
 
 void TutorialScene::PostRender()

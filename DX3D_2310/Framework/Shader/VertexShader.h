@@ -1,15 +1,17 @@
 #pragma once
 
-class VertexShader
+class VertexShader : public Shader
 {
-public:
-	VertexShader(wstring file);
+private:
+	friend class Shader;
+
+	VertexShader(wstring file, int flag = 0);
 	~VertexShader();
-	void Set();
+
+public:
+	virtual void Set() override;
 
 private:
-	ID3DBlob* blob;
-
 	ID3D11VertexShader* vertexShader;
 	ID3D11InputLayout* inputLayout;
 };

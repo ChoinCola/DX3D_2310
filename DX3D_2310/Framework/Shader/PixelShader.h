@@ -1,14 +1,16 @@
 #pragma once
 
-class PixelShader
+class PixelShader : Shader
 {
-public:
+private:
+	friend class Shader;
+
 	PixelShader(wstring file);
 	~PixelShader();
-	void Set();
+
+public:
+	virtual void Set() override;
 
 private:
-	ID3DBlob* blob;
-
 	ID3D11PixelShader* pixelShader;
 };

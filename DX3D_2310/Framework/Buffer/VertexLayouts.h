@@ -29,3 +29,16 @@ struct VertexColor
     }
 
 };
+
+struct VertexUV
+{
+    Float3 pos = {};
+    Float2 uv = { 1, 1 };
+
+    VertexUV() {}
+
+    VertexUV(float x, float y, float z, float u, float v)
+        : pos(x, y, z), uv(u,v)
+    {
+    }
+};

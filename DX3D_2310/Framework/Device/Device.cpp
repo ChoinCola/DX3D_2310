@@ -24,12 +24,14 @@ Device::~Device()
 
     swapChain->Release();
     renderTargetView->Release();
+    depthStencilView->Release();
 }
 
 void Device::Clear()
 {
     float clearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f };
     deviceContext->ClearRenderTargetView(renderTargetView, clearColor);
+    deviceContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
 void Device::Present()
@@ -66,14 +68,32 @@ void Device::CreateDeviceAndSwapChain()
         nullptr,
         &deviceContext
     );
-
     ID3D11Texture2D* backBuffer;
 
     swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&backBuffer);
     device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView);
     backBuffer->Release();
+    
+    D3D11_TEXTURE2D_DESC depthDesc = {};
 
-    deviceContext->OMSetRenderTargets(1, &renderTargetView, nullptr);
+    depthDesc.Width = WIN_WIDTH;
+    depthDesc.Height = WIN_HEIGHT;
+    depthDesc.MipLevels = 1;
+    depthDesc.ArraySize = 1;
+    depthDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT; 
+    // 깊이랑 같이 움직이나 깊이랑 다른의미.
+    // 깊이랑 상관없이. 거울을 출력해야할때. 사용하듯
+    depthDesc.SampleDesc.Count = 1;
+    depthDesc.Usage = D3D11_USAGE_DEFAULT;
+    depthDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 
+    ID3D11Texture2D* depthBuffer;
+    device->CreateTexture2D(&depthDesc, nullptr, &depthBuffer);
 
+    D3D11_DEPTH_STENCIL_VIEW_DESC depthViewDesc = {};
+    depthViewDesc.Format = depthDesc.Format;
+    depthViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+    device->CreateDepthStencilView(depthBuffer, &depthViewDesc, &depthStencilView);
+    deviceContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
 }
