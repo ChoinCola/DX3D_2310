@@ -108,6 +108,12 @@
     <ClInclude Include="Framework\Shader\Element_desc.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\DirectXTex\DirectXTex.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Robot\Robot.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2310.cpp">
@@ -179,6 +185,9 @@
     <ClCompile Include="Framework\Shader\Element_desc.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Robot\Robot.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2310.rc">
@@ -196,5 +205,13 @@
   <ItemGroup>
     <FxCompile Include="Shaders\Tutorial.hlsl" />
     <FxCompile Include="Shaders\VertexColorShader.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Libraries\Lib\DirectXTex.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Libraries\DirectXTex\DirectXTex.inl">
+      <Filter>헤더 파일</Filter>
+    </None>
   </ItemGroup>
 </Project>

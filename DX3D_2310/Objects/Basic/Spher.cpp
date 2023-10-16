@@ -2,25 +2,29 @@
 
 Spher::Spher(float size, UINT dividecount)
 {
+    material = new Material(L"VertexColorShader.hlsl", VERTEX_COLOR);
+    mesh = new Mesh<VertexColor>();
+
     // 정 20면체의 각 삼각형 길이 황금비.
     double X = 0.525731f;
     double Z = 0.850651f;
+    vector<VertexColor>& vertices = mesh->GetVertices();
+    vertices.emplace_back(-X, 0.0f, +Z, 0, 1, 1);
+    vertices.emplace_back(+X, 0.0f, +Z, 1, 1, 1);
+    vertices.emplace_back(-X, 0.0f, -Z, 0, 0, 1);
+    vertices.emplace_back(+X, 0.0f, -Z, 1, 0, 1);
 
-    vertices.emplace_back(-X, 0.0f, +Z, 0, 1, 0);
-    vertices.emplace_back(+X, 0.0f, +Z, 0, 1, 0);
-    vertices.emplace_back(-X, 0.0f, -Z, 0, 1, 0);
-    vertices.emplace_back(+X, 0.0f, -Z, 0, 1, 0);
+    vertices.emplace_back(0.0f, +Z, +X, 0, 1, 1);
+    vertices.emplace_back(0.0f, +Z, -X, 1, 1, 1);
+    vertices.emplace_back(0.0f, -Z, +X, 0, 0, 1);
+    vertices.emplace_back(0.0f, -Z, -X, 1, 0, 1);
 
-    vertices.emplace_back(0.0f, +Z, +X, 1, 0, 0);
-    vertices.emplace_back(0.0f, +Z, -X, 1, 0, 0);
-    vertices.emplace_back(0.0f, -Z, +X, 1, 0, 0);
-    vertices.emplace_back(0.0f, -Z, -X, 1, 0, 0);
-
-    vertices.emplace_back(+Z, +X, 0.0f, 0, 0, 1);
-    vertices.emplace_back(-Z, +X, 0.0f, 0, 0, 1);
+    vertices.emplace_back(+Z, +X, 0.0f, 0, 1, 1);
+    vertices.emplace_back(-Z, +X, 0.0f, 1, 1, 1);
     vertices.emplace_back(+Z, -X, 0.0f, 0, 0, 1);
-    vertices.emplace_back(-Z, -X, 0.0f, 0, 0, 1);
+    vertices.emplace_back(-Z, -X, 0.0f, 1, 0, 1);
 
+    vector<UINT>& indices = mesh->GetIndices();
      //각 꼭짓점을 삼각형 형태로 이어서 긋는 순서를 시계방향으로 배치.
     indices =
     {
@@ -73,20 +77,21 @@ Spher::Spher(float size, UINT dividecount)
         XMStoreFloat3(&vertices[i].pos, ontoSphere);
     }
 
-    vertexShader = Shader::AddVS(L"Shaders/VertexColorShader", VERTEX_COLOR);
-    pixelShader = Shader::AddPS(L"Shaders/VertexColorShader");
-
-    vertexBuffer = new VertexBuffer(vertices.data(), sizeof(VertexColor), vertices.size());
-    indexBuffer = new IndexBuffer(indices.data(), indices.size());
+    mesh->CreateMesh();
 
     worldBuffer = new MatrixBuffer();
+
+    ScratchImage image;
+    LoadFromWICFile(L"Textures/Landscape/Box.png", WIC_FLAGS_NONE, nullptr, image);
+    // srv할당
+    CreateShaderResourceView(DEVICE, image.GetImages(), image.GetImageCount(), image.GetMetadata(), &srv);
 }
 
 Spher::~Spher()
 {
-    delete vertexBuffer;
-    delete indexBuffer;
+    delete mesh;
     delete worldBuffer;
+    srv->Release();
 }
 
 void Spher::Update()
@@ -97,14 +102,10 @@ void Spher::Render()
 {
     worldBuffer->Set(world);
     worldBuffer->SetVS(0);
+    DC->PSSetShaderResources(0, 1, &srv);
+    material->Set();
 
-    vertexBuffer->Set(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    indexBuffer->Set();
-
-    vertexShader->Set();
-    pixelShader->Set();
-
-    DC->DrawIndexed(indices.size(), 0, 0);
+    mesh->Draw();
 }
 
 VertexColor Spher::MidPoint(const VertexColor& v0, const VertexColor& v1)
@@ -131,15 +132,19 @@ void Spher::Subdivide()
 {
     // Save a copy of the input geometry.
     vector<VertexColor> verticesCopy;
-    for (auto def : vertices)
+    vector<VertexColor>& nowVertex = mesh->GetVertices();
+
+    for (const auto& def : nowVertex)
         verticesCopy.push_back(def);
 
     vector<UINT> indicesCopy;
-    for (auto def : indices)
+    vector<UINT>& nowIndices = mesh->GetIndices();
+
+    for (auto def : nowIndices)
         indicesCopy.push_back(def);
 
-    vertices.resize(0);
-    indices.resize(0);
+    nowVertex.resize(0);
+    nowIndices.resize(0);
 
     //       v1
     //       *
@@ -170,27 +175,27 @@ void Spher::Subdivide()
         // Add new geometry.
         //
 
-        vertices.push_back(v0); // 0
-        vertices.push_back(v1); // 1
-        vertices.push_back(v2); // 2
-        vertices.push_back(m0); // 3
-        vertices.push_back(m1); // 4
-        vertices.push_back(m2); // 5
+        nowVertex.push_back(v0); // 0
+        nowVertex.push_back(v1); // 1
+        nowVertex.push_back(v2); // 2
+        nowVertex.push_back(m0); // 3
+        nowVertex.push_back(m1); // 4
+        nowVertex.push_back(m2); // 5
 
-        indices.push_back(i * 6 + 0);
-        indices.push_back(i * 6 + 3);
-        indices.push_back(i * 6 + 5);
+        nowIndices.push_back(i * 6 + 0);
+        nowIndices.push_back(i * 6 + 3);
+        nowIndices.push_back(i * 6 + 5);
 
-        indices.push_back(i * 6 + 3);
-        indices.push_back(i * 6 + 4);
-        indices.push_back(i * 6 + 5);
+        nowIndices.push_back(i * 6 + 3);
+        nowIndices.push_back(i * 6 + 4);
+        nowIndices.push_back(i * 6 + 5);
 
-        indices.push_back(i * 6 + 5);
-        indices.push_back(i * 6 + 4);
-        indices.push_back(i * 6 + 2);
+        nowIndices.push_back(i * 6 + 5);
+        nowIndices.push_back(i * 6 + 4);
+        nowIndices.push_back(i * 6 + 2);
 
-        indices.push_back(i * 6 + 3);
-        indices.push_back(i * 6 + 1);
-        indices.push_back(i * 6 + 4);
+        nowIndices.push_back(i * 6 + 3);
+        nowIndices.push_back(i * 6 + 1);
+        nowIndices.push_back(i * 6 + 4);
     }
 }

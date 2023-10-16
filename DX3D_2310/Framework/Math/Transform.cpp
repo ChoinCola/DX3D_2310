@@ -29,3 +29,7 @@ void Transform::Rotate(Vector3 direction)
 {
 	localRotation += direction;
 }
+void Transform::SetRotate(Vector3 direction)
+{
+	localRotation = direction;
+}

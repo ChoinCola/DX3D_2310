@@ -159,6 +159,7 @@
     <ClInclude Include="Framework\Utilities\Keyboard.h" />
     <ClInclude Include="Framework\Utilities\Singleton.h" />
     <ClInclude Include="Framework\Utilities\Timer.h" />
+    <ClInclude Include="Libraries\DirectXTex\DirectXTex.h" />
     <ClInclude Include="Manager\GameManager.h" />
     <ClInclude Include="Objects\Basic\BaseLine.h" />
     <ClInclude Include="Objects\Basic\Cube.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Objects\Planet\Earth.h" />
     <ClInclude Include="Objects\Planet\Moon.h" />
     <ClInclude Include="Objects\Planet\Sun.h" />
+    <ClInclude Include="Objects\Robot\Robot.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\GridScene.h" />
     <ClInclude Include="Scenes\Scene.h" />
@@ -196,6 +198,7 @@
     <ClCompile Include="Objects\Planet\Earth.cpp" />
     <ClCompile Include="Objects\Planet\Moon.cpp" />
     <ClCompile Include="Objects\Planet\Sun.cpp" />
+    <ClCompile Include="Objects\Robot\Robot.cpp" />
     <ClCompile Include="Scenes\GridScene.cpp" />
     <ClCompile Include="Scenes\TutorialScene.cpp" />
   </ItemGroup>
@@ -219,6 +222,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Libraries\DirectXTex\DirectXTex.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Libraries\Lib\DirectXTex.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

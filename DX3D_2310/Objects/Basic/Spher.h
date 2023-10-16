@@ -12,14 +12,10 @@ private:
 	void Subdivide();
 	VertexColor MidPoint(const VertexColor& v0, const VertexColor& v1);
 private:
-	VertexShader* vertexShader;
-	PixelShader* pixelShader;
-
-	VertexBuffer* vertexBuffer;
-	IndexBuffer* indexBuffer;
+	Material* material;
+	Mesh<VertexColor>* mesh;
 
 	MatrixBuffer* worldBuffer;
 
-	vector<VertexColor> vertices;
-	vector<UINT> indices;
+	ID3D11ShaderResourceView* srv;
 };

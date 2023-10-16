@@ -80,6 +80,9 @@ typedef XMFLOAT4X4 Float4x4;
 #include "Objects/Planet/Sun.h"
 #include "Objects/Planet/Moon.h"
 
+// Robot Header
+#include "Objects/Robot/Robot.h"
+
 // Scene
 #include "Scenes/Scene.h"
 #include "Manager/GameManager.h"

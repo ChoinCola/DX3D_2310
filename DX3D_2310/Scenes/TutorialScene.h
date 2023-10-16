@@ -13,7 +13,7 @@ public:
 	void GUIRender() override;
 
 private:
-	vector<Cube*> cubes;
+	Cube* cube;
 	Spher* ObjectTest;
 
 	BaseLine* baseline;
@@ -21,6 +21,8 @@ private:
 	Moon* moon;
 	Ealth* ealth;
 	Sun* sun;
+
+	Robot* robot;
 
 	MatrixBuffer* viewBuffer;
 	MatrixBuffer* projectionBuffer;

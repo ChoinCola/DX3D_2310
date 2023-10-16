@@ -9,6 +9,7 @@ public:
 
 	void Translate(Vector3 direction);
 	void Rotate(Vector3 direction);
+	void SetRotate(Vector3 direction);
 
 	Vector3 GetLocalPosition() const { return localPosition; }
 	Vector3 GetLocalRotation() const { return localRotation; }

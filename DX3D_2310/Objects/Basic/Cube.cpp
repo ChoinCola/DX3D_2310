@@ -1,38 +1,62 @@
 #include "Framework.h"
 
-Cube::Cube(Float3 size)
+Cube::Cube(Float3 size, Vector3 pos)
 {
     material = new Material(L"Tutorial.hlsl",VERTEX_UV);
     mesh = new Mesh<VertexUV>();
+
+    SetLocalPosition(pos);
     Float3 halfSize(size.x * 0.5, size.y * 0.5, size.z * 0.5);
 
     vector<VertexUV>& vertices = mesh->GetVertices();
-    vertices.emplace_back(-halfSize.x, -halfSize.y, -halfSize.z, 0, 0);
-    vertices.emplace_back(-halfSize.x, +halfSize.y, -halfSize.z, 1, 0);
-    vertices.emplace_back(+halfSize.x, -halfSize.y, -halfSize.z, 0, 1);
+    // Mid;
+    vertices.emplace_back(-halfSize.x, -halfSize.y, -halfSize.z, 0, 1);
+    vertices.emplace_back(-halfSize.x, +halfSize.y, -halfSize.z, 0, 0);
+    vertices.emplace_back(+halfSize.x, -halfSize.y, -halfSize.z, 1, 1);
     vertices.emplace_back(+halfSize.x, +halfSize.y, -halfSize.z, 1, 0);
                                                                 
-    vertices.emplace_back(-halfSize.x, -halfSize.y, +halfSize.z, 0, 1);
-    vertices.emplace_back(-halfSize.x, +halfSize.y, +halfSize.z, 1, 1);
-    vertices.emplace_back(+halfSize.x, -halfSize.y, +halfSize.z, 1, 1);
+    vertices.emplace_back(-halfSize.x, -halfSize.y, +halfSize.z, 1, 1);
+    vertices.emplace_back(-halfSize.x, +halfSize.y, +halfSize.z, 1, 0);
+    vertices.emplace_back(+halfSize.x, -halfSize.y, +halfSize.z, 0, 1);
     vertices.emplace_back(+halfSize.x, +halfSize.y, +halfSize.z, 0, 0);
 
+    // UP 
+    vertices.emplace_back(-halfSize.x, +halfSize.y, +halfSize.z, 0, 1);     //5
+    vertices.emplace_back(+halfSize.x, +halfSize.y, +halfSize.z, 1, 1);     //7
+
+    // DOWN
+    vertices.emplace_back(-halfSize.x, -halfSize.y, +halfSize.z, 0, 0);     //4
+    vertices.emplace_back(+halfSize.x, -halfSize.y, +halfSize.z, 1, 0);     //6
+
     vector<UINT>& indices = mesh->GetIndices();
+
+    /*
+        1        3
+        ----------
+        1        1
+        1        1
+        1        1
+        ----------
+        0        2
+    
+    
+    */
 
     indices =
     {
         // Front
         0, 1, 2, 2, 1, 3,
-        // UP
-        1, 5, 3, 3, 5, 7,
         // Left
         0, 4, 1, 1, 4, 5,
         // Right
         2, 3, 6, 6, 3, 7,
-        // Down
-        0, 2, 4, 4, 2, 6,
         // Back
-        6, 7, 5, 5, 4, 6
+        6, 7, 5, 5, 4, 6,
+
+        // UP
+        1, 8, 3, 3, 8, 9,
+        // Down
+        0, 2, 10, 10, 2, 11,
     };
 
     

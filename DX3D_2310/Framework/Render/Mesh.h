@@ -40,8 +40,8 @@ inline void Mesh<T>::Draw(D3D11_PRIMITIVE_TOPOLOGY type)
 	if (indexBuffer)
 	{
 		indexBuffer->Set();
-		DC->DrawIndexed(indices.size(), 0, 0);
-	}
+		DC->DrawIndexed(indices.size(), 0, 0);	
+}
 	else
 	{
 		DC->Draw(vertices.size(), 0);
