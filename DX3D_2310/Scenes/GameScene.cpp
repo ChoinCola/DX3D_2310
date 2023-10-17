@@ -2,7 +2,6 @@
 
 GameScene::GameScene()
 {
-
 	MovePoint = new GameBox();
 	MovePoint->SetImage(L"Textures/Localgame/MovePoint.jpg");
 	MovePoint->SetLocalPosition({ MAX_SIZE-1, 1, 0 });
@@ -20,7 +19,7 @@ GameScene::GameScene()
 
 	for (float i = 0; i < pow(MAX_SIZE, 2); i++)
 		GameBord[i]->Update();
-	//BoxMIX();
+	BoxMIX();
 	Moving = false;
 }
 
