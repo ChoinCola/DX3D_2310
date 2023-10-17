@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DX3D_2310.h" />
+    <ClInclude Include="Framework\Environment\Environment.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Framework\Buffer\ConstBuffer.h" />
     <ClInclude Include="Framework\Buffer\GlobalBuffer.h" />
@@ -152,7 +153,6 @@
     <ClInclude Include="Framework\Math\Vector3.h" />
     <ClInclude Include="Framework\Render\Material.h" />
     <ClInclude Include="Framework\Render\Mesh.h" />
-    <ClInclude Include="Framework\Shader\Element_desc.h" />
     <ClInclude Include="Framework\Shader\PixelShader.h" />
     <ClInclude Include="Framework\Shader\Shader.h" />
     <ClInclude Include="Framework\Shader\VertexShader.h" />
@@ -161,14 +161,16 @@
     <ClInclude Include="Framework\Utilities\Timer.h" />
     <ClInclude Include="Libraries\DirectXTex\DirectXTex.h" />
     <ClInclude Include="Manager\GameManager.h" />
-    <ClInclude Include="Objects\Basic\BaseLine.h" />
+    <ClInclude Include="Manager\SceneManager.h" />
     <ClInclude Include="Objects\Basic\Cube.h" />
+    <ClInclude Include="Objects\Basic\GameBox.h" />
     <ClInclude Include="Objects\Basic\Spher.h" />
     <ClInclude Include="Objects\Planet\Earth.h" />
     <ClInclude Include="Objects\Planet\Moon.h" />
     <ClInclude Include="Objects\Planet\Sun.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scenes\GameScene.h" />
     <ClInclude Include="Scenes\GridScene.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\TutorialScene.h" />
@@ -183,22 +185,24 @@
     <ClCompile Include="Framework\Buffer\IndexBuffer.cpp" />
     <ClCompile Include="Framework\Buffer\VertexBuffer.cpp" />
     <ClCompile Include="Framework\Device\Device.cpp" />
+    <ClCompile Include="Framework\Environment\Environment.cpp" />
     <ClCompile Include="Framework\Math\Transform.cpp" />
     <ClCompile Include="Framework\Render\Material.cpp" />
-    <ClCompile Include="Framework\Shader\Element_desc.cpp" />
     <ClCompile Include="Framework\Shader\PixelShader.cpp" />
     <ClCompile Include="Framework\Shader\VertexShader.cpp" />
     <ClCompile Include="Framework\Shader\Shader.cpp" />
     <ClCompile Include="Framework\Utilities\Keyboard.cpp" />
     <ClCompile Include="Framework\Utilities\Timer.cpp" />
     <ClCompile Include="Manager\GameManager.cpp" />
-    <ClCompile Include="Objects\Basic\BaseLine.cpp" />
+    <ClCompile Include="Manager\SceneManager.cpp" />
     <ClCompile Include="Objects\Basic\Cube.cpp" />
+    <ClCompile Include="Objects\Basic\GameBox.cpp" />
     <ClCompile Include="Objects\Basic\Spher.cpp" />
     <ClCompile Include="Objects\Planet\Earth.cpp" />
     <ClCompile Include="Objects\Planet\Moon.cpp" />
     <ClCompile Include="Objects\Planet\Sun.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />
+    <ClCompile Include="Scenes\GameScene.cpp" />
     <ClCompile Include="Scenes\GridScene.cpp" />
     <ClCompile Include="Scenes\TutorialScene.cpp" />
   </ItemGroup>
@@ -210,6 +214,12 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Shaders\Basic\Grid.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="Shaders\Tutorial.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>

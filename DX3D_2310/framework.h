@@ -13,13 +13,14 @@
 #define DC			Device::Get()->GetDeviceContext()
 #define KEY			Keyboard::Get()
 #define DELTA		Timer::Get()->GetElapsedTime()
-#define ELE_DESC	Element_desc::Get()
 
 #include <windows.h>
 #include <string>
 #include <vector>
 #include <map>
 #include <unordered_map>
+#include <list>
+#include <algorithm>
 
 #include <d3d11.h>
 #include <d3dcompiler.h>
@@ -27,6 +28,8 @@
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
+#pragma comment(lib, "dxguid.lib")
+// VertexBlob의 데이터를 빼오기위한 라이브러리
 
 // DirectXTex
 #include <DirectXTex/DirectXTex.h>
@@ -49,7 +52,6 @@ typedef XMFLOAT4X4 Float4x4;
 #include "Framework/Device/Device.h"
 
 // Shader Header
-#include "Framework/Shader/Element_desc.h"
 #include "Framework/Shader/Shader.h"
 #include "Framework/Shader/VertexShader.h"
 #include "Framework/Shader/PixelShader.h"
@@ -70,10 +72,12 @@ typedef XMFLOAT4X4 Float4x4;
 #include "Framework/Math/Vector3.h"
 #include "Framework/Math/Transform.h"
 
+// View Header
+#include "Framework/Environment/Environment.h"
+
 // Obejct Header
 #include "Objects/Basic/Cube.h"
 #include "Objects/Basic/Spher.h"
-#include "Objects/Basic/BaseLine.h"
 
 // Planet Header
 #include "Objects/Planet/Earth.h"
@@ -83,8 +87,14 @@ typedef XMFLOAT4X4 Float4x4;
 // Robot Header
 #include "Objects/Robot/Robot.h"
 
+// Game Box Header
+#include "Objects/Basic/GameBox.h"
+
 // Scene
 #include "Scenes/Scene.h"
 #include "Manager/GameManager.h"
+#include "Manager/SceneManager.h"
+
+#include "Scenes/GameScene.h"
 
 extern HWND hWnd;

@@ -49,8 +49,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     MSG msg = {};
 
     GameManager* gameManager = new GameManager();
-    Element_desc::Get();
-
     // 기본 메시지 루프입니다:
     while (msg.message != WM_QUIT) // 메세지에 종료가 들어오지 않으면 true를 반환한다.
     {

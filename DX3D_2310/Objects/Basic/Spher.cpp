@@ -2,7 +2,7 @@
 
 Spher::Spher(float size, UINT dividecount)
 {
-    material = new Material(L"VertexColorShader.hlsl", VERTEX_COLOR);
+    material = new Material(L"VertexColorShader.hlsl");
     mesh = new Mesh<VertexColor>();
 
     // 정 20면체의 각 삼각형 길이 황금비.

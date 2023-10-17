@@ -8,13 +8,15 @@ GameManager::GameManager()
 {
 	Create();
 
-	scene = new TutorialScene();
+	SceneManager::Get()->Create("Grid", new GridScene());
+	SceneManager::Get()->Create("Start", new TutorialScene());
+
+	SceneManager::Get()->Add("Grid");
+	//SceneManager::Get()->Add("Start");
 }
 
 GameManager::~GameManager()
 {
-	delete scene;
-
 	Delete();
 }
 
@@ -23,18 +25,18 @@ void GameManager::Update()
 	KEY->Update();
 	Timer::Get()->Update();
 
-	scene->Update();
+	SceneManager::Get()->Update();
 }
 
 void GameManager::Render()
 {
-	scene->PreRneder();
+	SceneManager::Get()->PreRender();
 
 	Device::Get()->Clear();
 
-	scene->Render();
-	scene->PostRender();
-	scene->GUIRender();
+	SceneManager::Get()->Render();
+	SceneManager::Get()->PostRender();
+	SceneManager::Get()->GUIRender();
 
 	Device::Get()->Present();
 }
@@ -44,6 +46,8 @@ void GameManager::Create()
 	Device::Get();
 	Keyboard::Get();
 	Timer::Get();
+	Environment::Get();
+	SceneManager::Get();
 }
 
 void GameManager::Delete()
@@ -52,4 +56,6 @@ void GameManager::Delete()
 	Keyboard::Delete();
 	Timer::Delete();
 	Shader::Delete();
+	Environment::Delete();
+	SceneManager::Delete();
 }

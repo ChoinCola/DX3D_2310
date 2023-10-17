@@ -2,16 +2,26 @@
 
 class GridScene : public Scene
 {
+private:
+	const int MAX_SIZE = 100;
+
 public:
 	GridScene();
 	~GridScene();
 
 	// Scene을(를) 통해 상속됨
 	void Update() override;
-	void PreRneder() override;
+	void PreRender() override;
 	void Render() override;
 	void PostRender() override;
 	void GUIRender() override;
-private:
 
+private:
+	void MakeMesh();
+private:
+	Material* material;
+	Mesh<VertexColor>* mesh;
+	MatrixBuffer* worldBuffer;
+
+	UINT width, height;
 };

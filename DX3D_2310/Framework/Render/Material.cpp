@@ -1,8 +1,8 @@
 #include "Framework.h"
 
-Material::Material(wstring shderFIle, int flag)
+Material::Material(wstring shderFIle)
 {
-	SetShader(shderFIle, flag);
+	SetShader(shderFIle);
 }
 
 Material::~Material()
@@ -15,8 +15,8 @@ void Material::Set()
 	pixelShader->Set();
 }
 
-void Material::SetShader(wstring shaderFile, int flag)
+void Material::SetShader(wstring shaderFile)
 {
-	vertexShader = Shader::AddVS(shaderFile, flag);
+	vertexShader = Shader::AddVS(shaderFile);
 	pixelShader = Shader::AddPS(shaderFile);
 }

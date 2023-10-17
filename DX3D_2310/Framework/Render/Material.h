@@ -3,12 +3,12 @@
 class Material
 {
 public:
-	Material(wstring shderFIle, int flag);
+	Material(wstring shderFIle);
 	~Material();
 
 	void Set();
 
-	void SetShader(wstring shaderFile, int flag);
+	void SetShader(wstring shaderFile);
 
 private:
 	VertexShader* vertexShader;

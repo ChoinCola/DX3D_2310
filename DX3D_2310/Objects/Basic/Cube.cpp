@@ -2,7 +2,7 @@
 
 Cube::Cube(Float3 size, Vector3 pos)
 {
-    material = new Material(L"Tutorial.hlsl",VERTEX_UV);
+    material = new Material(L"Tutorial.hlsl");
     mesh = new Mesh<VertexUV>();
 
     SetLocalPosition(pos);
@@ -38,8 +38,6 @@ Cube::Cube(Float3 size, Vector3 pos)
         1        1
         ----------
         0        2
-    
-    
     */
 
     indices =
@@ -67,13 +65,15 @@ Cube::Cube(Float3 size, Vector3 pos)
     ScratchImage image;
     LoadFromWICFile(L"Textures/Landscape/Box.png", WIC_FLAGS_NONE, nullptr, image);
     // srvÇÒ´ç
-    CreateShaderResourceView(DEVICE, image.GetImages(), image.GetImageCount(), image.GetMetadata(), &srv);
+    CreateShaderResourceView(DEVICE, image.GetImages(), 
+        image.GetImageCount(), image.GetMetadata(), &srv);
 }
 
 Cube::~Cube()
 {
     delete mesh;
     delete worldBuffer;
+
     srv->Release();
 }
 

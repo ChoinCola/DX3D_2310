@@ -90,9 +90,6 @@
     <ClInclude Include="Objects\Planet\Moon.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Basic\BaseLine.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Scenes\GridScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -105,13 +102,22 @@
     <ClInclude Include="Framework\Shader\Shader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Shader\Element_desc.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Libraries\DirectXTex\DirectXTex.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Robot\Robot.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Environment\Environment.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\SceneManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Basic\GameBox.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\GameScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -170,9 +176,6 @@
     <ClCompile Include="Objects\Planet\Moon.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Basic\BaseLine.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Scenes\GridScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -182,10 +185,19 @@
     <ClCompile Include="Framework\Shader\Shader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Shader\Element_desc.cpp">
+    <ClCompile Include="Objects\Robot\Robot.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Robot\Robot.cpp">
+    <ClCompile Include="Framework\Environment\Environment.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\SceneManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Basic\GameBox.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\GameScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -205,6 +217,7 @@
   <ItemGroup>
     <FxCompile Include="Shaders\Tutorial.hlsl" />
     <FxCompile Include="Shaders\VertexColorShader.hlsl" />
+    <FxCompile Include="Shaders\Basic\Grid.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\Lib\DirectXTex.lib" />

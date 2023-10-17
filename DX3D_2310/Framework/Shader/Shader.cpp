@@ -7,7 +7,7 @@ Shader::~Shader()
 	blob->Release();
 }
 
-VertexShader* Shader::AddVS(wstring file, int flags)
+VertexShader* Shader::AddVS(wstring file)
 {
 	wstring key = file + L"VS";
 
@@ -15,7 +15,7 @@ VertexShader* Shader::AddVS(wstring file, int flags)
 		return (VertexShader*)shaders[key];
 	wstring path = L"Shaders/" + file;
 
-	shaders[key] = new VertexShader(path, flags);
+	shaders[key] = new VertexShader(path);
 	return (VertexShader*)shaders[key];
 }
 

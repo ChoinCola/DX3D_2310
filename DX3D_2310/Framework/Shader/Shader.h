@@ -8,7 +8,7 @@ protected:
 	virtual ~Shader();
 
 public:
-	static class VertexShader* AddVS(wstring fiile, int flags);
+	static class VertexShader* AddVS(wstring fiile);
 	static class PixelShader* AddPS(wstring fiile);
 
 	static void Delete();
