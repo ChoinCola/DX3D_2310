@@ -3,7 +3,7 @@
 class GameScene : public Scene
 {
 private:
-	const int MAX_SIZE = 3;
+	const float MAX_SIZE = 3;
 
 public:
 	GameScene();
@@ -17,15 +17,18 @@ public:
 	void GUIRender() override;
 
 private:
-	unordered_map<int, GameBox*> GameBord;
+	unordered_map<float, GameBox*> GameBord;
 	GameBox* MovePoint = nullptr;
 
+	Vector3 Swap1, Swap2;
+	float Sw1, Sw2;
+
+	float SwapSpeed;
+	float nowPos;
+	bool Moving = false;
 private:
+	void Swap(float a2);
 	void Move();
-	void ChackMove(GameBox* nowBox);
-	void BoxUP(GameBox* nowBox);
-	void BoxDOWN(GameBox* nowBox);
-	void BoxLEFT(GameBox* nowBox);
-	void BoxRIGHT(GameBox* nowBox);
+	void ChackMove();
 	void BoxMIX();
 };

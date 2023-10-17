@@ -9,10 +9,11 @@ GameManager::GameManager()
 	Create();
 
 	SceneManager::Get()->Create("Grid", new GridScene());
-	SceneManager::Get()->Create("Start", new TutorialScene());
+	//SceneManager::Get()->Create("Start", new TutorialScene());
+	SceneManager::Get()->Create("Game", new GameScene());
 
 	SceneManager::Get()->Add("Grid");
-	//SceneManager::Get()->Add("Start");
+	SceneManager::Get()->Add("Game");
 }
 
 GameManager::~GameManager()

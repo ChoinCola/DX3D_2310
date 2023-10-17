@@ -26,6 +26,11 @@ public:
 
 	void operator += (const Vector3& v) { value += v.value; }
 	void operator -= (const Vector3& v) { value -= v.value; }
+	bool operator == (const Vector3& v) { return 
+		XMVectorGetX(value) == XMVectorGetX(v.value) &&
+		XMVectorGetY(value) == XMVectorGetY(v.value) &&
+		XMVectorGetZ(value) == XMVectorGetZ(v.value); 
+	}
 
 
 private:

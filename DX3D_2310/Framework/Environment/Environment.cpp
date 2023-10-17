@@ -35,7 +35,7 @@ void Environment::SetPerspective()
 
 void Environment::CreateProjection()
 {
-	XMVECTOR eye = XMVectorSet(3, 5, -5, 0);//Cam Pos
+	XMVECTOR eye = XMVectorSet(2, 8, -8, 0);//Cam Pos
 	XMVECTOR focus = XMVectorSet(0, 0, 0, 0);//Cam Look at Pos
 	XMVECTOR up = XMVectorSet(0, 1, 0, 0);//Cam Up Vector
 

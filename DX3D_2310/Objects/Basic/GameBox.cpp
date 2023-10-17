@@ -24,19 +24,19 @@ GameBox::GameBox(float slice, float num, Float3 size, Vector3 pos)
     */ 
 
     // Mid;
-    vertices.emplace_back(-halfSize.x, -halfSize.y, -halfSize.z, UV_XB, UV_YU);
-    vertices.emplace_back(-halfSize.x, +halfSize.y, -halfSize.z, UV_XB, UV_YD);
-    vertices.emplace_back(+halfSize.x, -halfSize.y, -halfSize.z, UV_XF, UV_YU);
-    vertices.emplace_back(+halfSize.x, +halfSize.y, -halfSize.z, UV_XF, UV_YD);
+    vertices.emplace_back(-halfSize.x, -halfSize.y, -halfSize.z, UV_XB, UV_YD);
+    vertices.emplace_back(-halfSize.x, +halfSize.y, -halfSize.z, UV_XB, UV_YU);
+    vertices.emplace_back(+halfSize.x, -halfSize.y, -halfSize.z, UV_XF, UV_YD);
+    vertices.emplace_back(+halfSize.x, +halfSize.y, -halfSize.z, UV_XF, UV_YU);
 
-    vertices.emplace_back(-halfSize.x, -halfSize.y, +halfSize.z, UV_XF, UV_YU);
-    vertices.emplace_back(-halfSize.x, +halfSize.y, +halfSize.z, UV_XF, UV_YD);
-    vertices.emplace_back(+halfSize.x, -halfSize.y, +halfSize.z, UV_XB, UV_YU);
-    vertices.emplace_back(+halfSize.x, +halfSize.y, +halfSize.z, UV_XB, UV_YD);
+    vertices.emplace_back(-halfSize.x, -halfSize.y, +halfSize.z, UV_XF, UV_YD);
+    vertices.emplace_back(-halfSize.x, +halfSize.y, +halfSize.z, UV_XF, UV_YU);
+    vertices.emplace_back(+halfSize.x, -halfSize.y, +halfSize.z, UV_XB, UV_YD);
+    vertices.emplace_back(+halfSize.x, +halfSize.y, +halfSize.z, UV_XB, UV_YU);
 
     // UP 
-    vertices.emplace_back(-halfSize.x, +halfSize.y, +halfSize.z, UV_XB, UV_YU);     //5
-    vertices.emplace_back(+halfSize.x, +halfSize.y, +halfSize.z, UV_XF, UV_YU);     //7
+    vertices.emplace_back(-halfSize.x, +halfSize.y, +halfSize.z, UV_XB, UV_YD);     //5
+    vertices.emplace_back(+halfSize.x, +halfSize.y, +halfSize.z, UV_XF, UV_YD);     //7
 
     // DOWN
     vertices.emplace_back(-halfSize.x, -halfSize.y, +halfSize.z, UV_XB, UV_YD);     //4
@@ -75,7 +75,6 @@ GameBox::GameBox(float slice, float num, Float3 size, Vector3 pos)
     mesh->CreateMesh();
 
     worldBuffer = new MatrixBuffer();
-
     ScratchImage image;
     LoadFromWICFile(L"Textures/Landscape/Box.png", WIC_FLAGS_NONE, nullptr, image);
     // srv«“¥Á
@@ -93,6 +92,7 @@ GameBox::~GameBox()
 
 void GameBox::Update()
 {
+    UpdateWorld();
 }
 
 void GameBox::Render()
