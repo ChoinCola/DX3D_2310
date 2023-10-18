@@ -10,7 +10,11 @@ public:
 
 	void SetShader(wstring shaderFile);
 
+	void SetDiffuseMap(wstring textureFile);
+
 private:
 	VertexShader* vertexShader;
 	PixelShader* pixelShader;
+
+	Texture* diffuseMap = nullptr;
 };

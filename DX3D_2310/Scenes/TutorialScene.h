@@ -13,5 +13,6 @@ public:
 	void GUIRender() override;
 
 private:
+	Cube* cube;
 	Robot* robot;
 };

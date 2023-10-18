@@ -13,6 +13,7 @@
 #define DC			Device::Get()->GetDeviceContext()
 #define KEY			Keyboard::Get()
 #define DELTA		Timer::Get()->GetElapsedTime()
+#define DIALOG		ImGuiFileDialog::Instance()
 
 #include <windows.h>
 #include <string>
@@ -35,6 +36,14 @@
 // DirectXTex
 #include <DirectXTex/DirectXTex.h>
 #pragma comment(lib, "DirectXTex.lib")
+
+// ImGui
+#include <imgui.h>
+#include <imgui_impl_dx11.h>
+#include <imgui_impl_win32.h>
+#include <ImGuiFileDialog.h>
+
+#pragma comment(lib, "ImGui.lib")
 
 using namespace std;
 using namespace DirectX;
@@ -66,6 +75,7 @@ typedef XMFLOAT4X4 Float4x4;
 #include "Framework/Buffer/VertexLayouts.h"
 
 // Render Header
+#include "Framework/Render/Texture.h"
 #include "Framework/Render/Material.h"
 #include "Framework/Render/Mesh.h"
 
@@ -90,6 +100,9 @@ typedef XMFLOAT4X4 Float4x4;
 
 // Game Box Header
 #include "Objects/Basic/GameBox.h"
+
+// Ground Header
+#include "Objects/Ground/Ground.h"
 
 // Scene
 #include "Scenes/Scene.h"

@@ -9,11 +9,11 @@ public:
 	void Update();
 	void Render();
 
+	Material* GetMetrial() { return material; }
+
 private:
 	Material* material;
 	Mesh<VertexUV>* mesh;
 
 	MatrixBuffer* worldBuffer;
-
-	ID3D11ShaderResourceView* srv;
 };

@@ -107,13 +107,12 @@ void GameScene::ChackMove()
 
 // 총 10번 섞임.
 void GameScene::BoxMIX()
-
 {    // 시드값을 얻어서 초기화
 	random_device rd;
 	mt19937 generator(rd()); // 메르센 트위스터 엔진을 사용
 	// 난수 범위를 설정
 	uniform_int_distribution<int> distribution(0, 3); // 0부터 3까지의 정수를 생성
-	 
+
 	for (int i = 0; i < 10; i++) 
 	{
 		bool move = false;

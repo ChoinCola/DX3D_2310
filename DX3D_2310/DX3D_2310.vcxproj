@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LibraryPath>$(ProjectDir)Libraries\Lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir)Libraries;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Libraries;$(ProjectDir)Libraries\ImGui;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -153,6 +153,7 @@
     <ClInclude Include="Framework\Math\Vector3.h" />
     <ClInclude Include="Framework\Render\Material.h" />
     <ClInclude Include="Framework\Render\Mesh.h" />
+    <ClInclude Include="Framework\Render\Texture.h" />
     <ClInclude Include="Framework\Shader\PixelShader.h" />
     <ClInclude Include="Framework\Shader\Shader.h" />
     <ClInclude Include="Framework\Shader\VertexShader.h" />
@@ -160,11 +161,25 @@
     <ClInclude Include="Framework\Utilities\Singleton.h" />
     <ClInclude Include="Framework\Utilities\Timer.h" />
     <ClInclude Include="Libraries\DirectXTex\DirectXTex.h" />
+    <ClInclude Include="Libraries\ImGui\dirent\dirent.h" />
+    <ClInclude Include="Libraries\ImGui\imconfig.h" />
+    <ClInclude Include="Libraries\ImGui\imgui.h" />
+    <ClInclude Include="Libraries\ImGui\ImGuiFileDialog.h" />
+    <ClInclude Include="Libraries\ImGui\ImGuiFileDialogConfig.h" />
+    <ClInclude Include="Libraries\ImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="Libraries\ImGui\imgui_impl_win32.h" />
+    <ClInclude Include="Libraries\ImGui\imgui_internal.h" />
+    <ClInclude Include="Libraries\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="Libraries\ImGui\imstb_textedit.h" />
+    <ClInclude Include="Libraries\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Libraries\ImGui\stb\stb_image.h" />
+    <ClInclude Include="Libraries\ImGui\stb\stb_image_resize.h" />
     <ClInclude Include="Manager\GameManager.h" />
     <ClInclude Include="Manager\SceneManager.h" />
     <ClInclude Include="Objects\Basic\Cube.h" />
     <ClInclude Include="Objects\Basic\GameBox.h" />
     <ClInclude Include="Objects\Basic\Spher.h" />
+    <ClInclude Include="Objects\Ground\Ground.h" />
     <ClInclude Include="Objects\Planet\Earth.h" />
     <ClInclude Include="Objects\Planet\Moon.h" />
     <ClInclude Include="Objects\Planet\Sun.h" />
@@ -188,6 +203,7 @@
     <ClCompile Include="Framework\Environment\Environment.cpp" />
     <ClCompile Include="Framework\Math\Transform.cpp" />
     <ClCompile Include="Framework\Render\Material.cpp" />
+    <ClCompile Include="Framework\Render\Texture.cpp" />
     <ClCompile Include="Framework\Shader\PixelShader.cpp" />
     <ClCompile Include="Framework\Shader\VertexShader.cpp" />
     <ClCompile Include="Framework\Shader\Shader.cpp" />
@@ -198,6 +214,7 @@
     <ClCompile Include="Objects\Basic\Cube.cpp" />
     <ClCompile Include="Objects\Basic\GameBox.cpp" />
     <ClCompile Include="Objects\Basic\Spher.cpp" />
+    <ClCompile Include="Objects\Ground\Ground.cpp" />
     <ClCompile Include="Objects\Planet\Earth.cpp" />
     <ClCompile Include="Objects\Planet\Moon.cpp" />
     <ClCompile Include="Objects\Planet\Sun.cpp" />
@@ -238,6 +255,7 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\Lib\DirectXTex.lib" />
+    <Library Include="Libraries\Lib\imGui.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

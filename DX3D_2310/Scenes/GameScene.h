@@ -3,7 +3,7 @@
 class GameScene : public Scene
 {
 private:
-	const float MAX_SIZE = 3;
+	const float MAX_SIZE = 4;
 
 public:
 	GameScene();
