@@ -15,4 +15,8 @@ public:
 private:
 	Cube* cube;
 	Robot* robot;
+	Ground* ground;
+
+	bool showsliceUI = false;
+	UINT sliderValue = 0;
 };
