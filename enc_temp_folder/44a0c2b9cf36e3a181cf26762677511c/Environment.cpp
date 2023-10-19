@@ -83,18 +83,21 @@ void Environment::CreateState()
 
 void Environment::CamMove()
 {
-	mousemovevalue = Mouse::Get()->GetMoveValue() * DELTA;
-	// 마우스 회전함수. 현재 마우스의 value에 따라. focus의 각도상수가 변함. 윈도우 크기가 정사각형이 아님으로 보정
-	focus += { +mousemovevalue.x, -mousemovevalue.y * WIN_HEIGHT / WIN_WIDTH, -mousemovevalue.x, 0 };
-	if (XMVectorGetX(focus) >= 360) XMVectorSetX(focus, 0);
-	if (XMVectorGetZ(focus) <= -360) XMVectorSetZ(focus, 0);
+	mousemovevalue = Mouse::Get()->GetMoveValue() * DELTA * 50;
+	// 마우스 회전함수. 마우스 value에 따라 카메라의 뷰포트 조정.
 
 	// 현재 바라보는 방향은 Position기준 원형으로 둘러야한다.
-	Vector3 focusnow =
-	{ XMVectorGetX(eye) + sin(XMVectorGetX(focus)),
-		XMVectorGetY(eye) + sin(XMVectorGetY(focus)),
-		XMVectorGetZ(eye) - sin(XMVectorGetZ(focus)) };
-	// 정면 계산용임으로 방향만 기입
+	// Pitch (X 축 주위 회전)
+
+	XMMATRIX roY = XMMatrixRotationX(XMConvertToRadians(-mousemovevalue.y));
+	XMMATRIX roX = XMMatrixRotationY(XMConvertToRadians(+mousemovevalue.x));
+	XMMATRIX roZ = XMMatrixRotationZ(XMConvertToRadians(+mousemovevalue.x));
+
+	//focus = XMVector3TransformCoord(focus, roZ);
+	focus = XMVector3TransformCoord(focus, roX);
+	focus = XMVector3TransformCoord(focus, roY);
+	Vector3 focusnow = eye + focus;
+
 	Vector3 focusnowUp = { XMVectorGetX(eye), XMVectorGetY(eye) + sin(XMVectorGetY(focus)), XMVectorGetZ(eye) };
 
 
@@ -112,16 +115,10 @@ void Environment::CamMove()
 	if (KEY->Press('E')) eye += XMVector3Normalize(focusnowUp - eye) * CamSpeed * DELTA;
 	if (KEY->Press('Q')) eye -= XMVector3Normalize(focusnowUp - eye) * CamSpeed * DELTA;
 
-	// 이동후에 다시한번 좌표를 계산한다.
-	focusnow = {
-		XMVectorGetX(eye) + sin(XMVectorGetX(focus)) * 0.2f,
-		XMVectorGetY(eye) + sin(XMVectorGetY(focus)),
-		XMVectorGetZ(eye) - sin(XMVectorGetZ(focus)) * 0.2f };
 	Matrix view = XMMatrixLookAtLH(eye, focusnow, up);
 	viewBuffer->Set(view);
 	viewBuffer->SetVS(1);
 }
-
 
 // 우측으로 갈 때 z는 sin만큼 떨어지고, x는 cos만큼 올라야함.
 // 좌측으로 갈 때 z는 sin만큼 떨어지고, x는 cos만큼 떨어져야함.

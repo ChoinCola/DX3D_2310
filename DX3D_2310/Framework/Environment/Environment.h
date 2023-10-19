@@ -32,5 +32,5 @@ private:
 
     Vector3 mousemovevalue = {};
     bool isWireMode = false;
-    float CamSpeed = 0.1;
+    float CamSpeed = 20;
 };

@@ -67,7 +67,7 @@ void GameManager::Render()
 	float& speed = Environment::Get()->GetCamSpeed();
 	string camspeed = "CamSpeed" + to_string(speed);
 	ImGui::Text(camspeed.c_str());
-	ImGui::SliderFloat("Slice", (float*)&speed, 0, 0.2);
+	ImGui::SliderFloat("Slice", (float*)&speed, 0, 100);
 	SceneManager::Get()->GUIRender();
 
 	ImGui::Render();
