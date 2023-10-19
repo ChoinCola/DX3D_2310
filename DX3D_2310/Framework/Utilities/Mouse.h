@@ -56,13 +56,11 @@ public:
 		return buttonMap[button] == BUTTON_INPUT_STATUS_PRESS;
 	}
 
+	bool GetIsSetMouseHold() { return IsSetMouseHold; }
+
 	Vector3 GetMoveValue()
 	{
 		return CusorMoveValue;
-	}
-	Vector3 GetOldMoveValue()
-	{
-		return CusorOldStatus;
 	}
 private:
 	void SetMouseHold();
@@ -71,7 +69,8 @@ private:
 	~Mouse();
 
 	HWND handle;	// 윈도우핸들
-	Vector3 position; //마우스 위치
+	Vector3 Oldposition; // 마우스 이전위치
+	Vector3 position;	// 마우스 갱신 위치
 
 	// 버튼의 상태, 전상테, 맵정의
 	byte buttonStatus[MAX_INPUT_MOUSE];

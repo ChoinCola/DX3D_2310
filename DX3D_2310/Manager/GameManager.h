@@ -13,5 +13,6 @@ private:
 	void Delete();
 private:
 	Scene* scene;
+	Float2 Movevalue = {};
 };
 

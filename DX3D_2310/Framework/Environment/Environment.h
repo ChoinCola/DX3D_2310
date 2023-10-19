@@ -16,6 +16,7 @@ public:
 
     void CreateProjection();
     void CreateState();
+    float& GetCamSpeed() { return CamSpeed; }
 private:
     void CamMove();
 private:
@@ -25,5 +26,11 @@ private:
     SamplerState* samplerState;
     RasterizerState* rasterizerSate[2];
 
+    XMVECTOR eye = {};
+    XMVECTOR focus = {};
+    XMVECTOR up = {};
+
+    Vector3 mousemovevalue = {};
     bool isWireMode = false;
+    float CamSpeed = 0.1;
 };

@@ -140,6 +140,7 @@ void Mouse::Update()
 		POINT resetpoint = {
 			clientRect.right / 2,
 			clientRect.bottom / 2};
+		CusorStatus = { (float)resetpoint .x, (float)resetpoint .y};
 		// 상대좌표 기준 화면창의 원점으로 마우스 포인터를 고정시킴.
 		ClientToScreen(handle, &resetpoint);
 		SetCursorPos(resetpoint.x , resetpoint.y);
@@ -174,6 +175,10 @@ LRESULT Mouse::InputProc(UINT message, WPARAM wParam, LPARAM lParam)
 
 void Mouse::SetMouseHold()
 {
-	if(KEY->Down(VK_F2))
+	if (KEY->Down(VK_F2)) {
+		// 마우스 홀드여부를 표시
 		IsSetMouseHold = !IsSetMouseHold;
+		// 마우스 숨김 처리
+		ShowCursor(!IsSetMouseHold);
+	}
 }

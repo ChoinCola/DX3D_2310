@@ -22,7 +22,9 @@ void Environment::Update()
 {
 	if(KEY->Down(VK_F1))
 		isWireMode = !isWireMode;
-	CamMove();
+
+	if(Mouse::Get()->GetIsSetMouseHold())
+		CamMove();
 }
 
 void Environment::Set()
@@ -49,9 +51,9 @@ void Environment::SetPerspective()
 
 void Environment::CreateProjection()
 {
-	XMVECTOR eye = XMVectorSet(3, 50, -50, 0);//Cam Pos
-	XMVECTOR focus = XMVectorSet(125, 0, 125, 0);//Cam Look at Pos
-	XMVECTOR up = XMVectorSet(0, 1, 0, 0);//Cam Up Vector
+	eye = XMVectorSet(3, 50, -50, 0);//Cam Pos
+	focus = XMVectorSet(100, 0, 100, 0);//Cam Look at Pos
+	up = XMVectorSet(0, 1, 0, 0);//Cam Up Vector
 
 	Matrix view = XMMatrixLookAtLH(eye, focus, up);
 
@@ -81,5 +83,30 @@ void Environment::CreateState()
 
 void Environment::CamMove()
 {
+	mousemovevalue = Mouse::Get()->GetMoveValue() * 0.001;
 
+	focus += { mousemovevalue.x, -mousemovevalue.y * 0.1f, -mousemovevalue.x, 0 };
+	// 현재 바라보는 방향은 Position기준 원형으로 둘러야한다.
+	Vector3 focusnow = { XMVectorGetX(eye) + sin(XMVectorGetX(focus)) * 0.1f, XMVectorGetY(eye) + sin(XMVectorGetY(focus)), XMVectorGetZ(eye) - sin(XMVectorGetZ(focus)) * 0.1f };
+	Vector3 focusnowUp = { XMVectorGetX(eye), XMVectorGetY(eye) + sin(XMVectorGetY(focus)), XMVectorGetZ(eye) };
+
+
+	// 이동방향은 절대값 기준이 아닌 상대좌표 기준으로 움직여야 함으로. focusnow와 현재 pos의 Nomalize값이 필요함.
+	Vector3 front =	XMVector3Normalize(focusnow	- eye);	// 정면
+	// 정면기준 쓸모없는 좌표값인 y를 0으로 초기화
+	front.y = 0.0f;
+	// 정면기준으로 Y축을 90도 회전시킨것. 그후 상대좌표로 갱신
+	Vector3 focusnowLeft = eye + XMVector3TransformCoord(front, XMMatrixRotationY(-XM_PIDIV2)); 
+
+	if (KEY->Press('W')) eye += XMVector3Normalize(focusnow		- eye) * CamSpeed;
+	if (KEY->Press('S')) eye -= XMVector3Normalize(focusnow		- eye) * CamSpeed;
+	if (KEY->Press('A')) eye += XMVector3Normalize(focusnowLeft - eye) * CamSpeed;
+	if (KEY->Press('D')) eye -= XMVector3Normalize(focusnowLeft - eye) * CamSpeed;
+	if (KEY->Press('E')) eye += XMVector3Normalize(focusnowUp	- eye) * CamSpeed;
+	if (KEY->Press('Q')) eye -= XMVector3Normalize(focusnowUp	- eye) * CamSpeed;
+
+	focusnow = { XMVectorGetX(eye) + sin(XMVectorGetX(focus)) * 0.1f, XMVectorGetY(eye) + sin(XMVectorGetY(focus)), XMVectorGetZ(eye) - sin(XMVectorGetZ(focus)) * 0.1f };
+	Matrix view = XMMatrixLookAtLH(eye, focusnow, up);
+	viewBuffer->Set(view);
+	viewBuffer->SetVS(1);
 }
