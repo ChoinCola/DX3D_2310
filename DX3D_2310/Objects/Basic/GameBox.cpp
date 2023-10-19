@@ -2,7 +2,6 @@
 
 GameBox::GameBox(float slice, float num, Float3 size, Vector3 pos)
 {
-    material = new Material(L"Tutorial.hlsl");
     mesh = new Mesh<VertexUV>();
 
     SetLocalPosition(pos);
@@ -73,21 +72,11 @@ GameBox::GameBox(float slice, float num, Float3 size, Vector3 pos)
 
 
     mesh->CreateMesh();
-
-    worldBuffer = new MatrixBuffer();
-    ScratchImage image;
-    LoadFromWICFile(L"Textures/Landscape/Box.png", WIC_FLAGS_NONE, nullptr, image);
-    // srv할당
-    CreateShaderResourceView(DEVICE, image.GetImages(),
-        image.GetImageCount(), image.GetMetadata(), &srv);
 }
 
 GameBox::~GameBox()
 {
     delete mesh;
-    delete worldBuffer;
-
-    srv->Release();
 }
 
 void GameBox::Update()
@@ -97,19 +86,6 @@ void GameBox::Update()
 
 void GameBox::Render()
 {
-    worldBuffer->Set(world);
-    worldBuffer->SetVS(0);
-    DC->PSSetShaderResources(0, 1, &srv);
-    material->Set();
-
+    SetRender();
     mesh->Draw();
-}
-
-void GameBox::SetImage(wstring imagenow)
-{
-    ScratchImage image;
-    LoadFromWICFile(imagenow.c_str(), WIC_FLAGS_NONE, nullptr, image);
-    // srv할당
-    CreateShaderResourceView(DEVICE, image.GetImages(),
-        image.GetImageCount(), image.GetMetadata(), &srv);
 }

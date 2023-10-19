@@ -2,7 +2,6 @@
 
 Cube::Cube(Float3 size, Vector3 pos)
 {
-    material = new Material(L"Tutorial.hlsl");
     mesh = new Mesh<VertexUV>();
 
     SetLocalPosition(pos);
@@ -76,29 +75,15 @@ Cube::Cube(Float3 size, Vector3 pos)
 
     
     mesh->CreateMesh();
-
-    worldBuffer = new MatrixBuffer();
-
-
 }
 
 Cube::~Cube()
 {
     delete mesh;
-    delete worldBuffer;
-}
-
-void Cube::Update()
-{
-    
 }
 
 void Cube::Render()
 {
-    worldBuffer->Set(world);
-    worldBuffer->SetVS(0);
-
-    material->Set();
-
+    SetRender();
     mesh->Draw();
 }

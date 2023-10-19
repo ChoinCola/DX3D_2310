@@ -5,6 +5,8 @@ class Transform
 public:
 	Transform();
 
+	void GUIRender();
+
 	void UpdateWorld();
 
 	void Translate(Vector3 direction);
@@ -23,8 +25,12 @@ public:
 	Transform* GetParent() { return parent; }
 	void SetParent(Transform* transform) { parent = transform; }
 	void SetPivot(Vector3 pivot) { this->pivot = pivot; }
+	void SetTag(string tag) { this->tag = tag; }
+
 
 protected:
+	string tag;
+
 	Vector3 localPosition = {};
 	Vector3 localRotation = {};
 	Vector3 localScale = { 1, 1, 1 }; // 배율이기 떄문에 0이 되면 안됨.

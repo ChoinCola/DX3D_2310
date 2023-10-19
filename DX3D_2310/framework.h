@@ -58,7 +58,12 @@ typedef XMFLOAT4X4 Float4x4;
 // Framework Header
 #include "Framework/Utilities/Singleton.h"
 #include "Framework/Utilities/Keyboard.h"
+#include "Framework/Utilities/Utility.h"
 #include "Framework/Utilities/Timer.h"
+#include "Framework/Utilities/Mouse.h"
+
+using namespace Utility;
+
 #include "Framework/Device/Device.h"
 
 // Shader Header
@@ -79,6 +84,10 @@ typedef XMFLOAT4X4 Float4x4;
 #include "Framework/Render/Material.h"
 #include "Framework/Render/Mesh.h"
 
+// State Header
+#include "Framework/State/RasterizerState.h"
+#include "Framework/State/SamplerState.h"
+
 // Math Header
 #include "Framework/Math/Vector3.h"
 #include "Framework/Math/Transform.h"
@@ -87,6 +96,7 @@ typedef XMFLOAT4X4 Float4x4;
 #include "Framework/Environment/Environment.h"
 
 // Obejct Header
+#include "Objects/Basic/GameObject.h"
 #include "Objects/Basic/Cube.h"
 #include "Objects/Basic/Spher.h"
 
@@ -104,8 +114,13 @@ typedef XMFLOAT4X4 Float4x4;
 // Ground Header
 #include "Objects/Ground/Ground.h"
 
+// Terrain Header
+#include "Objects/LandScape/Terrain.h"
+
 // Scene
 #include "Scenes/Scene.h"
+#include "Scenes/TerrainScene.h"
+
 #include "Manager/GameManager.h"
 #include "Manager/SceneManager.h"
 

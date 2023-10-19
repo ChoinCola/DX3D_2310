@@ -10,11 +10,14 @@ GameManager::GameManager()
 
 	SceneManager::Get()->Create("Grid", new GridScene());
 	SceneManager::Get()->Create("Start", new TutorialScene());
+	SceneManager::Get()->Create("Terrain", new TerrainScene());
+
 	//SceneManager::Get()->Create("Game", new GameScene());
 
 	SceneManager::Get()->Add("Grid");
 	//SceneManager::Get()->Add("Game");
-	SceneManager::Get()->Add("Start");
+	//SceneManager::Get()->Add("Start");
+	SceneManager::Get()->Add("Terrain");
 
 }
 
@@ -26,7 +29,10 @@ GameManager::~GameManager()
 void GameManager::Update()
 {
 	KEY->Update();
+	Mouse::Get()->Update();
 	Timer::Get()->Update();
+	Environment::Get()->Update();
+
 
 	SceneManager::Get()->Update();
 }
@@ -36,6 +42,8 @@ void GameManager::Render()
 	SceneManager::Get()->PreRender();
 
 	Device::Get()->Clear();
+
+	Environment::Get()->Set();
 
 	SceneManager::Get()->Render();
 	SceneManager::Get()->PostRender();
@@ -59,6 +67,7 @@ void GameManager::Render()
 void GameManager::Create()
 {
 	Device::Get();
+	Mouse::Get();
 	Keyboard::Get();
 	Timer::Get();
 	Environment::Get();

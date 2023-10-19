@@ -1,6 +1,6 @@
 #pragma once
 
-class Spher : public Transform
+class Spher : public GameObject
 {
 public:
 	Spher(float size = 1, UINT dividecount = 0);
@@ -12,10 +12,6 @@ private:
 	void Subdivide();
 	VertexColor MidPoint(const VertexColor& v0, const VertexColor& v1);
 private:
-	Material* material;
+
 	Mesh<VertexColor>* mesh;
-
-	MatrixBuffer* worldBuffer;
-
-	ID3D11ShaderResourceView* srv;
 };

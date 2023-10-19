@@ -160,9 +160,11 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
         return true;
-
+    Mouse::Get()->InputProc(message, wParam, lParam);
+    Mouse::Get()->SetHandle(hWnd);
     switch (message)
     {
     case WM_COMMAND:

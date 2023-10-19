@@ -7,6 +7,8 @@ TutorialScene::TutorialScene()
     ground = new Ground(10,1);
     //cube->GetMetrial()->SetDiffuseMap(L"Textures/Landscape/box.png");
     ground->GetMetrial()->SetDiffuseMap(L"Textures/Landscape/Bricks.png");
+
+    ground->SetTag("Ground1");
 }
 
 TutorialScene::~TutorialScene()
@@ -51,6 +53,8 @@ void TutorialScene::PostRender()
 
 void TutorialScene::GUIRender()
 {
+    ground->GUIRender();
+
     if (ImGui::Button("Save"))
         DIALOG->OpenDialog("Save", "Save", ".png, .jpg, .tga", ".");
 
@@ -79,7 +83,7 @@ void TutorialScene::GUIRender()
     {
         if (DIALOG->IsOk()) {
             string file = DIALOG->GetFilePathName();
-            ground->GetMetrial()->SetDiffuseMap(wstring(file.begin(), file.end()));
+            ground->GetMetrial()->SetDiffuseMap(ToWString(file));
             DIALOG->Close();
         }
         else

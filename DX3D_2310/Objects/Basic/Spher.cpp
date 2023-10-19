@@ -2,7 +2,6 @@
 
 Spher::Spher(float size, UINT dividecount)
 {
-    material = new Material(L"VertexColorShader.hlsl");
     mesh = new Mesh<VertexColor>();
 
     // 정 20면체의 각 삼각형 길이 황금비.
@@ -78,20 +77,11 @@ Spher::Spher(float size, UINT dividecount)
     }
 
     mesh->CreateMesh();
-
-    worldBuffer = new MatrixBuffer();
-
-    ScratchImage image;
-    LoadFromWICFile(L"Textures/Landscape/Box.png", WIC_FLAGS_NONE, nullptr, image);
-    // srv할당
-    CreateShaderResourceView(DEVICE, image.GetImages(), image.GetImageCount(), image.GetMetadata(), &srv);
 }
 
 Spher::~Spher()
 {
     delete mesh;
-    delete worldBuffer;
-    srv->Release();
 }
 
 void Spher::Update()
@@ -100,11 +90,6 @@ void Spher::Update()
 
 void Spher::Render()
 {
-    worldBuffer->Set(world);
-    worldBuffer->SetVS(0);
-    DC->PSSetShaderResources(0, 1, &srv);
-    material->Set();
-
     mesh->Draw();
 }
 

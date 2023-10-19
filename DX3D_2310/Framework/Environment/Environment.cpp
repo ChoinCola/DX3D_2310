@@ -3,6 +3,8 @@
 Environment::Environment()
 {
 	CreateProjection();
+	CreateState();
+
 	SetViewport();
 }
 
@@ -10,10 +12,22 @@ Environment::~Environment()
 {
 	delete viewBuffer;
 	delete projectionBuffer;
+
+	delete rasterizerSate[0];
+	delete rasterizerSate[1];
+
+}
+
+void Environment::Update()
+{
+	if(KEY->Down(VK_F1))
+		isWireMode = !isWireMode;
+	CamMove();
 }
 
 void Environment::Set()
 {
+	rasterizerSate[isWireMode]->SetState();
 }
 
 void Environment::SetViewport(UINT width, UINT height)
@@ -35,8 +49,8 @@ void Environment::SetPerspective()
 
 void Environment::CreateProjection()
 {
-	XMVECTOR eye = XMVectorSet(2, 8, -8, 0);//Cam Pos
-	XMVECTOR focus = XMVectorSet(0, 0, 0, 0);//Cam Look at Pos
+	XMVECTOR eye = XMVectorSet(3, 50, -50, 0);//Cam Pos
+	XMVECTOR focus = XMVectorSet(125, 0, 125, 0);//Cam Look at Pos
 	XMVECTOR up = XMVectorSet(0, 1, 0, 0);//Cam Up Vector
 
 	Matrix view = XMMatrixLookAtLH(eye, focus, up);
@@ -52,4 +66,20 @@ void Environment::CreateProjection()
 
 	projectionBuffer->Set(projection);
 	projectionBuffer->SetVS(2);
+}
+
+void Environment::CreateState()
+{
+	samplerState = new SamplerState();
+	samplerState->SetState();
+
+	rasterizerSate[0] = new RasterizerState();
+	rasterizerSate[1] = new RasterizerState();
+
+	rasterizerSate[1]->FillMode(D3D11_FILL_WIREFRAME);
+}
+
+void Environment::CamMove()
+{
+
 }
