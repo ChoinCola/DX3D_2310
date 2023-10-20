@@ -31,7 +31,25 @@ public:
 		XMVectorGetY(value) == XMVectorGetY(v.value) &&
 		XMVectorGetZ(value) == XMVectorGetZ(v.value); 
 	}
+	
+	Vector3 GetNormalized() const { return XMVector3Normalize(value); }
+	void Normalized() { value = XMVector3Normalize(value); }
 
+	Vector4* Getvalue() { return &value; }
+	// 외적 함수
+	
+	static Vector3 Cross(Vector3& vec1, Vector3& vec2) { return XMVector3Cross(vec1, vec2); }
+	static float Dot(Vector3& vec1, Vector3& vec2) { return XMVectorGetX(XMVector3Dot(vec1, vec2)); }
+
+public:
+	static Vector3 Zero() { return Vector3(); }
+	static Vector3 One() { return Vector3(1, 1, 1); }
+	static Vector3 Right() { return Vector3(1, 0, 0); }
+	static Vector3 Left() { return Vector3(-1, 0, 0); }
+	static Vector3 Up() { return Vector3(0, 1, 0); }
+	static Vector3 Down() { return Vector3(0, -1, 0); }
+	static Vector3 Forward() { return Vector3(0, 0, 1); }
+	static Vector3 Back() { return Vector3(0, 0, -1); }
 
 private:
 	Vector4 value;	// 라이브러리의 도움을 받기 위해 기본 자료형을 이렇게 짠다.

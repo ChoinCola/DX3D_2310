@@ -27,6 +27,13 @@ public:
 	void SetPivot(Vector3 pivot) { this->pivot = pivot; }
 	void SetTag(string tag) { this->tag = tag; }
 
+	Vector3 GetRight() const { return right.GetNormalized(); }
+	Vector3 GetLeft() const { return -right.GetNormalized(); }
+	Vector3 GetUp() const { return up.GetNormalized(); }
+	Vector3 GetDown() const { return -up.GetNormalized(); }
+	Vector3 GetForward() const { return forward.GetNormalized(); }
+	Vector3 GetBack() const { return -forward.GetNormalized(); }
+
 
 protected:
 	string tag;
@@ -41,4 +48,9 @@ private:
 	Transform* parent = nullptr;
 
 	Vector3 pivot;
+
+	Vector3 right, up, forward;
+	Vector3 globalPosition, globalRotation, globalScale;
+
+	Float4x4 matWorld;
 };

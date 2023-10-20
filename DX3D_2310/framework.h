@@ -93,6 +93,7 @@ using namespace Utility;
 #include "Framework/Math/Transform.h"
 
 // View Header
+#include "Framework/Environment/Camera.h"
 #include "Framework/Environment/Environment.h"
 
 // Obejct Header

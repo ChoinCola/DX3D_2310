@@ -57,18 +57,19 @@ void GameManager::Render()
 	ImGui::Text(fps.c_str());
 
 	
-	if (Mouse::Get()->GetMoveValue().x != 0 && Mouse::Get()->GetMoveValue().y != 0)
-		Movevalue = { Mouse::Get()->GetMoveValue().x, Mouse::Get()->GetMoveValue().y };
-	//	마우스 위치자표가 현재 xy축기준 어느곳으로 이동했었는지 표시
-	string CusorMove = "PointPos : x." + to_string(Movevalue.x) + " y." + to_string(Movevalue.y);
-	ImGui::Text(CusorMove.c_str());
+	Environment::Get()->GUIRender();
+	//if (Mouse::Get()->GetMoveValue().x != 0 && Mouse::Get()->GetMoveValue().y != 0)
+	//	Movevalue = { Mouse::Get()->GetMoveValue().x, Mouse::Get()->GetMoveValue().y };
+	////	마우스 위치자표가 현재 xy축기준 어느곳으로 이동했었는지 표시
+	//string CusorMove = "PointPos : x." + to_string(Movevalue.x) + " y." + to_string(Movevalue.y);
+	//ImGui::Text(CusorMove.c_str());
 
-	// 현재 카메라의 이동속도를 가져와서 표시, 슬라이더로 조정
-	float& speed = Environment::Get()->GetCamSpeed();
-	string camspeed = "CamSpeed" + to_string(speed);
-	ImGui::Text(camspeed.c_str());
-	ImGui::SliderFloat("Slice", (float*)&speed, 0, 100);
-	SceneManager::Get()->GUIRender();
+	//// 현재 카메라의 이동속도를 가져와서 표시, 슬라이더로 조정
+	//float& speed = Environment::Get()->GetCamSpeed();
+	//string camspeed = "CamSpeed" + to_string(speed);
+	//ImGui::Text(camspeed.c_str());
+	//ImGui::SliderFloat("Slice", (float*)&speed, 0, 100);
+	//SceneManager::Get()->GUIRender();
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

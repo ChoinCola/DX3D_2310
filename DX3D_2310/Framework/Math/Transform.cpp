@@ -46,6 +46,20 @@ void Transform::UpdateWorld()
 	/*
 		pivot만큼 곱해서 이동시키고 마지막에 역행렬로 사용해서 다시 음으로 곱해버리면 피봇 전값이 나온다.
 	*/
+
+	// 행렬에서 데이터를 뽑음
+	XMStoreFloat4x4(&matWorld, world);
+	right =		Vector3(matWorld._11, matWorld._12, matWorld._13);
+	up =		Vector3(matWorld._21, matWorld._22, matWorld._23);
+	forward =	Vector3(matWorld._31, matWorld._32, matWorld._33);
+
+	// 행렬 분해함수
+	XMMatrixDecompose(
+		globalScale.Getvalue(),
+		globalRotation.Getvalue(),
+		globalPosition.Getvalue(),
+		world);
+
 }
 
 void Transform::Translate(Vector3 direction)

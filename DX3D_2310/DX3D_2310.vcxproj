@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DX3D_2310.h" />
+    <ClInclude Include="Framework\Environment\Camera.h" />
     <ClInclude Include="Framework\Environment\Environment.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Framework\Buffer\ConstBuffer.h" />
@@ -207,6 +208,7 @@
     <ClCompile Include="Framework\Buffer\IndexBuffer.cpp" />
     <ClCompile Include="Framework\Buffer\VertexBuffer.cpp" />
     <ClCompile Include="Framework\Device\Device.cpp" />
+    <ClCompile Include="Framework\Environment\Camera.cpp" />
     <ClCompile Include="Framework\Environment\Environment.cpp" />
     <ClCompile Include="Framework\Math\Transform.cpp" />
     <ClCompile Include="Framework\Render\Material.cpp" />
@@ -272,6 +274,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Libraries\DirectXTex\DirectXTex.inl" />
+    <None Include="Shaders\Light\DiffuseLight.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\Lib\DirectXTex.lib" />

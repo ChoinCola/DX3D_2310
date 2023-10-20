@@ -16,3 +16,21 @@ public:
 private:
 	Matrix matrix;
 };
+
+class LightBuffer : public ConstBuffer
+{
+private:
+	struct Data
+	{
+		Float3 lightDirection = { 0, -1, 1 };
+		float padding;
+	};
+public:
+	LightBuffer() : ConstBuffer(&data, sizeof(Data))
+	{
+	}
+	Data* GetData() { return &data; }
+
+private:
+	Data data;
+};

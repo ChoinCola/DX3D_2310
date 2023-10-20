@@ -186,6 +186,9 @@
     <ClInclude Include="Framework\Utilities\Mouse.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Environment\Camera.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2310.cpp">
@@ -293,6 +296,9 @@
     <ClCompile Include="Framework\Utilities\Mouse.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\Environment\Camera.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2310.rc">
@@ -321,5 +327,6 @@
     <None Include="Libraries\DirectXTex\DirectXTex.inl">
       <Filter>헤더 파일</Filter>
     </None>
+    <None Include="Shaders\Light\DiffuseLight.hlsli" />
   </ItemGroup>
 </Project>
