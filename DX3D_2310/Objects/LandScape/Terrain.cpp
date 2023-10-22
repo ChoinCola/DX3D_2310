@@ -2,7 +2,8 @@
 
 Terrain::Terrain()
 {
-	material->SetDiffuseMap(L"Textures/Landscape/Dirt2.png");
+	material->SetDiffuseMap(L"Textures/Colors/White.png");
+	material->SetShader(L"Light/DiffuseLight.hlsl");
 	RSset = new RasterizerState();
 	heightMap = Texture::Add(L"Textures/HeightMaps/HeightMap.png");
 

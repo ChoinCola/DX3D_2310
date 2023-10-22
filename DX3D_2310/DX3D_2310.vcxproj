@@ -274,7 +274,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Libraries\DirectXTex\DirectXTex.inl" />
-    <None Include="Shaders\Light\DiffuseLight.hlsli" />
+    <None Include="Shaders\Light\DiffuseLight.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\Lib\DirectXTex.lib" />

@@ -3,18 +3,6 @@
 Device::Device()
 {
     CreateDeviceAndSwapChain();
-
-    D3D11_VIEWPORT viewPort;
-    viewPort.TopLeftX = 0;
-    viewPort.TopLeftY = 0;
-    viewPort.Width = WIN_WIDTH;
-    viewPort.Height = WIN_HEIGHT;
-    viewPort.MinDepth = 0.0f;
-    viewPort.MaxDepth = 1.0f;
-
-    deviceContext->RSSetViewports(1, &viewPort);
-
-
 }
 
 Device::~Device()
