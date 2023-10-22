@@ -48,6 +48,7 @@ void GameManager::Render()
 	SceneManager::Get()->Render();
 	SceneManager::Get()->PostRender();
 
+
 	// 항상 기본적으로 다루어주어야하는 Frame
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
@@ -58,6 +59,7 @@ void GameManager::Render()
 
 	
 	Environment::Get()->GUIRender();
+	SceneManager::Get()->GUIRender();
 	//if (Mouse::Get()->GetMoveValue().x != 0 && Mouse::Get()->GetMoveValue().y != 0)
 	//	Movevalue = { Mouse::Get()->GetMoveValue().x, Mouse::Get()->GetMoveValue().y };
 	////	마우스 위치자표가 현재 xy축기준 어느곳으로 이동했었는지 표시

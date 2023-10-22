@@ -46,7 +46,8 @@ struct VertexUV
 struct VertexUVNormal
 {
     Float3 pos = {};
-    Float2 uv = { 1, 1 };
+    Float2 uv = {};
+    Float3 normal = {};
 
     VertexUVNormal() {}
 

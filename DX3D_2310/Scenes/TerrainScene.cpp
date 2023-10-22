@@ -28,4 +28,5 @@ void TerrainScene::PostRender()
 
 void TerrainScene::GUIRender()
 {
+	terrain->GUIRender();
 }

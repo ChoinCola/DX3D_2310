@@ -57,7 +57,7 @@ void TutorialScene::GUIRender()
 
     if (ImGui::Button("Save"))
         DIALOG->OpenDialog("Save", "Save", ".png, .jpg, .tga", ".");
-
+    
     if (ImGui::Button("Slice"))
         showsliceUI = true;
 

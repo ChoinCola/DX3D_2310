@@ -36,10 +36,17 @@ public:
 	void Normalized() { value = XMVector3Normalize(value); }
 
 	Vector4* Getvalue() { return &value; }
+	const Float3 GetvalueFloat3() { return { this->GetX(),this->GetY(),this->GetZ() }; }
+
 	// 외적 함수
-	
 	static Vector3 Cross(Vector3& vec1, Vector3& vec2) { return XMVector3Cross(vec1, vec2); }
 	static float Dot(Vector3& vec1, Vector3& vec2) { return XMVectorGetX(XMVector3Dot(vec1, vec2)); }
+	static Vector3 ComputeNormal(Vector3& vec1, Vector3& vec2, Vector3& vec3) {
+		//앞면 법선함수.
+		Vector3 u = vec2 - vec1;
+		Vector3 v = vec3 - vec1;
+		return XMVector3Normalize(Cross(u, v));
+	}
 
 public:
 	static Vector3 Zero() { return Vector3(); }
