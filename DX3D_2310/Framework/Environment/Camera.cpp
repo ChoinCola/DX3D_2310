@@ -59,6 +59,9 @@ void Camera::FreeMode()
 
 		Rotate(Vector3::Up() * delta.x * rotSpeed * DELTA);
 		Rotate(Vector3::Left() * -delta.y * rotSpeed * DELTA);
+
+		//알아야 할것. 법선, 빛의 방향, 법선의 각도
+		//법선 정규화
 	}
 
 }

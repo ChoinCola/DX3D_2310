@@ -29,12 +29,9 @@ private:
     SamplerState* samplerState;
     RasterizerState* rasterizerSate[2];
 
-    XMVECTOR eye = {};
-    XMVECTOR focus = {};
-    XMVECTOR up = {};
-
     Vector3 mousemovevalue = {};
     Camera* mainCamera;
+    LightBuffer* lightBuffer;
 
     bool isWireMode = false;
     float CamSpeed = 20;
