@@ -120,7 +120,7 @@ VertexUVNormal Spher::MidPoint(const VertexType& v0, const VertexType& v1)
     // since linear interpolating can make them not unit length.  
     XMVECTOR pos = 0.5f * (p0 + p1);
     XMVECTOR uv = XMVector2Normalize(0.5f * (c0 + c1));
-    XMVECTOR normal = XMVector3Normalize(0.5f * (e0 + e1));
+    XMVECTOR normal = XMVector3Normalize(e0 + e1);
 
     VertexType v;
     XMStoreFloat3(&v.pos, pos);
