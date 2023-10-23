@@ -103,11 +103,6 @@ using namespace Utility;
 #include "Objects/Basic/Cube.h"
 #include "Objects/Basic/Spher.h"
 
-// Planet Header
-#include "Objects/Planet/Earth.h"
-#include "Objects/Planet/Sun.h"
-#include "Objects/Planet/Moon.h"
-
 // Robot Header
 #include "Objects/Robot/Robot.h"
 

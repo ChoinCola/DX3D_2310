@@ -7,7 +7,7 @@ struct PixelInput
 	float4 pos : SV_POSITION;
 	float2 uv : UV;
 	// 연산이 끝난 디퓨즈값을 넘겨줌.
-	float normal : NORMAL;
+	float3 normal : NORMAL;
 };
 
 PixelInput VS(VertexUVNormal input)

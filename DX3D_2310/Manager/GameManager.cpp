@@ -17,7 +17,7 @@ GameManager::GameManager()
 	SceneManager::Get()->Add("Grid");
 	//SceneManager::Get()->Add("Game");
 	//SceneManager::Get()->Add("Start");
-	//SceneManager::Get()->Add("Terrain");
+	SceneManager::Get()->Add("Terrain");
 	SceneManager::Get()->Add("Spher");
 
 }

@@ -48,12 +48,15 @@ private:
 	struct Data
 	{
 		Float3 lightDirection = { 0, -1, 1 };
+
 		float shininess = 24.0f;
 	};
+
 public:
 	LightBuffer() : ConstBuffer(&data, sizeof(Data))
 	{
 	}
+
 	Data* GetData() { return &data; }
 
 private:

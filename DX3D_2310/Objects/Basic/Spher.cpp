@@ -2,7 +2,7 @@
 
 Spher::Spher(float size, UINT dividecount)
 {
-    material->SetShader(L"Light/SpecularLight.hlsl");
+    material->SetShader(L"Light/DiffuseLight.hlsl");
     material->SetDiffuseMap(L"Textures/Colors/White.png");
     RSset = new RasterizerState();
     mesh = new Mesh<VertexType>();

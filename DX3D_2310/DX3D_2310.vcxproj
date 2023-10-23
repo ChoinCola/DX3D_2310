@@ -198,9 +198,6 @@
     <ClInclude Include="Objects\Basic\Spher.h" />
     <ClInclude Include="Objects\Ground\Ground.h" />
     <ClInclude Include="Objects\LandScape\Terrain.h" />
-    <ClInclude Include="Objects\Planet\Earth.h" />
-    <ClInclude Include="Objects\Planet\Moon.h" />
-    <ClInclude Include="Objects\Planet\Sun.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\GameScene.h" />
@@ -242,9 +239,6 @@
     <ClCompile Include="Objects\Basic\Spher.cpp" />
     <ClCompile Include="Objects\Ground\Ground.cpp" />
     <ClCompile Include="Objects\LandScape\Terrain.cpp" />
-    <ClCompile Include="Objects\Planet\Earth.cpp" />
-    <ClCompile Include="Objects\Planet\Moon.cpp" />
-    <ClCompile Include="Objects\Planet\Sun.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />
     <ClCompile Include="Scenes\GameScene.cpp" />
     <ClCompile Include="Scenes\GridScene.cpp" />
