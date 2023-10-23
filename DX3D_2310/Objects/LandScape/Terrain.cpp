@@ -2,7 +2,7 @@
 
 Terrain::Terrain()
 {
-	material->SetShader(L"Light/DiffuseLight.hlsl");
+	material->SetShader(L"Light/SpecularLight.hlsl");
 	material->SetDiffuseMap(L"Textures/Colors/White.png");
 
 	heightMap = Texture::Add(L"Textures/HeightMaps/HeightMap.png");
