@@ -3,7 +3,7 @@
 class Terrain : public GameObject
 {
 private:
-	typedef VertexUV VertexType;
+	typedef VertexUVNormal VertexType;
 public:
 	Terrain();
 	~Terrain();
@@ -13,10 +13,10 @@ public:
 private:
 	void MakeMesh();
 	void MakeNormal();
-	Vector3 MakeNormalline(Vector3 x, Vector3 y, Vector3 z);
+
 private:
 	UINT width = 10, height = 10;
-	Mesh<VertexUVNormal>* mesh;
+	Mesh<VertexType>* mesh;
 	Mesh<VertexColor>* normalline;
 	RasterizerState* RSset;
 	Texture* heightMap;

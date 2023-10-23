@@ -31,7 +31,19 @@ public:
 		XMVectorGetY(value) == XMVectorGetY(v.value) &&
 		XMVectorGetZ(value) == XMVectorGetZ(v.value); 
 	}
-	
+
+	friend void operator +=(Float3& v1, const Vector3& v2)
+	{
+		Vector4 temp = XMLoadFloat3(&v1) + v2.value;
+		XMStoreFloat3(&v1, temp);
+	}
+
+	friend void operator -=(Float3& v1, const Vector3& v2)
+	{
+		Vector4 temp = XMLoadFloat3(&v1) - v2.value;
+		XMStoreFloat3(&v1, temp);
+	}
+
 	Vector3 GetNormalized() const { return XMVector3Normalize(value); }
 	void Normalized() { value = XMVector3Normalize(value); }
 

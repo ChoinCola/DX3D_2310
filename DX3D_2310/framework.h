@@ -15,6 +15,8 @@
 #define DELTA		Timer::Get()->GetElapsedTime()
 #define DIALOG		ImGuiFileDialog::Instance()
 
+#define FOR(n) for(UINT i = 0; i < n; i++)
+
 #include <windows.h>
 #include <string>
 #include <vector>
@@ -126,5 +128,6 @@ using namespace Utility;
 #include "Manager/SceneManager.h"
 
 #include "Scenes/GameScene.h"
+#include "Scenes/SpherScene.h"
 
 extern HWND hWnd;

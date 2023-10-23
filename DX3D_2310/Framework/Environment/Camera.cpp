@@ -2,8 +2,9 @@
 
 Camera::Camera()
 {
-
-	viewBuffer = new MatrixBuffer();
+	viewBuffer = new ViewBuffer();
+	viewBuffer->SetVS(1);
+	viewBuffer->SetPS(1);
 
 }
 
@@ -32,9 +33,10 @@ void Camera::GUIRender()
 void Camera::SetView()
 {
 	view = XMMatrixInverse(nullptr, world);
+	viewBuffer->Set(view, world);
 
-	viewBuffer->Set(view);
 	viewBuffer->SetVS(1);
+	viewBuffer->SetPS(1);
 }
 
 void Camera::FreeMode()

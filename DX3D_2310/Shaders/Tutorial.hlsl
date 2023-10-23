@@ -1,19 +1,7 @@
 //Tutorial.hlsl
+#include "VertexHeader.hlsli"
+#include "PixelHeader.hlsli"
 
-cbuffer WordBuffer : register(b0)
-{
-	matrix world;
-}
-
-cbuffer ViewBuffer : register(b1)
-{
-	matrix view;
-}
-
-cbuffer ProjectionBuffer : register(b2)
-{
-	matrix projection;
-}
 struct VertexInput
 {
 	float4 pos : POSITION;
@@ -38,10 +26,8 @@ PixelInput VS(VertexInput input)
 	return output;
 }
 
-Texture2D map : register(t0);
-SamplerState samp : register(s0);
 
 float4 PS(PixelInput input) : SV_TARGET
 {
-	return map.Sample(samp, input.uv);
+	return diffuseMap.Sample(samp, input.uv);
 }

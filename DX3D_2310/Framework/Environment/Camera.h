@@ -1,5 +1,7 @@
 #pragma once
 
+
+
 class Camera : public Transform
 {
 public:
@@ -14,7 +16,7 @@ private:
 	void FreeMode();
 
 private:
-	MatrixBuffer* viewBuffer;
+	ViewBuffer* viewBuffer;
 	Matrix view;
 
 	float moveSpeed = 50.0f;

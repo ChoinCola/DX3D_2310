@@ -11,6 +11,7 @@ TerrainScene::~TerrainScene()
 
 void TerrainScene::Update()
 {
+	terrain->UpdateWorld();
 }
 
 void TerrainScene::PreRender()

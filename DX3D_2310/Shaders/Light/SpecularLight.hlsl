@@ -7,20 +7,23 @@ struct PixelInput
 	float4 pos : SV_POSITION;
 	float2 uv : UV;
 	// 연산이 끝난 디퓨즈값을 넘겨줌.
-	float normal : NORMAL;
+	float3 normal : NORMAL;
+	float3 worldPos : POSITION;
 };
 
 PixelInput VS(VertexUVNormal input)
 {
 	PixelInput output;
 	output.pos = mul(input.pos, world);
+	output.worldPos = output.pos;
+	
 	output.pos = mul(output.pos, view);
 	output.pos = mul(output.pos, projection);
 	
 	output.uv = input.uv;
-	// 법선 정규화
+	
 	output.normal = normalize(mul(input.normal, (float3x3) world));
-
+	
 	return output;
 }
 
@@ -31,8 +34,19 @@ float4 PS(PixelInput input) : SV_TARGET
 	// 빛 정규화
 	float3 normal = normalize(input.normal);
 	float3 light = normalize(lightDirection);
-	
+	float3 viewDir = normalize(input.worldPos - invView._41_42_43);
 	// 빛을 반대로 뒤집고. dot으로 바꿔줌.
-	float diffuse = dot(normal, -light);
-	return diffuseMap.Sample(samp, input.uv) * diffuse;
+	// saturate 는 데이터의 제한범위 설정하는것.
+	float diffuse = saturate(dot(normal, -light));
+	float specular = 0;
+	
+	if(diffuse > 0)
+	{
+		//Phong Shading
+		float3 reflection = normalize(reflect(light, normal));
+		specular = saturate(dot(-reflection, viewDir));
+		
+		specular = pow(specular, shininess);
+	}
+	return diffuseMap.Sample(samp, input.uv) * diffuse + specular.xxxx;
 }

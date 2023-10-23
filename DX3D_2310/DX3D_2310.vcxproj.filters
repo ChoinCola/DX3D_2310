@@ -189,6 +189,9 @@
     <ClInclude Include="Framework\Environment\Camera.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Scenes\SpherScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2310.cpp">
@@ -299,6 +302,9 @@
     <ClCompile Include="Framework\Environment\Camera.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Scenes\SpherScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2310.rc">
@@ -315,9 +321,9 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\Tutorial.hlsl" />
-    <FxCompile Include="Shaders\VertexColorShader.hlsl" />
     <FxCompile Include="Shaders\Basic\Grid.hlsl" />
-    <FxCompile Include="Shaders\WhiteLINE.hlsl" />
+    <FxCompile Include="Shaders\Light\SpecularLight.hlsl" />
+    <FxCompile Include="Shaders\Light\DiffuseLight.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\Lib\DirectXTex.lib" />
@@ -327,6 +333,7 @@
     <None Include="Libraries\DirectXTex\DirectXTex.inl">
       <Filter>헤더 파일</Filter>
     </None>
-    <None Include="Shaders\Light\DiffuseLight.hlsl" />
+    <None Include="Shaders\PixelHeader.hlsli" />
+    <None Include="Shaders\VertexHeader.hlsli" />
   </ItemGroup>
 </Project>

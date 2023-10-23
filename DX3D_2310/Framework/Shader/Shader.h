@@ -16,7 +16,7 @@ public:
 	virtual void Set() = 0;
 
 protected:
-	ID3DBlob* blob;
+	ID3DBlob* blob = nullptr;
 
 	static unordered_map<wstring, Shader*> shaders; // 중복되는거면 있는거 반환하는 식으로
 };

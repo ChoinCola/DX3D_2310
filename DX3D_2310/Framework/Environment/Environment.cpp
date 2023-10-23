@@ -36,7 +36,9 @@ void Environment::Update()
 void Environment::GUIRender()
 {
 	mainCamera->GUIRender();
+
 	ImGui::SliderFloat3("LightDirectoin", (float*)&lightBuffer->GetData()->lightDirection, -1, 1);
+	ImGui::SliderFloat("LightShininess", (float*)&lightBuffer->GetData()->shininess, 1, 50);
 }
 
 void Environment::Set()
@@ -44,7 +46,7 @@ void Environment::Set()
 	rasterizerSate[isWireMode]->SetState();
 
 	mainCamera->SetView();
-	lightBuffer->SetVS(10);
+	lightBuffer->SetPS(0);
 }
 
 void Environment::SetViewport(UINT width, UINT height)
