@@ -17,6 +17,11 @@
 
 #define FOR(n) for(UINT i = 0; i < n; i++)
 
+
+#define SAFE_DELETE(p)		 { if(p) { delete(p);	   (p) = nullptr; } }
+#define SAFE_DELETE_ARRAY(p) { if(p) { delete[](p);	   (p) = nullptr; } }
+#define SAFE_RELEASE(p)		 { if(p) { (p)->Release(); (p) = nullptr; } }
+
 #include <windows.h>
 #include <string>
 #include <vector>

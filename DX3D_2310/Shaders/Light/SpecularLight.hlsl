@@ -56,5 +56,5 @@ float4 PS(PixelInput input) : SV_TARGET
 		specular = pow(specular, shininess) * specularIntensity;
 	}
 	
-	return diffuseMap.Sample(samp, input.uv) * diffuse + specular;
+	return diffuseMap.Sample(samp, input.uv) * diffuse + specular.xxxx;
 }

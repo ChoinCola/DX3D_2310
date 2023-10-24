@@ -14,6 +14,11 @@ public:
 	void SetSpecularMap(wstring textureFile);
 	void SetNormalMap(wstring textureFile);
 
+	void DeleteDiffuseMap();
+	void DeleteSpecularMap();
+	void DeleteNormalMap();
+
+
 private:
 	VertexShader* vertexShader;
 	PixelShader* pixelShader;

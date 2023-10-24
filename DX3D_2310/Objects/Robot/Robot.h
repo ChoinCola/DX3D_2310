@@ -2,15 +2,18 @@
 class Robot : public Transform
 {
 public:
-	Robot(const Float3 pos, Float3 size);
+	Robot(const Float3 pos, float size);
 	~Robot();
 
 	Transform* GetTransform() { return Body1->GetSelf(); }
 
 	void Update();
 	void Render();
+
+	void GUIRender();
+
 private:
-	vector<Cube> part;
+	vector<Cube*> part;
 
 	Cube* Head;
 	Cube* Body1;
@@ -27,4 +30,15 @@ private:
 	Cube* LArm;
 
 	float sinnow = 0;
+
+	bool IsDiffuseSet	= true;
+	bool IsDiffuseSetOld= true;
+
+	bool IsSpecularMapSet	= true;
+	bool IsSpecularMapSetOld= true;
+
+	bool IsNormalMapSet		= true;
+	bool IsNormalMapSetOld	= true;
+
+
 };

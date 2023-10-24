@@ -9,7 +9,6 @@ private:
 
 public:
 	void PSSet(UINT slot = 0);
-
 	void ReadPixels(vector<Float4>& pixels);
 
 	Float2 GetSize() {

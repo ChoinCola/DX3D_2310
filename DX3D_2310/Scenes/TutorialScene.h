@@ -13,10 +13,7 @@ public:
 	void GUIRender() override;
 
 private:
-	Cube* cube;
-	Robot* robot;
-	Ground* ground;
 
-	bool showsliceUI = false;
+	Robot* robot;
 	UINT sliderValue = 0;
 };

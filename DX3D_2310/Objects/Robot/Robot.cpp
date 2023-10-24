@@ -1,6 +1,6 @@
 #include "Framework.h"
 
-Robot::Robot(const Float3 pos, Float3 size)
+Robot::Robot(const Float3 pos, float size)
 {
 	Body1 = new Cube({ 5, 2.5, 2 }, { 0, 7, 0 });
 
@@ -78,6 +78,26 @@ Robot::Robot(const Float3 pos, Float3 size)
 
 	RArm->SetParent(Rshoulder);
 	LArm->SetParent(Lshoulder);
+
+
+	part.emplace_back(Body1);
+	part.emplace_back(Head);
+	part.emplace_back(Body2);
+	part.emplace_back(Body3);
+	part.emplace_back(LLeg);
+	part.emplace_back(RLeg);
+	part.emplace_back(Rshoulder);
+	part.emplace_back(Lshoulder);
+	part.emplace_back(RArm);
+	part.emplace_back(LArm);
+
+	for (Cube*& def : part)
+	{
+		def->GetMetrial()->SetShader(L"Light/NormalMapping.hlsl");
+		def->GetMetrial()->SetDiffuseMap(L"Textures/Landscape/Fieldstone_DM.tga");
+		def->GetMetrial()->SetSpecularMap(L"Textures/Landscape/Fieldstone_SM.tga");
+		def->GetMetrial()->SetNormalMap(L"Textures/Landscape/Fieldstone_NM.tga");
+	}
 }
 
 Robot::~Robot()
@@ -99,25 +119,53 @@ Robot::~Robot()
 
 void Robot::Update()
 {
+	if (IsDiffuseSet == IsDiffuseSetOld && IsDiffuseSet) {
+		for (Cube*& def : part)
+			def->GetMetrial()->SetDiffuseMap(L"Textures/Landscape/Fieldstone_DM.tga");
+		IsDiffuseSetOld = false;
+	}
+	else if(IsDiffuseSet == IsDiffuseSetOld && !IsDiffuseSet)
+	{
+		for (Cube*& def : part)
+			def->GetMetrial()->DeleteDiffuseMap();
+		IsDiffuseSetOld = true;
+	}
+
+	if (IsSpecularMapSet == IsSpecularMapSetOld && IsSpecularMapSet) {
+		for (Cube*& def : part)
+			def->GetMetrial()->SetSpecularMap(L"Textures/Landscape/Fieldstone_SM.tga");
+		IsSpecularMapSetOld = false;
+	}
+	else if(IsSpecularMapSet == IsSpecularMapSetOld && !IsSpecularMapSet)
+	{
+		for (Cube*& def : part)
+			def->GetMetrial()->DeleteSpecularMap();
+		IsSpecularMapSetOld = true;
+	}
+
+
+	if (IsNormalMapSet == IsNormalMapSetOld && IsNormalMapSet) {
+		for (Cube*& def : part)
+			def->GetMetrial()->SetNormalMap(L"Textures/Landscape/Fieldstone_NM.tga");
+		IsNormalMapSetOld = false;
+	}
+	else if(IsNormalMapSet == IsNormalMapSetOld && !IsNormalMapSet)
+	{
+		for (Cube*& def : part) {
+			def->GetMetrial()->DeleteNormalMap();
+		}
+		IsNormalMapSetOld = true;
+	}
+
 
 	LLeg->SetRotate({ sin(sinnow), 0, 0});
 	RLeg->SetRotate({ -sin(sinnow), 0, 0 });
 	Rshoulder->SetRotate({ sin(sinnow), 0, 0 });
 	Lshoulder->SetRotate({ -sin(sinnow), 0, 0 });
 
-	Body1->UpdateWorld();
-
-	Head->UpdateWorld();
-	Body2->UpdateWorld();
-	Body3->UpdateWorld();
-
-	LLeg->UpdateWorld();
-	RLeg->UpdateWorld();
-
-	RArm->UpdateWorld();
-	Rshoulder->UpdateWorld();
-	LArm->UpdateWorld();
-	Lshoulder->UpdateWorld();
+	for (auto& def : part) {
+		def->UpdateWorld();
+	}
 
 	if (sinnow <= 180)
 		sinnow += DELTA ;
@@ -128,17 +176,15 @@ void Robot::Update()
 
 void Robot::Render()
 {
-	Head->Render();
-	Body1->Render();
-	Body2->Render();
-	Body3->Render();
+	for (auto& def : part) {
+		def->Render();
+	}
+}
 
-	LLeg->Render();
-	RLeg->Render();
-
-	RArm->Render();
-	Rshoulder->Render();
-	LArm->Render();
-	Lshoulder->Render();
-
+void Robot::GUIRender()
+{
+	ImGui::Checkbox("IsDiffuseSet", &IsDiffuseSet);
+	ImGui::Checkbox("IsSpecularMapSet", &IsSpecularMapSet);
+	ImGui::Checkbox("IsNormalMapSet", &IsNormalMapSet);
+	__super::GUIRender();
 }

@@ -9,7 +9,7 @@ Texture::Texture(ID3D11ShaderResourceView* srv, ScratchImage& image, wstring fil
 
 Texture::~Texture()
 {
-    srv->Release();
+    SAFE_RELEASE(srv);
 }
 
 void Texture::PSSet(UINT slot)
@@ -17,6 +17,7 @@ void Texture::PSSet(UINT slot)
     // 배열형대로 받을 수도 있다.
     DC->PSSetShaderResources(slot, 1, &srv);
 }
+
 
 void Texture::ReadPixels(vector<Float4>& pixels)
 {
@@ -67,5 +68,5 @@ Texture* Texture::Add(wstring file)
 void Texture::Delete()
 {
     for (pair<wstring, Texture*> texture : textures)
-        delete texture.second;
+        SAFE_DELETE(texture.second);
 }

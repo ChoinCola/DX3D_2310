@@ -54,19 +54,20 @@ void Icosahedron::Update()
             XMStoreFloat3(&vertices[i].pos, ontoSphere);
         }
 
+        MakeNormal();
         for (auto& vertex : vertices)
         {
             float theta = atan2(vertex.pos.z, vertex.pos.x);
-            float phi = asin(vertex.pos.y);
+            float phi = acos(vertex.pos.y / size) ;
+            float u, v;
 
-            float u = (theta + XM_PI) / (2.0f * XM_PI);
-            float v = (phi + XM_PIDIV2) / XM_PI;
+            v = phi / XM_PI;
+            u = theta / XM_PI;
 
             vertex.uv.x = u;
             vertex.uv.y = v;
         }
 
-        MakeNormal();
         mesh->CreateMesh();
         dividecountold = dividecountnow;
     }
