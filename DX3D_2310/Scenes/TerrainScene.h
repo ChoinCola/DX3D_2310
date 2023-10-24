@@ -14,4 +14,5 @@ public:
 	void GUIRender() override;
 private:
 	Terrain* terrain;
+	Sphere* sphere;
 };

@@ -12,5 +12,5 @@ public:
 	void PostRender() override;
 	void GUIRender() override;
 private:
-	Spher* spher = nullptr;
+	Icosahedron* icosahedron = nullptr;
 };

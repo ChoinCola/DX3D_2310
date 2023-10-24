@@ -11,10 +11,14 @@ public:
 	void SetShader(wstring shaderFile);
 
 	void SetDiffuseMap(wstring textureFile);
+	void SetSpecularMap(wstring textureFile);
+	void SetNormalMap(wstring textureFile);
 
 private:
 	VertexShader* vertexShader;
 	PixelShader* pixelShader;
 
+	Texture* normalMap = nullptr;
 	Texture* diffuseMap = nullptr;
+	Texture* specularMap = nullptr;
 };

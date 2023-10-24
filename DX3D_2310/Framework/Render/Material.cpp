@@ -13,6 +13,13 @@ void Material::Set()
 {
 	if (diffuseMap)
 		diffuseMap->PSSet(0);
+
+	if (specularMap)
+		specularMap->PSSet(1);
+
+	if (normalMap)
+		normalMap->PSSet(2);
+
 	vertexShader->Set();
 	pixelShader->Set();
 }
@@ -26,4 +33,14 @@ void Material::SetShader(wstring shaderFile)
 void Material::SetDiffuseMap(wstring textureFile)
 {
 	diffuseMap = Texture::Add(textureFile);
+}
+
+void Material::SetSpecularMap(wstring textureFile)
+{
+	specularMap = Texture::Add(textureFile);
+}
+
+void Material::SetNormalMap(wstring textureFile)
+{
+	normalMap = Texture::Add(textureFile);
 }

@@ -3,19 +3,20 @@
 
 SpherScene::SpherScene()
 {
-	spher = new Spher(2);
-	spher->SetTag("Spher1");
+	icosahedron = new Icosahedron(2);
+	icosahedron->SetTag("Spher1");
+	icosahedron->GetMetrial()->SetDiffuseMap(L"Textures/Landscape/Fieldstone_DM.tga");
 }
 
 SpherScene::~SpherScene()
 {
-	delete spher;
+	delete icosahedron;
 }
 
 void SpherScene::Update()
 {
-	spher->Update();
-	spher->UpdateWorld();
+	icosahedron->Update();
+	icosahedron->UpdateWorld();
 }
 
 void SpherScene::PreRender()
@@ -24,7 +25,7 @@ void SpherScene::PreRender()
 
 void SpherScene::Render()
 {
-	spher->Render();
+	icosahedron->Render();
 
 }
 
@@ -34,5 +35,5 @@ void SpherScene::PostRender()
 
 void SpherScene::GUIRender()
 {
-	spher->GUIRender();
+	icosahedron->GUIRender();
 }

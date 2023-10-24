@@ -1,12 +1,12 @@
 #pragma once
 
-class Spher : public GameObject
+class Icosahedron : public GameObject
 {
 private:
-	typedef VertexUVNormal VertexType;
+	typedef VertexUVNormalTangent VertexType;
 public:
-	Spher(float size = 1, UINT dividecount = 0);
-	~Spher();
+	Icosahedron(float size = 1, UINT dividecount = 0);
+	~Icosahedron();
 
 	void Update();
 	void Render();
@@ -16,7 +16,7 @@ private:
 	void MakeMesh(float size, UINT dividecount);
 	void Subdivide();
 	void MakeNormal();
-	VertexUVNormal MidPoint(const VertexType& v0, const VertexType& v1);
+	VertexUVNormalTangent MidPoint(const VertexType& v0, const VertexType& v1);
 private:
 
 	Mesh<VertexType>* mesh;

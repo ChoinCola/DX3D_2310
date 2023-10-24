@@ -195,7 +195,8 @@
     <ClInclude Include="Objects\Basic\Cube.h" />
     <ClInclude Include="Objects\Basic\GameBox.h" />
     <ClInclude Include="Objects\Basic\GameObject.h" />
-    <ClInclude Include="Objects\Basic\Spher.h" />
+    <ClInclude Include="Objects\Basic\Icosahedron.h" />
+    <ClInclude Include="Objects\Basic\Sphere.h" />
     <ClInclude Include="Objects\Ground\Ground.h" />
     <ClInclude Include="Objects\LandScape\Terrain.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
@@ -236,7 +237,8 @@
     <ClCompile Include="Objects\Basic\Cube.cpp" />
     <ClCompile Include="Objects\Basic\GameBox.cpp" />
     <ClCompile Include="Objects\Basic\GameObject.cpp" />
-    <ClCompile Include="Objects\Basic\Spher.cpp" />
+    <ClCompile Include="Objects\Basic\Icosahedron.cpp" />
+    <ClCompile Include="Objects\Basic\Sphere.cpp" />
     <ClCompile Include="Objects\Ground\Ground.cpp" />
     <ClCompile Include="Objects\LandScape\Terrain.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />
@@ -255,6 +257,12 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\Basic\Grid.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\Light\NormalMapping.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

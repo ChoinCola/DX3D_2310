@@ -1,6 +1,6 @@
 #include "Framework.h"
 
-Spher::Spher(float size, UINT dividecount)
+Icosahedron::Icosahedron(float size, UINT dividecount)
 {
     material->SetShader(L"Light/SpecularLight.hlsl");
     material->SetDiffuseMap(L"Textures/Colors/White.png");
@@ -17,12 +17,12 @@ Spher::Spher(float size, UINT dividecount)
     BackUpmesh->CreateMesh();
 }
 
-Spher::~Spher()
+Icosahedron::~Icosahedron()
 {
     delete mesh;
 }
 
-void Spher::Update()
+void Icosahedron::Update()
 {
     if (dividecountold != dividecountnow)
     {
@@ -54,13 +54,25 @@ void Spher::Update()
             XMStoreFloat3(&vertices[i].pos, ontoSphere);
         }
 
+        for (auto& vertex : vertices)
+        {
+            float theta = atan2(vertex.pos.z, vertex.pos.x);
+            float phi = asin(vertex.pos.y);
+
+            float u = (theta + XM_PI) / (2.0f * XM_PI);
+            float v = (phi + XM_PIDIV2) / XM_PI;
+
+            vertex.uv.x = u;
+            vertex.uv.y = v;
+        }
+
         MakeNormal();
         mesh->CreateMesh();
         dividecountold = dividecountnow;
     }
 }
 
-void Spher::Render()
+void Icosahedron::Render()
 {
     if (Setline)
     {
@@ -79,7 +91,7 @@ void Spher::Render()
     mesh->Draw();
 }
 
-void Spher::GUIRender()
+void Icosahedron::GUIRender()
 {
     if (ImGui::Button("_Set_UVMap"))
         DIALOG->OpenDialog("Save", "Save", ".png, .jpg, .tga", ".");
@@ -105,7 +117,7 @@ void Spher::GUIRender()
     __super::GUIRender();
 }
 
-VertexUVNormal Spher::MidPoint(const VertexType& v0, const VertexType& v1)
+VertexUVNormalTangent Icosahedron::MidPoint(const VertexType& v0, const VertexType& v1)
 {
     XMVECTOR p0 = XMLoadFloat3(&v0.pos);
     XMVECTOR p1 = XMLoadFloat3(&v1.pos);
@@ -119,7 +131,7 @@ VertexUVNormal Spher::MidPoint(const VertexType& v0, const VertexType& v1)
     // Compute the midpoints of all the attributes.  Vectors need to be normalized
     // since linear interpolating can make them not unit length.  
     XMVECTOR pos = 0.5f * (p0 + p1);
-    XMVECTOR uv = XMVector2Normalize(0.5f * (c0 + c1));
+    XMVECTOR uv = 0.5f * (c0 + c1);
     XMVECTOR normal = XMVector3Normalize(e0 + e1);
 
     VertexType v;
@@ -130,7 +142,7 @@ VertexUVNormal Spher::MidPoint(const VertexType& v0, const VertexType& v1)
     return v;
 }
 
-void Spher::BackUpMesh()
+void Icosahedron::BackUpMesh()
 {
     vector<VertexType>& vertices = mesh->GetVertices();
     vector<UINT>& indices = mesh->GetIndices();
@@ -148,27 +160,38 @@ void Spher::BackUpMesh()
         Bindices.push_back(def);
 }
 
-void Spher::MakeMesh(float size, UINT dividecount)
+void Icosahedron::MakeMesh(float size, UINT dividecount)
 {
     // 정 20면체의 각 삼각형 길이 황금비.
     double X = 0.525731f;
     double Z = 0.850651f;
     vector<VertexType>& vertices = mesh->GetVertices();
-    vertices.emplace_back(-X, 0.0f, +Z, 0, 1);
-    vertices.emplace_back(+X, 0.0f, +Z, 1, 1);
-    vertices.emplace_back(-X, 0.0f, -Z, 0, 0);
-    vertices.emplace_back(+X, 0.0f, -Z, 1, 0);
+    vertices.emplace_back(-X, 0.0f, +Z);
+    vertices.emplace_back(+X, 0.0f, +Z);
+    vertices.emplace_back(-X, 0.0f, -Z);
+    vertices.emplace_back(+X, 0.0f, -Z);
 
-    vertices.emplace_back(0.0f, +Z, +X, 0, 1);
-    vertices.emplace_back(0.0f, +Z, -X, 1, 1);
-    vertices.emplace_back(0.0f, -Z, +X, 0, 0);
-    vertices.emplace_back(0.0f, -Z, -X, 1, 0);
+    vertices.emplace_back(0.0f, +Z, +X);
+    vertices.emplace_back(0.0f, +Z, -X);//
+    vertices.emplace_back(0.0f, -Z, +X);
+    vertices.emplace_back(0.0f, -Z, -X);//
 
-    vertices.emplace_back(+Z, +X, 0.0f, 0, 1);
-    vertices.emplace_back(-Z, +X, 0.0f, 1, 1);
-    vertices.emplace_back(+Z, -X, 0.0f, 0, 0);
-    vertices.emplace_back(-Z, -X, 0.0f, 1, 0);
+    vertices.emplace_back(+Z, +X, 0.0f);
+    vertices.emplace_back(-Z, +X, 0.0f);
+    vertices.emplace_back(+Z, -X, 0.0f);
+    vertices.emplace_back(-Z, -X, 0.0f);
 
+    // 구형 매핑 함수
+    for (auto& vertex : vertices)
+    {
+        float theta = atan2(vertex.pos.z, vertex.pos.x);
+        float phi = acos(vertex.pos.y);
+        float u = (theta + XM_PI) / (2.0f * XM_PI);
+        float v = (phi + XM_PIDIV2 / 2.0f) / XM_PI;
+
+        vertex.uv.x = v;
+        vertex.uv.y = u;
+    }
     vector<UINT>& indices = mesh->GetIndices();
     //각 꼭짓점을 삼각형 형태로 이어서 긋는 순서를 시계방향으로 배치.
     indices =
@@ -223,7 +246,7 @@ void Spher::MakeMesh(float size, UINT dividecount)
     }
 }
 
-void Spher::Subdivide()
+void Icosahedron::Subdivide()
 {
     // Save a copy of the input geometry.
     vector<VertexType> verticesCopy;
@@ -295,7 +318,7 @@ void Spher::Subdivide()
     }
 }
 
-void Spher::MakeNormal()
+void Icosahedron::MakeNormal()
 {
     vector<VertexType>& vertices = mesh->GetVertices();
     vector<UINT>& indices = mesh->GetIndices();

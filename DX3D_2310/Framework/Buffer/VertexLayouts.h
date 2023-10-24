@@ -60,3 +60,25 @@ struct VertexUVNormal
     {
     }
 };
+
+struct VertexUVNormalTangent
+{
+    Float3 pos = {};
+    Float2 uv = {};
+    Float3 normal = {};
+    Float3 tangent = {};
+
+    VertexUVNormalTangent()
+    {
+    }
+
+    VertexUVNormalTangent(float x, float y, float z)
+        : pos(x, y, z)
+    {
+    }
+
+    VertexUVNormalTangent(float x, float y, float z, float u, float v)
+        : pos(x, y, z), uv(u, v)
+    {
+    }
+};

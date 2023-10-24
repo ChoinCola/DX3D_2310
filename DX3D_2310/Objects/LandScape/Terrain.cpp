@@ -2,6 +2,7 @@
 
 Terrain::Terrain()
 {
+	tag = "Terrain";
 	material->SetShader(L"Light/SpecularLight.hlsl");
 	material->SetDiffuseMap(L"Textures/Colors/White.png");
 

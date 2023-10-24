@@ -10,6 +10,12 @@ public:
 	Vector3(Vector4 value) : value(value) {}
 
 	operator Vector4() { return value; }
+	operator Float3()
+	{
+		Float3 result;
+		XMStoreFloat3(&result, value);
+		return result;
+	}
 
 	void SetX(const float& x) { value = XMVectorSetX(value, x); }
 	void SetY(const float& y) { value = XMVectorSetY(value, y); }
@@ -31,6 +37,9 @@ public:
 		XMVectorGetY(value) == XMVectorGetY(v.value) &&
 		XMVectorGetZ(value) == XMVectorGetZ(v.value); 
 	}
+
+	Vector3 operator*(const float& v) const { return value * v; }
+	Vector3 operator/(const float& v) const { return value / v; }
 
 	friend void operator +=(Float3& v1, const Vector3& v2)
 	{

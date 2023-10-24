@@ -101,7 +101,8 @@ using namespace Utility;
 // Obejct Header
 #include "Objects/Basic/GameObject.h"
 #include "Objects/Basic/Cube.h"
-#include "Objects/Basic/Spher.h"
+#include "Objects/Basic/Sphere.h"
+#include "Objects/Basic/Icosahedron.h"
 
 // Robot Header
 #include "Objects/Robot/Robot.h"
