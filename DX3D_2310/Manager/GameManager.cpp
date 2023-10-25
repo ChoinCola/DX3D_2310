@@ -90,10 +90,10 @@ void GameManager::Delete()
 	Keyboard::Delete();
 	Timer::Delete();
 	Shader::Delete();
-	Texture::Delete();
+
 	Environment::Delete();
 	SceneManager::Delete();
-
+	Texture::Delete();
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 

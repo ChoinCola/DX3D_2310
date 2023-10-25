@@ -5,7 +5,7 @@ unordered_map<wstring, Texture*> Texture::textures;
 Texture::Texture(ID3D11ShaderResourceView* srv, ScratchImage& image, wstring file)
     : srv(srv), image(move(image))
 {
-    this->file = new wstring(file);
+    this->file = file;
 }
 
 Texture::~Texture()
@@ -59,8 +59,9 @@ Texture* Texture::Add(wstring file)
     ID3D11ShaderResourceView* srv;
 
     // srv«“¥Á
-    CreateShaderResourceView(DEVICE, image.GetImages(),
+    HRESULT hr = CreateShaderResourceView(DEVICE, image.GetImages(),
         image.GetImageCount(), image.GetMetadata(), &srv);
+    CHECK(hr);
 
     textures[file] = new Texture(srv, image, file);
     return textures[file];

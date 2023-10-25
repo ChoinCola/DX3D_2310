@@ -2,7 +2,7 @@
 
 UINT Material::material_Key = 0;
 
-Material::Material(wstring shderFIle, wstring name)
+Material::Material(wstring shderFIle, string name)
 	:	name(name)
 {
 	SetShader(shderFIle);
@@ -21,15 +21,15 @@ Material::~Material()
 
 void Material::GUIRneder()
 {
-	string title = ToString(name) + "_Material";
+	string title = name + "_Material";
 
 	if (ImGui::TreeNode(title.c_str()))
 	{
 		char str[128];
-		strcpy_s(str, 128, ToString(editName).c_str());
+		strcpy_s(str, 128, editName.c_str());
 		ImGui::InputText("Name", str, 128);
 
-		editName = ToWString(str);
+		editName = str;
 
 		ImGui::SameLine();
 		if (ImGui::Button("Edit"))
@@ -52,6 +52,19 @@ void Material::GUIRneder()
 		ImGui::SameLine();
 		UnselectMap(NORMAL);
 
+
+		if (ImGui::Button("OpenSaveData"))
+			DIALOG->OpenDialog(this->name + "OpenSaveData", "OpenSaveData", ".mat", ".");
+
+		if (DIALOG->Display(this->name + "OpenSaveData"))
+		{
+			if (DIALOG->IsOk())
+			{
+				string file = DIALOG->GetFilePathName();
+				Load(file);
+			}
+			DIALOG->Close();
+		}
 		ImGui::TreePop();
 	}
 }
@@ -138,7 +151,6 @@ void Material::SelectMap(string name, MapType mapType)
 		break;
 	case Material::SPECULAR:
 		textureID = specularMap->GetSRV();
-
 		break;
 	case Material::NORMAL:
 		textureID = normalMap->GetSRV();
@@ -146,9 +158,11 @@ void Material::SelectMap(string name, MapType mapType)
 	}
 
 	if (ImGui::ImageButton(textureID, ImVec2(50, 50)))
-		DIALOG->OpenDialog(ToString(this->name) + name, name, ".png,.jpg,.tga", ".");
+		DIALOG->OpenDialog(this->name + name, name, ".png,.jpg,.tga", ".");
 
-	if (DIALOG->Display(ToString(this->name) + name))
+
+
+	if (DIALOG->Display(this->name + name))
 	{
 		if (DIALOG->IsOk())
 		{
@@ -170,6 +184,7 @@ void Material::SelectMap(string name, MapType mapType)
 
 		DIALOG->Close();
 	}
+
 }
 
 void Material::UnselectMap(MapType mapType)
@@ -211,9 +226,9 @@ void Material::UnselectMap(MapType mapType)
 
 void Material::Save()
 {
-	BinaryWriter* writer = new BinaryWriter("TextData/Material/" + ToString(name) + ".mat");
+	BinaryWriter* writer = new BinaryWriter("TextData/Material/" + name + ".mat");
 
-	writer->WString(name);
+	writer->String(name);
 
 	SaveTexture(diffuseMap, writer);
 	SaveTexture(specularMap, writer);
@@ -228,9 +243,13 @@ void Material::Save()
 	delete writer;
 }
 
-void Material::Load()
+void Material::Load(string file)
 {
-	BinaryReader* reader = new BinaryReader("TextData/Material/" + ToString(name) + ".mat");
+	BinaryReader* reader;
+	if (file == "")
+		reader = new BinaryReader("TextData/Material/" + name + ".mat");
+	else
+		reader = new BinaryReader("TextData/Material/" + file + ".mat");
 
 	if (reader->IsFailed())
 	{
@@ -241,7 +260,7 @@ void Material::Load()
 		return;
 	}
 
-	name = reader->WString();
+	name = reader->String();
 
 	LoadTexture(diffuseMap, reader, DIFFUSE);
 	LoadTexture(specularMap, reader, SPECULAR);
@@ -260,14 +279,14 @@ void Material::Load()
 
 void Material::SaveTexture(Texture*& data, BinaryWriter*& writer)
 {
-	if (data == nullptr || data->GetFilename() == nullptr) {
+	if (data == nullptr) {
 		writer->WString(L"NULLSET");
 		return;
 	}
-	writer->WString(*data->GetFilename());
+	writer->WString(data->GetFilename());
 }
 
-void Material::LoadTexture(Texture* data, BinaryReader* reader, MapType num)
+void const Material::LoadTexture (Texture*& data, BinaryReader* reader, MapType num)
 {
 	wstring defstring = reader->WString();
 	switch (num)
@@ -275,20 +294,20 @@ void Material::LoadTexture(Texture* data, BinaryReader* reader, MapType num)
 	case Material::DIFFUSE:
 		if (defstring != L"NULLSET")
 			data = Texture::Add(defstring);
-		else
-			data = Texture::Add(L"Textures/Colors/White.png");
+
 		break;
 	case Material::SPECULAR:
 		if (defstring != L"NULLSET")
 			data = Texture::Add(defstring);
-		else
-			data = Texture::Add(L"Textures/Colors/White.png");
+
 		break;
 	case Material::NORMAL:
-		if (defstring != L"NULLSET")
+		if (defstring != L"NULLSET") {
 			data = Texture::Add(defstring);
+			buffer->GetData()->hasNormalMap = true;
+		}
 		else
-			data = Texture::Add(L"Textures/Colors/Blue.png");
+			buffer->GetData()->hasNormalMap = false;
 		break;
 	}
 

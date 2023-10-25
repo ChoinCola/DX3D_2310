@@ -10,7 +10,7 @@ private:
 		NORMAL
 	};
 public:
-	Material(wstring shderFIle, wstring name = {});
+	Material(wstring shderFIle, string name = {});
 	~Material();
 
 	void GUIRneder();
@@ -29,23 +29,23 @@ public:
 
 	MaterialBuffer::Data* GetBuffer() { return buffer->GetData(); }
 
-	wstring GetName() { return name; }
-	void SetName(wstring name) { this->name = name; }
+	string GetName() { return name; }
+	void SetName(string name) { this->name = name; }
 
 private:
 	void SelectMap(string name, MapType mapType);
 	void UnselectMap(MapType mapType);
 
 	void Save();
-	void Load();
+	void Load(string reader = "");
 	void SaveTexture(Texture*& data, BinaryWriter*& writer);
-	void LoadTexture(Texture* data, BinaryReader* reader, MapType num);
+	void const LoadTexture ( Texture*& data,  BinaryReader* reader,  MapType num);
 
 
 private:
 	static UINT material_Key;
-	wstring name = {};
-	wstring editName;
+	string name = {};
+	string editName;
 
 	VertexShader* vertexShader;
 	PixelShader* pixelShader;

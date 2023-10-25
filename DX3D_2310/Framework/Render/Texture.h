@@ -14,7 +14,7 @@ public:
 	Float2 GetSize() {
 		return Float2(image.GetMetadata().width, image.GetMetadata().height);
 	}
-	wstring* GetFilename() { return file; }
+	wstring& GetFilename() { return file; }
 	ID3D11ShaderResourceView* GetSRV() { return srv; }
 
 public:
@@ -24,7 +24,7 @@ public:
 	static void Delete();
 
 private:
-	wstring* file = nullptr;
+	wstring file;
 
 	ScratchImage image;
 
