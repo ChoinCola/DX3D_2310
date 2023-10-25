@@ -59,9 +59,8 @@ Texture* Texture::Add(wstring file)
     ID3D11ShaderResourceView* srv;
 
     // srv«“¥Á
-    HRESULT hr = CreateShaderResourceView(DEVICE, image.GetImages(),
+    CreateShaderResourceView(DEVICE, image.GetImages(),
         image.GetImageCount(), image.GetMetadata(), &srv);
-    CHECK(hr);
 
     textures[file] = new Texture(srv, image, file);
     return textures[file];

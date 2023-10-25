@@ -249,7 +249,7 @@ void Material::Load(string file)
 	if (file == "")
 		reader = new BinaryReader("TextData/Material/" + name + ".mat");
 	else
-		reader = new BinaryReader("TextData/Material/" + file + ".mat");
+		reader = new BinaryReader(file);
 
 	if (reader->IsFailed())
 	{
