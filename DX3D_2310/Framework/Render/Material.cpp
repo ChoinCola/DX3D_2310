@@ -52,6 +52,8 @@ void Material::GUIRneder()
 		ImGui::SameLine();
 		UnselectMap(NORMAL);
 
+		if (ImGui::Button("SaveData"))
+			Save();
 
 		if (ImGui::Button("OpenSaveData"))
 			DIALOG->OpenDialog(this->name + "OpenSaveData", "OpenSaveData", ".mat", ".");
