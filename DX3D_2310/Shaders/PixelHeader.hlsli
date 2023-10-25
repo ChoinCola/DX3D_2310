@@ -8,6 +8,21 @@ SamplerState samp : register(s0);
 
 cbuffer LightBuffer : register(b0)
 {
+	// 직접광
 	float3 lightDirection;
+	// 빛의 반사정도
+	float badding;
+	// 간접광
+	float4 ambientLight;
+}
+
+cbuffer MaterialBuffer : register(b2)
+{
+	// 재질
+	float4 mDiffuse;
+	float4 mSpecular;
+	float4 mAmbient;
+	
 	float shininess;
+	int hasNormalMap;
 }

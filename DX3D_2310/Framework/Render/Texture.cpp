@@ -65,6 +65,34 @@ Texture* Texture::Add(wstring file)
     return textures[file];
 }
 
+Texture* Texture::Add(wstring file, wstring key)
+{
+    if (textures.count(key) > 0)
+        return textures[key];
+
+    ScratchImage image;
+
+    wstring extension = GetExtension(file);
+
+    if (extension.compare(L"tga") == 0)
+        LoadFromTGAFile(file.c_str(), nullptr, image);
+    else if (extension.compare(L"dds") == 0)
+        LoadFromDDSFile(file.c_str(), DDS_FLAGS_NONE,
+            nullptr, image);
+    else
+        LoadFromWICFile(file.c_str(), WIC_FLAGS_NONE,
+            nullptr, image);
+
+    ID3D11ShaderResourceView* srv;
+
+    // srv«“¥Á
+    CreateShaderResourceView(DEVICE, image.GetImages(),
+        image.GetImageCount(), image.GetMetadata(), &srv);
+
+    textures[key] = new Texture(srv, image, file);
+    return textures[key];
+}
+
 void Texture::Delete()
 {
     for (pair<wstring, Texture*> texture : textures)

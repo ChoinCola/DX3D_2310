@@ -2,14 +2,17 @@
 
 Camera::Camera()
 {
+	tag = "Camera";
 	viewBuffer = new ViewBuffer();
 	viewBuffer->SetVS(1);
 	viewBuffer->SetPS(1);
 
+	Load();
 }
 
 Camera::~Camera()
 {
+	Save();
 	delete viewBuffer;
 }
 

@@ -68,6 +68,8 @@ typedef XMFLOAT4X4 Float4x4;
 #include "Framework/Utilities/Utility.h"
 #include "Framework/Utilities/Timer.h"
 #include "Framework/Utilities/Mouse.h"
+#include "Framework/Utilities/BinaryReader.h"
+#include "Framework/Utilities/BinaryWriter.h"
 
 using namespace Utility;
 

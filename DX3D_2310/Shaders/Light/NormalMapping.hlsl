@@ -34,7 +34,7 @@ PixelInput VS(VertexUVNormalTangent input)
 
 float4 PS(PixelInput input) : SV_TARGET
 {
-	float4 albedo = diffuseMap.Sample(samp, input.uv);
+	float4 baseColor = diffuseMap.Sample(samp, input.uv);
 	
 	float3 T = normalize(input.tangent);
 	float3 B = normalize(input.binormal);
@@ -45,18 +45,21 @@ float4 PS(PixelInput input) : SV_TARGET
 	float3 light = normalize(lightDirection);
 	float3 viewDir = normalize(input.worldPos - invView._41_42_43);
 	
-	float3 normalMapColor = normalMap.Sample(samp, input.uv).rgb;
-	normal = normalMapColor * 2.0f - 1.0f; // 0~1 -> -1~1
-	float3x3 TBN = float3x3(T, B, N);
-	normal = normalize(mul(normal, TBN));
-	
+	if (hasNormalMap)
+	{
+		float3 normalMapColor = normalMap.Sample(samp, input.uv).rgb;
+		normal = normalMapColor * 2.0f - 1.0f; // 0~1 -> -1~1
+		float3x3 TBN = float3x3(T, B, N);
+		normal = normalize(mul(normal, TBN));
+	}
+
 	// 빛을 반대로 뒤집고. dot으로 바꿔줌.
 	// saturate 는 데이터의 제한범위 설정하는것.
 	
-	float diffsue = saturate(dot(normal, -light));
+	float diffuseIntensity = saturate(dot(normal, -light));
 	float4 specular = 0;
 	
-	if (diffsue > 0)
+	if (diffuseIntensity > 0)
 	{
 		//Blinn Phong Shading
 		float3 halfWay = normalize(viewDir + light);
@@ -64,10 +67,11 @@ float4 PS(PixelInput input) : SV_TARGET
 		
 		float4 specularIntensity = specularMap.Sample(samp, input.uv);
 		
-		specular = pow(specular, shininess) * specularIntensity;
+		specular = pow(specular, shininess) * specularIntensity * mSpecular;
 	}
 	
-	float4 ambient = albedo * 0.1f;
+	float4 diffuse = baseColor * diffuseIntensity * mDiffuse;
+	float4 ambient = baseColor * ambientLight * mAmbient;
 	
-	return diffuseMap.Sample(samp, input.uv) * diffsue + specular + ambient;
+	return diffuse + specular + ambient;
 }

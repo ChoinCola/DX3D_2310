@@ -75,3 +75,35 @@ void Transform::SetRotate(Vector3 direction)
 {
 	localRotation = direction;
 }
+
+void Transform::Save()
+{
+	BinaryWriter* writer = new BinaryWriter("TextData/Transforms/" + tag + ".str");
+	writer->Vector(localPosition);
+	writer->Vector(localRotation);
+	writer->Vector(localScale);
+	writer->Vector(pivot);
+
+	delete writer;
+}
+
+void Transform::Load()
+{
+	BinaryReader* reader = new BinaryReader("TextData/Transforms/" + tag + ".str");
+	
+	if (reader->IsFailed())
+	{
+		delete reader;
+		return;
+	}
+	
+	localPosition = reader->Vector();
+	localRotation = reader->Vector();
+	localScale = reader->Vector();
+	pivot = reader->Vector();
+
+	UpdateWorld();
+
+	delete reader;
+
+}

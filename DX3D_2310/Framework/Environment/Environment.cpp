@@ -38,7 +38,7 @@ void Environment::GUIRender()
 	mainCamera->GUIRender();
 
 	ImGui::SliderFloat3("LightDirectoin", (float*)&lightBuffer->GetData()->lightDirection, -1, 1);
-	ImGui::SliderFloat("LightShininess", (float*)&lightBuffer->GetData()->shininess, 1, 50);
+	ImGui::ColorEdit3("AmbientLight", (float*)&lightBuffer->GetData()->ambientLight);
 }
 
 void Environment::Set()

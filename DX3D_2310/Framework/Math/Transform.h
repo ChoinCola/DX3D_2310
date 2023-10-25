@@ -13,6 +13,9 @@ public:
 	void Rotate(Vector3 direction);
 	void SetRotate(Vector3 direction);
 
+	void Save();
+	void Load();
+
 	Vector3 GetLocalPosition() const { return localPosition; }
 	Vector3 GetLocalRotation() const { return localRotation; }
 	Vector3 GetLocalScale() const { return localScale; }

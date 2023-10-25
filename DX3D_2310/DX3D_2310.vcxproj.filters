@@ -186,6 +186,12 @@
     <ClInclude Include="Objects\Basic\Icosahedron.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Utilities\BinaryReader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\BinaryWriter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2310.cpp">
@@ -291,6 +297,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Basic\Icosahedron.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\BinaryReader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\BinaryWriter.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

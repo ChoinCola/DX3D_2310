@@ -15,8 +15,12 @@ public:
 		return Float2(image.GetMetadata().width, image.GetMetadata().height);
 	}
 
+	ID3D11ShaderResourceView* GetSRV() { return srv; }
+
 public:
 	static Texture* Add(wstring file);
+	static Texture* Add(wstring file, wstring key);
+
 	static void Delete();
 
 private:
