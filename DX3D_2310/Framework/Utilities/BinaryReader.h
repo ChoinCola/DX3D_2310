@@ -10,6 +10,8 @@ public:
     int Int();
     UINT UInt();
     float Float();
+    Float4 Float_4();
+
     string String();
     wstring WString();
     class Vector3 Vector();

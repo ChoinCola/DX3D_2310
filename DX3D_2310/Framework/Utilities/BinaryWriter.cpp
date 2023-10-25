@@ -32,6 +32,14 @@ void BinaryWriter::Float(float data)
     WriteFile(file, &data, sizeof(float), &size, nullptr);
 }
 
+void BinaryWriter::Float_4(Float4 data)
+{
+    Float(data.x);
+    Float(data.y);
+    Float(data.z);
+    Float(data.w);
+}
+
 void BinaryWriter::String(string data)
 {
     UInt(data.size());

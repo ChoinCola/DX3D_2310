@@ -41,6 +41,17 @@ float BinaryReader::Float()
     return temp;
 }
 
+Float4 BinaryReader::Float_4()
+{
+    Float4 result = {};
+    result.x = Float();
+    result.y = Float();
+    result.z = Float();
+    result.w = Float();
+
+    return result;
+}
+
 string BinaryReader::String()
 {
     UINT strSize = UInt();

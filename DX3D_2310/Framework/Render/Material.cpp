@@ -1,32 +1,35 @@
 #include "Framework.h"
 
-Material::Material(wstring shderFIle)
+UINT Material::material_Key = 0;
+
+Material::Material(wstring shderFIle, wstring name)
+	:	name(name)
 {
 	SetShader(shderFIle);
-
+	
+	this->name += material_Key + 48;
 	buffer = new MaterialBuffer();
-
-	diffuseMap = Texture::Add(L"Textures/Colors/White.png");
-	specularMap = Texture::Add(L"Textures/Colors/White.png");
-	normalMap = Texture::Add(L"Textures/Colors/Blue.png");
+	Load();
+	material_Key++;
 }
 
 Material::~Material()
 {
+	Save();
 	SAFE_DELETE(buffer);
 }
 
 void Material::GUIRneder()
 {
-	string title = name + "_Material";
+	string title = ToString(name) + "_Material";
 
 	if (ImGui::TreeNode(title.c_str()))
 	{
 		char str[128];
-		strcpy_s(str, 128, editName.c_str());
+		strcpy_s(str, 128, ToString(editName).c_str());
 		ImGui::InputText("Name", str, 128);
 
-		editName = str;
+		editName = ToWString(str);
 
 		ImGui::SameLine();
 		if (ImGui::Button("Edit"))
@@ -37,7 +40,6 @@ void Material::GUIRneder()
 		ImGui::ColorEdit3("Ambient", (float*)&buffer->GetData()->ambient);
 
 		ImGui::SliderFloat("Shininess", (float*)&buffer->GetData()->shininess, 1, 50);
-
 		SelectMap("DM", DIFFUSE);
 		ImGui::SameLine();
 		UnselectMap(DIFFUSE);
@@ -144,9 +146,9 @@ void Material::SelectMap(string name, MapType mapType)
 	}
 
 	if (ImGui::ImageButton(textureID, ImVec2(50, 50)))
-		DIALOG->OpenDialog(this->name + name, name, ".png,.jpg,.tga", ".");
+		DIALOG->OpenDialog(ToString(this->name) + name, name, ".png,.jpg,.tga", ".");
 
-	if (DIALOG->Display(this->name + name))
+	if (DIALOG->Display(ToString(this->name) + name))
 	{
 		if (DIALOG->IsOk())
 		{
@@ -203,6 +205,91 @@ void Material::UnselectMap(MapType mapType)
 		default:
 			break;
 		}
+	}
+
+}
+
+void Material::Save()
+{
+	BinaryWriter* writer = new BinaryWriter("TextData/Material/" + ToString(name) + ".mat");
+
+	writer->WString(name);
+
+	SaveTexture(diffuseMap, writer);
+	SaveTexture(specularMap, writer);
+	SaveTexture(normalMap, writer);
+
+	writer->Float_4(buffer->GetData()->diffuse);
+	writer->Float_4(buffer->GetData()->specular);
+	writer->Float_4(buffer->GetData()->ambient);
+
+	writer->Float(buffer->GetData()->shininess);
+
+	delete writer;
+}
+
+void Material::Load()
+{
+	BinaryReader* reader = new BinaryReader("TextData/Material/" + ToString(name) + ".mat");
+
+	if (reader->IsFailed())
+	{
+		diffuseMap = Texture::Add(L"Textures/Colors/White.png");
+		specularMap = Texture::Add(L"Textures/Colors/White.png");
+		normalMap = Texture::Add(L"Textures/Colors/Blue.png");
+		delete reader;
+		return;
+	}
+
+	name = reader->WString();
+
+	LoadTexture(diffuseMap, reader, DIFFUSE);
+	LoadTexture(specularMap, reader, SPECULAR);
+	LoadTexture(normalMap, reader, NORMAL);
+	
+	buffer->GetData()->diffuse	= reader->Float_4();
+	buffer->GetData()->specular = reader->Float_4();
+	buffer->GetData()->ambient	= reader->Float_4();
+
+	buffer->GetData()->shininess = reader->Float();
+
+	Set();
+
+	delete reader;
+}
+
+void Material::SaveTexture(Texture*& data, BinaryWriter*& writer)
+{
+	if (data == nullptr || data->GetFilename() == nullptr) {
+		writer->WString(L"NULLSET");
+		return;
+	}
+	writer->WString(*data->GetFilename());
+}
+
+void Material::LoadTexture(Texture* data, BinaryReader* reader, MapType num)
+{
+	wstring defstring = reader->WString();
+	switch (num)
+	{
+	case Material::DIFFUSE:
+		if (defstring != L"NULLSET")
+			data = Texture::Add(defstring);
+		else
+			data = Texture::Add(L"Textures/Colors/White.png");
+		break;
+	case Material::SPECULAR:
+		if (defstring != L"NULLSET")
+			data = Texture::Add(defstring);
+		else
+			data = Texture::Add(L"Textures/Colors/White.png");
+		break;
+	case Material::NORMAL:
+		if (defstring != L"NULLSET")
+			data = Texture::Add(defstring);
+		else
+			data = Texture::Add(L"Textures/Colors/Blue.png");
+		break;
 	}
 
 }

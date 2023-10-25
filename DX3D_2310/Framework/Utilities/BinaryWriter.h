@@ -10,6 +10,7 @@ public:
     void Int(int data);
     void UInt(UINT data);
     void Float(float data);
+    void Float_4(Float4 data);
     void String(string data);
     void WString(wstring data);
     void Vector(class Vector3 data);
