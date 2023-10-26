@@ -20,6 +20,9 @@ public:
     void CreateProjection();
     void CreateState();
     float& GetCamSpeed() { return CamSpeed; }
+
+    Camera* GetCamera() { return mainCamera; }
+
 private:
     //void CamMove();
 

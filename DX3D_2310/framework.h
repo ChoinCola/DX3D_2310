@@ -17,6 +17,7 @@
 
 #define FOR(n) for(UINT i = 0; i < n; i++)
 
+#define GRAVITY(g) { g = 0.98 * g }
 
 #define SAFE_DELETE(p)		 { if(p) { delete(p);	   (p) = nullptr; } }
 #define SAFE_DELETE_ARRAY(p) { if(p) { delete[](p);	   (p) = nullptr; } }

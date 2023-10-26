@@ -2,7 +2,8 @@
 
 Robot::Robot(const Float3 pos, float size)
 {
-	Body1 = new Cube({ 5, 2.5, 2 }, { 0, 7, 0 });
+	this->SetLocalPosition(pos);
+	Body1 = new Cube({ 5, 2.5, 2 }, { 0, 7.5, 0 });
 
 	Head = new Cube({ 1, 1, 1 });
 	Vector3 HeadPos = Body1->GetLocalPosition();
@@ -65,6 +66,9 @@ Robot::Robot(const Float3 pos, float size)
 	LArmPos.SetY(-LArm->GetLocalScale().GetY() * 2 - Lshoulder->GetLocalScale().GetY());
 	LArm->SetLocalPosition(LArmPos);
 
+
+	Body1->SetParent(this);
+
 	Head->SetParent(Body1);
 
 	Body2->SetParent(Body1);
@@ -79,17 +83,16 @@ Robot::Robot(const Float3 pos, float size)
 	RArm->SetParent(Rshoulder);
 	LArm->SetParent(Lshoulder);
 
-
-	part.emplace_back(Body1);
-	part.emplace_back(Head);
-	part.emplace_back(Body2);
-	part.emplace_back(Body3);
-	part.emplace_back(LLeg);
-	part.emplace_back(RLeg);
-	part.emplace_back(Rshoulder);
-	part.emplace_back(Lshoulder);
-	part.emplace_back(RArm);
-	part.emplace_back(LArm);
+	part.push_back(Body1);
+	part.push_back(Head);
+	part.push_back(Body2);
+	part.push_back(Body3);
+	part.push_back(LLeg);
+	part.push_back(RLeg);
+	part.push_back(Rshoulder);
+	part.push_back(Lshoulder);
+	part.push_back(RArm);
+	part.push_back(LArm);
 
 	for (Cube*& def : part)
 	{
@@ -119,6 +122,7 @@ Robot::~Robot()
 
 void Robot::Update()
 {
+
 	LLeg->SetRotate({ sin(sinnow), 0, 0});
 	RLeg->SetRotate({ -sin(sinnow), 0, 0 });
 	Rshoulder->SetRotate({ sin(sinnow), 0, 0 });
@@ -127,7 +131,7 @@ void Robot::Update()
 	for (auto& def : part) {
 		def->UpdateWorld();
 	}
-
+	Move();
 	if (sinnow <= 180)
 		sinnow += DELTA ;
 	else
@@ -144,8 +148,33 @@ void Robot::Render()
 
 void Robot::GUIRender()
 {
-	ImGui::Checkbox("IsDiffuseSet", &IsDiffuseSet);
-	ImGui::Checkbox("IsSpecularMapSet", &IsSpecularMapSet);
-	ImGui::Checkbox("IsNormalMapSet", &IsNormalMapSet);
+	if (ImGui::TreeNode("Robot"))
+	{
+		ImGui::DragFloat("MoveSpeed", (float*)&moveSpeed, 1.0f, 0.0f, 20.0f);
+		ImGui::DragFloat("RotSpeed", (float*)&rotSpeed, 1.0f, 0.0f, 20.0f);
+
+		ImGui::Checkbox("IsSpecularMapSet", &IsSpecularMapSet);
+		ImGui::Checkbox("IsNormalMapSet", &IsNormalMapSet);
+		ImGui::TreePop();
+	}
 	__super::GUIRender();
+}
+
+void Robot::Move()
+{
+	Vector3 delta = Mouse::Get()->GetMoveValue();
+	if (KEY->Down(VK_F2)) IsInputF2 = !IsInputF2;
+	if (!KEY->Press(VK_RBUTTON)) {
+		if (KEY->Press('W')) Translate(GetForward() * moveSpeed * DELTA);
+		if (KEY->Press('S')) Translate(GetBack() * moveSpeed * DELTA);
+		if (KEY->Press('A')) Translate(GetLeft() * moveSpeed * DELTA);
+		if (KEY->Press('D')) Translate(GetRight() * moveSpeed * DELTA);
+		if (KEY->Press('Q')) Translate(GetUp() * moveSpeed * DELTA);
+		if (KEY->Press('E')) Translate(GetDown() * moveSpeed * DELTA);
+
+		if (IsInputF2) {
+			Rotate(Vector3::Up() * delta.x * rotSpeed * DELTA);
+			Head->Rotate(Vector3::Left() * -delta.y * rotSpeed * DELTA);
+		}
+	}
 }

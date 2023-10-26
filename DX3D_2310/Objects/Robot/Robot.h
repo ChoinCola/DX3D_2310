@@ -9,16 +9,18 @@ public:
 
 	void Update();
 	void Render();
-
 	void GUIRender();
 private:
-	void MoveFonrtStep();
-	void MoveSideStep();
-	void MoveBackStep();
-	void MoveJumpStep();
+	void Move();
+	//void MoveFonrtStep();
+	//void MoveSideStep();
+	//void MoveBackStep();
+	//void MoveJumpStep();
 
 private:
 	vector<Cube*> part;
+
+	Cube* BasePos;
 
 	Cube* Head;
 	Cube* Body1;
@@ -35,7 +37,10 @@ private:
 	Cube* LArm;
 
 	float sinnow = 0;
+	float moveSpeed = 1;
+	float rotSpeed = 1;
 
+	bool IsInputF2 = false;
 	bool IsDiffuseSet	= true;
 	bool IsDiffuseSetOld= true;
 
@@ -44,6 +49,4 @@ private:
 
 	bool IsNormalMapSet		= true;
 	bool IsNormalMapSetOld	= true;
-
-
 };

@@ -48,18 +48,12 @@ void Camera::FreeMode()
 
 	if (KEY->Press(VK_RBUTTON))
 	{
-		if (KEY->Press('W'))
-			Translate(GetForward() * moveSpeed * DELTA);
-		if (KEY->Press('S'))
-			Translate(GetBack() * moveSpeed * DELTA);
-		if (KEY->Press('A'))
-			Translate(GetLeft() * moveSpeed * DELTA);
-		if (KEY->Press('D'))
-			Translate(GetRight() * moveSpeed * DELTA);
-		if (KEY->Press('Q'))
-			Translate(GetUp() * moveSpeed * DELTA);
-		if (KEY->Press('E'))
-			Translate(GetDown() * moveSpeed * DELTA);
+		if (KEY->Press('W')) Translate(GetForward() * moveSpeed * DELTA);
+		if (KEY->Press('S')) Translate(GetBack() * moveSpeed * DELTA);
+		if (KEY->Press('A')) Translate(GetLeft() * moveSpeed * DELTA);
+		if (KEY->Press('D')) Translate(GetRight() * moveSpeed * DELTA);
+		if (KEY->Press('Q')) Translate(GetUp() * moveSpeed * DELTA);
+		if (KEY->Press('E')) Translate(GetDown() * moveSpeed * DELTA);
 
 
 		Rotate(Vector3::Up() * delta.x * rotSpeed * DELTA);
