@@ -11,6 +11,11 @@ public:
 	void Render();
 
 	void GUIRender();
+private:
+	void MoveFonrtStep();
+	void MoveSideStep();
+	void MoveBackStep();
+	void MoveJumpStep();
 
 private:
 	vector<Cube*> part;
