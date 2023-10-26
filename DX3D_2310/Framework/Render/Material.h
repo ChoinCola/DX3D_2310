@@ -23,9 +23,8 @@ public:
 	void SetSpecularMap(wstring textureFile);
 	void SetNormalMap(wstring textureFile);
 
-	void DeleteDiffuseMap();
-	void DeleteSpecularMap();
-	void DeleteNormalMap();
+	void Save(string file);
+	void Load(string file);
 
 	MaterialBuffer::Data* GetBuffer() { return buffer->GetData(); }
 
@@ -33,19 +32,19 @@ public:
 	void SetName(string name) { this->name = name; }
 
 private:
+	void SelectShader();
 	void SelectMap(string name, MapType mapType);
 	void UnselectMap(MapType mapType);
 
-	void Save();
-	void Load(string reader = "");
-	void SaveTexture(Texture*& data, BinaryWriter*& writer);
-	void const LoadTexture ( Texture*& data,  BinaryReader* reader,  MapType num);
-
+	void SaveDialog();
+	void LoadDialog();
 
 private:
 	static UINT material_Key;
 	string name = {};
 	string editName;
+	string file;
+	string shaderFile;
 
 	VertexShader* vertexShader;
 	PixelShader* pixelShader;

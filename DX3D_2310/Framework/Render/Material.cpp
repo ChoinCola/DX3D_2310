@@ -9,13 +9,15 @@ Material::Material(wstring shderFIle, string name)
 	
 	this->name += material_Key + 48;
 	buffer = new MaterialBuffer();
-	Load();
+
+	diffuseMap = Texture::Add(L"Textures/Colors/White.png", L"DM");
+	specularMap = Texture::Add(L"Textures/Colors/White.png", L"SM");
+	normalMap = Texture::Add(L"Textures/Colors/Blue.png");
 	material_Key++;
 }
 
 Material::~Material()
 {
-	Save();
 	SAFE_DELETE(buffer);
 }
 
@@ -35,9 +37,13 @@ void Material::GUIRneder()
 		if (ImGui::Button("Edit"))
 			name = editName;
 
+		SelectShader();
+		ImGui::Text(shaderFile.c_str());
+
 		ImGui::ColorEdit3("Diffuse", (float*)&buffer->GetData()->diffuse);
 		ImGui::ColorEdit3("Specular", (float*)&buffer->GetData()->specular);
 		ImGui::ColorEdit3("Ambient", (float*)&buffer->GetData()->ambient);
+		ImGui::ColorEdit3("Emissive", (float*)&buffer->GetData()->emissive);
 
 		ImGui::SliderFloat("Shininess", (float*)&buffer->GetData()->shininess, 1, 50);
 		SelectMap("DM", DIFFUSE);
@@ -52,21 +58,9 @@ void Material::GUIRneder()
 		ImGui::SameLine();
 		UnselectMap(NORMAL);
 
-		if (ImGui::Button("SaveData"))
-			Save();
+		SaveDialog();
+		LoadDialog();
 
-		if (ImGui::Button("OpenSaveData"))
-			DIALOG->OpenDialog(this->name + "OpenSaveData", "OpenSaveData", ".mat", ".");
-
-		if (DIALOG->Display(this->name + "OpenSaveData"))
-		{
-			if (DIALOG->IsOk())
-			{
-				string file = DIALOG->GetFilePathName();
-				Load(file);
-			}
-			DIALOG->Close();
-		}
 		ImGui::TreePop();
 	}
 }
@@ -91,6 +85,8 @@ void Material::Set()
 
 void Material::SetShader(wstring shaderFile)
 {
+	this->shaderFile = ToString(shaderFile);
+
 	vertexShader = Shader::AddVS(shaderFile);
 	pixelShader = Shader::AddPS(shaderFile);
 }
@@ -124,19 +120,145 @@ void Material::SetNormalMap(wstring textureFile)
 	}
 }
 
-void Material::DeleteDiffuseMap()
+void Material::Save(string file)
 {
-	diffuseMap = nullptr;
+	tinyxml2::XMLDocument* document = new tinyxml2::XMLDocument();
+	tinyxml2::XMLElement* material = document->NewElement("Material");
+	material->SetAttribute("Name", name.c_str());
+	material->SetAttribute("Shader", shaderFile.c_str());
+	document->InsertFirstChild(material);
+
+	tinyxml2::XMLElement* texture = document->NewElement("Texture");
+	tinyxml2::XMLElement* map = document->NewElement("DiffsueMap");
+	string textureFile = ToString(diffuseMap->GetFile());
+	map->SetAttribute("DM", textureFile.c_str());
+	texture->InsertEndChild(map);
+	map = document->NewElement("SpecularMap");
+	textureFile = ToString(specularMap->GetFile());
+	map->SetAttribute("SM", textureFile.c_str());
+	texture->InsertEndChild(map);
+	map = document->NewElement("NormalMap");
+	textureFile = ToString(normalMap->GetFile());
+	map->SetAttribute("NM", textureFile.c_str());
+	texture->InsertEndChild(map);
+	material->InsertEndChild(texture);
+
+	tinyxml2::XMLElement* property = document->NewElement("Property");
+	tinyxml2::XMLElement* diffuse = document->NewElement("Diffuse");
+	diffuse->SetAttribute("R", buffer->GetData()->diffuse.x);
+	diffuse->SetAttribute("G", buffer->GetData()->diffuse.y);
+	diffuse->SetAttribute("B", buffer->GetData()->diffuse.z);
+	diffuse->SetAttribute("A", buffer->GetData()->diffuse.w);
+	property->InsertEndChild(diffuse);
+
+	tinyxml2::XMLElement* specular = document->NewElement("Specular");
+	specular->SetAttribute("R", buffer->GetData()->specular.x);
+	specular->SetAttribute("G", buffer->GetData()->specular.y);
+	specular->SetAttribute("B", buffer->GetData()->specular.z);
+	specular->SetAttribute("A", buffer->GetData()->specular.w);
+	property->InsertEndChild(specular);
+
+	tinyxml2::XMLElement* ambient = document->NewElement("Ambient");
+	ambient->SetAttribute("R", buffer->GetData()->ambient.x);
+	ambient->SetAttribute("G", buffer->GetData()->ambient.y);
+	ambient->SetAttribute("B", buffer->GetData()->ambient.z);
+	ambient->SetAttribute("A", buffer->GetData()->ambient.w);
+	property->InsertEndChild(ambient);
+
+	tinyxml2::XMLElement* emissive = document->NewElement("Emissive");
+	emissive->SetAttribute("R", buffer->GetData()->emissive.x);
+	emissive->SetAttribute("G", buffer->GetData()->emissive.y);
+	emissive->SetAttribute("B", buffer->GetData()->emissive.z);
+	emissive->SetAttribute("A", buffer->GetData()->emissive.w);
+	property->InsertEndChild(emissive);
+
+	property->SetAttribute("Shininess", buffer->GetData()->shininess);
+	property->SetAttribute("HasNormalMap", buffer->GetData()->hasNormalMap);
+
+	material->InsertEndChild(property);
+
+	document->SaveFile(file.c_str());
+	delete document;
 }
 
-void Material::DeleteSpecularMap()
+void Material::Load(string file)
 {
-	specularMap = Texture::Add(L"Textures/Colors/White.png");
+	this->file = file;
+
+	tinyxml2::XMLDocument* document = new tinyxml2::XMLDocument();
+	document->LoadFile(file.c_str());
+	tinyxml2::XMLElement* material = document->FirstChildElement();
+	name = material->Attribute("Name");
+	shaderFile = material->Attribute("Shader");
+	SetShader(ToWString(shaderFile));
+
+	tinyxml2::XMLElement* texture = material->FirstChildElement();
+	tinyxml2::XMLElement* dm = texture->FirstChildElement();
+
+	string textureFile = dm->Attribute("DM");
+	SetDiffuseMap(ToWString(textureFile));
+	tinyxml2::XMLElement* sm = dm->NextSiblingElement();
+
+	textureFile = sm->Attribute("SM");
+	SetSpecularMap(ToWString(textureFile));
+	tinyxml2::XMLElement* nm = sm->NextSiblingElement();
+
+	textureFile = nm->Attribute("NM");
+	SetNormalMap(ToWString(textureFile));
+
+	tinyxml2::XMLElement* property = texture->NextSiblingElement();
+	buffer->GetData()->shininess = property->FloatAttribute("Shininess");
+	buffer->GetData()->hasNormalMap = property->IntAttribute("HasNormalMap");
+
+	tinyxml2::XMLElement* diffuse = property->FirstChildElement();
+	buffer->GetData()->diffuse.x = diffuse->FloatAttribute("R");
+	buffer->GetData()->diffuse.y = diffuse->FloatAttribute("G");
+	buffer->GetData()->diffuse.z = diffuse->FloatAttribute("B");
+	buffer->GetData()->diffuse.w = diffuse->FloatAttribute("A");
+
+	tinyxml2::XMLElement* specular = diffuse->NextSiblingElement();
+	buffer->GetData()->specular.x = specular->FloatAttribute("R");
+	buffer->GetData()->specular.y = specular->FloatAttribute("G");
+	buffer->GetData()->specular.z = specular->FloatAttribute("B");
+	buffer->GetData()->specular.w = specular->FloatAttribute("A");
+
+	tinyxml2::XMLElement* ambient = specular->NextSiblingElement();
+	buffer->GetData()->ambient.x = ambient->FloatAttribute("R");
+	buffer->GetData()->ambient.y = ambient->FloatAttribute("G");
+	buffer->GetData()->ambient.z = ambient->FloatAttribute("B");
+	buffer->GetData()->ambient.w = ambient->FloatAttribute("A");
+
+	tinyxml2::XMLElement* emissive = ambient->NextSiblingElement();
+	buffer->GetData()->emissive.x = emissive->FloatAttribute("R");
+	buffer->GetData()->emissive.y = emissive->FloatAttribute("G");
+	buffer->GetData()->emissive.z = emissive->FloatAttribute("B");
+	buffer->GetData()->emissive.w = emissive->FloatAttribute("A");
+
+	delete document;
 }
 
-void Material::DeleteNormalMap()
+
+void Material::SelectShader()
 {
-	normalMap = Texture::Add(L"Textures/Colors/Blue.png");
+	string key = "Shader";
+
+	if (ImGui::Button(key.c_str()))
+		DIALOG->OpenDialog(key.c_str(), key.c_str(), ".hlsl", ".");
+
+	if (DIALOG->Display(key.c_str()))
+	{
+		if (DIALOG->IsOk())
+		{
+			string file = DIALOG->GetFilePathName();
+			char path[128];
+			GetCurrentDirectoryA(128, path);	// 프로젝트 까지의 경로
+			string temp = string(path) + "/Shaders/";
+			file = file.substr(temp.size());
+			
+			SetShader(ToWString(file));
+		}
+		DIALOG->Close();
+	}
 }
 
 void Material::SelectMap(string name, MapType mapType)
@@ -226,91 +348,55 @@ void Material::UnselectMap(MapType mapType)
 
 }
 
-void Material::Save()
+void Material::SaveDialog()
 {
-	BinaryWriter* writer = new BinaryWriter("TextData/Material/" + name + ".mat");
+	string key = "Save";
 
-	writer->String(name);
-
-	SaveTexture(diffuseMap, writer);
-	SaveTexture(specularMap, writer);
-	SaveTexture(normalMap, writer);
-
-	writer->Float_4(buffer->GetData()->diffuse);
-	writer->Float_4(buffer->GetData()->specular);
-	writer->Float_4(buffer->GetData()->ambient);
-
-	writer->Float(buffer->GetData()->shininess);
-
-	delete writer;
-}
-
-void Material::Load(string file)
-{
-	BinaryReader* reader;
-	if (file == "")
-		reader = new BinaryReader("TextData/Material/" + name + ".mat");
-	else
-		reader = new BinaryReader(file);
-
-	if (reader->IsFailed())
+	if (ImGui::Button(key.c_str()))
 	{
-		diffuseMap = Texture::Add(L"Textures/Colors/White.png");
-		specularMap = Texture::Add(L"Textures/Colors/White.png");
-		normalMap = Texture::Add(L"Textures/Colors/Blue.png");
-		delete reader;
-		return;
-	}
-
-	name = reader->String();
-
-	LoadTexture(diffuseMap, reader, DIFFUSE);
-	LoadTexture(specularMap, reader, SPECULAR);
-	LoadTexture(normalMap, reader, NORMAL);
-	
-	buffer->GetData()->diffuse	= reader->Float_4();
-	buffer->GetData()->specular = reader->Float_4();
-	buffer->GetData()->ambient	= reader->Float_4();
-
-	buffer->GetData()->shininess = reader->Float();
-
-	Set();
-
-	delete reader;
-}
-
-void Material::SaveTexture(Texture*& data, BinaryWriter*& writer)
-{
-	if (data == nullptr) {
-		writer->WString(L"NULLSET");
-		return;
-	}
-	writer->WString(data->GetFilename());
-}
-
-void const Material::LoadTexture (Texture*& data, BinaryReader* reader, MapType num)
-{
-	wstring defstring = reader->WString();
-	switch (num)
-	{
-	case Material::DIFFUSE:
-		if (defstring != L"NULLSET")
-			data = Texture::Add(defstring);
-
-		break;
-	case Material::SPECULAR:
-		if (defstring != L"NULLSET")
-			data = Texture::Add(defstring);
-
-		break;
-	case Material::NORMAL:
-		if (defstring != L"NULLSET") {
-			data = Texture::Add(defstring);
-			buffer->GetData()->hasNormalMap = true;
-		}
+		if (file.empty())
+			Save("TextData/Materials/" + name + ".mat");
 		else
-			buffer->GetData()->hasNormalMap = false;
-		break;
+			Save(file);
 	}
 
+	ImGui::SameLine();
+
+	key = "SaveAs";
+
+	if (ImGui::Button(key.c_str()))
+		DIALOG->OpenDialog(key.c_str(), key.c_str(), ".mat", ".");
+
+	if (DIALOG->Display(key.c_str()))
+	{
+		if (DIALOG->IsOk())
+		{
+			string file = DIALOG->GetFilePathName();
+
+			Save(file);
+		}
+
+		DIALOG->Close();
+	}
 }
+
+void Material::LoadDialog()
+{
+	string key = "Load";
+
+	if (ImGui::Button(key.c_str()))
+		DIALOG->OpenDialog(key.c_str(), key.c_str(), ".mat", ".");
+
+	if (DIALOG->Display(key.c_str()))
+	{
+		if (DIALOG->IsOk())
+		{
+			string file = DIALOG->GetFilePathName();
+
+			Load(file);
+		}
+
+		DIALOG->Close();
+	}
+}
+

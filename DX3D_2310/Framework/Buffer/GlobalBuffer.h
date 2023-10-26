@@ -71,6 +71,8 @@ public :
 		Float4 diffuse = { 1, 1, 1, 1 };
 		Float4 specular = { 1, 1, 1, 1 };
 		Float4 ambient = { 1, 1, 1, 1 };
+		// 맞을때 빤짝거리는 것을 구현하기 위한 Data
+		Float4 emissive = { 0, 0, 0, 0 };
 
 		float shininess = 24.0f;
 		float hasNormalMap = 0;

@@ -73,5 +73,5 @@ float4 PS(PixelInput input) : SV_TARGET
 	float4 diffuse = baseColor * diffuseIntensity * mDiffuse;
 	float4 ambient = baseColor * ambientLight * mAmbient;
 	
-	return diffuse + specular + ambient;
+	return diffuse + specular + ambient + mEmissive;
 }

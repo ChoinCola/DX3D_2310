@@ -177,6 +177,7 @@
     <ClInclude Include="Framework\Utilities\Mouse.h" />
     <ClInclude Include="Framework\Utilities\Singleton.h" />
     <ClInclude Include="Framework\Utilities\Timer.h" />
+    <ClInclude Include="Framework\Utilities\tinyxml2.h" />
     <ClInclude Include="Framework\Utilities\Utility.h" />
     <ClInclude Include="Libraries\DirectXTex\DirectXTex.h" />
     <ClInclude Include="Libraries\ImGui\dirent\dirent.h" />
@@ -235,6 +236,7 @@
     <ClCompile Include="Framework\Utilities\Keyboard.cpp" />
     <ClCompile Include="Framework\Utilities\Mouse.cpp" />
     <ClCompile Include="Framework\Utilities\Timer.cpp" />
+    <ClCompile Include="Framework\Utilities\tinyxml2.cpp" />
     <ClCompile Include="Framework\Utilities\Utility.cpp" />
     <ClCompile Include="Manager\GameManager.cpp" />
     <ClCompile Include="Manager\SceneManager.cpp" />

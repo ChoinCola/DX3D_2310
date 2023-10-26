@@ -1,0 +1,13 @@
+<Material Name="kkk" Shader="Light/NormalMapping.hlsl">
+    <Texture>
+        <DiffuseMap DM="Textures/Colors/White.png"/>
+        <SpecularMap SM="Textures/Colors/White.png"/>
+        <NormalMap NM="Textures/Colors/Blue.png"/>
+    </Texture>
+    <Property Shiniess="24" HasNormalMap="0">
+        <Diffuse R="0" G="0" B="0" A="0"/>
+        <Specular/>
+        <Ambient/>
+        <Emissive/>
+    </Property>
+</Material>

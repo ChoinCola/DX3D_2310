@@ -22,6 +22,7 @@ cbuffer MaterialBuffer : register(b2)
 	float4 mDiffuse;
 	float4 mSpecular;
 	float4 mAmbient;
+	float4 mEmissive;
 	
 	float shininess;
 	int hasNormalMap;

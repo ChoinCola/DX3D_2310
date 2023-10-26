@@ -119,45 +119,6 @@ Robot::~Robot()
 
 void Robot::Update()
 {
-	if (IsDiffuseSet == IsDiffuseSetOld && IsDiffuseSet) {
-		for (Cube*& def : part)
-			def->GetMetrial()->SetDiffuseMap(L"Textures/Landscape/Fieldstone_DM.tga");
-		IsDiffuseSetOld = false;
-	}
-	else if(IsDiffuseSet == IsDiffuseSetOld && !IsDiffuseSet)
-	{
-		for (Cube*& def : part)
-			def->GetMetrial()->DeleteDiffuseMap();
-		IsDiffuseSetOld = true;
-	}
-
-	if (IsSpecularMapSet == IsSpecularMapSetOld && IsSpecularMapSet) {
-		for (Cube*& def : part)
-			def->GetMetrial()->SetSpecularMap(L"Textures/Landscape/Fieldstone_SM.tga");
-		IsSpecularMapSetOld = false;
-	}
-	else if(IsSpecularMapSet == IsSpecularMapSetOld && !IsSpecularMapSet)
-	{
-		for (Cube*& def : part)
-			def->GetMetrial()->DeleteSpecularMap();
-		IsSpecularMapSetOld = true;
-	}
-
-
-	if (IsNormalMapSet == IsNormalMapSetOld && IsNormalMapSet) {
-		for (Cube*& def : part)
-			def->GetMetrial()->SetNormalMap(L"Textures/Landscape/Fieldstone_NM.tga");
-		IsNormalMapSetOld = false;
-	}
-	else if(IsNormalMapSet == IsNormalMapSetOld && !IsNormalMapSet)
-	{
-		for (Cube*& def : part) {
-			def->GetMetrial()->DeleteNormalMap();
-		}
-		IsNormalMapSetOld = true;
-	}
-
-
 	LLeg->SetRotate({ sin(sinnow), 0, 0});
 	RLeg->SetRotate({ -sin(sinnow), 0, 0 });
 	Rshoulder->SetRotate({ sin(sinnow), 0, 0 });
