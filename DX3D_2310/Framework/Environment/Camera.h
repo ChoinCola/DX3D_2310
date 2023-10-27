@@ -10,13 +10,14 @@ public:
 	void GUIRender();
 
 	void SetView();
+	Ray ScreenPointToRay(Vector3 screenPoint);
 private:
 	void FreeMode();
 
 private:
 	ViewBuffer* viewBuffer;
 	Matrix view;
-
+	Matrix projection;
 	float moveSpeed = 50.0f;
 	float rotSpeed = 10.0f;
 

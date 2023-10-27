@@ -69,7 +69,7 @@ void Environment::SetPerspective()
 void Environment::CreateProjection()
 {
 
-	Matrix projection = XMMatrixPerspectiveFovLH(XM_PIDIV4,
+	projection = XMMatrixPerspectiveFovLH(XM_PIDIV4,
 		(float)WIN_WIDTH / WIN_HEIGHT, 0.1f, 1000.0f);
 
 	projectionBuffer = new MatrixBuffer();

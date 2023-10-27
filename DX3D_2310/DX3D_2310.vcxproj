@@ -152,6 +152,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DX3D_2310.h" />
+    <ClInclude Include="Framework\Collider\BoxCollider.h" />
+    <ClInclude Include="Framework\Collider\CapsuleCollider.h" />
+    <ClInclude Include="Framework\Collider\Collider.h" />
+    <ClInclude Include="Framework\Collider\SphereCollider .h" />
     <ClInclude Include="Framework\Environment\Camera.h" />
     <ClInclude Include="Framework\Environment\Environment.h" />
     <ClInclude Include="Framework.h" />
@@ -204,6 +208,7 @@
     <ClInclude Include="Objects\LandScape\Terrain.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scenes\CollisionScene.h" />
     <ClInclude Include="Scenes\GameScene.h" />
     <ClInclude Include="Scenes\GridScene.h" />
     <ClInclude Include="Scenes\Scene.h" />
@@ -220,6 +225,10 @@
     <ClCompile Include="Framework\Buffer\ConstBuffer.cpp" />
     <ClCompile Include="Framework\Buffer\IndexBuffer.cpp" />
     <ClCompile Include="Framework\Buffer\VertexBuffer.cpp" />
+    <ClCompile Include="Framework\Collider\BoxCollider.cpp" />
+    <ClCompile Include="Framework\Collider\CapsuleCollider.cpp" />
+    <ClCompile Include="Framework\Collider\Collider.cpp" />
+    <ClCompile Include="Framework\Collider\SphereCollider .cpp" />
     <ClCompile Include="Framework\Device\Device.cpp" />
     <ClCompile Include="Framework\Environment\Camera.cpp" />
     <ClCompile Include="Framework\Environment\Environment.cpp" />
@@ -248,6 +257,7 @@
     <ClCompile Include="Objects\Ground\Ground.cpp" />
     <ClCompile Include="Objects\LandScape\Terrain.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />
+    <ClCompile Include="Scenes\CollisionScene.cpp" />
     <ClCompile Include="Scenes\GameScene.cpp" />
     <ClCompile Include="Scenes\GridScene.cpp" />
     <ClCompile Include="Scenes\SpherScene.cpp" />
@@ -262,6 +272,12 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Shaders\Basic\Collider.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="Shaders\Basic\Grid.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>

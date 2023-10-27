@@ -25,6 +25,8 @@
 
 #define CHECK(p) assert(SUCCEEDED(p))
 
+#define CAM Environment::Get()->GetMainCamera()
+
 #include <windows.h>
 #include <string>
 #include <vector>
@@ -105,6 +107,12 @@ using namespace Utility;
 #include "Framework/Math/Vector3.h"
 #include "Framework/Math/Transform.h"
 
+#include "Framework/Collider/Collider.h"
+#include "Framework/Collider/CapsuleCollider.h"
+#include "Framework/Collider/BoxCollider.h"
+#include "Framework/Collider/CapsuleCollider.h"
+#include "Framework/Collider/SphereCollider .h"
+
 // View Header
 #include "Framework/Environment/Camera.h"
 #include "Framework/Environment/Environment.h"
@@ -136,5 +144,7 @@ using namespace Utility;
 
 #include "Scenes/GameScene.h"
 #include "Scenes/SpherScene.h"
+
+#include "Scenes/CollisionScene.h"
 
 extern HWND hWnd;

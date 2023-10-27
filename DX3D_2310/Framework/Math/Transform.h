@@ -20,6 +20,10 @@ public:
 	Vector3 GetLocalRotation() const { return localRotation; }
 	Vector3 GetLocalScale() const { return localScale; }
 
+	Vector3 GetGlobalPosition() const { return globalPosition; }
+	Vector3 GetGlobalRotation() const { return globalRotation; }
+	Vector3 GetGlobalScale() const { return globalScale; }
+
 	void SetLocalPosition(const Vector3& position) { localPosition = position; }
 	void SetLocalRotation(const Vector3& rotation) { localRotation = rotation; }
 	void SetLocalScale(const Vector3& scale) { localScale = scale; }

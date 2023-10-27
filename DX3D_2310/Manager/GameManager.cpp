@@ -8,18 +8,13 @@ GameManager::GameManager()
 {
 	Create();
 
+	SceneManager::Get()->Create("Start", new CollisionScene());
 	SceneManager::Get()->Create("Grid", new GridScene());
-	//SceneManager::Get()->Create("Start", new TutorialScene());
 	SceneManager::Get()->Create("Terrain", new TerrainScene());
-	//SceneManager::Get()->Create("Spher", new SpherScene());
-	//SceneManager::Get()->Create("Game", new GameScene());
 
 	SceneManager::Get()->Add("Grid");
-	//SceneManager::Get()->Add("Game");
-	//SceneManager::Get()->Add("Start");
 	SceneManager::Get()->Add("Terrain");
-	//SceneManager::Get()->Add("Spher");
-
+	SceneManager::Get()->Add("Start");
 }
 
 GameManager::~GameManager()

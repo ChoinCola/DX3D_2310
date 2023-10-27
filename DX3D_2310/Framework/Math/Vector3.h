@@ -30,6 +30,9 @@ public:
 	__declspec(property(get = GetY, put = SetY)) float y;
 	__declspec(property(get = GetZ, put = SetZ)) float z;
 
+	Vector3 operator+(const Vector3& v) { return value + v.value; }
+	Vector3 operator-(const Vector3& v) { return value - v.value; }
+
 	void operator += (const Vector3& v) { value += v.value; }
 	void operator -= (const Vector3& v) { value -= v.value; }
 	bool operator == (const Vector3& v) { return 
@@ -55,6 +58,8 @@ public:
 
 	Vector3 GetNormalized() const { return XMVector3Normalize(value); }
 	void Normalized() { value = XMVector3Normalize(value); }
+
+	float Length() const { return XMVectorGetX(XMVector3Length(value)); }
 
 	Vector4* Getvalue() { return &value; }
 	const Float3 GetvalueFloat3() { return { this->GetX(),this->GetY(),this->GetZ() }; }

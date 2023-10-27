@@ -18,6 +18,7 @@ Camera::~Camera()
 
 void Camera::Update()
 {
+	projection = Environment::Get()->GetProjection();
 	FreeMode();
 	UpdateWorld();
 }
@@ -40,6 +41,28 @@ void Camera::SetView()
 
 	viewBuffer->SetVS(1);
 	viewBuffer->SetPS(1);
+}
+
+Ray Camera::ScreenPointToRay(Vector3 screenPoint)
+{
+	Vector3 screenSize(WIN_WIDTH, WIN_HEIGHT, 1.0f);
+
+	Float2 point;
+	point.x = (screenPoint.x / screenSize.x) * 2.0f - 1.0f;
+	point.y = (screenPoint.y / screenSize.y) * 2.0f - 1.0f;
+
+	Float4x4 temp;
+	XMStoreFloat4x4(&temp, projection);
+
+	screenPoint.x = point.x / temp._11;
+	screenPoint.y = point.y / temp._22;
+	screenPoint.z = 1.0f;
+
+	screenPoint = XMVector3TransformNormal(screenPoint, world);
+	// 카메라 행렬을 다시 곱해줘서 카메라 기준 반직선 구함.
+
+
+	return Ray(localPosition, screenPoint.GetNormalized());
 }
 
 void Camera::FreeMode()

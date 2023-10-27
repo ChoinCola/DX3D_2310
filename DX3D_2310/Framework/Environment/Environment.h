@@ -21,7 +21,9 @@ public:
     void CreateState();
     float& GetCamSpeed() { return CamSpeed; }
 
-    Camera* GetCamera() { return mainCamera; }
+    Camera* GetMainCamera() { return mainCamera; }
+
+    Matrix GetProjection() { return projection; }
 
 private:
     //void CamMove();
@@ -36,6 +38,7 @@ private:
     Camera* mainCamera;
     LightBuffer* lightBuffer;
 
+    Matrix projection;
     bool isWireMode = false;
     float CamSpeed = 20;
 };
