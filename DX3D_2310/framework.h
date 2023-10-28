@@ -123,6 +123,8 @@ using namespace Utility;
 #include "Objects/Basic/Sphere.h"
 #include "Objects/Basic/Icosahedron.h"
 
+#include "Objects/ColliderBall/Ball.h"
+
 // Robot Header
 #include "Objects/Robot/Robot.h"
 
@@ -146,5 +148,7 @@ using namespace Utility;
 #include "Scenes/SpherScene.h"
 
 #include "Scenes/CollisionScene.h"
+
+#include "Scenes/FpsScene.h"
 
 extern HWND hWnd;

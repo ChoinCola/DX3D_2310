@@ -22,9 +22,7 @@ void CollisionScene::Update()
 
     if (colliders[0]->IsRayCollision(ray, &contact))
     {
-        colliders[0]->SetColor(1, 0, 0);
-
-        colliders[1]->SetLocalPosition(contact.hitPoint);
+        colliders[0]->SetColor(1, 0, 0); 
     }
     else
     {
