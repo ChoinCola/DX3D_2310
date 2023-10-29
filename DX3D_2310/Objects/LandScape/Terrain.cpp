@@ -60,15 +60,15 @@ void Terrain::GUIRender()
 	__super::GUIRender();
 }
 
-Vector3 Terrain::GetOnGrondPosition(Vector3 ObjectPos)
+Vector3 Terrain::GetOnGrondPosition(const Vector3 ObjectPos)
 {
 	// 범위 밖 인경우 자기자신 반환
 	// 좌표는 항상 맵위치의 상대위치로 계산한다.
 	Vector3 LocalMaxPos =  Vector3(width, 0, height) + GetLocalPosition();
 	Vector3 LocalLowPos = GetLocalPosition();
 
-	if (ObjectPos.x > LocalMaxPos.x || ObjectPos.z > LocalMaxPos.z ||
-		ObjectPos.x < LocalLowPos.x || ObjectPos.z < LocalLowPos.z)
+	if (ObjectPos.x >= LocalMaxPos.x-1 || ObjectPos.z >= LocalMaxPos.z-1 ||
+		ObjectPos.x <= LocalLowPos.x-1 || ObjectPos.z <= LocalLowPos.z-1)
 		return ObjectPos;
 
 	// 범위 안 일경우,

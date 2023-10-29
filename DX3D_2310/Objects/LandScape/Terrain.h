@@ -10,7 +10,10 @@ public:
 
 	void Render();
 	void GUIRender();
-	Vector3 GetOnGrondPosition(Vector3 ObjectPos);
+	Vector3 GetOnGrondPosition(const Vector3 ObjectPos);
+	int GetWidth() { return width; }
+	int GetHeight() { return height; }
+
 private:
 	void MakeMesh();
 	void MakeNormal();
@@ -22,8 +25,8 @@ private:
 	RasterizerState* RSset;
 	Texture* heightMap;
 	int x = 0, z = 0;
-	float y = 0;
-	float D = 0;
+	double y = 0;
+	double D = 0;
 
 	Vector3 v;
 	bool IsPrintNormalLine = false;

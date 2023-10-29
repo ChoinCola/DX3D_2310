@@ -11,7 +11,7 @@ CollisionScene::CollisionScene()
 CollisionScene::~CollisionScene()
 {
 	for(auto def : colliders)
-		SAFE_DELETE(def);
+		delete def;
 }
 
 void CollisionScene::Update()

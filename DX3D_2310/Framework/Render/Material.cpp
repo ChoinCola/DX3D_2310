@@ -18,7 +18,7 @@ Material::Material(wstring shderFIle, string name)
 
 Material::~Material()
 {
-	SAFE_DELETE(buffer);
+	delete buffer;
 }
 
 void Material::GUIRneder()

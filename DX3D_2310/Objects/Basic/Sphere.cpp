@@ -13,7 +13,7 @@ Sphere::Sphere(float radius, UINT sliceCount, UINT stackCount)
 
 Sphere::~Sphere()
 {
-	delete mesh;
+	SAFE_DELETE(mesh);
 }
 
 void Sphere::Render()

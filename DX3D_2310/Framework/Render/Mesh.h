@@ -26,10 +26,10 @@ private:
 template<typename T>
 inline Mesh<T>::~Mesh()
 {
-	delete vertexBuffer;
+	SAFE_DELETE(vertexBuffer);
 
-	if(indexBuffer != nullptr)
-		delete indexBuffer;
+	if (indexBuffer != nullptr)
+		SAFE_DELETE(indexBuffer);
 }
 
 template<typename T>
