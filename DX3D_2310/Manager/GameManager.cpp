@@ -12,12 +12,12 @@ GameManager::GameManager()
 	SceneManager::Get()->Create("Grid", new GridScene());
 	//SceneManager::Get()->Create("Terrain", new TerrainScene());
 	//SceneManager::Get()->Create("Game", new FpsScene());
-	SceneManager::Get()->Create("ShootingScene", new ShootingScene());
+	SceneManager::Get()->Create("PacmanScene", new Pacman());
 
 
-	//SceneManager::Get()->Add("Grid");
+	SceneManager::Get()->Add("Grid");
 	//SceneManager::Get()->Add("Game");
-	SceneManager::Get()->Add("ShootingScene");
+	SceneManager::Get()->Add("PacmanScene");
 
 	//SceneManager::Get()->Add("Terrain");
 	//SceneManager::Get()->Add("Start");
@@ -52,6 +52,14 @@ void GameManager::Render()
 	Environment::Get()->SetPost();
 	SceneManager::Get()->PostRender();
 
+	if (Environment::Get()->GetIsPrintMinimap())
+	{
+		SceneManager::Get()->PreRender();
+		Environment::Get()->SetMinimap();
+		SceneManager::Get()->Render();
+		Environment::Get()->SetPost();
+		SceneManager::Get()->PostRender();
+	}
 
 	// 항상 기본적으로 다루어주어야하는 Frame
 	ImGui_ImplDX11_NewFrame();

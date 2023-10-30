@@ -13,6 +13,7 @@ public:
     void GUIRender();
 
     void Set();
+    void SetMinimap();
     void SetPost();
 
     void SetViewport(UINT width = WIN_WIDTH, UINT height = WIN_HEIGHT);
@@ -20,7 +21,7 @@ public:
     void CreateProjection();
     void CreateState();
     float& GetCamSpeed() { return CamSpeed; }
-
+    bool GetIsPrintMinimap() { return IsPrintMinimap; }
     Camera* GetMainCamera() { return mainCamera; }
 
     Matrix GetProjection() { return projection; }
@@ -37,6 +38,7 @@ private:
     BlendState* blendState[2];
 
     Vector3 mousemovevalue = {};
+    Minimap* minimap;
     Camera* mainCamera;
     LightBuffer* lightBuffer;
 
@@ -44,5 +46,6 @@ private:
     Matrix orthograpic;
 
     bool isWireMode = false;
+    bool IsPrintMinimap = false;
     float CamSpeed = 20;
 };

@@ -165,6 +165,7 @@
     <ClInclude Include="Framework\Buffer\VertexBuffer.h" />
     <ClInclude Include="Framework\Buffer\VertexLayouts.h" />
     <ClInclude Include="Framework\Device\Device.h" />
+    <ClInclude Include="Framework\Environment\Minimap.h" />
     <ClInclude Include="Framework\Math\Transform.h" />
     <ClInclude Include="Framework\Math\Vector3.h" />
     <ClInclude Include="Framework\Render\Material.h" />
@@ -212,6 +213,7 @@
     <ClInclude Include="Objects\Robot\Robot.h" />
     <ClInclude Include="Objects\Shooting\ShootingPlayer.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scenes\Pacman.h" />
     <ClInclude Include="Scenes\CollisionScene.h" />
     <ClInclude Include="Scenes\FpsScene.h" />
     <ClInclude Include="Scenes\GameScene.h" />
@@ -238,6 +240,7 @@
     <ClCompile Include="Framework\Device\Device.cpp" />
     <ClCompile Include="Framework\Environment\Camera.cpp" />
     <ClCompile Include="Framework\Environment\Environment.cpp" />
+    <ClCompile Include="Framework\Environment\Minimap.cpp" />
     <ClCompile Include="Framework\Math\Transform.cpp" />
     <ClCompile Include="Framework\Render\Material.cpp" />
     <ClCompile Include="Framework\Render\Texture.cpp" />
@@ -271,6 +274,7 @@
     <ClCompile Include="Scenes\FpsScene.cpp" />
     <ClCompile Include="Scenes\GameScene.cpp" />
     <ClCompile Include="Scenes\GridScene.cpp" />
+    <ClCompile Include="Scenes\Pacman.cpp" />
     <ClCompile Include="Scenes\ShootingScene.cpp" />
     <ClCompile Include="Scenes\SpherScene.cpp" />
     <ClCompile Include="Scenes\TerrainScene.cpp" />

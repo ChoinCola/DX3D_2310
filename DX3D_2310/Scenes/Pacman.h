@@ -1,11 +1,10 @@
 #pragma once
 
-class ShootingScene : public Scene
+class Pacman : public Scene
 {
 public:
-	ShootingScene();
-	~ShootingScene();
-
+	Pacman();
+	~Pacman();
 
 	// Scene을(를) 통해 상속됨
 	void Update() override;
@@ -13,10 +12,13 @@ public:
 	void Render() override;
 	void PostRender() override;
 	void GUIRender() override;
-	
+private:
+	void Render_terrain();
+
 private:
 
 
+	SamplerState* Settile;
 	Terrain* terrain;
 	ShootingPlayer* player;
 };

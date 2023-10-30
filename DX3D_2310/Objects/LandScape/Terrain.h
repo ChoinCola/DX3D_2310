@@ -6,16 +6,18 @@ private:
 	typedef VertexUVNormal VertexType;
 public:
 	Terrain();
+	Terrain(const wstring hightmap, const float hight = 1, bool tile = false);
+
 	~Terrain();
 
 	void Render();
 	void GUIRender();
-	Vector3 GetOnGrondPosition(const Vector3 ObjectPos);
+	Vector3 GetOnGrondPosition(const Vector3 ObjectPos, const Vector3 correction = {0, 0, 0});
 	int GetWidth() { return width; }
 	int GetHeight() { return height; }
 
 private:
-	void MakeMesh();
+	void MakeMesh(bool tile = false);
 	void MakeNormal();
 
 private:
@@ -27,6 +29,8 @@ private:
 	int x = 0, z = 0;
 	double y = 0;
 	double D = 0;
+	float hight = 1;
+
 
 	Vector3 v;
 	bool IsPrintNormalLine = false;

@@ -3,7 +3,7 @@
 class ShootingPlayer : public SphereCollider
 {
 public:
-	ShootingPlayer();
+	ShootingPlayer(Vector3 pos);
 	~ShootingPlayer();
 
 	void Update();
@@ -16,6 +16,7 @@ private:
 private:
 	float moveSpeed = 5;
 	float rotSpeed = 5;
+	float Uppos = 0;
 
 	Terrain* terrain;
 

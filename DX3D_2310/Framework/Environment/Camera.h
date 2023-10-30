@@ -11,6 +11,8 @@ public:
 
 	void SetView();
 	Ray ScreenPointToRay(Vector3 screenPoint);
+
+	Matrix GetViewMatrix() { return view; }
 private:
 	void FreeMode();
 

@@ -6,6 +6,7 @@ Environment::Environment()
 	CreateState();
 
 	SetViewport();
+	minimap = new Minimap();
 	mainCamera = new Camera();
 	lightBuffer = new LightBuffer();
 	uiViewBuffer = new ViewBuffer();
@@ -28,8 +29,10 @@ void Environment::Update()
 {
 	if(KEY->Down(VK_F1))
 		isWireMode = !isWireMode;
-
 	mainCamera->Update();
+	minimap->Translate(mainCamera->GetLocalPosition() + Vector3(0, 100, 0));
+	minimap->Rotate(Vector3(90, 0, 0));
+	minimap->Update();
 	//if(Mouse::Get()->GetIsSetMouseHold())
 	//	CamMove();
 }
@@ -40,12 +43,16 @@ void Environment::GUIRender()
 
 	ImGui::SliderFloat3("LightDirectoin", (float*)&lightBuffer->GetData()->lightDirection, -1, 1);
 	ImGui::ColorEdit3("AmbientLight", (float*)&lightBuffer->GetData()->ambientLight);
+	ImGui::Checkbox("MinimapSet", &IsPrintMinimap);
+	minimap->GUIRender();
 }
 
 void Environment::Set()
 {
 	rasterizerSate[isWireMode]->SetState();
 	blendState[0]->SetState();
+
+	SetViewport();
 
 	mainCamera->SetView();
 	lightBuffer->SetPS(0);
@@ -60,6 +67,19 @@ void Environment::SetPost()
 
 	uiViewBuffer->SetVS(1);
 	projectionBuffer->Set(orthograpic);
+	projectionBuffer->SetVS(2);
+}
+
+void Environment::SetMinimap()
+{
+	rasterizerSate[isWireMode]->SetState();
+	blendState[0]->SetState();
+
+
+	minimap->SetView();
+	lightBuffer->SetPS(0);
+
+	projectionBuffer->Set(projection);
 	projectionBuffer->SetVS(2);
 }
 
@@ -87,8 +107,6 @@ void Environment::CreateProjection()
 		0.0f, WIN_HEIGHT, -1.0f, 1.0f);
 
 	projectionBuffer = new MatrixBuffer();
-
-
 }
 
 void Environment::CreateState()

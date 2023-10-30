@@ -119,6 +119,7 @@ using namespace Utility;
 
 // View Header
 #include "Framework/Environment/Camera.h"
+#include "Framework/Environment/Minimap.h"
 #include "Framework/Environment/Environment.h"
 
 // Obejct Header
@@ -161,4 +162,5 @@ using namespace Utility;
 
 #include "Scenes/ShootingScene.h"
 
+#include "Scenes/Pacman.h"
 extern HWND hWnd;
