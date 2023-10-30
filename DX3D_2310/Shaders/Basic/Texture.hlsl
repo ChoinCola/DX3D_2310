@@ -1,6 +1,6 @@
 //Tutorial.hlsl
-#include "VertexHeader.hlsli"
-#include "PixelHeader.hlsli"
+#include "../VertexHeader.hlsli"
+#include "../PixelHeader.hlsli"
 
 struct VertexInput
 {

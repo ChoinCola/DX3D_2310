@@ -9,6 +9,9 @@
 #define WIN_WIDTH 1280
 #define WIN_HEIGHT 720
 
+#define CENTER_X WIN_WIDTH * 0.5f
+#define CENTER_Y WIN_HEIGHT * 0.5f
+
 #define DEVICE		Device::Get()->GetDevice()
 #define DC			Device::Get()->GetDeviceContext()
 #define KEY			Keyboard::Get()
@@ -102,6 +105,7 @@ using namespace Utility;
 // State Header
 #include "Framework/State/RasterizerState.h"
 #include "Framework/State/SamplerState.h"
+#include "Framework/State/BlendState.h"
 
 // Math Header
 #include "Framework/Math/Vector3.h"
@@ -119,6 +123,7 @@ using namespace Utility;
 
 // Obejct Header
 #include "Objects/Basic/GameObject.h"
+#include "Objects/Basic/Quad.h"
 #include "Objects/Basic/Cube.h"
 #include "Objects/Basic/Sphere.h"
 #include "Objects/Basic/Icosahedron.h"
@@ -137,6 +142,9 @@ using namespace Utility;
 // Terrain Header
 #include "Objects/LandScape/Terrain.h"
 
+// Shooting Header
+#include "Objects/Shooting/ShootingPlayer.h"
+
 // Scene
 #include "Scenes/Scene.h"
 #include "Scenes/TerrainScene.h"
@@ -150,5 +158,7 @@ using namespace Utility;
 #include "Scenes/CollisionScene.h"
 
 #include "Scenes/FpsScene.h"
+
+#include "Scenes/ShootingScene.h"
 
 extern HWND hWnd;

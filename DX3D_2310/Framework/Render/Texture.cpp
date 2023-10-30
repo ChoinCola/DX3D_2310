@@ -10,7 +10,7 @@ Texture::Texture(ID3D11ShaderResourceView* srv, ScratchImage& image, wstring fil
 
 Texture::~Texture()
 {
-    delete srv;
+    SAFE_RELEASE(srv);
 }
 
 void Texture::PSSet(UINT slot)

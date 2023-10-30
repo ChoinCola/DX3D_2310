@@ -10,11 +10,15 @@ GameManager::GameManager()
 
 	//SceneManager::Get()->Create("Start", new CollisionScene());
 	SceneManager::Get()->Create("Grid", new GridScene());
-	SceneManager::Get()->Create("Terrain", new TerrainScene());
-	SceneManager::Get()->Create("Game", new FpsScene());
+	//SceneManager::Get()->Create("Terrain", new TerrainScene());
+	//SceneManager::Get()->Create("Game", new FpsScene());
+	SceneManager::Get()->Create("ShootingScene", new ShootingScene());
 
-	SceneManager::Get()->Add("Grid");
-	SceneManager::Get()->Add("Game");
+
+	//SceneManager::Get()->Add("Grid");
+	//SceneManager::Get()->Add("Game");
+	SceneManager::Get()->Add("ShootingScene");
+
 	//SceneManager::Get()->Add("Terrain");
 	//SceneManager::Get()->Add("Start");
 }
@@ -44,6 +48,8 @@ void GameManager::Render()
 	Environment::Get()->Set();
 
 	SceneManager::Get()->Render();
+
+	Environment::Get()->SetPost();
 	SceneManager::Get()->PostRender();
 
 

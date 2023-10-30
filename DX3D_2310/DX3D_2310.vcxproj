@@ -173,6 +173,7 @@
     <ClInclude Include="Framework\Shader\PixelShader.h" />
     <ClInclude Include="Framework\Shader\Shader.h" />
     <ClInclude Include="Framework\Shader\VertexShader.h" />
+    <ClInclude Include="Framework\State\BlendState.h" />
     <ClInclude Include="Framework\State\RasterizerState.h" />
     <ClInclude Include="Framework\State\SamplerState.h" />
     <ClInclude Include="Framework\Utilities\BinaryReader.h" />
@@ -203,17 +204,20 @@
     <ClInclude Include="Objects\Basic\GameBox.h" />
     <ClInclude Include="Objects\Basic\GameObject.h" />
     <ClInclude Include="Objects\Basic\Icosahedron.h" />
+    <ClInclude Include="Objects\Basic\Quad.h" />
     <ClInclude Include="Objects\Basic\Sphere.h" />
     <ClInclude Include="Objects\ColliderBall\Ball.h" />
     <ClInclude Include="Objects\Ground\Ground.h" />
     <ClInclude Include="Objects\LandScape\Terrain.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
+    <ClInclude Include="Objects\Shooting\ShootingPlayer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\CollisionScene.h" />
     <ClInclude Include="Scenes\FpsScene.h" />
     <ClInclude Include="Scenes\GameScene.h" />
     <ClInclude Include="Scenes\GridScene.h" />
     <ClInclude Include="Scenes\Scene.h" />
+    <ClInclude Include="Scenes\ShootingScene.h" />
     <ClInclude Include="Scenes\SpherScene.h" />
     <ClInclude Include="Scenes\TerrainScene.h" />
     <ClInclude Include="Scenes\TutorialScene.h" />
@@ -240,6 +244,7 @@
     <ClCompile Include="Framework\Shader\PixelShader.cpp" />
     <ClCompile Include="Framework\Shader\VertexShader.cpp" />
     <ClCompile Include="Framework\Shader\Shader.cpp" />
+    <ClCompile Include="Framework\State\BlendState.cpp" />
     <ClCompile Include="Framework\State\RasterizerState.cpp" />
     <ClCompile Include="Framework\State\SamplerState.cpp" />
     <ClCompile Include="Framework\Utilities\BinaryReader.cpp" />
@@ -255,15 +260,18 @@
     <ClCompile Include="Objects\Basic\GameBox.cpp" />
     <ClCompile Include="Objects\Basic\GameObject.cpp" />
     <ClCompile Include="Objects\Basic\Icosahedron.cpp" />
+    <ClCompile Include="Objects\Basic\Quad.cpp" />
     <ClCompile Include="Objects\Basic\Sphere.cpp" />
     <ClCompile Include="Objects\ColliderBall\Ball.cpp" />
     <ClCompile Include="Objects\Ground\Ground.cpp" />
     <ClCompile Include="Objects\LandScape\Terrain.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />
+    <ClCompile Include="Objects\Shooting\ShootingPlayer.cpp" />
     <ClCompile Include="Scenes\CollisionScene.cpp" />
     <ClCompile Include="Scenes\FpsScene.cpp" />
     <ClCompile Include="Scenes\GameScene.cpp" />
     <ClCompile Include="Scenes\GridScene.cpp" />
+    <ClCompile Include="Scenes\ShootingScene.cpp" />
     <ClCompile Include="Scenes\SpherScene.cpp" />
     <ClCompile Include="Scenes\TerrainScene.cpp" />
     <ClCompile Include="Scenes\TutorialScene.cpp" />
@@ -300,7 +308,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="Shaders\Tutorial.hlsl">
+    <FxCompile Include="Shaders\Basic\Texture.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

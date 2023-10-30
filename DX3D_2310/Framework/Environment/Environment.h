@@ -13,9 +13,9 @@ public:
     void GUIRender();
 
     void Set();
+    void SetPost();
 
     void SetViewport(UINT width = WIN_WIDTH, UINT height = WIN_HEIGHT);
-    void SetPerspective();
 
     void CreateProjection();
     void CreateState();
@@ -30,15 +30,19 @@ private:
 
 private:
     MatrixBuffer* projectionBuffer;
+    ViewBuffer* uiViewBuffer;
 
     SamplerState* samplerState;
     RasterizerState* rasterizerSate[2];
+    BlendState* blendState[2];
 
     Vector3 mousemovevalue = {};
     Camera* mainCamera;
     LightBuffer* lightBuffer;
 
     Matrix projection;
+    Matrix orthograpic;
+
     bool isWireMode = false;
     float CamSpeed = 20;
 };

@@ -134,16 +134,10 @@ void Mouse::Update()
 	// F2가 눌리면 마우스 위치를 중앙에 고정한다.
 	SetMouseHold();
 	if (IsSetMouseHold) {
-		RECT clientRect;
-		GetClientRect(handle, &clientRect);
-		// 클라이언트 좌표를 Rect로 가져옴.
-		POINT resetpoint = {
-			clientRect.right / 2,
-			clientRect.bottom / 2};
-		CusorStatus = { (float)resetpoint .x, (float)resetpoint .y};
-		// 상대좌표 기준 화면창의 원점으로 마우스 포인터를 고정시킴.
-		ClientToScreen(handle, &resetpoint);
-		SetCursorPos(resetpoint.x , resetpoint.y);
+		// 화면 중앙 좌표 계산
+		int centerX = GetSystemMetrics(SM_CXSCREEN) * 0.5;
+		int centerY = GetSystemMetrics(SM_CYSCREEN) * 0.5;
+		SetCursorPos(centerX, centerY);
 	}
 }
 

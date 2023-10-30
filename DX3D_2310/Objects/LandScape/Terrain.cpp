@@ -60,68 +60,107 @@ void Terrain::GUIRender()
 	__super::GUIRender();
 }
 
+//Vector3 Terrain::GetOnGrondPosition(const Vector3 ObjectPos)
+//{
+//	// 범위 밖 인경우 자기자신 반환
+//	// 좌표는 항상 맵위치의 상대위치로 계산한다.
+//	Vector3 LocalMaxPos =  Vector3(width, 0, height) + GetLocalPosition();
+//	Vector3 LocalLowPos = GetLocalPosition();
+//
+//	if (ObjectPos.x >= LocalMaxPos.x-1 || ObjectPos.z >= LocalMaxPos.z-1 ||
+//		ObjectPos.x <= LocalLowPos.x-1 || ObjectPos.z <= LocalLowPos.z-1)
+//		return ObjectPos;
+//
+//	// 범위 안 일경우,
+//	// 현재 Object위치를 XY좌표로 반환하여 어떠한 사각형 안에 들어와있는지 판별함.
+//	// 기본 디폴트 칸 사이즈는 xy가 1임
+//	// 대충 xy좌표를 int로 변환하면 현재 Pos의 칸 내부가 나타남.
+//	vector<VertexType>& vertices = mesh->GetVertices();
+//	vector<UINT>& indices = mesh->GetIndices();
+//
+//	x = ObjectPos.x;
+//	z = ObjectPos.z;
+//
+//	// indicees를 참조해서 데이터를 구했으면, 3과 0중 더 가까운vertices를 찾아야함.
+//	// 사각형이 아닌 삼각형으로 vertices가 그어졌음으로 삼각형 기준으로 높이값을 구해야하기 때문.
+//
+//	Vector3 e0 = vertices[width * z + x].pos;	// 0
+//	Vector3 e1 = vertices[width * (z + 1) + x].pos;	// 1
+//	Vector3 e2 = vertices[width * z + x + 1].pos;	// 2
+//	Vector3 e3 = vertices[width * (z + 1) + x + 1].pos;	// 3
+//
+//	// 스칼라값을 구해줌. e0이 더 가까울경우, e0으로 진행
+//	if (ObjectPos.x <  ObjectPos.z)
+//	{
+//		// e0e1, e0e2 외적.
+//		v = Vector3::ComputeNormal(e0, e1, e2);
+//		//평면방정식,
+//		// x + y + z + D = 0;
+//		// D 구하기.
+//		// D = -Ax1 - By1 - Cz1; 원점에서 평면까지의 거리
+//		// D = -v.x * e0.x + -v.y * e0.y + -v.z * e0.z
+//		D = -v.x * e0.x - v.y * e0.y - v.z * e0.z;
+//		// 수식 재정렬. y = - x - z - D
+//		y = -(v.x * ObjectPos.x + v.z * ObjectPos.z + D) / v.y;
+//
+//		return Vector3(ObjectPos.x, y, ObjectPos.z);
+//
+//	}
+//	// e3와 더 가깝거나 같을경우, e3로 진행.
+//	else
+//	{
+//		// e0e1, e0e2 외적.
+//		v = Vector3::ComputeNormal(e3, e1, e2);
+//		//평면방정식,
+//		// x + y + z + D = 0;
+//		// D 구하기.
+//		// D = -Ax1 - By1 - Cz1;
+//		// D = -v.x * e0.x + -v.y * e0.y + -v.z * e0.z
+//		D = -v.x * e3.x - v.y * e3.y - v.z * e3.z;
+//		// 수식 재정렬. y = - x - z - D
+//		y = -(v.x * ObjectPos.x + v.z * ObjectPos.z + D) / v.y;
+//
+//		return Vector3(ObjectPos.x, y, ObjectPos.z);
+//	}
+//
+//}
 Vector3 Terrain::GetOnGrondPosition(const Vector3 ObjectPos)
 {
-	// 범위 밖 인경우 자기자신 반환
-	// 좌표는 항상 맵위치의 상대위치로 계산한다.
-	Vector3 LocalMaxPos =  Vector3(width, 0, height) + GetLocalPosition();
-	Vector3 LocalLowPos = GetLocalPosition();
+	int x = (int)ObjectPos.x;
+	int z = (int)ObjectPos.z;
 
-	if (ObjectPos.x >= LocalMaxPos.x-1 || ObjectPos.z >= LocalMaxPos.z-1 ||
-		ObjectPos.x <= LocalLowPos.x-1 || ObjectPos.z <= LocalLowPos.z-1)
-		return ObjectPos;
+	if (x < 0 || x >= width - 1) return ObjectPos;
+	if (z < 0 || z >= height - 1) return ObjectPos;
 
-	// 범위 안 일경우,
-	// 현재 Object위치를 XY좌표로 반환하여 어떠한 사각형 안에 들어와있는지 판별함.
-	// 기본 디폴트 칸 사이즈는 xy가 1임
-	// 대충 xy좌표를 int로 변환하면 현재 Pos의 칸 내부가 나타남.
+	UINT index[4];
+	index[0] = width * z + x;
+	index[1] = width * (z + 1) + x;
+	index[2] = width * z + x + 1;
+	index[3] = width * (z + 1) + x + 1;
+
 	vector<VertexType>& vertices = mesh->GetVertices();
-	vector<UINT>& indices = mesh->GetIndices();
 
-	x = ObjectPos.x;
-	z = ObjectPos.z;
+	Vector3 p[4];
+	FOR(4)
+		p[i] = vertices[index[i]].pos;
 
-	// indicees를 참조해서 데이터를 구했으면, 3과 0중 더 가까운vertices를 찾아야함.
-	// 사각형이 아닌 삼각형으로 vertices가 그어졌음으로 삼각형 기준으로 높이값을 구해야하기 때문.
+	float u = ObjectPos.x - p[0].x;
+	float v = ObjectPos.z - p[0].z;
 
-	Vector3 e0 = vertices[width * z + x].pos;	// 0
-	Vector3 e1 = vertices[width * (z + 1) + x].pos;	// 1
-	Vector3 e2 = vertices[width * z + x + 1].pos;	// 2
-	Vector3 e3 = vertices[width * (z + 1) + x + 1].pos;	// 3
-
-	// 스칼라값을 구해줌. e0이 더 가까울경우, e0으로 진행
-	if (ObjectPos.x <  ObjectPos.z)
-	{
-		// e0e1, e0e2 외적.
-		v = Vector3::ComputeNormal(e0, e1, e2);
-		//평면방정식,
-		// x + y + z + D = 0;
-		// D 구하기.
-		// D = -Ax1 - By1 - Cz1; 원점에서 평면까지의 거리
-		// D = -v.x * e0.x + -v.y * e0.y + -v.z * e0.z
-		D = -v.x * e0.x - v.y * e0.y - v.z * e0.z;
-		// 수식 재정렬. y = - x - z - D
-		y = -(v.x * ObjectPos.x + v.z * ObjectPos.z + D) / v.y;
-
-		return Vector3(ObjectPos.x, y, ObjectPos.z);
-
+	Vector3 result;
+	
+	if (u + v <= 1.0f) {
+		result = ((p[2] - p[0]) * u + (p[1] - p[0]) * v) + p[0];
 	}
-	// e3와 더 가깝거나 같을경우, e3로 진행.
 	else
 	{
-		// e0e1, e0e2 외적.
-		v = Vector3::ComputeNormal(e3, e1, e2);
-		//평면방정식,
-		// x + y + z + D = 0;
-		// D 구하기.
-		// D = -Ax1 - By1 - Cz1;
-		// D = -v.x * e0.x + -v.y * e0.y + -v.z * e0.z
-		D = -v.x * e3.x - v.y * e3.y - v.z * e3.z;
-		// 수식 재정렬. y = - x - z - D
-		y = -(v.x * ObjectPos.x + v.z * ObjectPos.z + D) / v.y;
+		u = 1.0f - u;
+		v = 1.0f - v;
 
-		return Vector3(ObjectPos.x, y, ObjectPos.z);
+		result = ((p[1] - p[3]) * u + (p[2] - p[3]) * v) + p[3];
 	}
+
+	return result;
 
 }
 
