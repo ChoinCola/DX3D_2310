@@ -2,7 +2,8 @@
 
 ShootingPlayer::ShootingPlayer(Vector3 pos)
 {
-	cursor = new Quad(L"Textures/UI/cursor.png");
+	//cursor = new Quad(L"Textures/UI/cursor.png");
+	cursor = new Quad(Float2(100,100));
 	cursor->SetLocalPosition({ CENTER_X, CENTER_Y, 0.0f });
 	cursor->UpdateWorld();
 	SetLocalPosition(pos);

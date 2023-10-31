@@ -30,7 +30,7 @@ float4 PS(PixelInput input) : SV_TARGET
 	float4 albedo = diffuseMap.Sample(samp, input.uv);
 	// 빛 정규화
 	float3 normal = normalize(input.normal);
-	float3 light = normalize(lightDirection);
+	float3 light = normalize(lightdirection);
 	
 	// 빛을 반대로 뒤집고. dot으로 바꿔줌.
 	float diffuse = dot(normal, -light);

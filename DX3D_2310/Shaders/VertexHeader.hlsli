@@ -31,6 +31,7 @@ struct VertexUVNormalTangent
 	float2 uv : UV;
 	float3 normal : NORMAL;
 	float3 tangent : TANGENT;
+	
 };
 
 

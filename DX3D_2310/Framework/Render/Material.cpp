@@ -21,7 +21,7 @@ Material::~Material()
 	delete buffer;
 }
 
-void Material::GUIRneder()
+void Material::GUIRender()
 {
 	string title = name + "_Material";
 

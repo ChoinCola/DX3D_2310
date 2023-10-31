@@ -5,6 +5,8 @@ Minimap::Minimap()
 {
 	tag = "Minimap";
 	viewBuffer = new ViewBuffer();
+	viewBuffer->SetVS(1);
+	viewBuffer->SetPS(1);
 
 	viewPort.TopLeftX = WIN_WIDTH * 0.8f; // 화면의 오른쪽 하단에 위치
 	viewPort.TopLeftY = WIN_HEIGHT * 0.8f;
@@ -41,10 +43,10 @@ void Minimap::GUIRender()
 
 void Minimap::SetView()
 {
+	viewBuffer->SetPS(1);
 	DC->RSSetViewports(1, &viewPort);
 	view = XMMatrixInverse(nullptr, world);
 	viewBuffer->Set(view, world);
 
 	viewBuffer->SetVS(1);
-	viewBuffer->SetPS(1);
 }

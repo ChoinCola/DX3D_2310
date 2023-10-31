@@ -28,6 +28,11 @@ void Transform::GUIRender()
 
 		temp = tag + "_Scale";
 		ImGui::DragFloat3(temp.c_str(), (float*)&localScale, 0.1f);
+		if (ImGui::Button("Save"))
+			Save();
+		ImGui::SameLine();
+		if (ImGui::Button("Load"))
+			Load();
 
 		ImGui::TreePop();
 	}

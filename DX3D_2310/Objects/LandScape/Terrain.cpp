@@ -25,7 +25,7 @@ Terrain::Terrain(const wstring hightmap, const float hight, bool tile)
 {
 	SetLocalPosition({ 0, 0, 0 });
 	tag = "Terrain";
-	material->SetShader(L"Light/SpecularLight.hlsl");
+	material->SetShader(L"Light/Light.hlsl");
 	material->SetDiffuseMap(L"Textures/Colors/White.png");
 
 	heightMap = Texture::Add(hightmap);

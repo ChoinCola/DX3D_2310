@@ -13,7 +13,7 @@ public:
 	Material(wstring shderFIle, string name = {});
 	~Material();
 
-	void GUIRneder();
+	void GUIRender();
 
 	void Set();
 

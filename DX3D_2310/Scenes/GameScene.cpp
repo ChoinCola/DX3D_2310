@@ -4,13 +4,13 @@ GameScene::GameScene()
 {
 	MovePoint = new GameBox();
 	MovePoint->SetLocalPosition({ MAX_SIZE-1, 1, 0 });
-	MovePoint->GetMetrial()->SetDiffuseMap(L"Textures/Localgame/MovePoint.jpg");
+	MovePoint->GetMaterial()->SetDiffuseMap(L"Textures/Localgame/MovePoint.jpg");
 	Swap1 = Swap2 = MovePoint->GetLocalPosition();
 
 	for (float i = 0; i < pow(MAX_SIZE, 2) - 1; i++) {
 		Vector3 pos = { (float)((int)i % (int)MAX_SIZE), MAX_SIZE - (int)(i / MAX_SIZE), 0 };
 		GameBox* inputBox = new GameBox(MAX_SIZE, i, Float3{ 1,1,1 }, pos);
-		inputBox->GetMetrial()->SetDiffuseMap(L"Textures/Localgame/BaseGameImage.jpg");
+		inputBox->GetMaterial()->SetDiffuseMap(L"Textures/Localgame/BaseGameImage.jpg");
 		GameBord[i] = inputBox;
 	}
 	GameBord[pow(MAX_SIZE, 2)-1] = MovePoint;

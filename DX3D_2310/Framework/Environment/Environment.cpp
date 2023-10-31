@@ -6,7 +6,7 @@ Environment::Environment()
 	CreateState();
 
 	SetViewport();
-	minimap = new Minimap();
+
 	mainCamera = new Camera();
 	lightBuffer = new LightBuffer();
 	uiViewBuffer = new ViewBuffer();
@@ -30,9 +30,7 @@ void Environment::Update()
 	if(KEY->Down(VK_F1))
 		isWireMode = !isWireMode;
 	mainCamera->Update();
-	minimap->Translate(mainCamera->GetLocalPosition() + Vector3(0, 100, 0));
-	minimap->Rotate(Vector3(90, 0, 0));
-	minimap->Update();
+
 	//if(Mouse::Get()->GetIsSetMouseHold())
 	//	CamMove();
 }
@@ -41,18 +39,17 @@ void Environment::GUIRender()
 {
 	mainCamera->GUIRender();
 
-	ImGui::SliderFloat3("LightDirectoin", (float*)&lightBuffer->GetData()->lightDirection, -1, 1);
+	FOR(lightBuffer->GetData()->lightCount)
+		EditLight(&lightBuffer->GetData()->lights[i], i);
+
 	ImGui::ColorEdit3("AmbientLight", (float*)&lightBuffer->GetData()->ambientLight);
-	ImGui::Checkbox("MinimapSet", &IsPrintMinimap);
-	minimap->GUIRender();
+	ImGui::ColorEdit3("AmbientCeil", (float*)&lightBuffer->GetData()->ambientCeil);
 }
 
 void Environment::Set()
 {
 	rasterizerSate[isWireMode]->SetState();
 	blendState[0]->SetState();
-
-	SetViewport();
 
 	mainCamera->SetView();
 	lightBuffer->SetPS(0);
@@ -67,19 +64,6 @@ void Environment::SetPost()
 
 	uiViewBuffer->SetVS(1);
 	projectionBuffer->Set(orthograpic);
-	projectionBuffer->SetVS(2);
-}
-
-void Environment::SetMinimap()
-{
-	rasterizerSate[isWireMode]->SetState();
-	blendState[0]->SetState();
-
-
-	minimap->SetView();
-	lightBuffer->SetPS(0);
-
-	projectionBuffer->Set(projection);
 	projectionBuffer->SetVS(2);
 }
 
@@ -122,6 +106,23 @@ void Environment::CreateState()
 	blendState[0] = new BlendState();
 	blendState[1] = new BlendState();
 	blendState[1]->Alpha(true);
+}
+
+void Environment::EditLight(LightBuffer::Light* light, int index)
+{
+	string label = "Light_" + to_string(index);
+
+	if (ImGui::TreeNode(label.c_str()))
+	{
+		ImGui::ColorEdit3("Color", (float*)&light->color);
+		ImGui::SliderFloat3("Directoin", (float*)&light->direction, -1, 1);
+		ImGui::SliderFloat3("Position", (float*)&light->position, -100, 100);
+		ImGui::SliderFloat("Range", (float*)&light->range, 1, 300);
+		ImGui::SliderFloat("Inner", (float*)&light->inner, 1, 180);
+		ImGui::SliderFloat("Outer", (float*)&light->outer, 1, 180);
+
+		ImGui::TreePop();
+	}
 }
 
 // 우측으로 갈 때 z는 sin만큼 떨어지고, x는 cos만큼 올라야함.

@@ -5,10 +5,10 @@ FpsScene::FpsScene()
 {
 	CamCollider = new SphereCollider();
 	terrain = new Terrain();
-	terrain->GetMetrial()->SetShader(L"Light/NormalMapping.hlsl");
-	terrain->GetMetrial()->SetDiffuseMap	(L"Textures/Landscape/Fieldstone_DM.tga");
-	terrain->GetMetrial()->SetSpecularMap(L"Textures/Landscape/Fieldstone_SM.tga");
-	terrain->GetMetrial()->SetNormalMap	(L"Textures/Landscape/Fieldstone_NM.tga");
+	terrain->GetMaterial()->SetShader(L"Light/NormalMapping.hlsl");
+	terrain->GetMaterial()->SetDiffuseMap	(L"Textures/Landscape/Fieldstone_DM.tga");
+	terrain->GetMaterial()->SetSpecularMap(L"Textures/Landscape/Fieldstone_SM.tga");
+	terrain->GetMaterial()->SetNormalMap	(L"Textures/Landscape/Fieldstone_NM.tga");
 
 	listMaxSize = listSize = 0;
 	listMaxSize = 10;

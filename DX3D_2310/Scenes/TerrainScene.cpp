@@ -4,7 +4,7 @@ TerrainScene::TerrainScene()
 {
 	terrain = new Terrain();
 	terrain->SetTag("terrain");
-	terrain->GetMetrial()->SetName("terrain");
+	terrain->GetMaterial()->SetName("terrain");
 	//sphere = new Sphere(5.0f);
 	robot = new Robot({0, 0, 0}, 1);
 	//sphere->GetMetrial()->SetShader(L"Light/NormalMapping.hlsl");

@@ -12,6 +12,8 @@
 #define CENTER_X WIN_WIDTH * 0.5f
 #define CENTER_Y WIN_HEIGHT * 0.5f
 
+#define MAX_LIGHT 10
+
 #define DEVICE		Device::Get()->GetDevice()
 #define DC			Device::Get()->GetDeviceContext()
 #define KEY			Keyboard::Get()
@@ -163,4 +165,5 @@ using namespace Utility;
 #include "Scenes/ShootingScene.h"
 
 #include "Scenes/Pacman.h"
+#include "Scenes/LightScene.h"
 extern HWND hWnd;

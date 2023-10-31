@@ -3,12 +3,12 @@
 class GameObject : public Transform
 {
 public:
-	GameObject(wstring shaderfile = L"Basic/Texture.hlsl");
+	GameObject(wstring shaderfile = L"Light/Light.hlsl");
 	~GameObject();
 
 	void SetRender();
 
-	Material* GetMetrial() { return material; }
+	Material* GetMaterial() { return material; }
 
 protected:
 	Material* material;

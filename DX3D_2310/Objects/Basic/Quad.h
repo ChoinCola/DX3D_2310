@@ -2,7 +2,7 @@
 class Quad : public GameObject
 {
 public:
-	typedef VertexUV VertexType;
+	typedef VertexUVNormalTangent VertexType;
 
 	Quad(Float2 size = { 1, 1 });
 	Quad(wstring texturefile);

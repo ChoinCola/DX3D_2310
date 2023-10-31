@@ -213,10 +213,9 @@
     <ClInclude Include="Objects\Robot\Robot.h" />
     <ClInclude Include="Objects\Shooting\ShootingPlayer.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scenes\LightScene.h" />
     <ClInclude Include="Scenes\Pacman.h" />
     <ClInclude Include="Scenes\CollisionScene.h" />
-    <ClInclude Include="Scenes\FpsScene.h" />
-    <ClInclude Include="Scenes\GameScene.h" />
     <ClInclude Include="Scenes\GridScene.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\ShootingScene.h" />
@@ -271,9 +270,8 @@
     <ClCompile Include="Objects\Robot\Robot.cpp" />
     <ClCompile Include="Objects\Shooting\ShootingPlayer.cpp" />
     <ClCompile Include="Scenes\CollisionScene.cpp" />
-    <ClCompile Include="Scenes\FpsScene.cpp" />
-    <ClCompile Include="Scenes\GameScene.cpp" />
     <ClCompile Include="Scenes\GridScene.cpp" />
+    <ClCompile Include="Scenes\LightScene.cpp" />
     <ClCompile Include="Scenes\Pacman.cpp" />
     <ClCompile Include="Scenes\ShootingScene.cpp" />
     <ClCompile Include="Scenes\SpherScene.cpp" />
@@ -300,17 +298,11 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
-    <FxCompile Include="Shaders\Light\NormalMapping.hlsl">
+    <FxCompile Include="Shaders\Light\Light.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="Shaders\Light\SpecularLight.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="Shaders\Basic\Texture.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
@@ -328,10 +320,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Libraries\DirectXTex\DirectXTex.inl" />
-    <FxCompile Include="Shaders\Light\DiffuseLight.hlsl">
-      <FileType>Document</FileType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-    </FxCompile>
     <None Include="Shaders\PixelHeader.hlsli">
       <FileType>Document</FileType>
     </None>

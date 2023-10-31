@@ -44,12 +44,31 @@ private:
 
 class LightBuffer : public ConstBuffer
 {
+public:
+	struct Light
+	{
+		Float4 color = { 1, 1, 1, 1 };
+
+		Float3 direction = { 0, -1, 1 };
+		float padding;
+
+		Float3 position = { 0, 0, 0 };
+		float range = 100.0f;
+
+		float inner = 55.0f;
+		float outer = 70.0f;
+		Float2 padding2;
+	};
 private:
 	struct Data
 	{
-		Float3 lightDirection = { 0, -1, 1 };
+		Light lights[MAX_LIGHT];
+
+		int lightCount = 1;
+		Float3 ambientLight = { 0.1f, 0.1f, 0.1f };
+
+		Float3 ambientCeil = { 0.1f, 0.1f, 0.1f };
 		float padding;
-		Float4 ambientLight = { 0.1f, 0.1f, 0.1f,1 };
 	};
 
 public:

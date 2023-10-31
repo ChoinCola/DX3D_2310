@@ -5,7 +5,7 @@ SpherScene::SpherScene()
 {
 	icosahedron = new Icosahedron(2);
 	icosahedron->SetTag("Spher1");
-	icosahedron->GetMetrial()->SetDiffuseMap(L"Textures/Landscape/Fieldstone_DM.tga");
+	icosahedron->GetMaterial()->SetDiffuseMap(L"Textures/Landscape/Fieldstone_DM.tga");
 }
 
 SpherScene::~SpherScene()

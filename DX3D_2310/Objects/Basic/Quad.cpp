@@ -2,6 +2,8 @@
 
 Quad::Quad(Float2 size) : size(size)
 {
+	tag = "Quad";
+
 	mesh = new Mesh<VertexType>();
 	MakeMesh();
 	mesh->CreateMesh();
@@ -33,13 +35,19 @@ void Quad::MakeMesh()
 {
 	Float2 hlafSize(size.x * 0.5f, size.y * 0.5f);
 
-	vector<VertexUV>& vertices = mesh->GetVertices();
+	vector<VertexType>& vertices = mesh->GetVertices();
 
 	vertices.emplace_back(-hlafSize.x, -hlafSize.y, 0, 0, 1);
 	vertices.emplace_back(-hlafSize.x, +hlafSize.y, 0, 0, 0);
 	vertices.emplace_back(+hlafSize.x, -hlafSize.y, 0, 1, 1);
 	vertices.emplace_back(+hlafSize.x, +hlafSize.y, 0, 1, 0);
 
+	for (VertexType& vertex : vertices)
+	{
+		vertex.normal = { 0, 0, -1 };
+		vertex.tangent = { 1, 0, 0 };
+
+	}
 	vector<UINT>& indices = mesh->GetIndices();
 
 	indices =

@@ -13,7 +13,6 @@ public:
     void GUIRender();
 
     void Set();
-    void SetMinimap();
     void SetPost();
 
     void SetViewport(UINT width = WIN_WIDTH, UINT height = WIN_HEIGHT);
@@ -27,7 +26,7 @@ public:
     Matrix GetProjection() { return projection; }
 
 private:
-    //void CamMove();
+    void EditLight(LightBuffer::Light* light, int index);
 
 private:
     MatrixBuffer* projectionBuffer;
@@ -38,7 +37,7 @@ private:
     BlendState* blendState[2];
 
     Vector3 mousemovevalue = {};
-    Minimap* minimap;
+
     Camera* mainCamera;
     LightBuffer* lightBuffer;
 
