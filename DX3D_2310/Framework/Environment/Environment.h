@@ -22,7 +22,7 @@ public:
     float& GetCamSpeed() { return CamSpeed; }
     bool GetIsPrintMinimap() { return IsPrintMinimap; }
     Camera* GetMainCamera() { return mainCamera; }
-
+    LightBuffer* GetLightBuffer() { return lightBuffer; }
     Matrix GetProjection() { return projection; }
 
 private:

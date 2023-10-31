@@ -3,7 +3,10 @@
 
 LightScene::LightScene()
 {
-    quad = new Quad();
+    terrain = new Terrain(L"Textures/HeightMaps/Miro.png", 2, true);
+    //terrain->GetMaterial()->SetDiffuseMap(L"Textures/Landscape/Floor.png");
+    //terrain->GetMaterial()->SetNormalMap(L"Textures/Landscape/Floor_normal.png");
+    quad = new Quad(Float2(1, 1));
     quad->Load();
     sphere = new Sphere();
     sphere->Load();
@@ -28,8 +31,9 @@ void LightScene::PreRender()
 
 void LightScene::Render()
 {
+    terrain->Render();
     quad->Render();
-    //sphere->Render();
+    sphere->Render();
 }
 
 void LightScene::PostRender()

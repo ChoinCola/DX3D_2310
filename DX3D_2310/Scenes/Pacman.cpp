@@ -5,7 +5,7 @@ Pacman::Pacman()
 {
 	terrain = new Terrain(L"Textures/HeightMaps/Miro.png", 2, true);
 	terrain->GetMaterial()->SetDiffuseMap(L"Textures/Landscape/Floor.png");
-	terrain->GetMaterial()->SetNormalMap(L"Textures/Landscape/Floor_normal.png");
+	//terrain->GetMaterial()->SetNormalMap(L"Textures/Landscape/Floor_normal.png");
 
 	Settile = new SamplerState();
 

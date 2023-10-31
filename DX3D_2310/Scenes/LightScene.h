@@ -13,6 +13,7 @@ public:
 	void PostRender() override;
 	void GUIRender() override;
 private:
+	Terrain* terrain;
 	Quad* quad;
 	Sphere* sphere;
 };

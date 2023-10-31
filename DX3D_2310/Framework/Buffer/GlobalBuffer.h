@@ -62,7 +62,7 @@ public:
 private:
 	struct Data
 	{
-		Light lights[MAX_LIGHT];
+		Light lights;
 
 		int lightCount = 1;
 		Float3 ambientLight = { 0.1f, 0.1f, 0.1f };

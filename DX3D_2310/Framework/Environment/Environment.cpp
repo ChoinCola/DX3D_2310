@@ -39,8 +39,7 @@ void Environment::GUIRender()
 {
 	mainCamera->GUIRender();
 
-	FOR(lightBuffer->GetData()->lightCount)
-		EditLight(&lightBuffer->GetData()->lights[i], i);
+	EditLight(&lightBuffer->GetData()->lights, 0);
 
 	ImGui::ColorEdit3("AmbientLight", (float*)&lightBuffer->GetData()->ambientLight);
 	ImGui::ColorEdit3("AmbientCeil", (float*)&lightBuffer->GetData()->ambientCeil);

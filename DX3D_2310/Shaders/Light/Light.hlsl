@@ -41,8 +41,8 @@ float4 PS(LightPixelInput input) : SV_TARGET
 	//float4 result = CalcDirectional(lightData, light);
 	// 광원에 따른 조명 결과를 계산합니다. 
 	// 여기서는 포인트 라이트를 사용하였습니다.
-	float4 result = CalcPoint(lightData, light);
-	//float4 result = CalcSpot(lightData, light);
+	//float4 result = CalcPoint(lightData, light);
+	float4 result = CalcSpot(lightData, light);
 	// 주변광과 조명 결과를 합하여 반환합니다.
 	return ambient + result;
 }

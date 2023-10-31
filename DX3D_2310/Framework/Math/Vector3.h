@@ -74,6 +74,11 @@ public:
 		return XMVector3Normalize(Cross(u, v));
 	}
 
+	void XMMATRIXToXMFLOAT3(const XMMATRIX& matrix)
+	{
+		value = XMVectorSet(matrix.r[3].m128_f32[0], matrix.r[3].m128_f32[1], matrix.r[3].m128_f32[2], 0);
+	}
+
 public:
 	static Vector3 Zero() { return Vector3(); }
 	static Vector3 One() { return Vector3(1, 1, 1); }
