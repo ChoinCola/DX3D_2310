@@ -42,22 +42,22 @@ void Cube::MakeMesh()
     vertices.emplace_back(+halfSize.x, +halfSize.y, +halfSize.z, 1, 0);
 
     //Right
-    vertices.emplace_back(+halfSize.x, +halfSize.y, -halfSize.z, 0, 1);
-    vertices.emplace_back(+halfSize.x, +halfSize.y, +halfSize.z, 0, 0);
-    vertices.emplace_back(+halfSize.x, -halfSize.y, -halfSize.z, 1, 1);
-    vertices.emplace_back(+halfSize.x, -halfSize.y, +halfSize.z, 1, 0);
+    vertices.emplace_back(+halfSize.x, +halfSize.y, -halfSize.z, 0, 0);
+    vertices.emplace_back(+halfSize.x, +halfSize.y, +halfSize.z, 1, 0);
+    vertices.emplace_back(+halfSize.x, -halfSize.y, -halfSize.z, 0, 1);
+    vertices.emplace_back(+halfSize.x, -halfSize.y, +halfSize.z, 1, 1);
 
     //Left
-    vertices.emplace_back(-halfSize.x, +halfSize.y, -halfSize.z, 0, 1);
-    vertices.emplace_back(-halfSize.x, -halfSize.y, -halfSize.z, 0, 0);
-    vertices.emplace_back(-halfSize.x, +halfSize.y, +halfSize.z, 1, 1);
-    vertices.emplace_back(-halfSize.x, -halfSize.y, +halfSize.z, 1, 0);
+    vertices.emplace_back(-halfSize.x, +halfSize.y, -halfSize.z, 0, 0);
+    vertices.emplace_back(-halfSize.x, -halfSize.y, -halfSize.z, 0, 1);
+    vertices.emplace_back(-halfSize.x, +halfSize.y, +halfSize.z, 1, 0);
+    vertices.emplace_back(-halfSize.x, -halfSize.y, +halfSize.z, 1, 1);
 
     //Back
-    vertices.emplace_back(-halfSize.x, +halfSize.y, +halfSize.z, 0, 1);
-    vertices.emplace_back(-halfSize.x, -halfSize.y, +halfSize.z, 0, 0);
-    vertices.emplace_back(+halfSize.x, +halfSize.y, +halfSize.z, 1, 1);
-    vertices.emplace_back(+halfSize.x, -halfSize.y, +halfSize.z, 1, 0);
+    vertices.emplace_back(-halfSize.x, +halfSize.y, +halfSize.z, 0, 0);
+    vertices.emplace_back(-halfSize.x, -halfSize.y, +halfSize.z, 0, 1);
+    vertices.emplace_back(+halfSize.x, +halfSize.y, +halfSize.z, 1, 0);
+    vertices.emplace_back(+halfSize.x, -halfSize.y, +halfSize.z, 1, 1);
 
     //Down
     vertices.emplace_back(-halfSize.x, -halfSize.y, -halfSize.z, 0, 1);

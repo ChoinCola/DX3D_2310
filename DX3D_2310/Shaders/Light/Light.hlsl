@@ -37,8 +37,8 @@ float4 PS(LightPixelInput input) : SV_TARGET
 	Material material = GetMaterial(input);
 	
 	// 주변광을 계산합니다.
-	float4 ambient = CalcAmbient(material);
-	//float4 ambient = 0;
+	//float4 ambient = CalcAmbient(material);
+	float4 ambient = 0;
 	float4 result = 0;
 	
 	for (int i = 0; i < lightCount; i++)

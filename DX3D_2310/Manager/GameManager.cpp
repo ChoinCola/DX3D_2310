@@ -14,9 +14,11 @@ GameManager::GameManager()
 	//SceneManager::Get()->Create("Game", new FpsScene());
 	SceneManager::Get()->Create("PacmanScene", new Pacman());
 	//SceneManager::Get()->Create("ShootingScene", new ShootingScene());
+	//SceneManager::Get()->Create("LightScene", new LightScene());
 
 
-	SceneManager::Get()->Add("Grid");
+
+	//SceneManager::Get()->Add("Grid");
 	//SceneManager::Get()->Add("LightScene");
 	//SceneManager::Get()->Add("ShootingScene");
 	SceneManager::Get()->Add("PacmanScene");

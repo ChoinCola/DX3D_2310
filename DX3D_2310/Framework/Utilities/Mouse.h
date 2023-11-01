@@ -40,7 +40,7 @@ public:
 
 	// 마우스의 현재 Position 반환
 	Vector3 GetPosition() { return position; }
-
+	Vector3 GetDelta() { return delta; }
 	bool Down(DWORD button)
 	{
 		return buttonMap[button] == BUTTON_INPUT_STATUS_DOWN;
@@ -62,6 +62,7 @@ public:
 	{
 		return CusorMoveValue;
 	}
+
 private:
 	void SetMouseHold();
 private:
@@ -71,6 +72,8 @@ private:
 	HWND handle;	// 윈도우핸들
 	Vector3 Oldposition; // 마우스 이전위치
 	Vector3 position;	// 마우스 갱신 위치
+	Vector3 delta;
+	POINT clientCenterPos = { WIN_WIDTH >> 1, WIN_HEIGHT >> 1 };
 
 	// 버튼의 상태, 전상테, 맵정의
 	byte buttonStatus[MAX_INPUT_MOUSE];
@@ -88,4 +91,5 @@ private:
 	int buttonCount[MAX_INPUT_MOUSE];
 
 	bool IsSetMouseHold = false;
+	bool MouseHoldMod = true;
 };

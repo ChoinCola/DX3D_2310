@@ -234,7 +234,7 @@
     <ClInclude Include="Objects\Shooting\Item.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Shooting\Bullit.h">
+    <ClInclude Include="Objects\Shooting\Bullet.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Shooting\Coin.h">
@@ -395,7 +395,7 @@
     <ClCompile Include="Objects\Shooting\Coin.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Shooting\Bullit.cpp">
+    <ClCompile Include="Objects\Shooting\Bullet.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

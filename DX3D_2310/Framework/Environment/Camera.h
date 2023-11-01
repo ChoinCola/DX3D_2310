@@ -22,5 +22,5 @@ private:
 	Matrix projection;
 	float moveSpeed = 50.0f;
 	float rotSpeed = 10.0f;
-
+	Vector3 prevMousePos;
 };

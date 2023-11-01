@@ -12,7 +12,7 @@
 #define CENTER_X WIN_WIDTH * 0.5f
 #define CENTER_Y WIN_HEIGHT * 0.5f
 
-#define MAX_LIGHT 10
+#define MAX_LIGHT 100
 
 #define DEVICE		Device::Get()->GetDevice()
 #define DC			Device::Get()->GetDeviceContext()
@@ -148,7 +148,7 @@ using namespace Utility;
 // Shooting Header
 #include "Objects/Shooting/Item.h"
 #include "Objects/Shooting/Coin.h"
-#include "Objects/Shooting/Bullit.h"
+#include "Objects/Shooting/Bullet.h"
 #include "Objects/Shooting/ShootingPlayer.h"
 
 // Scene
@@ -170,3 +170,4 @@ using namespace Utility;
 #include "Scenes/Pacman.h"
 #include "Scenes/LightScene.h"
 extern HWND hWnd;
+extern Vector3 mousePos;

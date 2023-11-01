@@ -6,7 +6,7 @@ Camera::Camera()
 	viewBuffer = new ViewBuffer();
 	viewBuffer->SetVS(1);
 	viewBuffer->SetPS(1);
-
+	prevMousePos = mousePos;
 	Load();
 }
 
@@ -67,7 +67,9 @@ Ray Camera::ScreenPointToRay(Vector3 screenPoint)
 
 void Camera::FreeMode()
 {
-	Vector3 delta = Mouse::Get()->GetMoveValue();
+	//Vector3 delta = Mouse::Get()->GetMoveValue();
+	Vector3 delta = mousePos - prevMousePos;
+	prevMousePos = mousePos;
 
 	if (KEY->Press(VK_RBUTTON))
 	{

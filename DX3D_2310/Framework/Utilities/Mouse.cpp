@@ -70,22 +70,44 @@ void Mouse::Update()
 			buttonMap[i] = BUTTON_INPUT_STATUS_NONE;
 	}
 
-	// 현재 위치값을 넣을 구조체 선언
-	POINT point;
-	// 마우스 커서의 화면위치를 가져옴
-	GetCursorPos(&point);
-	// 화면좌표를 클라이언트 영역의 상대좌표로 변환하여 point에 저장함.
-	ScreenToClient(handle, &point);
-	//그리하여 point에는 마우스커서의 클라이언트 영역내 위치가 저장됨.
 
-	// 휠의 Oldstatus값을 현재위치로 갱신함.
-	CusorOldStatus.x = CusorStatus.x;
-	CusorOldStatus.y = CusorStatus.y;
+	if (IsSetMouseHold) {
+		// 화면 중앙 좌표 계산
+		int centerX = CENTER_X;
+		int centerY = CENTER_Y;
+		POINT point;
+		POINT Midpoint = { centerX, centerY };
+		// 마우스 커서의 화면위치를 가져옴
+		GetCursorPos(&point);
+		// 화면좌표를 클라이언트 영역의 상대좌표로 변환하여 point에 저장함.
+		ScreenToClient(handle, &point);
+		ScreenToClient(handle, &Midpoint);
 
-	CusorStatus.x = float(point.x);
-	CusorStatus.y = float(point.y);
+		Vector3 MoveVector = { (float)(point.x - Midpoint.x), (float)(point.y - Midpoint.y), 0 };
+		MoveVector.Normalized();
+		CusorMoveValue = MoveVector;
+		SetCursorPos(centerX, centerY);
+	}
+	else
+	{
+		// 현재 위치값을 넣을 구조체 선언
+		POINT point;
+		// 마우스 커서의 화면위치를 가져옴
+		GetCursorPos(&point);
+		// 화면좌표를 클라이언트 영역의 상대좌표로 변환하여 point에 저장함.
+		ScreenToClient(handle, &point);
+		//그리하여 point에는 마우스커서의 클라이언트 영역내 위치가 저장됨.
 
-	CusorMoveValue = CusorStatus - CusorOldStatus;
+
+		CusorOldStatus.x = CusorStatus.x;
+		CusorOldStatus.y = CusorStatus.y;
+
+		CusorStatus.x = float(point.x);
+		CusorStatus.y = float(point.y);
+
+		CusorMoveValue = CusorStatus - CusorOldStatus;
+
+	}
 
 	// 현재 마우스의 Status를 감지하여 더블클릭인지 아니면 진짜 클릭인지 검사함.
 	// 마우스 왼쪽 버튼이 눌렸을 때, 
@@ -133,12 +155,7 @@ void Mouse::Update()
 
 	// F2가 눌리면 마우스 위치를 중앙에 고정한다.
 	SetMouseHold();
-	if (IsSetMouseHold) {
-		// 화면 중앙 좌표 계산
-		int centerX = GetSystemMetrics(SM_CXSCREEN) * 0.5;
-		int centerY = GetSystemMetrics(SM_CYSCREEN) * 0.5;
-		SetCursorPos(centerX, centerY);
-	}
+
 }
 
 LRESULT Mouse::InputProc(UINT message, WPARAM wParam, LPARAM lParam)

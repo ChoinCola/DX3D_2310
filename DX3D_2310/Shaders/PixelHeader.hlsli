@@ -1,5 +1,5 @@
 //PixelHeader.hlsli
-#define MAX_LIGHT 10
+#define MAX_LIGHT 100
 
 // Map
 Texture2D diffuseMap : register(t0);

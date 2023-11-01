@@ -45,6 +45,13 @@ private:
 class LightBuffer : public ConstBuffer
 {
 public:
+	enum LightType
+	{
+		Directional,
+		Point,
+		Spot
+	};
+
 	struct Light
 	{
 		Float4 color = { 1, 1, 1, 1 };

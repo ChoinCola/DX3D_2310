@@ -27,6 +27,11 @@ public:
 
     LightBuffer::Light* GetLight(int index) { return &lightBuffer->GetData()->lights[index]; }
 
+    int SetLight() { 
+        lightBuffer->GetData()->lightCount++; 
+        return lightBuffer->GetData()->lightCount;
+    }
+
 private:
     void EditLight(LightBuffer::Light* light, int index);
 
