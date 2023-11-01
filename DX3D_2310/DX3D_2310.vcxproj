@@ -211,6 +211,9 @@
     <ClInclude Include="Objects\Ground\Ground.h" />
     <ClInclude Include="Objects\LandScape\Terrain.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
+    <ClInclude Include="Objects\Shooting\Bullit.h" />
+    <ClInclude Include="Objects\Shooting\Coin.h" />
+    <ClInclude Include="Objects\Shooting\Item.h" />
     <ClInclude Include="Objects\Shooting\ShootingPlayer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\LightScene.h" />
@@ -268,6 +271,8 @@
     <ClCompile Include="Objects\Ground\Ground.cpp" />
     <ClCompile Include="Objects\LandScape\Terrain.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />
+    <ClCompile Include="Objects\Shooting\Bullit.cpp" />
+    <ClCompile Include="Objects\Shooting\Coin.cpp" />
     <ClCompile Include="Objects\Shooting\ShootingPlayer.cpp" />
     <ClCompile Include="Scenes\CollisionScene.cpp" />
     <ClCompile Include="Scenes\GridScene.cpp" />

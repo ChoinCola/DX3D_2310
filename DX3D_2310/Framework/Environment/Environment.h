@@ -25,6 +25,8 @@ public:
     LightBuffer* GetLightBuffer() { return lightBuffer; }
     Matrix GetProjection() { return projection; }
 
+    LightBuffer::Light* GetLight(int index) { return &lightBuffer->GetData()->lights[index]; }
+
 private:
     void EditLight(LightBuffer::Light* light, int index);
 

@@ -38,11 +38,18 @@ void Environment::Update()
 void Environment::GUIRender()
 {
 	mainCamera->GUIRender();
+	if (ImGui::TreeNode("LightOption"))
+	{
+		if (ImGui::Button("Add"))
+			lightBuffer->GetData()->lightCount++;
 
-	EditLight(&lightBuffer->GetData()->lights, 0);
+		FOR(lightBuffer->GetData()->lightCount)
+			EditLight(&lightBuffer->GetData()->lights[i], i);
 
-	ImGui::ColorEdit3("AmbientLight", (float*)&lightBuffer->GetData()->ambientLight);
-	ImGui::ColorEdit3("AmbientCeil", (float*)&lightBuffer->GetData()->ambientCeil);
+		ImGui::ColorEdit3("AmbientLight", (float*)&lightBuffer->GetData()->ambientLight);
+		ImGui::ColorEdit3("AmbientCeil", (float*)&lightBuffer->GetData()->ambientCeil);
+		ImGui::TreePop();
+	}
 }
 
 void Environment::Set()
@@ -113,12 +120,17 @@ void Environment::EditLight(LightBuffer::Light* light, int index)
 
 	if (ImGui::TreeNode(label.c_str()))
 	{
+		ImGui::Checkbox("Active", (bool*)&light->isActive);
+		const char* list[] = { "Directional","Point", "Spot" };
+		ImGui::Combo("Type", &light->type, list, 3);
+
 		ImGui::ColorEdit3("Color", (float*)&light->color);
 		ImGui::SliderFloat3("Directoin", (float*)&light->direction, -1, 1);
 		ImGui::SliderFloat3("Position", (float*)&light->position, -100, 100);
 		ImGui::SliderFloat("Range", (float*)&light->range, 1, 300);
 		ImGui::SliderFloat("Inner", (float*)&light->inner, 1, 180);
 		ImGui::SliderFloat("Outer", (float*)&light->outer, 1, 180);
+		ImGui::SliderFloat("AttentionIntensity", (float*)&light->attentionIntensity, 0.1f, 3.0f);
 
 		ImGui::TreePop();
 	}

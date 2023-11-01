@@ -7,7 +7,7 @@ Terrain::Terrain()
 	material->SetShader(L"Light/SpecularLight.hlsl");
 	material->SetDiffuseMap(L"Textures/Colors/White.png");
 
-	heightMap = Texture::Add(L"Textures/HeightMaps/HeightMap.png");
+	heightMap = Texture::Add(L"Textures/Coloes/Black.png");
 
 	mesh = new Mesh<VertexUVNormal>();
 	normalline = new Mesh<VertexColor>();
@@ -20,7 +20,26 @@ Terrain::Terrain()
 	RSset->SetState();
 }
 
-Terrain::Terrain(const wstring hightmap, const float hight, bool tile)
+Terrain::Terrain(wstring HigntMap)
+{
+	SetLocalPosition({ 0, 0, 0 });
+	tag = "Terrain";
+	material->SetShader(L"Light/SpecularLight.hlsl");
+	material->SetDiffuseMap(L"Textures/Colors/White.png");
+
+	heightMap = Texture::Add(HigntMap);
+
+	mesh = new Mesh<VertexUVNormal>();
+	normalline = new Mesh<VertexColor>();
+	RSset = new RasterizerState();
+
+	MakeMesh();
+	MakeNormal();
+	mesh->CreateMesh();
+	normalline->CreateMesh();
+	RSset->SetState();
+}
+Terrain::Terrain(const wstring hightmap, const float hight, bool tile, bool flip)
 	: hight(hight)
 {
 	SetLocalPosition({ 0, 0, 0 });
@@ -34,7 +53,7 @@ Terrain::Terrain(const wstring hightmap, const float hight, bool tile)
 	normalline = new Mesh<VertexColor>();
 	RSset = new RasterizerState();
 
-	MakeMesh(tile);
+	MakeMesh(tile, flip);
 	MakeNormal();
 	mesh->CreateMesh();
 	normalline->CreateMesh();
@@ -188,7 +207,7 @@ Vector3 Terrain::GetOnGrondPosition(const Vector3 ObjectPos, const Vector3 corre
 //
 //}
 
-void Terrain::MakeMesh(bool tile)
+void Terrain::MakeMesh(bool tile, bool flip)
 {
 	width = heightMap->GetSize().x;
 	height = heightMap->GetSize().y;
@@ -218,18 +237,34 @@ void Terrain::MakeMesh(bool tile)
 
 	indices.reserve((width - 1) * (height - 1) * 6);
 
-	for (UINT z = 0; z < height - 1; z++) {
-		for (UINT x = 0; x < width - 1; x++) {
-			indices.push_back(width * z + x);	// 0
-			indices.push_back(width * (z + 1) + x);	// 1
-			indices.push_back(width * z + x + 1);	// 2
+	if (flip) 
+	{
+		for (UINT z = 0; z < height - 1; z++) {
+			for (UINT x = 0; x < width - 1; x++) {
+				indices.push_back(width * z + x + 1);	// 2
+				indices.push_back(width * (z + 1) + x);	// 1
+				indices.push_back(width * z + x);	// 0
 
-			indices.push_back(width * z + x + 1);	// 2
-			indices.push_back(width * (z + 1) + x);	// 1
-			indices.push_back(width * (z + 1) + x + 1);	// 3
+				indices.push_back(width * (z + 1) + x + 1);	// 3
+				indices.push_back(width * (z + 1) + x);	// 1
+				indices.push_back(width * z + x + 1);	// 2
+			}
 		}
 	}
+	else
+	{
+		for (UINT z = 0; z < height - 1; z++) {
+			for (UINT x = 0; x < width - 1; x++) {
+				indices.push_back(width * z + x);	// 0
+				indices.push_back(width * (z + 1) + x);	// 1
+				indices.push_back(width * z + x + 1);	// 2
 
+				indices.push_back(width * z + x + 1);	// 2
+				indices.push_back(width * (z + 1) + x);	// 1
+				indices.push_back(width * (z + 1) + x + 1);	// 3
+			}
+		}
+	}
 }
 
 void Terrain::MakeNormal()

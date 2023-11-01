@@ -6,7 +6,8 @@ private:
 	typedef VertexUVNormal VertexType;
 public:
 	Terrain();
-	Terrain(const wstring hightmap, const float hight = 1, bool tile = false);
+	Terrain(wstring HigntMap);
+	Terrain(const wstring hightmap, const float hight = 1, bool tile = false, bool flip = false);
 
 	~Terrain();
 
@@ -17,7 +18,7 @@ public:
 	int GetHeight() { return height; }
 
 private:
-	void MakeMesh(bool tile = false);
+	void MakeMesh(bool tile = false, bool flip = false);
 	void MakeNormal();
 
 private:

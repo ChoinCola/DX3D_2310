@@ -34,15 +34,25 @@ LightPixelInput VS(VertexUVNormalTangent input)
 float4 PS(LightPixelInput input) : SV_TARGET
 {
 	// 광원 데이터를 가져옵니다.
-	LightData lightData = GetLightData(input);
+	Material material = GetMaterial(input);
 	
 	// 주변광을 계산합니다.
-	float4 ambient = CalcAmbient(lightData);
-	//float4 result = CalcDirectional(lightData, light);
-	// 광원에 따른 조명 결과를 계산합니다. 
-	// 여기서는 포인트 라이트를 사용하였습니다.
-	//float4 result = CalcPoint(lightData, light);
-	float4 result = CalcSpot(lightData, light);
-	// 주변광과 조명 결과를 합하여 반환합니다.
-	return ambient + result;
+	float4 ambient = CalcAmbient(material);
+	//float4 ambient = 0;
+	float4 result = 0;
+	
+	for (int i = 0; i < lightCount; i++)
+	{
+		if (!lights[i].isActive)
+			continue;
+
+		if (lights[i].type == 0)
+			result += CalcDirectional(material, lights[i]);
+		else if (lights[i].type == 1)
+			result += CalcPoint(material, lights[i]);
+		else if (lights[i].type == 2)
+			result += CalcSpot(material, lights[i]);
+	}
+	
+	return ambient + result + mEmissive;
 }

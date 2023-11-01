@@ -146,6 +146,9 @@ using namespace Utility;
 #include "Objects/LandScape/Terrain.h"
 
 // Shooting Header
+#include "Objects/Shooting/Item.h"
+#include "Objects/Shooting/Coin.h"
+#include "Objects/Shooting/Bullit.h"
 #include "Objects/Shooting/ShootingPlayer.h"
 
 // Scene

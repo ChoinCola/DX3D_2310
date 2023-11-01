@@ -3,7 +3,6 @@
 
 ShootingScene::ShootingScene()
 {
-
 	terrain = new Terrain();
 	player = new ShootingPlayer(Vector3(10, 0, 10));
 	player->SetTerrain(terrain);

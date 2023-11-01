@@ -17,8 +17,8 @@ private:
 
 private:
 
-
 	SamplerState* Settile;
+	Terrain* ceiling;
 	Terrain* terrain;
 	ShootingPlayer* player;
 };

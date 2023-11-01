@@ -50,19 +50,20 @@ public:
 		Float4 color = { 1, 1, 1, 1 };
 
 		Float3 direction = { 0, -1, 1 };
-		float padding;
+		int type;
 
 		Float3 position = { 0, 0, 0 };
 		float range = 100.0f;
 
 		float inner = 55.0f;
 		float outer = 70.0f;
-		Float2 padding2;
+		int isActive;
+		float attentionIntensity = 1.5f;
 	};
 private:
 	struct Data
 	{
-		Light lights;
+		Light lights[MAX_LIGHT];
 
 		int lightCount = 1;
 		Float3 ambientLight = { 0.1f, 0.1f, 0.1f };
@@ -77,7 +78,8 @@ public:
 	}
 
 	Data* GetData() { return &data; }
-
+	void Save() {}
+	void Load() {}
 private:
 	Data data;
 };

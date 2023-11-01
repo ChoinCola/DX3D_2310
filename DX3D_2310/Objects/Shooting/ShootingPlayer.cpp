@@ -2,13 +2,14 @@
 
 ShootingPlayer::ShootingPlayer(Vector3 pos)
 {
-	Frontpos = new Quad();
-	Frontpos->SetParent(this);
-	Frontpos->SetLocalPosition(Vector3(100, 0, 0));
 	//cursor = new Quad(L"Textures/UI/cursor.png");
 	cursor = new Quad(Float2(100,100));
 	cursor->SetLocalPosition({ CENTER_X, CENTER_Y, 0.0f });
+	cursor->GetMaterial()->SetDiffuseMap(L"Textures/UI/cursor.png");
+	cursor->GetMaterial()->SetShader(L"Basic/Texture.hlsl");
 	cursor->UpdateWorld();
+
+	light = Environment::Get()->GetLight(0);
 	SetLocalPosition(pos);
 }
 
@@ -21,19 +22,8 @@ void ShootingPlayer::Update()
 {
 	Move();
 	UpdateWorld();
+	SetLight();
 	// 카메라의 위치를 lightBuffer의 position에 할당
-	
-	Vector3 cameraFront = Environment::Get()->GetMainCamera()->GetForward();
-	cameraFront.Normalized();
-	
-	Environment::Get()->GetLightBuffer()->GetData()->lights.position = 
-		Environment::Get()->GetMainCamera()->GetLocalPosition() + Vector3(0, 1, 0);
-
-	// 카메라의 정면 방향 벡터를 구하고 정규화
-
-	//cameraFront = cameraFront * -1;
-	// lightBuffer의 direction에 카메라의 정면 방향을 할당
-	Environment::Get()->GetLightBuffer()->GetData()->lights.direction = cameraFront + Vector3(0, 0.001, 0);
 }
 
 void ShootingPlayer::PostRender()
@@ -93,4 +83,12 @@ void ShootingPlayer::Move()
 
 	CAM->SetLocalPosition(localPosition);
 	CAM->SetLocalRotation(localRotation);
+}
+
+void ShootingPlayer::SetLight()
+{
+	Vector3 cameraFront = Environment::Get()->GetMainCamera()->GetForward();
+	cameraFront.Normalized();
+	light->position = Environment::Get()->GetMainCamera()->GetLocalPosition();
+	light->direction = cameraFront + Vector3(0, 0.001, 0);
 }

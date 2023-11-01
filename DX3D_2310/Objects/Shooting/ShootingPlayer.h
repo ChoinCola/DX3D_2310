@@ -10,15 +10,16 @@ public:
 	void PostRender();
 
 	void SetTerrain(Terrain* terrain) { this->terrain = terrain; }
-	Vector3 GetFrontPos() { return Frontpos->GetLocalPosition(); }
+
 private:
 	void Move();
+	void SetLight();
 private:
 	float moveSpeed = 5;
 	float rotSpeed = 5;
 	float Uppos = 0;
+	LightBuffer::Light* light;
 
-	Quad* Frontpos;
 	Terrain* terrain;
 
 	Quad* cursor;
