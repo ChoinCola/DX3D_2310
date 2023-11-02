@@ -10,18 +10,21 @@ GameManager::GameManager()
 
 	//SceneManager::Get()->Create("Start", new CollisionScene());
 	SceneManager::Get()->Create("Grid", new GridScene());
+	SceneManager::Get()->Create("ModelExportScene", new ModelExportScene());
+
 	//SceneManager::Get()->Create("Terrain", new TerrainScene());
 	//SceneManager::Get()->Create("Game", new FpsScene());
-	SceneManager::Get()->Create("PacmanScene", new Pacman());
+	//SceneManager::Get()->Create("PacmanScene", new Pacman());
 	//SceneManager::Get()->Create("ShootingScene", new ShootingScene());
 	//SceneManager::Get()->Create("LightScene", new LightScene());
 
 
 
-	//SceneManager::Get()->Add("Grid");
+	SceneManager::Get()->Add("Grid");
 	//SceneManager::Get()->Add("LightScene");
 	//SceneManager::Get()->Add("ShootingScene");
-	SceneManager::Get()->Add("PacmanScene");
+	//SceneManager::Get()->Add("PacmanScene");
+	SceneManager::Get()->Add("ModelExportScene");
 
 	//SceneManager::Get()->Add("Terrain");
 	//SceneManager::Get()->Add("Start");

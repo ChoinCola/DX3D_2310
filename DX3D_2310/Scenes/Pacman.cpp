@@ -7,7 +7,7 @@ Pacman::Pacman()
 	terrain->GetMaterial()->SetDiffuseMap(L"Textures/Landscape/Floor2.png");
 
 	ceiling = new Terrain(L"Textures/Colors/Black.png", 2, true, true);
-	ceiling->GetMaterial()->SetDiffuseMap(L"Textures/Landscape/ceiling.png");
+	ceiling->GetMaterial()->SetDiffuseMap(L"Textures/Landscape/Floor.png");
 	ceiling->GetMaterial()->SetNormalMap(L"Textures/Landscape/Floor_normal.png");
 
 	ceiling->SetLocalScale(terrain->GetLocalScale());

@@ -19,7 +19,7 @@ public:
 
 private:
 	void MakeMesh(bool tile = false, bool flip = false);
-	void MakeNormal();
+	void MakeNormal(bool Flip = false);
 
 private:
 	UINT width = 10, height = 10;

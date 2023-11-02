@@ -40,6 +40,7 @@
 #include <list>
 #include <algorithm>
 #include <random>
+#include <assert.h>
 
 #include <d3d11.h>
 #include <d3dcompiler.h>
@@ -61,6 +62,13 @@
 #include <ImGuiFileDialog.h>
 
 #pragma comment(lib, "ImGui.lib")
+
+// Assimp
+#include <Assimp/Importer.hpp>
+#include <Assimp/scene.h>
+#include <Assimp/postprocess.h>
+#pragma comment(lib, "assimp-vc143-mtd.lib")
+
 
 using namespace std;
 using namespace DirectX;
@@ -124,6 +132,9 @@ using namespace Utility;
 #include "Framework/Environment/Minimap.h"
 #include "Framework/Environment/Environment.h"
 
+// Model Header
+#include "Framework/Model/ModelExporter.h"
+
 // Obejct Header
 #include "Objects/Basic/GameObject.h"
 #include "Objects/Basic/Quad.h"
@@ -157,6 +168,9 @@ using namespace Utility;
 
 #include "Manager/GameManager.h"
 #include "Manager/SceneManager.h"
+
+// Model Export Scene
+#include "Scenes/ModelExportScene.h"
 
 #include "Scenes/GameScene.h"
 #include "Scenes/SpherScene.h"

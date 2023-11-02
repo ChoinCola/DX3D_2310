@@ -201,6 +201,7 @@
     <ClInclude Include="Libraries\ImGui\stb\stb_image_resize.h" />
     <ClInclude Include="Manager\GameManager.h" />
     <ClInclude Include="Manager\SceneManager.h" />
+    <ClInclude Include="Framework\Model\ModelExporter.h" />
     <ClInclude Include="Objects\Basic\Cube.h" />
     <ClInclude Include="Objects\Basic\GameBox.h" />
     <ClInclude Include="Objects\Basic\GameObject.h" />
@@ -217,6 +218,7 @@
     <ClInclude Include="Objects\Shooting\ShootingPlayer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\LightScene.h" />
+    <ClInclude Include="Scenes\ModelExportScene.h" />
     <ClInclude Include="Scenes\Pacman.h" />
     <ClInclude Include="Scenes\CollisionScene.h" />
     <ClInclude Include="Scenes\GridScene.h" />
@@ -261,6 +263,7 @@
     <ClCompile Include="Framework\Utilities\Utility.cpp" />
     <ClCompile Include="Manager\GameManager.cpp" />
     <ClCompile Include="Manager\SceneManager.cpp" />
+    <ClCompile Include="Framework\Model\ModelExporter.cpp" />
     <ClCompile Include="Objects\Basic\Cube.cpp" />
     <ClCompile Include="Objects\Basic\GameBox.cpp" />
     <ClCompile Include="Objects\Basic\GameObject.cpp" />
@@ -277,6 +280,7 @@
     <ClCompile Include="Scenes\CollisionScene.cpp" />
     <ClCompile Include="Scenes\GridScene.cpp" />
     <ClCompile Include="Scenes\LightScene.cpp" />
+    <ClCompile Include="Scenes\ModelExportScene.cpp" />
     <ClCompile Include="Scenes\Pacman.cpp" />
     <ClCompile Include="Scenes\ShootingScene.cpp" />
     <ClCompile Include="Scenes\SpherScene.cpp" />

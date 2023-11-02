@@ -123,33 +123,33 @@ void ShootingPlayer::UpdateLightBat()
 	cameraFront.Normalized();
 	light->position = Environment::Get()->GetMainCamera()->GetLocalPosition();
 	light->direction = cameraFront + Vector3(0, 0.001, 0);
-	float Lightouter = 29;
-	float Lightinner = 83;
+	//float Lightouter = 29;
+	//float Lightinner = 83;
 
-	if (LightBat > 30) {
-		light->outer = Lightouter * Sigmoid(LightBat, 0.2f, 10.0);
-		light->inner = Lightinner * Sigmoid(LightBat, 0.2f, 10.0);
-	}
-	else
-	{
-		if (lightBatdelta < 360)
-			lightBatdelta += DELTA * 20;
-		else
-			lightBatdelta = 0;
+	//if (LightBat > 30) {
+	//	light->outer = Lightouter * Sigmoid(LightBat, 0.2f, 10.0);
+	//	light->inner = Lightinner * Sigmoid(LightBat, 0.2f, 10.0);
+	//}
+	//else
+	//{
+	//	if (lightBatdelta < 360)
+	//		lightBatdelta += DELTA * 20;
+	//	else
+	//		lightBatdelta = 0;
 
-		light->outer = Lightouter * Sigmoid(LightBat, 0.2f, 10.0) * (sin(lightBatdelta));
-		light->inner = Lightinner * Sigmoid(LightBat, 0.2f, 10.0);
-	}
-	lightBar->SetLocalScale(Vector3(LightBat * 0.01, 1, 1));
-	lightBar->UpdateWorld();
+	//	light->outer = Lightouter * Sigmoid(LightBat, 0.2f, 10.0) * (sin(lightBatdelta));
+	//	light->inner = Lightinner * Sigmoid(LightBat, 0.2f, 10.0);
+	//}
+	//lightBar->SetLocalScale(Vector3(LightBat * 0.01, 1, 1));
+	//lightBar->UpdateWorld();
 
-	if (LightBat > 0) {
-		LightBat -= DELTA * 10 ;
-	}
-	else
-	{
-		light->isActive = false;
-	}
+	//if (LightBat > 0) {
+	//	LightBat -= DELTA * 10 ;
+	//}
+	//else
+	//{
+	//	light->isActive = false;
+	//}
 }
 
 float ShootingPlayer::Sigmoid(float x, float k, float x0)

@@ -54,7 +54,7 @@ Terrain::Terrain(const wstring hightmap, const float hight, bool tile, bool flip
 	RSset = new RasterizerState();
 
 	MakeMesh(tile, flip);
-	MakeNormal();
+	MakeNormal(flip);
 	mesh->CreateMesh();
 	normalline->CreateMesh();
 	RSset->SetState();
@@ -267,7 +267,7 @@ void Terrain::MakeMesh(bool tile, bool flip)
 	}
 }
 
-void Terrain::MakeNormal()
+void Terrain::MakeNormal(bool Flip)
 {
 	vector<VertexType>& vertices = mesh->GetVertices();
 	vector<UINT>& indices = mesh->GetIndices();
@@ -287,8 +287,16 @@ void Terrain::MakeNormal()
 
 		Vector3 noraml = Vector3::Cross(e0, e1).GetNormalized();
 
-		vertices[index0].normal += noraml;
-		vertices[index1].normal += noraml;
-		vertices[index2].normal += noraml;
+		if (Flip) {
+			vertices[index0].normal -= noraml;
+			vertices[index1].normal -= noraml;
+			vertices[index2].normal -= noraml;
+		}
+		else
+		{
+			vertices[index0].normal += noraml;
+			vertices[index1].normal += noraml;
+			vertices[index2].normal += noraml;
+		}							
 	}
 }
