@@ -1,5 +1,4 @@
 #include "Framework.h"
-#include "GridScene.h"
 
 GridScene::GridScene()
 {

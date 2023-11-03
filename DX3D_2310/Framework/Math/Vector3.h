@@ -61,7 +61,7 @@ public:
 
 	float Length() const { return XMVectorGetX(XMVector3Length(value)); }
 
-	Vector4* Getvalue() { return &value; }
+	Vector4* GetValue() { return &value; }
 	const Float3 GetvalueFloat3() { return { this->GetX(),this->GetY(),this->GetZ() }; }
 
 	// 외적 함수

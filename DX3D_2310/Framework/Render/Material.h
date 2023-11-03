@@ -10,7 +10,7 @@ private:
 		NORMAL
 	};
 public:
-	Material(wstring shderFIle = L"Light/Light.hlsl", string name = {});
+	Material(wstring shderFIle = L"Light/Light.hlsl");
 	~Material();
 
 	void GUIRender();

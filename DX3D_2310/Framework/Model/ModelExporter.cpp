@@ -5,6 +5,8 @@ ModelExporter::ModelExporter(string name, string file)
 {
 	importer = new Assimp::Importer();
 
+	importer->SetPropertyBool(AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS, false);
+
 	// 왼손자표계 컨버트 | 최대퀄리티로
 	scene = importer->ReadFile(file,
 		aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_MaxQuality);
@@ -26,6 +28,12 @@ void ModelExporter::ExportMaterial()
 {
 	ReadMaterial();
 	WriterMaterial();
+}
+
+void ModelExporter::ExportMesh()
+{
+	ReadMesh(scene->mRootNode);
+	WriteMesh();
 }
 
 void ModelExporter::ReadMaterial()
@@ -154,4 +162,78 @@ string ModelExporter::CreateTexture(string file)
 	}
 
 	return path;
+}
+
+void ModelExporter::ReadMesh(aiNode* node)
+{
+	FOR(node->mNumMeshes)
+	{
+		MeshData* mesh = new MeshData();
+		mesh->name = node->mName.C_Str();
+
+		aiMesh* srcMesh = scene->mMeshes[i];
+
+		mesh->materialIndex = srcMesh->mMaterialIndex;
+
+		mesh->vertices.resize(srcMesh->mNumVertices);
+		FOR(srcMesh->mNumVertices)
+		{
+			ModelVertex vertex;
+			memcpy(&vertex.pos, &srcMesh->mVertices[i], sizeof(Float3));
+
+			if (srcMesh->HasTextureCoords(0))
+				memcpy(&vertex.uv, &srcMesh->mTextureCoords[0][i], sizeof(Float2));
+
+			if (srcMesh->HasNormals())
+				memcpy(&vertex.normal, &srcMesh->mNormals[i], sizeof(Float3));
+
+			if (srcMesh->HasTangentsAndBitangents())
+				memcpy(&vertex.tangent, &srcMesh->mTangents[i], sizeof(Float3));
+
+			mesh->vertices[i] = vertex;
+		}
+
+		mesh->indices.resize(srcMesh->mNumFaces * 3);
+		FOR(srcMesh->mNumFaces)
+		{
+			aiFace& face = srcMesh->mFaces[i];
+
+			for (UINT j = 0; j < face.mNumIndices; j++)
+			{
+				mesh->indices[i * 3 + j] = face.mIndices[j];
+			}
+		}
+
+		meshes.push_back(mesh);
+	}
+
+	FOR(node->mNumChildren)
+		ReadMesh(node->mChildren[i]);
+}
+void ModelExporter::WriteMesh()
+{
+	string path = "Models/Meshes/" + name + ".mesh";
+
+	CreateFolders(path);
+
+	BinaryWriter* writer = new BinaryWriter(path);
+
+	writer->UInt(meshes.size());
+	for (MeshData* mesh : meshes)
+	{
+		writer->String(mesh->name);
+		writer->UInt(mesh->materialIndex);
+
+		writer->UInt(mesh->vertices.size());
+		writer->Byte(mesh->vertices.data(), sizeof(ModelVertex) * mesh->vertices.size());
+
+		writer->UInt(mesh->indices.size());
+		writer->Byte(mesh->indices.data(), sizeof(UINT) * mesh->indices.size());
+
+		delete mesh;
+	}
+
+	meshes.clear();
+
+	delete writer;
 }

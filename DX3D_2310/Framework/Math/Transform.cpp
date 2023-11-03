@@ -60,9 +60,9 @@ void Transform::UpdateWorld()
 
 	// 행렬 분해함수
 	XMMatrixDecompose(
-		globalScale.Getvalue(),
-		globalRotation.Getvalue(),
-		globalPosition.Getvalue(),
+		globalScale.GetValue(),
+		globalRotation.GetValue(),
+		globalPosition.GetValue(),
 		world);
 
 }

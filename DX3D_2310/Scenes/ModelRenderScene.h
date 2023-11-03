@@ -1,11 +1,10 @@
 #pragma once
 
-class ShootingScene : public Scene
+class ModelRenderScene : public Scene
 {
 public:
-	ShootingScene();
-	~ShootingScene();
-
+	ModelRenderScene();
+	~ModelRenderScene();
 
 	// Scene을(를) 통해 상속됨
 	void Update() override;
@@ -13,8 +12,7 @@ public:
 	void Render() override;
 	void PostRender() override;
 	void GUIRender() override;
-	
+
 private:
-	Terrain* terrain;
-	ShootingPlayer* player;
+	Model* model;
 };

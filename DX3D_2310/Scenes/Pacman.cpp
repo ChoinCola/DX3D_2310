@@ -1,5 +1,4 @@
 #include "Framework.h"
-#include "Pacman.h"
 
 Pacman::Pacman()
 {

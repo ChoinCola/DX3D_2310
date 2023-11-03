@@ -1,5 +1,4 @@
 #include "Framework.h"
-#include "ModelExportScene.h"
 
 ModelExportScene::ModelExportScene()
 {
@@ -8,6 +7,7 @@ ModelExportScene::ModelExportScene()
 
 	exporter = new ModelExporter(name, file);
 	exporter->ExportMaterial();
+	exporter->ExportMesh();
 
 	delete exporter;
 }

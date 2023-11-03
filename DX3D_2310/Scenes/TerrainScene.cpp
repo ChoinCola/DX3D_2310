@@ -1,4 +1,5 @@
 #include "Framework.h"
+#include "TerrainScene.h"
 
 TerrainScene::TerrainScene()
 {

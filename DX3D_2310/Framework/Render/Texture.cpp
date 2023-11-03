@@ -3,9 +3,8 @@
 unordered_map<wstring, Texture*> Texture::textures;
 
 Texture::Texture(ID3D11ShaderResourceView* srv, ScratchImage& image, wstring file)
-    : srv(srv), image(move(image))
+    : srv(srv), image(move(image)), file(file)
 {
-    this->file = file;
 }
 
 Texture::~Texture()

@@ -7,6 +7,7 @@ public:
 	~ModelExporter();
 
 	void ExportMaterial();
+	void ExportMesh();
 
 private:
 	//Material
@@ -14,6 +15,9 @@ private:
 	void WriterMaterial(); // 머티얼 써서 저장하기.
 	string CreateTexture(string file); // 텍스처 파일을 생성하기
 
+	// Mesh
+	void ReadMesh(aiNode* node);	// 메쉬읽기
+	void WriteMesh();
 private:
 	Assimp::Importer* importer;
 	const aiScene* scene;
@@ -22,4 +26,5 @@ private:
 	string name;
 
 	vector<Material*> materials;
+	vector<MeshData*> meshes;
 };

@@ -1,5 +1,4 @@
 #include "Framework.h"
-#include "LightScene.h"
 
 LightScene::LightScene()
 {
