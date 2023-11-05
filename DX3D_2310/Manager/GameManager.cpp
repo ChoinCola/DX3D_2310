@@ -6,18 +6,16 @@ GameManager::GameManager()
 {
     Create();
 
+
     SceneManager::Get()->Create("Grid", new GridScene());
-    SceneManager::Get()->Create("Exporter", new ModelExportScene());
-    //SceneManager::Get()->Create("Start", new TutorialScene());
-    //SceneManager::Get()->Create("Start", new TerrainScene());
-    //SceneManager::Get()->Create("Start", new CollisionScene());
-    //SceneManager::Get()->Create("Start", new ShootingScene());
-    //SceneManager::Get()->Create("Start", new LightScene());
-    SceneManager::Get()->Create("Start", new ModelRenderScene());
+    //SceneManager::Get()->Create("Exporter", new ModelExportScene());
+    //SceneManager::Get()->Create("Start", new ModelRenderScene());
+    SceneManager::Get()->Create("RPG", new RPG());
 
     SceneManager::Get()->Add("Grid");
-    SceneManager::Get()->Add("Exporter");
-    SceneManager::Get()->Add("Start");
+    SceneManager::Get()->Add("RPG");
+    //SceneManager::Get()->Add("Exporter");
+    //SceneManager::Get()->Add("Start");
 }
 
 GameManager::~GameManager()

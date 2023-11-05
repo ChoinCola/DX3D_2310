@@ -31,16 +31,30 @@ void Quad::Render()
 	mesh->Draw();
 }
 
+bool Quad::CollisionChack(Vector3 inputpos)
+{
+	Float2 halfsize(size.x * 0.5f, size.y * 0.5f);
+	Vector3 pos = GetLocalPosition();
+
+	RECT quad = { pos.x - halfsize.x, pos.y + halfsize.y, pos.x + halfsize.x, pos.y - halfsize.y };
+
+	if (inputpos.x >= quad.left && inputpos.x <= quad.right &&
+		inputpos.y >= quad.bottom && inputpos.y <= quad.top)
+		return true;
+
+	return false;
+}
+
 void Quad::MakeMesh()
 {
-	Float2 hlafSize(size.x * 0.5f, size.y * 0.5f);
+	Float2 halfSize(size.x * 0.5f, size.y * 0.5f);
 
 	vector<VertexType>& vertices = mesh->GetVertices();
 
-	vertices.emplace_back(-hlafSize.x, -hlafSize.y, 0, 0, 1);
-	vertices.emplace_back(-hlafSize.x, +hlafSize.y, 0, 0, 0);
-	vertices.emplace_back(+hlafSize.x, -hlafSize.y, 0, 1, 1);
-	vertices.emplace_back(+hlafSize.x, +hlafSize.y, 0, 1, 0);
+	vertices.emplace_back(-halfSize.x, -halfSize.y, 0, 0, 1);
+	vertices.emplace_back(-halfSize.x, +halfSize.y, 0, 0, 0);
+	vertices.emplace_back(+halfSize.x, -halfSize.y, 0, 1, 1);
+	vertices.emplace_back(+halfSize.x, +halfSize.y, 0, 1, 0);
 
 	for (VertexType& vertex : vertices)
 	{

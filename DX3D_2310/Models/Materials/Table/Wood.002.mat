@@ -1,0 +1,13 @@
+<Material Name="Wood.002" Shader="Light/Light.hlsl">
+    <Texture>
+        <DiffsueMap DM="Textures/Model/Table/wallnutf.png"/>
+        <SpecularMap SM="Textures/Colors/White.png"/>
+        <NormalMap NM="Textures/Colors/Blue.png"/>
+    </Texture>
+    <Property Shininess="6.8593488" HasNormalMap="0">
+        <Diffuse R="0.69411802" G="0.64705902" B="0.58431399" A="1"/>
+        <Specular R="0.69411802" G="0.64705902" B="0.58431399" A="1"/>
+        <Ambient R="0" G="0" B="0" A="1"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Property>
+</Material>

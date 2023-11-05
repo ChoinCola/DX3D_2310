@@ -55,6 +55,8 @@
 #include <DirectXTex/DirectXTex.h>
 #pragma comment(lib, "DirectXTex.lib")
 
+
+
 // ImGui
 #include <imgui.h>
 #include <imgui_impl_dx11.h>
@@ -89,6 +91,9 @@ typedef XMFLOAT4X4 Float4x4;
 #include "Framework/Utilities/BinaryReader.h"
 #include "Framework/Utilities/BinaryWriter.h"
 #include "Framework/Utilities/tinyxml2.h"
+
+// Readcsv
+#include "Framework/Utilities/rapidcsv.h"
 
 using namespace Utility;
 
@@ -159,10 +164,17 @@ using namespace Utility;
 #include "Objects/LandScape/Terrain.h"
 
 // Shooting Header
-#include "Objects/Shooting/Item.h"
-#include "Objects/Shooting/Coin.h"
-#include "Objects/Shooting/Bullet.h"
-#include "Objects/Shooting/ShootingPlayer.h"
+//#include "Objects/Shooting/Item.h"
+//#include "Objects/Shooting/Coin.h"
+//#include "Objects/Shooting/Bullet.h"
+//#include "Objects/Shooting/ShootingPlayer.h"
+
+
+// RPG->Item Header
+#include "Object.h"
+
+// RPG Header
+#include "Objects/RPG/Character/Player.h"
 
 // Scene
 #include "Scenes/Scene.h"
@@ -170,20 +182,15 @@ using namespace Utility;
 
 #include "Manager/GameManager.h"
 #include "Manager/SceneManager.h"
-
-#include "Scenes/Pacman.h"
-#include "Scenes/TutorialScene.h"
 #include "Scenes/GridScene.h"
 #include "Scenes/TerrainScene.h"
 #include "Scenes/CollisionScene.h"
-#include "Scenes/ShootingScene.h"
 #include "Scenes/LightScene.h"
 #include "Scenes/ModelExportScene.h"
 #include "Scenes/ModelRenderScene.h"
 
-#include "Scenes/ShootingScene.h"
 
-#include "Scenes/Pacman.h"
+#include "Scenes/RPG.h"
 #include "Scenes/LightScene.h"
 extern HWND hWnd;
 extern Vector3 mousePos;

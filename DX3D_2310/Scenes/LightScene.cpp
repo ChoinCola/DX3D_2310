@@ -2,7 +2,6 @@
 
 LightScene::LightScene()
 {
-    coin = new Bullet(Vector3(0, 1, 0));
     terrain = new Terrain(L"Textures/HeightMaps/Miro.png", 2, true);
     //terrain->GetMaterial()->SetDiffuseMap(L"Textures/Landscape/Floor.png");
     //terrain->GetMaterial()->SetNormalMap(L"Textures/Landscape/Floor_normal.png");
@@ -21,7 +20,6 @@ LightScene::~LightScene()
 
 void LightScene::Update()
 {
-    coin->Update();
     quad->UpdateWorld();
     //sphere->UpdateWorld();
 }
@@ -32,7 +30,6 @@ void LightScene::PreRender()
 
 void LightScene::Render()
 {
-    coin->Render();
     //terrain->Render();
     quad->Render();
     //sphere->Render();

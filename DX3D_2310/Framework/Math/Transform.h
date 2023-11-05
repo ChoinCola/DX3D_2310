@@ -8,6 +8,7 @@ public:
 	void GUIRender();
 
 	void UpdateWorld();
+	void UpdateUI();
 
 	void Translate(Vector3 direction);
 	void Rotate(Vector3 direction);

@@ -52,8 +52,27 @@ void Model::ReadMaterial()
     BinaryReader* reader = new BinaryReader(file);
     // Material 데이터 파일을 읽기 위한 BinaryReader를 생성하고 파일을 엽니다.
 
-    if (reader->IsFailed())
-        assert(false);
+    if (reader->IsFailed()) {
+
+        ModelExporter* exporter;
+
+        file = "Models/FBX/" + name + ".fbx";
+
+        exporter = new ModelExporter(name, file);
+        exporter->ExportMaterial();
+        exporter->ExportMesh();
+
+        file = "Models/Materials/" + name + "/" + name + ".mats";
+        // Material 데이터 파일의 경로를 생성합니다. 이 경로는 Material 파일이 저장된 디렉터리와 파일 이름으로 구성됩니다.
+
+        reader = new BinaryReader(file);
+        // Material 데이터 파일을 읽기 위한 BinaryReader를 생성하고 파일을 엽니다.
+        delete exporter;
+        // 다시불러오기도 실패하면 그냥 터트림.
+        if (reader->IsFailed())
+            assert(false);
+
+    }
     // 파일 열기에 실패한 경우, assert 함수를 사용하여 프로그램 실행을 중단합니다.
 
     UINT size = reader->UInt();

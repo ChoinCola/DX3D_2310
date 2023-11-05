@@ -184,6 +184,7 @@
     <ClInclude Include="Framework\Utilities\BinaryWriter.h" />
     <ClInclude Include="Framework\Utilities\Keyboard.h" />
     <ClInclude Include="Framework\Utilities\Mouse.h" />
+    <ClInclude Include="Framework\Utilities\rapidcsv.h" />
     <ClInclude Include="Framework\Utilities\Singleton.h" />
     <ClInclude Include="Framework\Utilities\Timer.h" />
     <ClInclude Include="Framework\Utilities\tinyxml2.h" />
@@ -213,22 +214,21 @@
     <ClInclude Include="Objects\Basic\Sphere.h" />
     <ClInclude Include="Objects\LandScape\Terrain.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
-    <ClInclude Include="Objects\Shooting\Bullet.h" />
-    <ClInclude Include="Objects\Shooting\Coin.h" />
-    <ClInclude Include="Objects\Shooting\Item.h" />
-    <ClInclude Include="Objects\Shooting\ShootingPlayer.h" />
+    <ClInclude Include="Objects\RPG\Character\ItemBox.h" />
+    <ClInclude Include="Objects\RPG\Character\Player.h" />
+    <ClInclude Include="Objects\RPG\Item\Chair.h" />
+    <ClInclude Include="Objects\RPG\Item\Item.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Objects\RPG\Item\Table.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\LightScene.h" />
     <ClInclude Include="Scenes\ModelExportScene.h" />
     <ClInclude Include="Scenes\ModelRenderScene.h" />
-    <ClInclude Include="Scenes\Pacman.h" />
     <ClInclude Include="Scenes\CollisionScene.h" />
     <ClInclude Include="Scenes\GridScene.h" />
+    <ClInclude Include="Scenes\RPG.h" />
     <ClInclude Include="Scenes\Scene.h" />
-    <ClInclude Include="Scenes\ShootingScene.h" />
-    <ClInclude Include="Scenes\SpherScene.h" />
     <ClInclude Include="Scenes\TerrainScene.h" />
-    <ClInclude Include="Scenes\TutorialScene.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -276,19 +276,18 @@
     <ClCompile Include="Objects\Basic\Sphere.cpp" />
     <ClCompile Include="Objects\LandScape\Terrain.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />
-    <ClCompile Include="Objects\Shooting\Bullet.cpp" />
-    <ClCompile Include="Objects\Shooting\Coin.cpp" />
-    <ClCompile Include="Objects\Shooting\ShootingPlayer.cpp" />
+    <ClCompile Include="Objects\RPG\Character\ItemBox.cpp" />
+    <ClCompile Include="Objects\RPG\Character\Player.cpp" />
+    <ClCompile Include="Objects\RPG\Item\Chair.cpp" />
+    <ClCompile Include="Objects\RPG\Item\Item.cpp" />
+    <ClCompile Include="Objects\RPG\Item\Table.cpp" />
     <ClCompile Include="Scenes\CollisionScene.cpp" />
     <ClCompile Include="Scenes\GridScene.cpp" />
     <ClCompile Include="Scenes\LightScene.cpp" />
     <ClCompile Include="Scenes\ModelExportScene.cpp" />
     <ClCompile Include="Scenes\ModelRenderScene.cpp" />
-    <ClCompile Include="Scenes\Pacman.cpp" />
-    <ClCompile Include="Scenes\ShootingScene.cpp" />
-    <ClCompile Include="Scenes\SpherScene.cpp" />
+    <ClCompile Include="Scenes\RPG.cpp" />
     <ClCompile Include="Scenes\TerrainScene.cpp" />
-    <ClCompile Include="Scenes\TutorialScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2310.rc" />

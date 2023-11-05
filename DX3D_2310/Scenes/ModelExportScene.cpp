@@ -2,7 +2,7 @@
 
 ModelExportScene::ModelExportScene()
 {
-	string name = "Jin";
+	string name = "Table";
 	string file = "Models/FBX/" + name + ".fbx";
 
 	exporter = new ModelExporter(name, file);

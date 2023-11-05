@@ -4,7 +4,7 @@ Terrain::Terrain()
 {
 	SetLocalPosition({ 0, 0, 0 });
 	tag = "Terrain";
-	material->SetShader(L"Light/SpecularLight.hlsl");
+	material->SetShader(L"Light/Light.hlsl");
 	material->SetDiffuseMap(L"Textures/Colors/White.png");
 
 	heightMap = Texture::Add(L"Textures/Coloes/Black.png");
@@ -20,25 +20,6 @@ Terrain::Terrain()
 	RSset->SetState();
 }
 
-Terrain::Terrain(wstring HigntMap)
-{
-	SetLocalPosition({ 0, 0, 0 });
-	tag = "Terrain";
-	material->SetShader(L"Light/SpecularLight.hlsl");
-	material->SetDiffuseMap(L"Textures/Colors/White.png");
-
-	heightMap = Texture::Add(HigntMap);
-
-	mesh = new Mesh<VertexUVNormal>();
-	normalline = new Mesh<VertexColor>();
-	RSset = new RasterizerState();
-
-	MakeMesh();
-	MakeNormal();
-	mesh->CreateMesh();
-	normalline->CreateMesh();
-	RSset->SetState();
-}
 Terrain::Terrain(const wstring hightmap, const float hight, bool tile, bool flip)
 	: hight(hight)
 {
@@ -167,45 +148,109 @@ Vector3 Terrain::GetOnGrondPosition(const Vector3 ObjectPos, const Vector3 corre
 	}
 
 }
-//Vector3 Terrain::GetOnGrondPosition(const Vector3 ObjectPos)
-//{
-//	int x = (int)ObjectPos.x;
-//	int z = (int)ObjectPos.z;
-//
-//	if (x < 0 || x >= width - 1) return ObjectPos;
-//	if (z < 0 || z >= height - 1) return ObjectPos;
-//
-//	UINT index[4];
-//	index[0] = width * z + x;
-//	index[1] = width * (z + 1) + x;
-//	index[2] = width * z + x + 1;
-//	index[3] = width * (z + 1) + x + 1;
-//
-//	vector<VertexType>& vertices = mesh->GetVertices();
-//
-//	Vector3 p[4];
-//	FOR(4)
-//		p[i] = vertices[index[i]].pos;
-//
-//	float u = ObjectPos.x - p[0].x;
-//	float v = ObjectPos.z - p[0].z;
-//
-//	Vector3 result;
-//	
-//	if (u + v <= 1.0f) {
-//		result = ((p[2] - p[0]) * u + (p[1] - p[0]) * v) + p[0];
-//	}
-//	else
-//	{
-//		u = 1.0f - u;
-//		v = 1.0f - v;
-//
-//		result = ((p[1] - p[3]) * u + (p[2] - p[3]) * v) + p[3];
-//	}
-//
-//	return result;
-//
-//}
+Vector3 Terrain::GetOngravityAcceleration(const Vector3 ObjectPos, const Vector3 correction)
+{	
+	// 범위 밖 인경우 자기자신 반환
+	// 좌표는 항상 맵위치의 상대위치로 계산한다.
+	Vector3 LocalMaxPos = Vector3(width, 0, height) + GetLocalPosition();
+	Vector3 LocalLowPos = GetLocalPosition();
+
+	x = (int)ObjectPos.x;
+	z = (int)ObjectPos.z;
+
+	if (x < 0 || x >= width - 1)		return Vector3(0, 0, 0);
+	if (z < 0 || z >= height - 1)		return Vector3(0, 0, 0);
+
+	// 범위 안 일경우,
+	// 현재 Object위치를 XY좌표로 반환하여 어떠한 사각형 안에 들어와있는지 판별함.
+
+	// 기본 디폴트 칸 사이즈는 xy가 1임
+	// 대충 xy좌표를 int로 변환하면 현재 Pos의 칸 내부가 나타남.
+	vector<VertexType>& vertices = mesh->GetVertices();
+	vector<UINT>& indices = mesh->GetIndices();
+
+
+	// indicees를 참조해서 데이터를 구했으면, 3과 0중 더 가까운vertices를 찾아야함.
+	// 사각형이 아닌 삼각형으로 vertices가 그어졌음으로 삼각형 기준으로 높이값을 구해야하기 때문.
+	UINT index[4];
+	index[0] = width * z + x;
+	index[1] = width * (z + 1) + x;
+	index[2] = width * z + x + 1;
+	index[3] = width * (z + 1) + x + 1;
+
+	Vector3 e0 = vertices[index[0]].pos;	// 0
+	Vector3 e1 = vertices[index[1]].pos;	// 1
+	Vector3 e2 = vertices[index[2]].pos;	// 2
+	Vector3 e3 = vertices[index[3]].pos;	// 3
+
+	// 현재 높이값이 같거나 작을경우를 확인
+	if (e0.y == e1.y && e1.y == e2.y && e2.y == e3.y)	return Vector3(0, 0, 0);
+
+	// 스칼라값을 구해줌. e0이 더 가까울경우, e0으로 진행
+	pair<Vector3, Vector3> Lowypos = FindLowPos(e0, e1, e2, e3);
+
+	Vector3 direction = Lowypos.second - Lowypos.first;
+
+	Vector3 posdirection = ObjectPos;
+	posdirection -= Lowypos.first;
+
+	// 가장 밑에있는 선분에 현재 Pos를 투영해줌
+	float intersection = Vector3::Dot(direction, posdirection);
+	direction = direction * intersection;
+
+	// 현재 방향벡터 (아래로 향하는 방향)
+	Vector3 gravityDirection = (Lowypos.first + direction + correction) - ObjectPos;
+	gravityDirection.Normalized(); // 노멀라이즈해줌
+
+	return gravityDirection;
+
+}
+bool Terrain::ChackOnGround(const Vector3 ObjectPos)
+{
+	x = (int)ObjectPos.x;
+	z = (int)ObjectPos.z;
+	if (x < 0 || x >= width - 1)		return false;
+	if (z < 0 || z >= height - 1)		return false;
+
+	return true;
+}
+
+pair<Vector3, Vector3> Terrain::FindLowPos(Vector3 e0, Vector3 e1, Vector3 e2, Vector3 e3)
+{
+	// 가장 낮은 높이를 가진 vertex와 그 다음으로 낮은 높이를 가진 vertex를 찾기 위한 초기값 설정
+	Vector3 lowestHeightVertex = e0;
+	Vector3 secondLowestHeightVertex = e1;
+
+	// e1의 높이가 더 낮은 경우
+	if (e1.y < lowestHeightVertex.y) {
+		secondLowestHeightVertex = lowestHeightVertex;
+		lowestHeightVertex = e1;
+	}
+	else if (e1.y < secondLowestHeightVertex.y) {
+		secondLowestHeightVertex = e1;
+	}
+
+	// e2의 높이가 더 낮은 경우
+	if (e2.y < lowestHeightVertex.y) {
+		secondLowestHeightVertex = lowestHeightVertex;
+		lowestHeightVertex = e2;
+	}
+	else if (e2.y < secondLowestHeightVertex.y) {
+		secondLowestHeightVertex = e2;
+	}
+
+	// e3의 높이가 더 낮은 경우
+	if (e3.y < lowestHeightVertex.y) {
+		secondLowestHeightVertex = lowestHeightVertex;
+		lowestHeightVertex = e3;
+	}
+	else if (e3.y < secondLowestHeightVertex.y) {
+		secondLowestHeightVertex = e3;
+	}
+
+	// 가장 낮은 높이를 가진 vertex와 그 다음으로 낮은 높이를 가진 vertex 반환
+	return make_pair(lowestHeightVertex, secondLowestHeightVertex);
+}
 
 void Terrain::MakeMesh(bool tile, bool flip)
 {

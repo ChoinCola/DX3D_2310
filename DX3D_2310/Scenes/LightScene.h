@@ -13,7 +13,7 @@ public:
 	void PostRender() override;
 	void GUIRender() override;
 private:
-	Item* coin;
+
 	Terrain* terrain;
 	Quad* quad;
 	Sphere* sphere;
