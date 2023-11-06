@@ -2,10 +2,14 @@
 
 CollisionScene::CollisionScene()
 {
-	colliders.push_back(new SphereCollider());
-	colliders.back()->SetTag("Sphere1");
-	colliders.push_back(new SphereCollider());
-	colliders.back()->SetTag("Sphere2");
+	//colliders.push_back(new SphereCollider());
+	//colliders.back()->SetTag("Sphere1");
+	//colliders.push_back(new SphereCollider());
+	//colliders.back()->SetTag("Sphere2");
+    colliders.push_back(new BoxCollider());
+    colliders.back()->SetTag("Box1");
+    colliders.push_back(new BoxCollider());
+    colliders.back()->SetTag("Box2");
 }
 
 CollisionScene::~CollisionScene()

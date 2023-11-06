@@ -30,20 +30,34 @@ public:
 	__declspec(property(get = GetY, put = SetY)) float y;
 	__declspec(property(get = GetZ, put = SetZ)) float z;
 
+	float operator[](const UINT& index) const
+	{
+		switch (index)
+		{
+		case 0:
+			return GetX();
+		case 1:
+			return GetY();
+		case 2:
+			return GetZ();
+		}
+	}
+
 	Vector3 operator+(const Vector3& v) { return value + v.value; }
 	Vector3 operator-(const Vector3& v) { return value - v.value; }
 
 	void operator += (const Vector3& v) { value += v.value; }
 	void operator -= (const Vector3& v) { value -= v.value; }
-	bool operator == (const Vector3& v) { return 
-		XMVectorGetX(value) == XMVectorGetX(v.value) &&
-		XMVectorGetY(value) == XMVectorGetY(v.value) &&
-		XMVectorGetZ(value) == XMVectorGetZ(v.value); 
-	}
 
 	Vector3 operator*(const float& v) const { return value * v; }
 	Vector3 operator/(const float& v) const { return value / v; }
 
+	bool operator == (const Vector3& v) const {
+		return XMVector3Equal(value, v.value);
+	}
+	bool operator != (const Vector3& v) const {
+		return !XMVector3Equal(value, v.value);
+	}
 	friend void operator +=(Float3& v1, const Vector3& v2)
 	{
 		Vector4 temp = XMLoadFloat3(&v1) + v2.value;
@@ -65,8 +79,8 @@ public:
 	const Float3 GetvalueFloat3() { return { this->GetX(),this->GetY(),this->GetZ() }; }
 
 	// 외적 함수
-	static Vector3 Cross(Vector3& vec1, Vector3& vec2) { return XMVector3Cross(vec1, vec2); }
-	static float Dot(Vector3& vec1, Vector3& vec2) { return XMVectorGetX(XMVector3Dot(vec1, vec2)); }
+	static Vector3 Cross(const Vector3& vec1, const Vector3& vec2) { return XMVector3Cross(vec1.value, vec2.value); }
+	static float Dot(const Vector3& vec1, const Vector3& vec2) { return XMVectorGetX(XMVector3Dot(vec1.value, vec2.value)); }
 	static Vector3 ComputeNormal(Vector3& vec1, Vector3& vec2, Vector3& vec3) {
 		//앞면 법선함수.
 		Vector3 u = vec2 - vec1;

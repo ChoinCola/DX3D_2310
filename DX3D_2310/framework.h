@@ -19,6 +19,7 @@
 #define KEY			Keyboard::Get()
 #define DELTA		Timer::Get()->GetElapsedTime()
 #define DIALOG		ImGuiFileDialog::Instance()
+#define MATH GameMath::Get()
 
 #define FOR(n) for(UINT i = 0; i < n; i++)
 
@@ -125,6 +126,7 @@ using namespace Utility;
 // Math Header
 #include "Framework/Math/Vector3.h"
 #include "Framework/Math/Transform.h"
+#include "Framework/Math/GameMath.h"
 
 // Collider Header
 #include "Framework/Collider/Collider.h"
