@@ -8,6 +8,9 @@ Player::Player(Vector3 pos)
 	moveSpeed = 10;
 	rotSpeed = 10;
 	lightnum = Environment::Get()->SetLight();
+	DownRay.dir = GetDown();
+	DownRay.dir.Normalized();
+
 	Load();
 }
 
@@ -26,6 +29,23 @@ void Player::Update()
 		itemBox->GetIsCloase() = !IsOpenItemBox;
 	}
 
+	// 스페이스바를 눌렀고 점프 상태가 아닐 때.
+	//if (KEY->Down(VK_SPACE) && !Isjump)
+	//{
+	//	if (JumpHight < MaxJumpHight)
+	//	{
+	//		JumpHight += JumpSpeed * DELTA -9.8;
+	//		SetLocalPosition(GetLocalPosition() + Vector3(0, JumpSpeed * DELTA, 0));
+	//	}
+	//}
+
+	if (!Isjump) {
+		JumpHight = 0;
+	}
+
+	{
+		DownRay.pos = GetLocalPosition();
+	}
 
 	itemBox->Update();
 	UpdateWorld();
@@ -34,6 +54,7 @@ void Player::Update()
 
 void Player::Render()
 {
+	__super::Render();
 }
 
 void Player::GUIRender()
@@ -80,24 +101,24 @@ void Player::Move()
 		if (KEY->Press('A')) SetLocalPosition(MoveVector + GetLeft()	* moveSpeed * DELTA);
 		if (KEY->Press('D')) SetLocalPosition(MoveVector + GetRight()	* moveSpeed * DELTA);
 
-		// 현재 땅 위인지 체크
-		if (terrain->ChackOnGround(GetLocalPosition())) {
-			// 현재위치를 필드 위로 보정
-			localPosition.y = terrain->GetOnGrondPosition(localPosition, Vector3(0, Radius(), 0)).y;
+		//// 현재 땅 위인지 체크
+		//if (terrain->ChackOnGround(GetLocalPosition())) {
+		//	// 현재위치를 필드 위로 보정
+		//	localPosition.y = terrain->GetOnGrondPosition(localPosition, Vector3(0, Radius(), 0)).y;
 
-			// 보정된 위치에 중력가속도를 보정하여 기울기 에 따라 밑으로 내려가게 함.
-			Vector3 pos = GetLocalPosition();
-			Vector3 slide = terrain->GetOngravityAcceleration(pos, Vector3(0, Radius(), 0));
-			SetLocalPosition(pos + slide * 9.8 * weight * DELTA);
-		}
+		//	// 보정된 위치에 중력가속도를 보정하여 기울기 에 따라 밑으로 내려가게 함.
+		//	Vector3 pos = GetLocalPosition();
+		//	Vector3 slide = terrain->GetOngravityAcceleration(pos, Vector3(0, Radius(), 0));
+		//	SetLocalPosition(pos + slide * 9.8 * weight * DELTA);
+		//}
 
 		Vector3 delta = Mouse::Get()->GetMoveValue();
 
 		Rotate(Vector3::Up() * delta.x * rotSpeed * DELTA);
 		Rotate(Vector3::Left() * -delta.y * rotSpeed * DELTA);
 
-		CAM->SetLocalPosition(localPosition);
-		CAM->SetLocalRotation(localRotation);
+		//CAM->SetLocalPosition(localPosition);
+		//CAM->SetLocalRotation(localRotation);
 	}
 
 }

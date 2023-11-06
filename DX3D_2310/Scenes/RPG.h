@@ -14,6 +14,9 @@ public:
 	void GUIRender() override;
 
 private:
+	void CollisionandUp();
+
+private:
 
 	list<Item*> itemlist;
 	Player* player;

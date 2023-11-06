@@ -1,5 +1,5 @@
 #pragma once
-class Player : public SphereCollider
+class Player : public BoxCollider
 {
 public:
 	Player(Vector3 pos = { 0, 0, 0 });
@@ -17,6 +17,8 @@ public:
 	void GetItem(Item& item);
 	void OutItem(Item& item);
 
+	Ray GetDownRay() { return DownRay; }
+	bool& IsJump() { return Isjump; }
 private:
 	void Move();
 	void Load();
@@ -27,14 +29,21 @@ private:
 	ItemBox* itemBox = nullptr;
 	Model* Character = nullptr;
 	Terrain* terrain = nullptr;
+	Ray DownRay;
 
 	int lightnum	 = 0;
 	int moveSpeed	 = 0;
 	int rotSpeed	 = 0;
+
 	float Uppos = 0;
 	float weight = 8;
+
+	float JumpSpeed = 12.8;
+	float MaxJumpHight = 4;
+	float JumpHight = 0;
 
 	bool IsOpenItemBox = true;
 	bool IsRenderUI = false;
 	bool isInplay = false;
+	bool Isjump = false;
 };

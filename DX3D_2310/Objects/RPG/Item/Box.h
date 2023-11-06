@@ -6,7 +6,7 @@ class Box : public Item
 public:
 	Box() : Item("Box", &count) {
 		count = ChairCount;
-		Object = new Model("Table");
+		Object = new Model("Box");
 		Object->SetTag("BoxModel" + count);
 		SetTag("BoxCollision" + count);
 
@@ -18,7 +18,7 @@ public:
 		ItemSizeWidth = 3;
 		ItemSizeHeight = 3;
 
-		ChairCount++;
+		BoxCount++;
 	};
 	~Box();
 
