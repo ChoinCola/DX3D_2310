@@ -190,7 +190,7 @@ using namespace Utility;
 #include "Scenes/LightScene.h"
 #include "Scenes/ModelExportScene.h"
 #include "Scenes/ModelRenderScene.h"
-
+#include "Scenes/BoxPlayDemo.h"
 
 #include "Scenes/RPG.h"
 #include "Scenes/LightScene.h"

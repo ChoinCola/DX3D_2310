@@ -3,7 +3,7 @@
 
 ModelRenderScene::ModelRenderScene()
 {
-	string name = "Table";
+	string name = "Box";
 
 	model = new Model(name);
 }

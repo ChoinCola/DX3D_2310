@@ -1,5 +1,5 @@
 #pragma once
-class Item : public SphereCollider
+class Item : public BoxCollider
 {
 public:
 	Item(string Id = "null", UINT* numberpointer = nullptr);

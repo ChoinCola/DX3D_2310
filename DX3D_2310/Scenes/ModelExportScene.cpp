@@ -2,7 +2,7 @@
 
 ModelExportScene::ModelExportScene()
 {
-	string name = "Table";
+	string name = "Box";
 	string file = "Models/FBX/" + name + ".fbx";
 
 	exporter = new ModelExporter(name, file);

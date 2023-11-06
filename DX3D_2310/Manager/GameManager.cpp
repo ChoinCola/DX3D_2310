@@ -8,16 +8,16 @@ GameManager::GameManager()
 
 
     SceneManager::Get()->Create("Grid", new GridScene());
-    SceneManager::Get()->Create("Collision", new CollisionScene());
-    //SceneManager::Get()->Create("Exporter", new ModelExportScene());
-    //SceneManager::Get()->Create("Start", new ModelRenderScene());
+    //SceneManager::Get()->Create("Collision", new CollisionScene());
+    SceneManager::Get()->Create("Exporter", new ModelExportScene());
+    SceneManager::Get()->Create("Start", new ModelRenderScene());
     //SceneManager::Get()->Create("RPG", new RPG());
 
     SceneManager::Get()->Add("Grid");
-    SceneManager::Get()->Add("Collision");
+    //SceneManager::Get()->Add("Collision");
     //SceneManager::Get()->Add("RPG");
-    //SceneManager::Get()->Add("Exporter");
-    //SceneManager::Get()->Add("Start");
+    SceneManager::Get()->Add("Exporter");
+    SceneManager::Get()->Add("Start");
 }
 
 GameManager::~GameManager()
