@@ -153,6 +153,8 @@ using namespace Utility;
 
 #include "Objects/ColliderBall/Ball.h"
 
+#include "Objects/MincraftObject/Block.h"
+#include "Objects/MincraftObject/BlockManager.h"
 // Robot Header
 #include "Objects/Robot/Robot.h"
 
@@ -191,6 +193,7 @@ using namespace Utility;
 #include "Scenes/ModelExportScene.h"
 #include "Scenes/ModelRenderScene.h"
 #include "Scenes/BoxPlayDemo.h"
+#include "Scenes/MineCraftScene.h"
 
 #include "Scenes/RPG.h"
 #include "Scenes/LightScene.h"

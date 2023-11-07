@@ -21,7 +21,7 @@ public:
 	bool IsCapsuleCollision(CapsuleCollider* collider) override;
 
 	void GetObb(ObbDesc& obbDesc);
-
+	Vector3 Getsize() { return size * GetLocalScale() * 0.5; }
 private:
 	void MakeMesh() override;
 

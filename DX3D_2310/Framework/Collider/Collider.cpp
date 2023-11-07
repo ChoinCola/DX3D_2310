@@ -13,8 +13,10 @@ Collider::~Collider()
 
 void Collider::Render()
 {
-    SetRender();
-    mesh->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+
+        SetRender();
+        mesh->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+
 
 }
 

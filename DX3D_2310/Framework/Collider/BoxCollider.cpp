@@ -99,7 +99,27 @@ bool BoxCollider::IsBoxCollision(BoxCollider* collider)
 
 bool BoxCollider::IsSphereCollision(SphereCollider* collider)
 {
-    return false;
+    ObbDesc box;
+    GetObb(box);
+
+    Vector3 closestPointToSphere = box.pos;
+
+    FOR(3)
+    {
+        Vector3 direction = collider->GetGlobalPosition() - box.pos;
+
+        float length = Vector3::Dot(box.axis[i], direction);
+
+        float mult = (length < 0.0f) ? -1.0f : 1.0f; // 방향
+
+        length = min(abs(length), box.halfSize[i]); // 투영길이와 halfsize중 더 작은것을 찾는다.
+
+        closestPointToSphere += box.axis[i] * length * mult;
+    }
+
+    float distance = (collider->GetGlobalPosition() - closestPointToSphere).Length();
+
+    return distance <= collider->Radius();
 }
 
 bool BoxCollider::IsCapsuleCollision(CapsuleCollider* collider)

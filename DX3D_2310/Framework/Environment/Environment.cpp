@@ -29,6 +29,9 @@ void Environment::Update()
 {
 	if(KEY->Down(VK_F1))
 		isWireMode = !isWireMode;
+
+
+
 	mainCamera->Update();
 
 	//if(Mouse::Get()->GetIsSetMouseHold())

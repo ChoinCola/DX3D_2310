@@ -7,6 +7,7 @@ public:
 	Box() : Item("Box", &count) {
 		count = ChairCount;
 		Object = new Model("Box");
+		Object->SetLocalScale(Vector3(0.5, 0.5, 0.5));
 		Object->SetTag("BoxModel" + count);
 		SetTag("BoxCollision" + count);
 

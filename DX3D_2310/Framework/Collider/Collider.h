@@ -3,6 +3,8 @@
 
 // 반직선
 // 카메라 기준 반직선을 쏨
+
+
 struct Ray
 {
 	Vector3 pos;
@@ -43,7 +45,11 @@ public:
 	void SetColor(Float4 color) { material->GetBuffer()->diffuse = color; }
 	void SetColor(float r, float g, float b) { material->GetBuffer()->diffuse = { r, g, b, 1 }; }
 
+public:
+
+
 protected:
 	Type type;
 	Mesh<Vertex>* mesh; // 충돌체 임으로 선만 그려준다.
+
 };

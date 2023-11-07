@@ -1,5 +1,5 @@
 #pragma once
-class Player : public BoxCollider
+class Player : public SphereCollider
 {
 public:
 	Player(Vector3 pos = { 0, 0, 0 });
@@ -17,8 +17,10 @@ public:
 	void GetItem(Item& item);
 	void OutItem(Item& item);
 
-	Ray GetDownRay() { return DownRay; }
+	const Ray& GetDownRay() { return DownRay; }
 	bool& IsJump() { return Isjump; }
+	float GetMoveSpeed() { return moveSpeed; }
+
 private:
 	void Move();
 	void Load();

@@ -4,11 +4,12 @@
 Player::Player(Vector3 pos)
 {
 	SetLocalPosition(pos);
+	SetLocalScale(Vector3(0.3, 0.3, 0.3));
 	itemBox = new ItemBox();
 	moveSpeed = 10;
 	rotSpeed = 10;
 	lightnum = Environment::Get()->SetLight();
-	DownRay.dir = GetDown();
+	DownRay.dir = Vector3(0, -1, 0);
 	DownRay.dir.Normalized();
 
 	Load();
@@ -29,24 +30,23 @@ void Player::Update()
 		itemBox->GetIsCloase() = !IsOpenItemBox;
 	}
 
-	// 스페이스바를 눌렀고 점프 상태가 아닐 때.
-	//if (KEY->Down(VK_SPACE) && !Isjump)
-	//{
-	//	if (JumpHight < MaxJumpHight)
-	//	{
-	//		JumpHight += JumpSpeed * DELTA -9.8;
-	//		SetLocalPosition(GetLocalPosition() + Vector3(0, JumpSpeed * DELTA, 0));
-	//	}
-	//}
+	 //스페이스바를 눌렀고 점프 상태가 아닐 때.
+	if (KEY->Down(VK_SPACE) && !Isjump)
+	{
+		if (JumpHight < MaxJumpHight)
+		{
+			JumpHight += JumpSpeed * DELTA ;
+			SetLocalPosition(GetLocalPosition() + Vector3(0, (JumpSpeed + 9.8) * DELTA, 0));
+		}
+		Isjump = true;
+	}
 
 	if (!Isjump) {
 		JumpHight = 0;
 	}
 
-	{
-		DownRay.pos = GetLocalPosition();
-	}
 
+	DownRay.pos = GetLocalPosition() + Vector3(0, Radius(), 0);
 	itemBox->Update();
 	UpdateWorld();
 	Move();
@@ -117,8 +117,10 @@ void Player::Move()
 		Rotate(Vector3::Up() * delta.x * rotSpeed * DELTA);
 		Rotate(Vector3::Left() * -delta.y * rotSpeed * DELTA);
 
-		//CAM->SetLocalPosition(localPosition);
-		//CAM->SetLocalRotation(localRotation);
+		Vector3 MoveCam = GetBack() * 5 + Vector3(0, 2, 0);
+
+		CAM->SetLocalPosition(localPosition + MoveCam);
+		CAM->SetLocalRotation(localRotation);
 	}
 
 }

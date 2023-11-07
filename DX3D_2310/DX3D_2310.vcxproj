@@ -214,6 +214,8 @@
     <ClInclude Include="Objects\Basic\Quad.h" />
     <ClInclude Include="Objects\Basic\Sphere.h" />
     <ClInclude Include="Objects\LandScape\Terrain.h" />
+    <ClInclude Include="Objects\MincraftObject\Block.h" />
+    <ClInclude Include="Objects\MincraftObject\BlockManager.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
     <ClInclude Include="Objects\RPG\Character\ItemBox.h" />
     <ClInclude Include="Objects\RPG\Character\Player.h" />
@@ -225,6 +227,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\BoxPlayDemo.h" />
     <ClInclude Include="Scenes\LightScene.h" />
+    <ClInclude Include="Scenes\MineCraftScene.h" />
     <ClInclude Include="Scenes\ModelExportScene.h" />
     <ClInclude Include="Scenes\ModelRenderScene.h" />
     <ClInclude Include="Scenes\CollisionScene.h" />
@@ -250,6 +253,7 @@
     <ClCompile Include="Framework\Environment\Camera.cpp" />
     <ClCompile Include="Framework\Environment\Environment.cpp" />
     <ClCompile Include="Framework\Environment\Minimap.cpp" />
+    <ClCompile Include="Framework\Math\GameMath.cpp" />
     <ClCompile Include="Framework\Math\Transform.cpp" />
     <ClCompile Include="Framework\Model\Model.cpp" />
     <ClCompile Include="Framework\Model\ModelMesh.cpp" />
@@ -278,6 +282,8 @@
     <ClCompile Include="Objects\Basic\Quad.cpp" />
     <ClCompile Include="Objects\Basic\Sphere.cpp" />
     <ClCompile Include="Objects\LandScape\Terrain.cpp" />
+    <ClCompile Include="Objects\MincraftObject\Block.cpp" />
+    <ClCompile Include="Objects\MincraftObject\BlockManager.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />
     <ClCompile Include="Objects\RPG\Character\ItemBox.cpp" />
     <ClCompile Include="Objects\RPG\Character\Player.cpp" />
@@ -289,6 +295,7 @@
     <ClCompile Include="Scenes\CollisionScene.cpp" />
     <ClCompile Include="Scenes\GridScene.cpp" />
     <ClCompile Include="Scenes\LightScene.cpp" />
+    <ClCompile Include="Scenes\MineCraftScene.cpp" />
     <ClCompile Include="Scenes\ModelExportScene.cpp" />
     <ClCompile Include="Scenes\ModelRenderScene.cpp" />
     <ClCompile Include="Scenes\RPG.cpp" />
