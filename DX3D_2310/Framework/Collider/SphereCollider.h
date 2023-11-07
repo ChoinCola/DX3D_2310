@@ -10,7 +10,9 @@ public:
 	bool IsBoxCollision(BoxCollider* collider) override;
 	bool IsSphereCollision(SphereCollider* collider) override;
 	bool IsCapsuleCollision(CapsuleCollider* collider) override;
-
+	
+	float& Getdistance() { return distance; }
+	Vector3& GetHitpoint() { return hitpoint; }
 	float Radius() { 
 		return radius * max(GetGlobalScale().x, 
 		max(GetGlobalScale().y, GetGlobalScale().z)); 
@@ -19,6 +21,8 @@ private:
 	void MakeMesh() override;
 
 private:
+	Vector3 hitpoint;
+	float distance = 0;
 	float radius;
 	UINT stackCount, sliceCount;
 };

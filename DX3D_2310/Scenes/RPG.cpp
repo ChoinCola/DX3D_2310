@@ -57,7 +57,7 @@ void RPG::Render()
 {
 	for (auto& def : itemlist)
 		def->Render();
-	player->Render();
+	//player->Render();
 	//terrain->Render();
 }
 
@@ -85,7 +85,8 @@ void RPG::CollisionandUp()
 
 			gravity = false;
 			player->IsJump() = false;
-			//player->SetLocalPosition(playerpos);
+			Vector3 setpos = player->GetLocalPosition();
+
 			//if(scala.distance < 1)
 			//	player->SetLocalPosition(playerpos + Vector3(0, (9.8 + player->GetMoveSpeed()) * DELTA, 0));
 		}
@@ -93,20 +94,8 @@ void RPG::CollisionandUp()
 		if (def->IsSphereCollision(player))
 		{
 			// 사각형에서 플레이어 쪽으로 발산하는 Vector구하기
-			Vector3 Localvector = player->GetLocalPosition() - def->GetLocalPosition();
+			Vector3 Localvector =  player->GetLocalPosition() - def->GetLocalPosition();
 			Localvector.Normalized();
-
-			// 사각형과 플레이어가 접촉한 점 구하기
-			// 사각형의 위치에서 플레이어쪽으로 향하는 vector에 사각형의 밑변 높이 길이를 곱해주면됨.
-			Vector3 Rectcontactpoint = def->GetLocalPosition();
-			Rectcontactpoint *= Vector3::Dot(Localvector, )
-
-			// 접촉점에서 플레이어 쪽으로 향하는 Vector구하기
-			Vector3 BackMoveVector = player->GetLocalPosition() - Rectcontactpoint;
-			BackMoveVector.Normalized();
-
-			// 플레이어에서 접촉점까지의 거리 구하기.(겹쳐있었다면, 사이즈가 더 줄어들것이다.)
-			float NowobjectToPlayer = (Rectcontactpoint - player->GetLocalPosition()).Length();
 
 			// 원래 플레이어의 반지름
 			float BaseobjectToPlayer = player->Radius();
@@ -115,7 +104,7 @@ void RPG::CollisionandUp()
 			// 즉, 접촉점에서 플레이어방향으로 가해진 힘만큼 다시 뒤로 되돌려줌.
 			// 벽에 테니스공이 힘을 가했을 때, 반탄력으로 되돌아오는걸 계산해서 다시 되돌려주는 vector
 			// 벽이 고정되어있을 경우, 가해진 힘은 그대로 역방향으로 되돌려준다.
-			player->SetLocalPosition(player->GetLocalPosition() + BackMoveVector * abs(BaseobjectToPlayer - NowobjectToPlayer));
+			player->SetLocalPosition(player->GetLocalPosition() + Localvector * (player->Radius() - player->Getdistance()));
 		}
 	}
 

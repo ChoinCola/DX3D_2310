@@ -41,6 +41,7 @@ private:
 	float weight = 8;
 
 	float JumpSpeed = 12.8;
+	float DJumpSpeed = 20;
 	float MaxJumpHight = 4;
 	float JumpHight = 0;
 

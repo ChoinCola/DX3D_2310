@@ -13,10 +13,13 @@ public:
 	void Redner();
 	void GUIRender();
 
+	void InsertBlocks(Ray mouseray);
+	void DeleteBlocks(Ray mouseray);
+
 	void CreateBlocks(UINT x, UINT y, UINT z);
+
+	const list<Block*>& GetBlocks() { return blocks; }
 
 private:
 	list<Block*> blocks;
-
-
 };

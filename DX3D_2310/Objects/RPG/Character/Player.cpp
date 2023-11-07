@@ -6,7 +6,7 @@ Player::Player(Vector3 pos)
 	SetLocalPosition(pos);
 	SetLocalScale(Vector3(0.3, 0.3, 0.3));
 	itemBox = new ItemBox();
-	moveSpeed = 10;
+	moveSpeed = 5;
 	rotSpeed = 10;
 	lightnum = Environment::Get()->SetLight();
 	DownRay.dir = Vector3(0, -1, 0);
@@ -33,16 +33,20 @@ void Player::Update()
 	 //스페이스바를 눌렀고 점프 상태가 아닐 때.
 	if (KEY->Down(VK_SPACE) && !Isjump)
 	{
-		if (JumpHight < MaxJumpHight)
-		{
-			JumpHight += JumpSpeed * DELTA ;
-			SetLocalPosition(GetLocalPosition() + Vector3(0, (JumpSpeed + 9.8) * DELTA, 0));
-		}
 		Isjump = true;
 	}
 
+	if (Isjump)
+	{
+		JumpHight += JumpSpeed * DELTA;
+		SetLocalPosition(GetLocalPosition() + Vector3(0, (JumpSpeed) * DELTA, 0));
+		JumpSpeed -= 30 * DELTA;
+	}
+
+
 	if (!Isjump) {
 		JumpHight = 0;
+		JumpSpeed = DJumpSpeed;
 	}
 
 
@@ -96,8 +100,16 @@ void Player::Move()
 	Vector3 MoveVector = GetLocalPosition();
 
 	if (isInplay) {
-		if (KEY->Press('W')) SetLocalPosition(MoveVector + GetForward()	* moveSpeed * DELTA);
-		if (KEY->Press('S')) SetLocalPosition(MoveVector + GetBack()	* moveSpeed * DELTA);
+		if (KEY->Press('W')) {
+			MoveVector += GetForward() * moveSpeed * DELTA;
+			MoveVector.y = GetLocalPosition().y;
+			SetLocalPosition(MoveVector);
+		}
+		if (KEY->Press('S')) {
+			MoveVector += GetBack() * moveSpeed * DELTA;
+			MoveVector.y = GetLocalPosition().y;
+			SetLocalPosition(MoveVector);
+		}
 		if (KEY->Press('A')) SetLocalPosition(MoveVector + GetLeft()	* moveSpeed * DELTA);
 		if (KEY->Press('D')) SetLocalPosition(MoveVector + GetRight()	* moveSpeed * DELTA);
 
@@ -119,7 +131,7 @@ void Player::Move()
 
 		Vector3 MoveCam = GetBack() * 5 + Vector3(0, 2, 0);
 
-		CAM->SetLocalPosition(localPosition + MoveCam);
+		CAM->SetLocalPosition(localPosition);
 		CAM->SetLocalRotation(localRotation);
 	}
 

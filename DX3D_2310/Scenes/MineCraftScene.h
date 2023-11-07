@@ -12,4 +12,10 @@ public:
 	void Render() override;
 	void PostRender() override;
 	void GUIRender() override;
+
+private:
+	void CollisionandUp();
+
+private:
+	Player* player;
 };

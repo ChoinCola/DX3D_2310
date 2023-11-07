@@ -100,26 +100,27 @@ bool BoxCollider::IsBoxCollision(BoxCollider* collider)
 bool BoxCollider::IsSphereCollision(SphereCollider* collider)
 {
     ObbDesc box;
-    GetObb(box);
+    GetObb(box); // OBB 정보를 얻어와서 box에 저장합니다.
 
-    Vector3 closestPointToSphere = box.pos;
+    Vector3 closestPointToSphere = box.pos; // OBB의 중심을 기준으로 가장 가까운 지점을 초기화합니다.
 
-    FOR(3)
+    FOR(3) // OBB의 3개의 로컬 축에 대한 루프를 시작합니다.
     {
-        Vector3 direction = collider->GetGlobalPosition() - box.pos;
+        Vector3 direction = collider->GetGlobalPosition() - box.pos; // OBB 중심에서 충돌체의 중심까지의 방향을 계산합니다.
 
-        float length = Vector3::Dot(box.axis[i], direction);
+        float length = Vector3::Dot(box.axis[i], direction); // 충돌체 중심과 OBB 축 사이의 내적을 계산하여 OBB 축 방향으로의 거리(length)를 얻습니다.
 
-        float mult = (length < 0.0f) ? -1.0f : 1.0f; // 방향
+        float mult = (length < 0.0f) ? -1.0f : 1.0f; // 거리의 방향을 결정합니다. OBB 축 방향과 반대 방향인 경우 -1, 같은 방향인 경우 1을 사용합니다.
 
-        length = min(abs(length), box.halfSize[i]); // 투영길이와 halfsize중 더 작은것을 찾는다.
+        length = min(abs(length), box.halfSize[i]); // OBB 축 방향으로의 거리(length)를 OBB의 halfSize와 비교하여 더 작은 값을 선택합니다.
 
-        closestPointToSphere += box.axis[i] * length * mult;
+        closestPointToSphere += box.axis[i] * length * mult; // 가장 가까운 지점을 업데이트합니다. 이 지점은 OBB의 표면 위의 지점입니다.
     }
 
-    float distance = (collider->GetGlobalPosition() - closestPointToSphere).Length();
-
-    return distance <= collider->Radius();
+    float distance = (collider->GetGlobalPosition() - closestPointToSphere).Length(); // 충돌체의 중심과 OBB 표면의 가장 가까운 지점 사이의 거리를 계산합니다.
+    collider->Getdistance() = distance;
+    collider->GetHitpoint() = closestPointToSphere;
+    return distance <= collider->Radius(); // 계산된 거리가 충돌체의 반지름보다 작거나 같으면 충돌이 발생한 것으로 간주합니다.
 }
 
 bool BoxCollider::IsCapsuleCollision(CapsuleCollider* collider)
