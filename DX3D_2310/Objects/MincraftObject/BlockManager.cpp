@@ -193,7 +193,7 @@ Block* BlockManager::DeleteBlock(const Ray& ray)
 	return block;
 }
 
-void BlockManager::AddBlock(Block* block)
+bool BlockManager::AddBlock(Block* block)
 {
 	// 카메라의 중앙에서 뻗어나오는 Ray를 가져온다.
 	//Ray ray = CAM->ScreenPointToRay(Vector3(CENTER_X, CENTER_Y, 0));
@@ -227,7 +227,7 @@ void BlockManager::AddBlock(Block* block)
 	// 만약 충돌블록이 마지막이라면 충돌 안했다는 의미임으로. 반환한다.(보통 iter의 마지막값은 마지막요소가 아닌
 	// 리스트의 끝을 의미함. 
 	if (collisionBlock == blocks.end())
-		return;
+		return false;
 
 	// 충돌블록중 가장 가까운 블록에 collisionBlock을 대입.
 	Block* hitBlock = *collisionBlock;
@@ -241,4 +241,5 @@ void BlockManager::AddBlock(Block* block)
 	block->SetLocalPosition(pos);
 	block->Update();
 	blocks.push_back(block);
+	return true;
 }

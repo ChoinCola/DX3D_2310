@@ -23,7 +23,7 @@ public:
 	void CollisionBlockToPlayer(SphereCollider& pos);
 	float GetHeight(const Vector3& pos);
 	Block* DeleteBlock(const Ray& ray);
-	void AddBlock(Block* block);
+	bool AddBlock(Block* block);
 
 private:
 	list<Block*> blocks;

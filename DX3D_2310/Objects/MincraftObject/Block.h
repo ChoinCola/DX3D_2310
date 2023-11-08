@@ -8,11 +8,17 @@ public:
 
 	void Update();
 	void Render();
+	void InventoryRender();
 	void GUIRender();
-
+	Quad* GetInventoryModel() { return Inventorymodel; }
+	string Getname() { return name; }
 	Vector3 GetDirection(Vector3 point);
 
+	
 private:
+	string name;
 
 	Model* model;
+
+	Quad* Inventorymodel;
 };

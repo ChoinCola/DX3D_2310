@@ -2,12 +2,16 @@
 
 Block::Block(string name)
 {
+	this->name = name;
 	SetTag(name + "Collider");
 	model = new Model(name);
 	model->SetParent(this);
 	model->SetLocalScale(Vector3(0.1, 0.1, 0.1));
 	model->SetLocalPosition(GetLocalPosition() - Vector3(0, +0.5, 0));
 
+	string insertname = "Textures/UI/Blocks/" + name + ".png";
+	string Test = "Textures/Colors/Black.png";
+	Inventorymodel = new Quad(ToWString(insertname));
 }
 
 Block::~Block()
@@ -25,6 +29,12 @@ void Block::Render()
 {
 	model->Render();
 	//Collider::Render();
+}
+
+void Block::InventoryRender()
+{
+	Inventorymodel->UpdateWorld();
+	Inventorymodel->Render();
 }
 
 void Block::GUIRender()

@@ -10,11 +10,16 @@ public:
 
 	void Render();
 
+	void IsRender() { render = !render; }
+
 	bool CollisionChack(Vector3 inputpos);
 
+	const bool GetRender() const { return render; }
 private:
 	void MakeMesh();
 private:
+
+	bool render = true;
 	Mesh<VertexType>* mesh;
 
 	Float2 size;

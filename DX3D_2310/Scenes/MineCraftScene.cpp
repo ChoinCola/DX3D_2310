@@ -35,10 +35,13 @@ void MinceCraftScene::Render()
 
 void MinceCraftScene::PostRender()
 {
+	player->PostRender();
 }
 
 void MinceCraftScene::GUIRender()
 {
+	player->GUIRender();
+
 }
 
 void MinceCraftScene::CollisionandUp()

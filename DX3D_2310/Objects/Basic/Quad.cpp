@@ -27,13 +27,15 @@ Quad::~Quad()
 
 void Quad::Render()
 {
-	SetRender();
-	mesh->Draw();
+	if (render) {
+		SetRender();
+		mesh->Draw();
+	}
 }
 
 bool Quad::CollisionChack(Vector3 inputpos)
 {
-	Float2 halfsize(size.x * 0.5f, size.y * 0.5f);
+	Float2 halfsize(size.x * 0.5f * localScale.x, size.y * 0.5f * localScale.y);
 	Vector3 pos = GetLocalPosition();
 
 	RECT quad = { pos.x - halfsize.x, pos.y + halfsize.y, pos.x + halfsize.x, pos.y - halfsize.y };

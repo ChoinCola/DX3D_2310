@@ -28,6 +28,7 @@ void Steve::Update()
 
 void Steve::GUIRender()
 {
+	ui->GUIRender();
 }
 
 void Steve::PostRender()
