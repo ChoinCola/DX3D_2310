@@ -9,7 +9,10 @@ public:
 	void Update();
 	void Render();
 	void GUIRender();
-private:
-	Model* model;
 
+	Vector3 GetDirection(Vector3 point);
+
+private:
+
+	Model* model;
 };

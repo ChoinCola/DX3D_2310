@@ -215,7 +215,10 @@
     <ClInclude Include="Objects\Basic\Sphere.h" />
     <ClInclude Include="Objects\LandScape\Terrain.h" />
     <ClInclude Include="Objects\MincraftObject\Block.h" />
+    <ClInclude Include="Objects\MincraftObject\BlockDataManager.h" />
     <ClInclude Include="Objects\MincraftObject\BlockManager.h" />
+    <ClInclude Include="Objects\MincraftObject\MineCraftUI.h" />
+    <ClInclude Include="Objects\MincraftObject\Steve.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
     <ClInclude Include="Objects\RPG\Character\ItemBox.h" />
     <ClInclude Include="Objects\RPG\Character\Player.h" />
@@ -283,7 +286,10 @@
     <ClCompile Include="Objects\Basic\Sphere.cpp" />
     <ClCompile Include="Objects\LandScape\Terrain.cpp" />
     <ClCompile Include="Objects\MincraftObject\Block.cpp" />
+    <ClCompile Include="Objects\MincraftObject\BlockDataManager.cpp" />
     <ClCompile Include="Objects\MincraftObject\BlockManager.cpp" />
+    <ClCompile Include="Objects\MincraftObject\MineCraftUI.cpp" />
+    <ClCompile Include="Objects\MincraftObject\Steve.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />
     <ClCompile Include="Objects\RPG\Character\ItemBox.cpp" />
     <ClCompile Include="Objects\RPG\Character\Player.cpp" />

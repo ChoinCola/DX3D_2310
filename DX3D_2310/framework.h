@@ -42,6 +42,7 @@
 #include <algorithm>
 #include <random>
 #include <assert.h>
+#include <fstream>
 
 #include <d3d11.h>
 #include <d3dcompiler.h>
@@ -178,7 +179,10 @@ using namespace Utility;
 #include "Object.h"
 
 // RPG Header
+#include "Objects/MincraftObject/MineCraftUI.h"
+#include "Objects/MincraftObject/Steve.h"
 #include "Objects/RPG/Character/Player.h"
+#include "Objects/MincraftObject/BlockDataManager.h"
 
 // Scene
 #include "Scenes/Scene.h"

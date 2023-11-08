@@ -17,5 +17,6 @@ private:
 	void CollisionandUp();
 
 private:
-	Player* player;
+	Steve* player;
+	//Player* player;
 };
