@@ -20,6 +20,7 @@ void Camera::Update()
 {
 	projection = Environment::Get()->GetProjection();
 	FreeMode();
+	Frustum();
 	UpdateWorld();
 }
 
@@ -65,6 +66,112 @@ Ray Camera::ScreenPointToRay(Vector3 screenPoint)
 	return Ray(localPosition, screenPoint.GetNormalized());
 }
 
+Vector3 Camera::WorldToScreen(Vector3 worldPos)
+{
+	Vector3 screenPos;
+
+	screenPos = XMVector3TransformCoord(worldPos, view); // 월드위치를 view와 곱함
+	screenPos = XMVector3TransformCoord(screenPos, projection);
+	// NDC : -1 ~ 1 사이의 좌표가 나타남.
+
+	screenPos = (screenPos + Vector3(1, 1, 1)) * 0.5f; //   0~1
+
+	screenPos.x *= WIN_WIDTH;
+	screenPos.y *= WIN_HEIGHT;
+	// 받은 위치를 스크린좌표로 변환해준다.
+
+	return screenPos;
+}
+
+bool Camera::ContainPoint(Vector3 point)
+{
+	FOR(6)
+	{
+		Vector3 dot = XMPlaneDot(planes[i], point);
+
+		if (dot.x < 0.0f)
+			return false;
+	}
+	return true;
+}
+
+bool Camera::ContainSphere(Vector3 center, float radius)
+{
+	Vector3 edge;
+	Vector3 dot;
+
+	FOR(6)
+	{
+		//1
+		edge.x = center.x - radius;
+		edge.y = center.y - radius;
+		edge.z = center.z - radius;
+		dot = XMPlaneDotCoord(planes[i], edge);
+		if (dot.x > 0.0f)
+			continue;
+
+		//2
+		edge.x = center.x + radius;
+		edge.y = center.y - radius;
+		edge.z = center.z - radius;
+		dot = XMPlaneDotCoord(planes[i], edge);
+		if (dot.x > 0.0f)
+			continue;
+
+		//3
+		edge.x = center.x - radius;
+		edge.y = center.y + radius;
+		edge.z = center.z - radius;
+		dot = XMPlaneDotCoord(planes[i], edge);
+		if (dot.x > 0.0f)
+			continue;
+
+		//4
+		edge.x = center.x - radius;
+		edge.y = center.y - radius;
+		edge.z = center.z + radius;
+		dot = XMPlaneDotCoord(planes[i], edge);
+		if (dot.x > 0.0f)
+			continue;
+
+		//5
+		edge.x = center.x + radius;
+		edge.y = center.y + radius;
+		edge.z = center.z - radius;
+		dot = XMPlaneDotCoord(planes[i], edge);
+		if (dot.x > 0.0f)
+			continue;
+
+		//6
+		edge.x = center.x + radius;
+		edge.y = center.y - radius;
+		edge.z = center.z + radius;
+		dot = XMPlaneDotCoord(planes[i], edge);
+		if (dot.x > 0.0f)
+			continue;
+
+		//7
+		edge.x = center.x - radius;
+		edge.y = center.y + radius;
+		edge.z = center.z + radius;
+		dot = XMPlaneDotCoord(planes[i], edge);
+		if (dot.x > 0.0f)
+			continue;
+
+		//8
+		edge.x = center.x + radius;
+		edge.y = center.y + radius;
+		edge.z = center.z + radius;
+		dot = XMPlaneDotCoord(planes[i], edge);
+		if (dot.x > 0.0f)
+			continue;
+
+		return false;
+	}
+
+	return true;
+}
+
 void Camera::FreeMode()
 {
 	//Vector3 delta = Mouse::Get()->GetMoveValue();
@@ -88,4 +195,61 @@ void Camera::FreeMode()
 		//법선 정규화
 	}
 
+}
+
+void Camera::Frustum()
+{
+	Float4x4 VP;
+	XMStoreFloat4x4(&VP, view * projection); // 월드상의 절도체 정보
+
+	// Left
+	a = VP._14 + VP._11;
+	b = VP._24 + VP._21;
+	c = VP._34 + VP._31;
+	d = VP._44 + VP._41;
+
+	planes[0] = XMVectorSet(a, b, c, d);
+
+	// Right
+	a = VP._14 - VP._11;
+	b = VP._24 - VP._21;
+	c = VP._34 - VP._31;
+	d = VP._44 - VP._41;
+
+	planes[1] = XMVectorSet(a, b, c, d);
+
+	// Bottom
+	a = VP._14 + VP._12;
+	b = VP._24 + VP._22;
+	c = VP._34 + VP._32;
+	d = VP._44 + VP._42;
+
+	planes[2] = XMVectorSet(a, b, c, d);
+
+	// TOP
+	a = VP._14 - VP._12;
+	b = VP._24 - VP._22;
+	c = VP._34 - VP._32;
+	d = VP._44 - VP._42;
+
+	planes[3] = XMVectorSet(a, b, c, d);
+
+	// Near
+	a = VP._14 + VP._13;
+	b = VP._24 + VP._23;
+	c = VP._34 + VP._33;
+	d = VP._44 + VP._43;
+
+	planes[4] = XMVectorSet(a, b, c, d);
+
+	// Far
+	a = VP._14 - VP._13;
+	b = VP._24 - VP._23;
+	c = VP._34 - VP._33;
+	d = VP._44 - VP._43;
+
+	planes[5] = XMVectorSet(a, b, c, d);
+
+	FOR(6)
+		planes[i] = XMPlaneNormalize(planes[i]);
 }

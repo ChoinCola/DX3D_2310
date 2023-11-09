@@ -3,6 +3,9 @@
 class BlockManager : public Singleton<BlockManager>
 {
 private:
+	const float PUSH_SPEED = 100.0f;
+
+private:
 	friend class Singleton;
 
 	BlockManager();

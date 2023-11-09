@@ -73,6 +73,11 @@
 #include <Assimp/postprocess.h>
 #pragma comment(lib, "assimp-vc143-mtd.lib")
 
+// Font
+#include <d2d1_2.h>
+#include <dwrite.h>
+#pragma comment(lib, "d2d1.lib")
+#pragma comment(lib, "dwrite.lib")
 
 using namespace std;
 using namespace DirectX;
@@ -93,6 +98,7 @@ typedef XMFLOAT4X4 Float4x4;
 #include "Framework/Utilities/BinaryReader.h"
 #include "Framework/Utilities/BinaryWriter.h"
 #include "Framework/Utilities/tinyxml2.h"
+#include "Framework/Utilities/Font.h"
 
 // Readcsv
 #include "Framework/Utilities/rapidcsv.h"
@@ -154,8 +160,6 @@ using namespace Utility;
 
 #include "Objects/ColliderBall/Ball.h"
 
-#include "Objects/MincraftObject/Block.h"
-#include "Objects/MincraftObject/BlockManager.h"
 // Robot Header
 #include "Objects/Robot/Robot.h"
 
@@ -179,10 +183,13 @@ using namespace Utility;
 #include "Object.h"
 
 // RPG Header
-#include "Objects/MincraftObject/MineCraftUI.h"
-#include "Objects/MincraftObject/Steve.h"
+
 #include "Objects/RPG/Character/Player.h"
 #include "Objects/MincraftObject/BlockDataManager.h"
+#include "Objects/MincraftObject/Block.h"
+#include "Objects/MincraftObject/BlockManager.h"
+#include "Objects/MincraftObject/MineCraftUI.h"
+#include "Objects/MincraftObject/Steve.h"
 
 // Scene
 #include "Scenes/Scene.h"

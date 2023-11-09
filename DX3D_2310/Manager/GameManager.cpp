@@ -46,6 +46,8 @@ void GameManager::Render()
     Environment::Get()->Set();
     SceneManager::Get()->Render();
 
+    Font::Get()->GetDC()->BeginDraw(); // 클리어. 폰트출력하기 위한 사전작업.
+
     Environment::Get()->SetPost();
     SceneManager::Get()->PostRender();
 
@@ -54,10 +56,15 @@ void GameManager::Render()
     ImGui::NewFrame();
 
     string fps = "FPS : " + to_string(Timer::Get()->GetFPS());
-    ImGui::Text(fps.c_str());
+    Font::Get()->SetColor("white");
+    Font::Get()->SetStyle("Default");
+    Font::Get()->RenderText(fps, {100, 20});
+
 
     Environment::Get()->GUIRender();
     SceneManager::Get()->GUIRender();
+
+    Font::Get()->GetDC()->EndDraw(); // 폰트출력 종료.
 
     ImGui::Render();
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -73,6 +80,11 @@ void GameManager::Create()
     Environment::Get();
     SceneManager::Get();
     Mouse::Get();
+    Font::Get();
+
+    Font::Get()->AddColor("white", 1, 1, 1);
+    Font::Get()->AddStyle("Default", L"배민 을지로10년후체");
+
     ImGui::CreateContext();
     ImGui::StyleColorsDark();
 
@@ -90,6 +102,7 @@ void GameManager::Delete()
     Environment::Delete();
     SceneManager::Delete();
     Mouse::Delete();
+    Font::Delete();
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();
 

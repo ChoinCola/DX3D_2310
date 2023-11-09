@@ -279,6 +279,9 @@
     <ClInclude Include="Objects\MincraftObject\MineCraftUI.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Utilities\Font.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2310.cpp">
@@ -468,6 +471,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Objects\MincraftObject\MineCraftUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\Font.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

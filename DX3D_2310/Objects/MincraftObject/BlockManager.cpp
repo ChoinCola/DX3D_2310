@@ -24,6 +24,8 @@ void BlockManager::Redner()
 
 void BlockManager::GUIRender()
 {
+	for (Block* block : blocks)
+		block->GUIRender();
 }
 
 void BlockManager::InsertBlocks(Ray mouseray)
@@ -77,9 +79,7 @@ void BlockManager::InsertBlocks(Ray mouseray)
 		result.Normalized();
 
 		int random = MATH->Random(0, 3);
-		string name = "Block" + to_string(random);
-
-		Block* newblock = new Block(name);
+		Block* newblock = new Block(BlockDataManager::Get()->GetBlockData(random));
 		newblock->SetLocalPosition(block->GetLocalPosition() + result * block->Getsize().x * 2);
 
 		blocks.push_back(newblock);
@@ -119,7 +119,7 @@ void BlockManager::CreateBlocks(UINT x, UINT y, UINT z)
 				int random = 100 + MATH->Random(0, BlockDataManager::Get()->GetBlockSize()) + 1;
 				BlockData data = BlockDataManager::Get()->GetBlockData(random);
 
-				Block* block = new Block(data.modelname);
+				Block* block = new Block(data);
 				block->SetLocalPosition(Vector3(i, j, k));
 				blocks.push_back(block);
 			}
@@ -133,11 +133,10 @@ void BlockManager::CollisionBlockToPlayer(SphereCollider& pos)
 	// 아닐경우 자기자신의 위치값을 반환함.
 	for (Block*& block : blocks)
 	{
-		if (block->IsSphereCollision(&pos))
+		if (block->IsCollision(&pos))
 		{
-			Vector3 moveposiion = pos.GetGlobalPosition() - pos.GetHitpoint();
+			Vector3 moveposiion = pos.GetLocalPosition() - pos.GetHitpoint();
 			moveposiion.Normalized();
-
 			pos.Translate(moveposiion * (pos.Radius() - pos.Getdistance()));
 		}
 	}
@@ -199,7 +198,8 @@ bool BlockManager::AddBlock(Block* block)
 	//Ray ray = CAM->ScreenPointToRay(Vector3(CENTER_X, CENTER_Y, 0));
 	Ray ray = CAM->ScreenPointToRay(Mouse::Get()->GetPosition());
 
-	// 가장 최소거리에 float값의 최대값을 넣어서. 다음값이 무조건 최소가 될 수 있도록 한다.
+	// 가장 최소거리에 float값의 최대값을 넣어서. 다음값이 무조건 
+	// 최소가 될 수 있도록 한다.
 	float minDistance = FLT_MAX;
 
 	// 접촉부

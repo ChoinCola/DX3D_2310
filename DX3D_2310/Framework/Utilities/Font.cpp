@@ -33,9 +33,11 @@ Font::Font()
 
 Font::~Font()
 {
+	// 컬러
 	for (pair<string, ID2D1SolidColorBrush*> brush : brushes)
 		brush.second->Release();
 
+	// 폰트
 	for (pair<string, IDWriteTextFormat*> format : formats)
 		format.second->Release();
 

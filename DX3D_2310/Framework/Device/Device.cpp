@@ -46,7 +46,8 @@ void Device::CreateDeviceAndSwapChain()
         nullptr,
         D3D_DRIVER_TYPE_HARDWARE,
         0,
-        D3D11_CREATE_DEVICE_DEBUG,
+        // D3D11_CREATE_DEVICE_BGRA_SUPPORT 이거 빼먹지 말자. 디버깅 오류확인용
+        D3D11_CREATE_DEVICE_DEBUG | D3D11_CREATE_DEVICE_BGRA_SUPPORT,
         nullptr,
         0,
         D3D11_SDK_VERSION,

@@ -183,6 +183,7 @@
     <ClInclude Include="Framework\State\SamplerState.h" />
     <ClInclude Include="Framework\Utilities\BinaryReader.h" />
     <ClInclude Include="Framework\Utilities\BinaryWriter.h" />
+    <ClInclude Include="Framework\Utilities\Font.h" />
     <ClInclude Include="Framework\Utilities\Keyboard.h" />
     <ClInclude Include="Framework\Utilities\Mouse.h" />
     <ClInclude Include="Framework\Utilities\rapidcsv.h" />
@@ -270,6 +271,7 @@
     <ClCompile Include="Framework\State\SamplerState.cpp" />
     <ClCompile Include="Framework\Utilities\BinaryReader.cpp" />
     <ClCompile Include="Framework\Utilities\BinaryWriter.cpp" />
+    <ClCompile Include="Framework\Utilities\Font.cpp" />
     <ClCompile Include="Framework\Utilities\Keyboard.cpp" />
     <ClCompile Include="Framework\Utilities\Mouse.cpp" />
     <ClCompile Include="Framework\Utilities\Timer.cpp" />

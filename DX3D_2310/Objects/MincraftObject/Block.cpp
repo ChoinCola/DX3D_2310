@@ -1,15 +1,15 @@
 #include "Framework.h"
 
-Block::Block(string name)
+Block::Block(BlockData data)
+	: data(data)
 {
-	this->name = name;
-	SetTag(name + "Collider");
-	model = new Model(name);
+	SetTag(data.name + "Collider");
+	model = new Model(data.modelname);
 	model->SetParent(this);
 	model->SetLocalScale(Vector3(0.1, 0.1, 0.1));
 	model->SetLocalPosition(GetLocalPosition() - Vector3(0, +0.5, 0));
 
-	string insertname = "Textures/UI/Blocks/" + name + ".png";
+	string insertname = "Textures/UI/Blocks/" + data.modelname + ".png";
 	string Test = "Textures/Colors/Black.png";
 	Inventorymodel = new Quad(ToWString(insertname));
 }
@@ -27,6 +27,9 @@ void Block::Update()
 
 void Block::Render()
 {
+	if (CAM->ContainSphere(localPosition, 0.5) == false)
+		return;
+
 	model->Render();
 	//Collider::Render();
 }
@@ -39,6 +42,13 @@ void Block::InventoryRender()
 
 void Block::GUIRender()
 {
+	if (CAM->ContainSphere(localPosition, 0.5f) == false)
+		return;
+
+	Vector3 screenPos = CAM->WorldToScreen(localPosition + Vector3(0, 0.5f, 0));
+
+	Font::Get()->RenderText(data.name, { screenPos.x, screenPos.y });
+
 	model->GUIRender();
 	Transform::GUIRender();
 }

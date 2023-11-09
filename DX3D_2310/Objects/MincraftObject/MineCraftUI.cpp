@@ -113,7 +113,7 @@ void MineCraftUI::Build()
 	if (Under_inventorymap[nowselect].count == 0) return;
 	else if (Under_inventorymap[nowselect].count > 0)
 	{
-		Block* block = new Block(Under_inventorymap[nowselect].block->Getname());
+		Block* block = new Block(Under_inventorymap[nowselect].block->GetBlockData());
 
 		if (BlockManager::Get()->AddBlock(block))
 			Under_inventorymap[nowselect].count--;
@@ -258,7 +258,7 @@ void MineCraftUI::Drop()
 				{
 					float len = (inventorymap[i].pos - nowpos).Length();
 					if (minfloat > len && 
-						(inventorymap[i].block == nullptr || inventorymap[i].block->Getname() == MouseBag.second.block->Getname())) {
+						(inventorymap[i].block == nullptr || inventorymap[i].block->GetBlockData().name == MouseBag.second.block->GetBlockData().name)) {
 						minfloat = len;
 						insertpos = i;
 						insert = true;
@@ -269,7 +269,7 @@ void MineCraftUI::Drop()
 				{
 					float len = (Under_inventorymap[i].pos2 - nowpos).Length();
 					if (minfloat > len && 
-					(Under_inventorymap[i].block == nullptr || Under_inventorymap[i].block->Getname() == MouseBag.second.block->Getname())) {
+					(Under_inventorymap[i].block == nullptr || Under_inventorymap[i].block->GetBlockData().name == MouseBag.second.block->GetBlockData().name)) {
 						minfloat = len;
 						insertpos = i;
 						insert = false;
@@ -299,7 +299,8 @@ void MineCraftUI::Drop()
 				{
 					float len = (Under_inventorymap[i].pos - nowpos).Length();
 					if (minfloat > len && 
-						(Under_inventorymap[i].block == nullptr || Under_inventorymap[i].block->Getname() == MouseBag.second.block->Getname())) {
+						(Under_inventorymap[i].block == nullptr ||
+							Under_inventorymap[i].block->GetBlockData().name == MouseBag.second.block->GetBlockData().name)) {
 						minfloat = len;
 						insertpos = i;
 					}
@@ -352,7 +353,7 @@ bool MineCraftUI::InsertInventory(Block* input)
 			Under_inventorymap[i].block = input;
 			return true;
 		}
-		else if (Under_inventorymap[i].block->Getname() == input->Getname()) {
+		else if (Under_inventorymap[i].block->GetBlockData().name == input->GetBlockData().name) {
 			Under_inventorymap[i].count++;
 			delete input;
 			return true;
@@ -366,7 +367,7 @@ bool MineCraftUI::InsertInventory(Block* input)
 			inventorymap[i].block = input;
 			return true;
 		}
-		else if (inventorymap[i].block->Getname() == input->Getname()) {
+		else if (inventorymap[i].block->GetBlockData().name == input->GetBlockData().name) {
 			inventorymap[i].count++;
 			delete input;
 			return true;

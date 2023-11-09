@@ -6,11 +6,12 @@ public:
     Font();
     ~Font();
 
+    // 색상을. 텍스트처럼 쉐이더처럼 사용하는것.
     void AddColor(string key, float r, float g, float b);
     void AddStyle(string key, wstring font, float size = 20.0f,
-        DWRITE_FONT_WEIGHT weight = DWRITE_FONT_WEIGHT_NORMAL,
-        DWRITE_FONT_STYLE style = DWRITE_FONT_STYLE_NORMAL,
-        DWRITE_FONT_STRETCH stretch = DWRITE_FONT_STRETCH_NORMAL);
+        DWRITE_FONT_WEIGHT weight = DWRITE_FONT_WEIGHT_NORMAL, // 사이즈
+        DWRITE_FONT_STYLE style = DWRITE_FONT_STYLE_NORMAL,// 폰트 기울이기등
+        DWRITE_FONT_STRETCH stretch = DWRITE_FONT_STRETCH_NORMAL); // 밑줄 가운뎃줄
 
     void SetColor(string key);
     void SetStyle(string key);
@@ -26,6 +27,7 @@ private:
     ID2D1Factory1* factory;
     IDWriteFactory* writeFactory;
 
+    // 2D Device.
     ID2D1Device* device;
     ID2D1DeviceContext* context;
 

@@ -3,7 +3,7 @@
 class Block : public BoxCollider
 {
 public:
-	Block(string name);
+	Block(BlockData data);
 	~Block();
 
 	void Update();
@@ -11,13 +11,12 @@ public:
 	void InventoryRender();
 	void GUIRender();
 	Quad* GetInventoryModel() { return Inventorymodel; }
-	string Getname() { return name; }
+	BlockData GetBlockData() { return data; }
 	Vector3 GetDirection(Vector3 point);
 
 	
 private:
-	string name;
-
+	BlockData data;
 	Model* model;
 
 	Quad* Inventorymodel;

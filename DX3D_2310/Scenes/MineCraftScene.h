@@ -13,8 +13,6 @@ public:
 	void PostRender() override;
 	void GUIRender() override;
 
-private:
-	void CollisionandUp();
 
 private:
 	Steve* player;
