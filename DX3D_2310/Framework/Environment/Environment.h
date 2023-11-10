@@ -42,6 +42,7 @@ private:
     SamplerState* samplerState;
     RasterizerState* rasterizerSate[2];
     BlendState* blendState[2];
+    DepthStencilState* depthState[2];
 
     Vector3 mousemovevalue = {};
 

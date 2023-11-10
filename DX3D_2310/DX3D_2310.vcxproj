@@ -179,6 +179,7 @@
     <ClInclude Include="Framework\Shader\Shader.h" />
     <ClInclude Include="Framework\Shader\VertexShader.h" />
     <ClInclude Include="Framework\State\BlendState.h" />
+    <ClInclude Include="Framework\State\DepthStencilState.h" />
     <ClInclude Include="Framework\State\RasterizerState.h" />
     <ClInclude Include="Framework\State\SamplerState.h" />
     <ClInclude Include="Framework\Utilities\BinaryReader.h" />
@@ -218,6 +219,7 @@
     <ClInclude Include="Objects\MincraftObject\Block.h" />
     <ClInclude Include="Objects\MincraftObject\BlockDataManager.h" />
     <ClInclude Include="Objects\MincraftObject\BlockManager.h" />
+    <ClInclude Include="Objects\MincraftObject\InventoryUI.h" />
     <ClInclude Include="Objects\MincraftObject\MineCraftUI.h" />
     <ClInclude Include="Objects\MincraftObject\Steve.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
@@ -228,6 +230,7 @@
     <ClInclude Include="Objects\RPG\Item\Item.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Objects\RPG\Item\Table.h" />
+    <ClInclude Include="Objects\Basic\UI\Button.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\BoxPlayDemo.h" />
     <ClInclude Include="Scenes\LightScene.h" />
@@ -267,6 +270,7 @@
     <ClCompile Include="Framework\Shader\VertexShader.cpp" />
     <ClCompile Include="Framework\Shader\Shader.cpp" />
     <ClCompile Include="Framework\State\BlendState.cpp" />
+    <ClCompile Include="Framework\State\DepthStencilState.cpp" />
     <ClCompile Include="Framework\State\RasterizerState.cpp" />
     <ClCompile Include="Framework\State\SamplerState.cpp" />
     <ClCompile Include="Framework\Utilities\BinaryReader.cpp" />
@@ -290,6 +294,7 @@
     <ClCompile Include="Objects\MincraftObject\Block.cpp" />
     <ClCompile Include="Objects\MincraftObject\BlockDataManager.cpp" />
     <ClCompile Include="Objects\MincraftObject\BlockManager.cpp" />
+    <ClCompile Include="Objects\MincraftObject\InventoryUI.cpp" />
     <ClCompile Include="Objects\MincraftObject\MineCraftUI.cpp" />
     <ClCompile Include="Objects\MincraftObject\Steve.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />
@@ -299,6 +304,7 @@
     <ClCompile Include="Objects\RPG\Item\Chair.cpp" />
     <ClCompile Include="Objects\RPG\Item\Item.cpp" />
     <ClCompile Include="Objects\RPG\Item\Table.cpp" />
+    <ClCompile Include="Objects\Basic\UI\Button.cpp" />
     <ClCompile Include="Scenes\BoxPlayDemo.cpp" />
     <ClCompile Include="Scenes\CollisionScene.cpp" />
     <ClCompile Include="Scenes\GridScene.cpp" />

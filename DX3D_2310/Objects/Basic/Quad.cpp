@@ -10,6 +10,7 @@ Quad::Quad(Float2 size) : size(size)
 }
 
 Quad::Quad(wstring texturefile)
+	: GameObject(L"Basic/Texture.hlsl")
 {
 	Texture* texture = Texture::Add(texturefile);
 	material->SetDiffuseMap(texturefile);
