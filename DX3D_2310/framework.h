@@ -43,6 +43,7 @@
 #include <random>
 #include <assert.h>
 #include <fstream>
+#include <functional>
 
 #include <d3d11.h>
 #include <d3dcompiler.h>
@@ -88,6 +89,9 @@ typedef XMFLOAT2 Float2;
 typedef XMMATRIX Matrix;
 typedef XMVECTOR Vector4;	// 다양한 사용방식이 보장된 vector
 typedef XMFLOAT4X4 Float4x4;
+typedef function<void()> Event;
+typedef function<void(void*)> ParamEvent;
+
 
 // Framework Header
 #include "Framework/Utilities/Singleton.h"
@@ -129,6 +133,7 @@ using namespace Utility;
 #include "Framework/State/RasterizerState.h"
 #include "Framework/State/SamplerState.h"
 #include "Framework/State/BlendState.h"
+#include "Framework/State/DepthStencilState.h"
 
 // Math Header
 #include "Framework/Math/Vector3.h"
@@ -157,8 +162,10 @@ using namespace Utility;
 #include "Objects/Basic/Cube.h"
 #include "Objects/Basic/Sphere.h"
 #include "Objects/Basic/Icosahedron.h"
+#include "Objects/Basic/UI/Button.h"
 
 #include "Objects/ColliderBall/Ball.h"
+
 
 // Robot Header
 #include "Objects/Robot/Robot.h"
@@ -188,6 +195,7 @@ using namespace Utility;
 #include "Objects/MincraftObject/BlockDataManager.h"
 #include "Objects/MincraftObject/Block.h"
 #include "Objects/MincraftObject/BlockManager.h"
+#include "Objects/MincraftObject/InventoryUI.h"
 #include "Objects/MincraftObject/MineCraftUI.h"
 #include "Objects/MincraftObject/Steve.h"
 

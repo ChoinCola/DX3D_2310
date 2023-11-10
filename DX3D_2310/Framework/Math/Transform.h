@@ -17,6 +17,8 @@ public:
 	void Save();
 	void Load();
 
+	bool IsActive();
+
 	Vector3 GetLocalPosition() const { return localPosition; }
 	Vector3 GetLocalRotation() const { return localRotation; }
 	Vector3 GetLocalScale() const { return localScale; }
@@ -42,10 +44,13 @@ public:
 	Vector3 GetForward() const { return forward.GetNormalized(); }
 	Vector3 GetBack() const { return -forward.GetNormalized(); }
 
+	void SetActive(bool isActive) { this->isActive = isActive; }
+
 
 protected:
 	string tag;
-
+	bool isActive = true;
+	
 	Vector3 localPosition = {};
 	Vector3 localRotation = {};
 	Vector3 localScale = { 1, 1, 1 }; // 배율이기 떄문에 0이 되면 안됨.

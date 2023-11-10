@@ -112,3 +112,14 @@ void Transform::Load()
 	delete reader;
 
 }
+
+bool Transform::IsActive()
+{
+	if (parent == nullptr)
+		return isActive;
+
+	if (isActive == false)
+		return false;
+
+	return parent->IsActive();
+}

@@ -40,6 +40,6 @@ void MinceCraftScene::PostRender()
 
 void MinceCraftScene::GUIRender()
 {
-	player->GUIRender();
 	BlockManager::Get()->GUIRender();
+	player->GUIRender();
 }

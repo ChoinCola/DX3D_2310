@@ -11,7 +11,7 @@ Block::Block(BlockData data)
 
 	string insertname = "Textures/UI/Blocks/" + data.modelname + ".png";
 	string Test = "Textures/Colors/Black.png";
-	Inventorymodel = new Quad(ToWString(insertname));
+	Inventorymodel = new Button(ToWString(insertname));
 }
 
 Block::~Block()
@@ -40,15 +40,20 @@ void Block::InventoryRender()
 	Inventorymodel->Render();
 }
 
-void Block::GUIRender()
+void Block::PostRender()
 {
 	if (CAM->ContainSphere(localPosition, 0.5f) == false)
 		return;
 
 	Vector3 screenPos = CAM->WorldToScreen(localPosition + Vector3(0, 0.5f, 0));
-
 	Font::Get()->RenderText(data.name, { screenPos.x, screenPos.y });
 
+}
+
+void Block::GUIRender()
+{
+	if (CAM->ContainSphere(localPosition, 0.5f) == false)
+		return;
 	model->GUIRender();
 	Transform::GUIRender();
 }

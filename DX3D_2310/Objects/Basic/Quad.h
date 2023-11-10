@@ -4,11 +4,18 @@ class Quad : public GameObject
 public:
 	typedef VertexUVNormalTangent VertexType;
 
-	Quad(Float2 size = { 100, 1000 });
+	Quad(Float2 size = { 1, 1 });
 	Quad(wstring texturefile);
 	~Quad();
 
 	void Render();
+
+	Float2 GetSize()
+	{
+		return 
+		{ GetGlobalScale().x * size.x, 
+			GetGlobalScale().y * size.y };
+	}
 
 	void IsRender() { render = !render; }
 

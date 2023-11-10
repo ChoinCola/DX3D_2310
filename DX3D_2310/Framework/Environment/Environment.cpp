@@ -59,6 +59,7 @@ void Environment::Set()
 {
 	rasterizerSate[isWireMode]->SetState();
 	blendState[0]->SetState();
+	depthState[0]->SetState();
 
 	mainCamera->SetView();
 	lightBuffer->SetPS(0);
@@ -70,6 +71,7 @@ void Environment::Set()
 void Environment::SetPost()
 {
 	blendState[1]->SetState();
+	depthState[1]->SetState();
 
 	uiViewBuffer->SetVS(1);
 	projectionBuffer->Set(orthograpic);
@@ -115,6 +117,10 @@ void Environment::CreateState()
 	blendState[0] = new BlendState();
 	blendState[1] = new BlendState();
 	blendState[1]->Alpha(true);
+
+	depthState[0] = new DepthStencilState();
+	depthState[1] = new DepthStencilState();
+	depthState[1]->DepthEnable(false);
 }
 
 void Environment::EditLight(LightBuffer::Light* light, int index)
