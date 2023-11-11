@@ -3,9 +3,7 @@
 class InvenBlock : public Button
 {
 public:
-	InvenBlock(Vector3 pos, Transform* Parent) : Button(Float2(32, 32)) {
-		compartment.SetParent(Parent);
-	};
+	InvenBlock(Vector3 pos, Transform* Parent) : Button(Float2(32, 32)) {};
 	~InvenBlock() = default;
 
 	void clear()
@@ -14,6 +12,7 @@ public:
 		SAFE_DELETE(block);
 	}
 	void Update() { UpdateWorld(); }
+
 	void InsertBlock(Block* block) { 
 		if (block != nullptr && (block->GetBlockData().name == this->block->GetBlockData().name)) {
 			delete block;
@@ -21,11 +20,12 @@ public:
 			return;
 		}
 
-		block->GetInventoryModel()->SetLocalPosition(compartment.GetLocalPosition());
+		block->GetInventoryModel()->SetLocalPosition(GetLocalPosition());
 		this->block = block; 
 	}
 
-	Block* GetBlock() {
+	Block* GetBlock() 
+	{
 		if (count == 0) {
 			clear();
 			return block;
@@ -46,10 +46,8 @@ public:
 	}
 
 private:
-	UINT count;
-	Block* block;
-	Button compartment;
-
+	UINT count = 0;
+	Block* block = nullptr;
 };
 
 class InventoryUI : public Quad

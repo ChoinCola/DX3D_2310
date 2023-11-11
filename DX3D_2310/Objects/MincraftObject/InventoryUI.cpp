@@ -4,6 +4,19 @@
 InventoryUI::InventoryUI(wstring textureFile)
 	: Quad(textureFile)
 {
+	FOR(9)
+	{
+		Under_inventorymap[i] = new InvenBlock(inventoryBaseDown + Vector3(i * 16, 0, 0), this);
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 9; j++)
+		{
+			Under_inventorymap[i * 9 + j] = new InvenBlock(inventoryBase + Vector3(j * 16, i * 16, 0), this);
+		}
+	}
+
 	SetTag("InventoryPanal");
 	Load();
 }
@@ -65,9 +78,9 @@ void InventoryUI::Drag()
 	{
 		FOR(9)
 		{
-			if (Under_inventorymap[i].block != nullptr) {
+			if (Under_inventorymap[i] != nullptr) {
 				// 마우스가 집으면
-				if (Under_inventorymap[i].block->GetInventoryModel()->CollisionChack(Mouse::Get()->GetPosition()) && Mouse::Get()->Down(0))
+				if (Under_inventorymap[i]->)
 				{
 					// 첫 값에는 원래 포지션의 번호와 위치를 가져옴.
 					MouseBag.first.first = i;
