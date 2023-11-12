@@ -15,11 +15,6 @@ public:
 private:
 	void Under_UI();
 	void ViewInventory();
-	void InventoryRender();
-
-	void MouseBagUpdate();
-	void MouseBagRender();
-	bool InsertInventory(Block* input);
 
 private:
 

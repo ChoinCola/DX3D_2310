@@ -28,6 +28,9 @@ void Button::Update()
                 event();
             isDownCheck = false;
         }
+
+        if (isDownCheck == false)
+            RunEvent(Upevent, Upparamevent, Upobject);
     }
     else
     {
@@ -50,5 +53,30 @@ void Button::Update()
         break;
     }
 
+    ChackStateEevent();
     UpdateWorld();
+}
+
+void Button::ChackStateEevent()
+{
+    switch (state)
+    {
+    case Button::NONE:
+
+
+        break;
+    case Button::DOWN:
+        RunEvent(event, paramevent, object);
+        break;
+    case Button::OVER:
+        break;
+    default:
+        break;
+    }
+}
+
+void Button::RunEvent(Event ev, ParamEvent pev, void* input)
+{
+    if (ev != nullptr) ev();
+    if (pev != nullptr && input != nullptr) pev(input);
 }

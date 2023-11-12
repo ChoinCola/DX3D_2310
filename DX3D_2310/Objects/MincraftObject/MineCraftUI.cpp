@@ -38,6 +38,8 @@ MineCraftUI::MineCraftUI()
 		// 좌상단 인벤토리 위치 : 496, 342
 		// 좌하단 사용인벤토리 위치 : 496, 226
 		inventory = new InventoryUI(L"Textures/UI/MineCraftUI/inventory.png");
+		inventory->SetLocalScale(Vector3(2, 2, 2));
+		inventory->IsRender();
 	}
 	// 데이터 시작시 인벤토리 Pos 정해줌.
 
@@ -53,9 +55,6 @@ void MineCraftUI::Update()
 {
 	Under_UI();
 	ViewInventory();
-	Drag();
-	Drop();
-	MouseBagUpdate();
 
 	for (Quad* def : UIVector)
 		def->UpdateWorld();
@@ -64,11 +63,9 @@ void MineCraftUI::Update()
 
 void MineCraftUI::PostRender()
 {
-
 	for (Quad* def : UIVector)
 		def->Render();
-	MouseBagRender();
-	InventoryRender();
+	inventory->PostRender();
 }
 
 void MineCraftUI::GUIRender()
@@ -87,23 +84,19 @@ void MineCraftUI::Mining()
 	if (block == nullptr)
 		return;
 
-	InsertInventory(block);
+	inventory->insertblock(block);
 }
 
 void MineCraftUI::Build()
 {
-	if (inventory->GetUnderinventory(nowselect).count == 0) return;
-	else if (inventory->GetUnderinventory(nowselect).count > 0)
+	if (inventory->GetUnderinventory(nowselect)->GetBlockCount() <= 0) return;
+	else
 	{
-		Block* block = new Block(inventory->GetUnderinventory(nowselect).block->GetBlockData());
-
-		if (BlockManager::Get()->AddBlock(block))
-			inventory->GetUnderinventory(nowselect).count--;
-		else
-			delete block;
+		Block* block = inventory->GetUnderinventory(nowselect)->PopBlock();
+		if (!BlockManager::Get()->AddBlock(block)) {
+			inventory->GetUnderinventory(nowselect)->InsertBlock(block);
+		}
 	}
-
-	if (inventory->GetUnderinventory(nowselect).count == 0) inventory->GetUnderinventory(nowselect).block = nullptr;
 }
 
 void MineCraftUI::Under_UI()
@@ -121,70 +114,7 @@ void MineCraftUI::ViewInventory()
 {
 	if (KEY->Down('I'))
 	{
-		inventory->IsActive();
+		inventory->IsRender();
+		inventory->SetActive(!inventory->GetRender());
 	}
-}
-
-void MineCraftUI::InventoryRender()
-{
-	FOR(9)
-	{
-		if (Under_inventorymap[i].block != nullptr) {
-			Under_inventorymap[i].block->GetInventoryModel()->SetLocalPosition(Under_inventorymap[i].pos);
-			Under_inventorymap[i].block->GetInventoryModel()->UpdateWorld();
-			Under_inventorymap[i].block->GetInventoryModel()->Render();
-		}
-	}
-}
-
-
-void MineCraftUI::MouseBagUpdate()
-{
-	if (MouseBag.second.block != nullptr)
-	{
-		MouseBag.second.block->GetInventoryModel()->SetLocalPosition(Mouse::Get()->GetPosition() + Vector3(0, 0, -1)); 
-		MouseBag.second.block->GetInventoryModel()->UpdateWorld();
-	}
-}
-
-void MineCraftUI::MouseBagRender()
-{
-	if (MouseBag.second.block != nullptr)
-	{
-		MouseBag.second.block->GetInventoryModel()->Render();
-	}
-}
-
-
-bool MineCraftUI::InsertInventory(Block* input)
-{
-	FOR(9)
-	{
-		if (Under_inventorymap[i].block == nullptr) {
-			Under_inventorymap[i].count = 1;
-			Under_inventorymap[i].block = input;
-			return true;
-		}
-		else if (Under_inventorymap[i].block->GetBlockData().name == input->GetBlockData().name) {
-			Under_inventorymap[i].count++;
-			delete input;
-			return true;
-		}
-	}
-
-	FOR(27)
-	{
-		if (inventorymap[i].block == nullptr) {
-			inventorymap[i].count = 1;
-			inventorymap[i].block = input;
-			return true;
-		}
-		else if (inventorymap[i].block->GetBlockData().name == input->GetBlockData().name) {
-			inventorymap[i].count++;
-			delete input;
-			return true;
-		}
-	}
-
-	return false;
 }

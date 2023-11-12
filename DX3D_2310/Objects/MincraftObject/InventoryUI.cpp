@@ -4,16 +4,53 @@
 InventoryUI::InventoryUI(wstring textureFile)
 	: Quad(textureFile)
 {
+	SetActive(false);
+
+	Under_inventoryView.resize(9);
 	FOR(9)
 	{
-		Under_inventorymap[i] = new InvenBlock(inventoryBaseDown + Vector3(i * 16, 0, 0), this);
+		Under_inventorymap[i] = new InvenBlock(inventoryBaseDown + Vector3(i * 18, 0, 0), this);
+
+		Event isDrag = bind(&InventoryUI::SetDrag, this);
+		Under_inventorymap[i]->SetEvent(isDrag);
+		
+		Event nondef = bind(&InventoryUI::SetDrag, this);
+		Under_inventorymap[i]->SetEvent(nondef);
+
+		ParamEvent def = bind(&InvenBlock::PopMouse, Under_inventorymap[i], placeholders::_1);
+		Under_inventorymap[i]->SetPramEvnet(def, &MouseBag);
+
+		def = bind(&InvenBlock::InsertMouse, Under_inventorymap[i], placeholders::_1);
+		Under_inventorymap[i]->SetUpPramEvnet(def, &MouseBag);
+
+		Under_inventorymap[i]->IsRender();
+
+		Quad* insertquad = new Quad(L"Textures/UI/Blocks/block0.png");
+		insertquad->SetLocalPosition(Under_inventorymapBaseDown + Vector3(i * 40, 0, 0));
+		insertquad->UpdateWorld();
+
+		Under_inventoryView[i] = insertquad;
+		Under_inventoryView[i]->IsRender();
+		Under_inventoryView[i]->SetActive(false);
 	}
 
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 9; j++)
 		{
-			Under_inventorymap[i * 9 + j] = new InvenBlock(inventoryBase + Vector3(j * 16, i * 16, 0), this);
+			inventorymap[i * 9 + j] = new InvenBlock(inventoryBase + Vector3(j * 18, i * 18, 0), this);
+
+			Event nondef = bind(&InventoryUI::SetDrag, this);
+			inventorymap[i * 9 + j]->SetEvent(nondef);
+
+			ParamEvent def = bind(&InvenBlock::PopMouse, inventorymap[i * 9 + j], placeholders::_1);
+			inventorymap[i * 9 + j]->SetPramEvnet(def, Mouse::Get()->GetPositionOrigin());
+
+			def = bind(&InvenBlock::InsertMouse, inventorymap[i * 9 + j], placeholders::_1);
+			Under_inventorymap[i]->SetUpPramEvnet(def, &MouseBag);
+
+			inventorymap[i * 9 + j]->IsRender();
+			inventorymap[i * 9 + j]->SetActive(false);
 		}
 	}
 
@@ -28,7 +65,9 @@ InventoryUI::~InventoryUI()
 
 void InventoryUI::Update()
 {
-	if (Mouse::Get()->Down(0) && CollisionChack(Mouse::Get()->GetPosition()))
+	Under_inventoryViewUpdate();
+
+	if (!isDrag && Mouse::Get()->Down(0) && CollisionChack(Mouse::Get()->GetPosition()))
 	{
 		isDrag = true;
 		offset = GetGlobalPosition() - Mouse::Get()->GetPosition();
@@ -40,182 +79,114 @@ void InventoryUI::Update()
 	}
 
 	if (Mouse::Get()->Up(0))
-		isDrag - false;
+		isDrag = false;
 
 	UpdateWorld();
 	InventoryposUpdate();
+	Update_MouseBag();
 }
 
-void InventoryUI::PosRender()
+void InventoryUI::PostRender()
 {
 	Quad::Render();
 	InventoryRender();
+	Under_inventoryViewRender();
+	PostRender_MouseBag();
+}
+
+void InventoryUI::insertblock(Block* block)
+{
+	FOR(9)
+	{
+		if (Under_inventorymap[i]->InsertBlock(block))
+			return;
+	}
+
+	FOR(27)
+	{
+		if (inventorymap[i]->InsertBlock(block))
+			return;
+	}
 }
 
 void InventoryUI::InventoryRender()
 {
 	FOR(9)
-		Under_inventorymap[i]->Render();
+		Under_inventorymap[i]->PostRender();
 
 	FOR(27)
-		inventorymap[i]->Render();
+		inventorymap[i]->PostRender();
+
 }
 
 void InventoryUI::InventoryposUpdate()
 {
-	FOR(9)
+	FOR(9) {
 		Under_inventorymap[i]->Update();
-
-	FOR(27)
-		inventorymap[i]->Update();
-}
-
-void InventoryUI::Drag()
-{
-	// Drag 중이 아닐때만 동작함.
-	// 밑 칸은 false, 윗칸은 true
-	if (!isDrag)
-	{
-		FOR(9)
-		{
-			if (Under_inventorymap[i] != nullptr) {
-				// 마우스가 집으면
-				if (Under_inventorymap[i]->)
-				{
-					// 첫 값에는 원래 포지션의 번호와 위치를 가져옴.
-					MouseBag.first.first = i;
-					MouseBag.first.second = false;
-
-					// 값에는 그 블럭의 숫자와  그 블럭의 포인터를 가져옴.
-					MouseBag.second = Under_inventorymap[i];
-
-					// 원래있었던 데이터의 포인터는 null로 초기화해줌.
-					Under_inventorymap[i].count = 0;
-					Under_inventorymap[i].block = nullptr;
-					isDrag = true;
-
-					return; // 마우스가 집으면 끝
-				}
-			}
-
-		}
-
-		FOR(27)
-		{
-			if (inventorymap[i].block != nullptr) {
-				// 마우스가 집으면
-				if (inventorymap[i].block->GetInventoryModel()->CollisionChack(Mouse::Get()->GetPosition()) && Mouse::Get()->Down(0))
-				{
-					// 첫 값에는 원래 포지션의 번호와 위치를 가져옴.
-					MouseBag.first.first = i;
-					MouseBag.first.second = true;
-
-					// 값에는 그 블럭의 숫자와  그 블럭의 포인터를 가져옴.
-					MouseBag.second = inventorymap[i];
-
-					// 원래있었던 데이터의 포인터는 null로 초기화해줌.
-
-					inventorymap[i].count = 0;
-					inventorymap[i].block = nullptr;
-					isDrag = true;
-
-					return; // 마우스가 집으면 끝
-				}
-			}
-		}
 	}
 
+	FOR(27) {
+		inventorymap[i]->Update();
+	}
+}
 
+void InventoryUI::Under_inventoryViewUpdate()
+{
+	FOR(9)
+	{
+		if (Under_inventorymap[i]->GetBlock() != nullptr)
+		{
+			if (Under_inventoryView[i]->GetRender() == false)
+				Under_inventoryView[i]->IsRender();
+
+			wstring def = ToWString(Under_inventorymap[i]->GetBlock()->GetBlockData().modelname);
+			Under_inventoryView[i]->GetMaterial()->SetDiffuseMap(L"Textures/UI/Blocks/" + def + L".png");
+		}
+		else
+		{
+			if (Under_inventoryView[i]->GetRender() == true)
+				Under_inventoryView[i]->IsRender();
+		}
+	}
+}
+
+void InventoryUI::Under_inventoryViewRender()
+{
+	FOR(9)
+	{
+		if (Under_inventorymap[i]->GetBlock() != nullptr)
+		{
+			Under_inventoryView[i]->Render();
+			string co = to_string(Under_inventorymap[i]->GetCount());
+			Float2 pos = Float2(Under_inventoryView[i]->GetLocalPosition().x + 18, Under_inventoryView[i]->GetLocalPosition().y - 8);
+			Font::Get()->RenderText(co, pos);
+		}
+	}
+}
+
+void InventoryUI::Update_MouseBag()
+{
+	if (MouseBag.second.second != nullptr)
+	{
+		//MouseBag.second.second->SetParent(nullptr);
+		MouseBag.second.second->GetInventoryModel()->SetLocalPosition(Mouse::Get()->GetPosition());
+		MouseBag.second.second->Update();
+	}
+}
+
+void InventoryUI::PostRender_MouseBag()
+{
+	if (MouseBag.second.second != nullptr)
+	{
+		string co = to_string(MouseBag.second.first);
+		Float2 pos = Float2(MouseBag.second.second->GetLocalPosition().x + 18, MouseBag.second.second->GetLocalPosition().y - 8);
+		Font::Get()->RenderText(co, pos);
+
+		MouseBag.second.second->InventoryRender();
+	}
 }
 
 void InventoryUI::Drop()
 {
 	// Drop
-	if (!Mouse::Get()->Press(0) && !Mouse::Get()->Down(0) && isDrag) // 안누르고 있을시. 연산진행함. 드래그중일때도 포함.
-	{
-		// 일단 드래그는 끝이니까 끝이라고 알려줌
-		isDrag = false;
-		if (MouseBag.second.block != nullptr) // 가지고 온 bag이 nullptr이 아닐경우.
-		{
-			Vector3 nowpos = Mouse::Get()->GetPosition();
-
-			// 인벤토리 창이 열려있는지 먼저 체크 인벤토리 창 안인지 확인.
-			// 인벤토리창 안에 있을경우,
-			if (CollisionChack(nowpos))
-			{
-				//검사
-				float minfloat = FLT_MAX;
-				UINT insertpos;
-				bool insert;
-
-				FOR(27)
-				{
-					float len = (inventorymap[i].pos - nowpos).Length();
-					if (minfloat > len &&
-						(inventorymap[i].block == nullptr || inventorymap[i].block->GetBlockData().name == MouseBag.second.block->GetBlockData().name)) {
-						minfloat = len;
-						insertpos = i;
-						insert = true;
-					}
-				}
-
-				FOR(9)
-				{
-					float len = (Under_inventorymap[i].pos2 - nowpos).Length();
-					if (minfloat > len &&
-						(Under_inventorymap[i].block == nullptr || Under_inventorymap[i].block->GetBlockData().name == MouseBag.second.block->GetBlockData().name)) {
-						minfloat = len;
-						insertpos = i;
-						insert = false;
-					}
-				}
-
-				// 드롭시 가장 가까운 칸에 넣어줌.
-				if (insert) {
-					inventorymap[insertpos].count += MouseBag.second.count;
-					inventorymap[insertpos].block = MouseBag.second.block;
-					MouseBag.second.clear();
-				}
-				else {
-					Under_inventorymap[insertpos].count += MouseBag.second.count;
-					Under_inventorymap[insertpos].block = MouseBag.second.block;
-					MouseBag.second.clear();
-				}
-
-				return;
-			}
-
-			if (UnderInventory->CollisionChack(nowpos))
-			{
-				float minfloat = FLT_MAX;
-				UINT insertpos;
-				FOR(9)
-				{
-					float len = (Under_inventorymap[i].pos - nowpos).Length();
-					if (minfloat > len &&
-						(Under_inventorymap[i].block == nullptr ||
-							Under_inventorymap[i].block->GetBlockData().name == MouseBag.second.block->GetBlockData().name)) {
-						minfloat = len;
-						insertpos = i;
-					}
-
-				}
-
-				Under_inventorymap[insertpos].count += MouseBag.second.count;
-				Under_inventorymap[insertpos].block = MouseBag.second.block;
-				MouseBag.second.clear();
-				return;
-
-			}
-		}
-
-		// 그 무엇에도 넣지 못했는데 드롭했다면 원래 위치로 귀환함.
-		if (MouseBag.first.second)
-			inventorymap[MouseBag.first.first] = MouseBag.second;
-		else
-			Under_inventorymap[MouseBag.first.first] = MouseBag.second;
-
-		MouseBag.second.clear();
-	}
-
 }

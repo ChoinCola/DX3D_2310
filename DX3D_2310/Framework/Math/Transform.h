@@ -31,6 +31,10 @@ public:
 	void SetLocalRotation(const Vector3& rotation) { localRotation = rotation; }
 	void SetLocalScale(const Vector3& scale) { localScale = scale; }
 
+	void SetVoidLocalPosition(const void* position) { localPosition = *static_cast<const Vector3*>(position);}
+	void SetVoidLocalRotation(const void* rotation) { localRotation = *static_cast<const Vector3*>(rotation);}
+	void SetVoidLocalScale(const void* scale) { localScale = *static_cast<const Vector3*>(scale); }
+
 	Transform* GetSelf() { return this; }
 	Transform* GetParent() { return parent; }
 	void SetParent(Transform* transform) { parent = transform; }

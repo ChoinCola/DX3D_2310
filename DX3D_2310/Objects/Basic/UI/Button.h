@@ -27,12 +27,31 @@ public:
 		this->object = object;
 	}
 
+	void SetUpEvent(Event event) { this->Upevent = event; }
+	void SetUpPramEvnet(ParamEvent paramevet, void* object)
+	{
+		this->Upparamevent = paramevet;
+		this->Upobject = object;
+	}
+
+
+	State GetState() { return state; }
+
+private:
+	void ChackStateEevent();
+	void RunEvent(Event ev, ParamEvent pev, void* input);
 
 protected:
 	State state = NONE;
+
 	Event event = nullptr;
 	ParamEvent paramevent = nullptr;
-
 	void* object = nullptr;
+
+	Event Upevent = nullptr;
+	ParamEvent Upparamevent = nullptr;
+	void* Upobject = nullptr;
+
+
 	bool isDownCheck = false;
 };

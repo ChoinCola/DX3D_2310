@@ -40,6 +40,9 @@ public:
 
 	// 마우스의 현재 Position 반환
 	Vector3 GetPosition() { return position; }
+	Vector3* GetPositionOrigin() { return &position; }
+
+
 	Vector3 GetDelta() { return delta; }
 	bool Down(DWORD button)
 	{
