@@ -14,6 +14,15 @@ public:
 	{
 		Float3 result;
 		XMStoreFloat3(&result, value);
+
+		return result;
+	}
+
+	operator Float2()
+	{
+		Float2 result;
+		XMStoreFloat2(&result, value);
+
 		return result;
 	}
 

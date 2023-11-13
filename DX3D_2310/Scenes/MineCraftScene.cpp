@@ -4,7 +4,7 @@
 MinceCraftScene::MinceCraftScene()
 {
 	BlockDataManager::Get()->LoadTable();
-	BlockManager::Get()->CreateBlocks(10, 3, 10);
+	BlockManager::Get()->CreateBlocks(10, 10, 10);
 	Environment::Get()->GetLightBuffer()->GetData()->lights[0].isActive = true;
 
 	player = new Steve();

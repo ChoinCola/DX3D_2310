@@ -6,16 +6,13 @@ InventoryUI::InventoryUI(wstring textureFile)
 {
 	SetActive(false);
 
+	MouseObject = new Quad(L"Textures/UI/Blocks/block0.png");
+	MouseObject->IsRender();
+
 	Under_inventoryView.resize(9);
 	FOR(9)
 	{
 		Under_inventorymap[i] = new InvenBlock(inventoryBaseDown + Vector3(i * 18, 0, 0), this);
-
-		Event isDrag = bind(&InventoryUI::SetDrag, this);
-		Under_inventorymap[i]->SetEvent(isDrag);
-		
-		Event nondef = bind(&InventoryUI::SetDrag, this);
-		Under_inventorymap[i]->SetEvent(nondef);
 
 		ParamEvent def = bind(&InvenBlock::PopMouse, Under_inventorymap[i], placeholders::_1);
 		Under_inventorymap[i]->SetPramEvnet(def, &MouseBag);
@@ -32,6 +29,8 @@ InventoryUI::InventoryUI(wstring textureFile)
 		Under_inventoryView[i] = insertquad;
 		Under_inventoryView[i]->IsRender();
 		Under_inventoryView[i]->SetActive(false);
+		
+		UIManager::Get()->AddUI(Under_inventoryView[i]);
 	}
 
 	for (int i = 0; i < 3; i++)
@@ -40,17 +39,15 @@ InventoryUI::InventoryUI(wstring textureFile)
 		{
 			inventorymap[i * 9 + j] = new InvenBlock(inventoryBase + Vector3(j * 18, i * 18, 0), this);
 
-			Event nondef = bind(&InventoryUI::SetDrag, this);
-			inventorymap[i * 9 + j]->SetEvent(nondef);
-
 			ParamEvent def = bind(&InvenBlock::PopMouse, inventorymap[i * 9 + j], placeholders::_1);
-			inventorymap[i * 9 + j]->SetPramEvnet(def, Mouse::Get()->GetPositionOrigin());
+			inventorymap[i * 9 + j]->SetPramEvnet(def, &MouseBag);
 
 			def = bind(&InvenBlock::InsertMouse, inventorymap[i * 9 + j], placeholders::_1);
-			Under_inventorymap[i]->SetUpPramEvnet(def, &MouseBag);
+			inventorymap[i * 9 + j]->SetUpPramEvnet(def, &MouseBag);
 
 			inventorymap[i * 9 + j]->IsRender();
 			inventorymap[i * 9 + j]->SetActive(false);
+			UIManager::Get()->AddUI(inventorymap[i * 9 + j]);
 		}
 	}
 
@@ -67,17 +64,18 @@ void InventoryUI::Update()
 {
 	Under_inventoryViewUpdate();
 
-	if (!isDrag && Mouse::Get()->Down(0) && CollisionChack(Mouse::Get()->GetPosition()))
-	{
-		isDrag = true;
-		offset = GetGlobalPosition() - Mouse::Get()->GetPosition();
-	}
+	if (MouseBag.second.second == nullptr) {
+		if (!isDrag && Mouse::Get()->Down(0) && CollisionChack(Mouse::Get()->GetPosition()))
+		{
+			isDrag = true;
+			dragoffset = GetGlobalPosition() - Mouse::Get()->GetPosition();
+		}
 
-	if (isDrag && Mouse::Get()->Press(0))
-	{
-		SetLocalPosition(Mouse::Get()->GetPosition() + offset);
+		if (isDrag && Mouse::Get()->Press(0) && MouseBag.second.second == nullptr)
+		{
+			SetLocalPosition(Mouse::Get()->GetPosition() + dragoffset);
+		}
 	}
-
 	if (Mouse::Get()->Up(0))
 		isDrag = false;
 
@@ -168,9 +166,8 @@ void InventoryUI::Update_MouseBag()
 {
 	if (MouseBag.second.second != nullptr)
 	{
-		//MouseBag.second.second->SetParent(nullptr);
-		MouseBag.second.second->GetInventoryModel()->SetLocalPosition(Mouse::Get()->GetPosition());
-		MouseBag.second.second->Update();
+		MouseObject->SetLocalPosition(Mouse::Get()->GetPosition());
+		MouseObject->UpdateWorld();
 	}
 }
 
@@ -178,11 +175,21 @@ void InventoryUI::PostRender_MouseBag()
 {
 	if (MouseBag.second.second != nullptr)
 	{
-		string co = to_string(MouseBag.second.first);
-		Float2 pos = Float2(MouseBag.second.second->GetLocalPosition().x + 18, MouseBag.second.second->GetLocalPosition().y - 8);
-		Font::Get()->RenderText(co, pos);
+		if (MouseObject->GetRender() == false)
+			MouseObject->IsRender();
 
-		MouseBag.second.second->InventoryRender();
+		wstring def = ToWString(MouseBag.second.second->GetBlockData().modelname);
+		MouseObject->GetMaterial()->SetDiffuseMap(L"Textures/UI/Blocks/" + def + L".png");
+
+		string co = to_string(MouseBag.second.first);
+		Float2 pos = MouseObject->GetLocalPosition() + Vector3(18, -8, 0);
+		Font::Get()->RenderText(co, pos);
+		MouseObject->Render();
+	}
+	else
+	{
+		if (MouseObject->GetRender() == true)
+			MouseObject->IsRender();
 	}
 }
 

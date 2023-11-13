@@ -39,6 +39,7 @@ void GameManager::Update()
 
 void GameManager::Render()
 {
+    DepthBuffer::Get()->SetPS(3);
     SceneManager::Get()->PreRender();
 
     Device::Get()->Clear();

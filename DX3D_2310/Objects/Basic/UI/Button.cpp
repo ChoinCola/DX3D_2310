@@ -26,18 +26,17 @@ void Button::Update()
         {
             if (event)
                 event();
+            RunEvent(Upevent, Upparamevent, Upobject);
             isDownCheck = false;
         }
-
-        if (isDownCheck == false)
-            RunEvent(Upevent, Upparamevent, Upobject);
     }
     else
     {
         state = NONE;
 
-        if (Mouse::Get()->Up(0))
+        if (Mouse::Get()->Up(0)) {
             isDownCheck = false;
+        }
     }
 
     switch (state)
@@ -62,8 +61,6 @@ void Button::ChackStateEevent()
     switch (state)
     {
     case Button::NONE:
-
-
         break;
     case Button::DOWN:
         RunEvent(event, paramevent, object);

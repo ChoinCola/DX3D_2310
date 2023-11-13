@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DX3D_2310.h" />
+    <ClInclude Include="Framework\Buffer\DepthBuffer.h" />
     <ClInclude Include="Framework\Collider\BoxCollider.h" />
     <ClInclude Include="Framework\Collider\CapsuleCollider.h" />
     <ClInclude Include="Framework\Collider\Collider.h" />
@@ -218,10 +219,13 @@
     <ClInclude Include="Objects\LandScape\Terrain.h" />
     <ClInclude Include="Objects\MincraftObject\Block.h" />
     <ClInclude Include="Objects\MincraftObject\BlockDataManager.h" />
+    <ClInclude Include="Objects\MincraftObject\BlockIcon.h" />
     <ClInclude Include="Objects\MincraftObject\BlockManager.h" />
+    <ClInclude Include="Objects\MincraftObject\InvenBlock.h" />
     <ClInclude Include="Objects\MincraftObject\InventoryUI.h" />
     <ClInclude Include="Objects\MincraftObject\MineCraftUI.h" />
     <ClInclude Include="Objects\MincraftObject\Steve.h" />
+    <ClInclude Include="Objects\MincraftObject\UIManager.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
     <ClInclude Include="Objects\RPG\Character\ItemBox.h" />
     <ClInclude Include="Objects\RPG\Character\Player.h" />
@@ -250,6 +254,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Framework\Buffer\ConstBuffer.cpp" />
+    <ClCompile Include="Framework\Buffer\DepthBuffer.cpp" />
     <ClCompile Include="Framework\Buffer\IndexBuffer.cpp" />
     <ClCompile Include="Framework\Buffer\VertexBuffer.cpp" />
     <ClCompile Include="Framework\Collider\BoxCollider.cpp" />
@@ -293,10 +298,12 @@
     <ClCompile Include="Objects\LandScape\Terrain.cpp" />
     <ClCompile Include="Objects\MincraftObject\Block.cpp" />
     <ClCompile Include="Objects\MincraftObject\BlockDataManager.cpp" />
+    <ClCompile Include="Objects\MincraftObject\BlockIcon.cpp" />
     <ClCompile Include="Objects\MincraftObject\BlockManager.cpp" />
     <ClCompile Include="Objects\MincraftObject\InventoryUI.cpp" />
     <ClCompile Include="Objects\MincraftObject\MineCraftUI.cpp" />
     <ClCompile Include="Objects\MincraftObject\Steve.cpp" />
+    <ClCompile Include="Objects\MincraftObject\UIManager.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />
     <ClCompile Include="Objects\RPG\Character\ItemBox.cpp" />
     <ClCompile Include="Objects\RPG\Character\Player.cpp" />

@@ -33,26 +33,31 @@ LightPixelInput VS(VertexUVNormalTangent input)
 // 픽셀 셰이더 함수입니다.
 float4 PS(LightPixelInput input) : SV_TARGET
 {
-	// 광원 데이터를 가져옵니다.
-	Material material = GetMaterial(input);
+	// 깊이값 참조
+	float depthValue = depthBuffer.Sample(samp, input.pos.xy).r;
+	float nowdepth = input.pos.z / input.pos.w;
+	// 깊이값 확인
+	if (nowdepth > depthValue)
+		discard;
+		// 광원 데이터를 가져옵니다.
+		Material material = GetMaterial(input);
 	
 	// 주변광을 계산합니다.
 	//float4 ambient = CalcAmbient(material);
-	float4 ambient = 0;
-	float4 result = 0;
-	
-	for (int i = 0; i < lightCount; i++)
-	{
-		if (!lights[i].isActive)
-			continue;
+		float4 ambient = 0;
+		float4 result = 0;
+		for (int i = 0; i < lightCount; i++)
+		{
+			if (!lights[i].isActive)
+				continue;
 
-		if (lights[i].type == 0)
-			result += CalcDirectional(material, lights[i]);
-		else if (lights[i].type == 1)
-			result += CalcPoint(material, lights[i]);
-		else if (lights[i].type == 2)
-			result += CalcSpot(material, lights[i]);
-	}
+			if (lights[i].type == 0)
+				result += CalcDirectional(material, lights[i]);
+			else if (lights[i].type == 1)
+				result += CalcPoint(material, lights[i]);
+			else if (lights[i].type == 2)
+				result += CalcSpot(material, lights[i]);
+		}
 	
-	return ambient + result + mEmissive;
+		return ambient + result + mEmissive;
 }

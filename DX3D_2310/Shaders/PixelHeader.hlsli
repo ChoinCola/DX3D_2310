@@ -5,6 +5,7 @@
 Texture2D diffuseMap : register(t0);
 Texture2D specularMap : register(t1);
 Texture2D normalMap : register(t2);
+Texture2D depthBuffer : register(t3);
 
 SamplerState samp : register(s0);
 

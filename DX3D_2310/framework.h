@@ -123,6 +123,7 @@ using namespace Utility;
 #include "Framework/Buffer/ConstBuffer.h"
 #include "Framework/Buffer/GlobalBuffer.h"
 #include "Framework/Buffer/VertexLayouts.h"
+#include "Framework/Buffer/DepthBuffer.h"
 
 // Render Header
 #include "Framework/Render/Texture.h"
@@ -190,14 +191,16 @@ using namespace Utility;
 #include "Object.h"
 
 // RPG Header
-
+#include "Objects/MincraftObject/UIManager.h"
 #include "Objects/RPG/Character/Player.h"
 #include "Objects/MincraftObject/BlockDataManager.h"
 #include "Objects/MincraftObject/Block.h"
 #include "Objects/MincraftObject/BlockManager.h"
+#include "Objects/MincraftObject/InvenBlock.h"
 #include "Objects/MincraftObject/InventoryUI.h"
 #include "Objects/MincraftObject/MineCraftUI.h"
 #include "Objects/MincraftObject/Steve.h"
+#include "Objects/MincraftObject/BlockIcon.h"
 
 // Scene
 #include "Scenes/Scene.h"

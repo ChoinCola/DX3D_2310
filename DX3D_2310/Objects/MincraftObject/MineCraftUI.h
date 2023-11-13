@@ -31,6 +31,5 @@ private:
 
 	vector<Quad*> UIVector;
 
-
 	bool isDrag = false;
 };

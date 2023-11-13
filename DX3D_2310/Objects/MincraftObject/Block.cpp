@@ -11,7 +11,6 @@ Block::Block(BlockData data)
 
 	string insertname = "Textures/UI/Blocks/" + data.modelname + ".png";
 	string Test = "Textures/Colors/Black.png";
-	Inventorymodel = new Button(ToWString(insertname));
 }
 
 Block::~Block()
@@ -32,12 +31,6 @@ void Block::Render()
 
 	model->Render();
 	//Collider::Render();
-}
-
-void Block::InventoryRender()
-{
-	Inventorymodel->UpdateWorld();
-	Inventorymodel->Render();
 }
 
 void Block::PostRender()

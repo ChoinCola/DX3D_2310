@@ -116,6 +116,13 @@ void Steve::Jump()
 
 void Steve::Control()
 {
+	// ImGui에 마우스가 겹쳐있는지 확인.
+	if (ImGui::GetIO().WantCaptureMouse)
+		return;
+
+	if (UIManager::Get()->IsMouseOver())
+		return;
+
 	// 왼쪽 버튼을 누르면 블럭을 캐는걸로 정의
 	if (KEY->Down(VK_LBUTTON))
 		ui->Mining();
