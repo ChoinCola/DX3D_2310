@@ -12,6 +12,7 @@ Steve::Steve()
 
 Steve::~Steve()
 {
+	SAFE_DELETE(ui);
 }
 
 void Steve::Update()
@@ -24,16 +25,19 @@ void Steve::Update()
 	Control();
 
 	UpdateWorld();
+	MouseBag::Get()->Update();
 }
 
 void Steve::GUIRender()
 {
 	ui->GUIRender();
+
 }
 
 void Steve::PostRender()
 {
 	ui->PostRender();
+	MouseBag::Get()->Render();
 }
 
 void Steve::Render()

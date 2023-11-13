@@ -5,20 +5,17 @@ InventoryUI::InventoryUI(wstring textureFile)
 	: Quad(textureFile)
 {
 	SetActive(false);
-
-	MouseObject = new Quad(L"Textures/UI/Blocks/block0.png");
-	MouseObject->IsRender();
-
 	Under_inventoryView.resize(9);
 	FOR(9)
 	{
 		Under_inventorymap[i] = new InvenBlock(inventoryBaseDown + Vector3(i * 18, 0, 0), this);
+		Under_inventorymap[i]->SetParent(this);
 
-		ParamEvent def = bind(&InvenBlock::PopMouse, Under_inventorymap[i], placeholders::_1);
-		Under_inventorymap[i]->SetPramEvnet(def, &MouseBag);
+		Event def = bind(&InvenBlock::PopMouse, Under_inventorymap[i]);
+		Under_inventorymap[i]->SetEvent(def);
 
-		def = bind(&InvenBlock::InsertMouse, Under_inventorymap[i], placeholders::_1);
-		Under_inventorymap[i]->SetUpPramEvnet(def, &MouseBag);
+		def = bind(&InvenBlock::InsertMouseFrominven, Under_inventorymap[i]);
+		Under_inventorymap[i]->SetUpEvent(def);
 
 		Under_inventorymap[i]->IsRender();
 
@@ -38,12 +35,13 @@ InventoryUI::InventoryUI(wstring textureFile)
 		for (int j = 0; j < 9; j++)
 		{
 			inventorymap[i * 9 + j] = new InvenBlock(inventoryBase + Vector3(j * 18, i * 18, 0), this);
+			inventorymap[i * 9 + j]->SetParent(this);
 
-			ParamEvent def = bind(&InvenBlock::PopMouse, inventorymap[i * 9 + j], placeholders::_1);
-			inventorymap[i * 9 + j]->SetPramEvnet(def, &MouseBag);
+			Event def = bind(&InvenBlock::PopMouse, inventorymap[i * 9 + j]);
+			inventorymap[i * 9 + j]->SetEvent(def);
 
-			def = bind(&InvenBlock::InsertMouse, inventorymap[i * 9 + j], placeholders::_1);
-			inventorymap[i * 9 + j]->SetUpPramEvnet(def, &MouseBag);
+			def = bind(&InvenBlock::InsertMouseFrominven, inventorymap[i * 9 + j]);
+			inventorymap[i * 9 + j]->SetUpEvent(def);
 
 			inventorymap[i * 9 + j]->IsRender();
 			inventorymap[i * 9 + j]->SetActive(false);
@@ -51,7 +49,6 @@ InventoryUI::InventoryUI(wstring textureFile)
 		}
 	}
 
-	SetTag("InventoryPanal");
 	Load();
 }
 
@@ -64,14 +61,14 @@ void InventoryUI::Update()
 {
 	Under_inventoryViewUpdate();
 
-	if (MouseBag.second.second == nullptr) {
+	if (MouseBag::Get()->GetBlock() == nullptr) {
 		if (!isDrag && Mouse::Get()->Down(0) && CollisionChack(Mouse::Get()->GetPosition()))
 		{
 			isDrag = true;
 			dragoffset = GetGlobalPosition() - Mouse::Get()->GetPosition();
 		}
 
-		if (isDrag && Mouse::Get()->Press(0) && MouseBag.second.second == nullptr)
+		if (isDrag && Mouse::Get()->Press(0))
 		{
 			SetLocalPosition(Mouse::Get()->GetPosition() + dragoffset);
 		}
@@ -81,7 +78,6 @@ void InventoryUI::Update()
 
 	UpdateWorld();
 	InventoryposUpdate();
-	Update_MouseBag();
 }
 
 void InventoryUI::PostRender()
@@ -89,7 +85,6 @@ void InventoryUI::PostRender()
 	Quad::Render();
 	InventoryRender();
 	Under_inventoryViewRender();
-	PostRender_MouseBag();
 }
 
 void InventoryUI::insertblock(Block* block)
@@ -109,11 +104,13 @@ void InventoryUI::insertblock(Block* block)
 
 void InventoryUI::InventoryRender()
 {
-	FOR(9)
-		Under_inventorymap[i]->PostRender();
+	if (GetRender()) {
+		FOR(9)
+			Under_inventorymap[i]->PostRender();
 
-	FOR(27)
-		inventorymap[i]->PostRender();
+		FOR(27)
+			inventorymap[i]->PostRender();
+	}
 
 }
 
@@ -160,40 +157,4 @@ void InventoryUI::Under_inventoryViewRender()
 			Font::Get()->RenderText(co, pos);
 		}
 	}
-}
-
-void InventoryUI::Update_MouseBag()
-{
-	if (MouseBag.second.second != nullptr)
-	{
-		MouseObject->SetLocalPosition(Mouse::Get()->GetPosition());
-		MouseObject->UpdateWorld();
-	}
-}
-
-void InventoryUI::PostRender_MouseBag()
-{
-	if (MouseBag.second.second != nullptr)
-	{
-		if (MouseObject->GetRender() == false)
-			MouseObject->IsRender();
-
-		wstring def = ToWString(MouseBag.second.second->GetBlockData().modelname);
-		MouseObject->GetMaterial()->SetDiffuseMap(L"Textures/UI/Blocks/" + def + L".png");
-
-		string co = to_string(MouseBag.second.first);
-		Float2 pos = MouseObject->GetLocalPosition() + Vector3(18, -8, 0);
-		Font::Get()->RenderText(co, pos);
-		MouseObject->Render();
-	}
-	else
-	{
-		if (MouseObject->GetRender() == true)
-			MouseObject->IsRender();
-	}
-}
-
-void InventoryUI::Drop()
-{
-	// Drop
 }

@@ -36,7 +36,7 @@ void BlockDataManager::LoadTable()
 		data.name = datas[1];
 		data.modelname = datas[2];
 		data.uiimage = datas[3];
-
+		data.cash = stoi(datas[4]);
 		blockDatas[data.key] = data;
 	}
 }

@@ -6,6 +6,7 @@ struct BlockData
 	string name;
 	string modelname;
 	string uiimage;
+	int cash;
 };
 
 class BlockDataManager : public Singleton<BlockDataManager>

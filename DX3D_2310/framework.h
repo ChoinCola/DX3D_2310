@@ -198,6 +198,7 @@ using namespace Utility;
 #include "Objects/MincraftObject/BlockManager.h"
 #include "Objects/MincraftObject/InvenBlock.h"
 #include "Objects/MincraftObject/InventoryUI.h"
+#include "Objects/MincraftObject/shopUI.h"
 #include "Objects/MincraftObject/MineCraftUI.h"
 #include "Objects/MincraftObject/Steve.h"
 #include "Objects/MincraftObject/BlockIcon.h"

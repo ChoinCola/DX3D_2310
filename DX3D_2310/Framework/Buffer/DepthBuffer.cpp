@@ -49,7 +49,7 @@ DepthBuffer::~DepthBuffer()
 
 void DepthBuffer::SetPS(UINT slot)
 {
-	DC->OMSetRenderTargets(1, &RenderTargetView, DepthStencilView);
-	DC->OMSetDepthStencilState(DepthStencilState, 1);
+	//DC->OMSetRenderTargets(1, &RenderTargetView, DepthStencilView);
+	//DC->OMSetDepthStencilState(DepthStencilState, 1);
 
 }

@@ -224,6 +224,8 @@
     <ClInclude Include="Objects\MincraftObject\InvenBlock.h" />
     <ClInclude Include="Objects\MincraftObject\InventoryUI.h" />
     <ClInclude Include="Objects\MincraftObject\MineCraftUI.h" />
+    <ClInclude Include="Objects\MincraftObject\MouseBag.h" />
+    <ClInclude Include="Objects\MincraftObject\shopUI.h" />
     <ClInclude Include="Objects\MincraftObject\Steve.h" />
     <ClInclude Include="Objects\MincraftObject\UIManager.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
@@ -300,8 +302,10 @@
     <ClCompile Include="Objects\MincraftObject\BlockDataManager.cpp" />
     <ClCompile Include="Objects\MincraftObject\BlockIcon.cpp" />
     <ClCompile Include="Objects\MincraftObject\BlockManager.cpp" />
+    <ClCompile Include="Objects\MincraftObject\InvenBlock.cpp" />
     <ClCompile Include="Objects\MincraftObject\InventoryUI.cpp" />
     <ClCompile Include="Objects\MincraftObject\MineCraftUI.cpp" />
+    <ClCompile Include="Objects\MincraftObject\MouseBag.cpp" />
     <ClCompile Include="Objects\MincraftObject\Steve.cpp" />
     <ClCompile Include="Objects\MincraftObject\UIManager.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />

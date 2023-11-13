@@ -11,7 +11,7 @@ public:
 	void GUIRender();
 	void Mining();
 	void Build();
-	
+
 private:
 	void Under_UI();
 	void ViewInventory();

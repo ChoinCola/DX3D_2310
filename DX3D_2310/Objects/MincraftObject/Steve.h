@@ -1,4 +1,5 @@
 #pragma once
+#include "MouseBag.h"
 
 class Steve : public SphereCollider
 {
@@ -13,10 +14,12 @@ public:
 	void GUIRender();
 	void PostRender();
 	void Render();
+
 private:
 	void Move();
 	void Jump();
 	void Control();
+
 private:
 	float moveSpeed = 5;
 	float rotSpeed = 5;

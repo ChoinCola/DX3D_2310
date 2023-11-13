@@ -49,6 +49,8 @@ MineCraftUI::~MineCraftUI()
 {
 	for (Quad* def : UIVector)
 		delete def;
+
+	SAFE_DELETE(inventory);
 }
 
 void MineCraftUI::Update()

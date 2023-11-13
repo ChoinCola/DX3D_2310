@@ -1,150 +1,62 @@
 #pragma once
+
+// Button 클래스를 상속하는 InvenBlock 클래스를 정의합니다.
 class InvenBlock : public Button
 {
 public:
-	InvenBlock(Vector3 pos, Transform* Parent = nullptr) : Button(Float2(16, 16)), mainPos(pos) {
-		GetMaterial()->SetDiffuseMap(L"Textures/Colors/Blue.png");
-		SetLocalPosition(pos);
+	// InvenBlock의 생성자 함수 정의
+	InvenBlock(Vector3 pos, Transform* Parent = nullptr);
 
-		if (Parent != nullptr)
-			SetParent(Parent);
-	};
-
+	// InvenBlock의 소멸자 함수 정의
 	~InvenBlock() = default;
 
-	void clear()
-	{
-		count = 0;
-		block = nullptr;
+	// InvenBlock을 초기화하는 함수 정의
+	void clear();
 
-		if (GetRender() == true)
-			IsRender();
-	}
+	// InvenBlock을 업데이트하는 함수 정의
+	void Update();
 
-	void Update() {
-		__super::Update();
-		if (block != nullptr)
-			block->Update();
-		UpdateWorld();
-	}
+	// InvenBlock을 화면에 렌더링하는 함수 정의
+	void PostRender();
 
-	bool InsertBlock(Block* block, UINT count = 1) {
-		if (block != nullptr && this->block == nullptr) {
-			wstring name = ToWString(block->GetBlockData().modelname) + L".png";
-			GetMaterial()->SetDiffuseMap(L"Textures/UI/Blocks/" + name);
+	// 블록을 InvenBlock에 삽입하는 함수 정의
+	bool InsertBlock(Block* block, UINT count = 1, bool property = true);
 
-			if (GetRender() == false)
-				IsRender();
+	// InvenBlock에 다른 InvenBlock을 삽입하는 함수 정의
+	void InsertBlock(InvenBlock* block);
 
-			this->block = block;
-			this->count = count;
-			return true;
-		}
+	// InvenBlock에서 블록을 꺼내는 함수 정의
+	Block* PopBlock();
 
-		if (block != nullptr && (block->GetBlockData().name == this->block->GetBlockData().name)) {
-			delete block;
-			this->count += count;
-			return true;;
-		}
-		return false;
-	}
+	// 다른 InvenBlock과 블록을 비교하는 함수 정의
+	bool CheckBlock(InvenBlock* block);
 
-	void InsertBlock(InvenBlock* block) {
-		if (block != nullptr && ChackBlock(block)) {
-			count += block->GetCount();
-			delete block;
-			return;
-		}
+	// 인벤토리 기준
+	// 마우스에서 블록을 꺼내는 함수 정의
+	void PopMouse();
+	// 마우스에 블록을 삽입하는 함수 정의
+	void InsertMouseFrominven();
 
-		if (block != nullptr)
-			block->SetLocalPosition(mainPos);
-
-		return;
-	}
-
-	Block* PopBlock()
-	{
-		if (count == 1) {
-			Block* result = block;
-			clear();
-			return result;
-		}
-		else count--;
-
-		Block* result = nullptr;
-		if (block != nullptr)
-			result = new Block(block->GetBlockData());
-
-		return result;
-	}
-
-	bool ChackBlock(InvenBlock* block)
-	{
-		if (block->GetBlock()->GetBlockData().name == GetBlock()->GetBlockData().name)
-			return true;
-		return false;
-	}
-
-	void PostRender()
-	{
-		if (block != nullptr)
-		{
-			string c = to_string(count);
-			Vector3 pos = GetGlobalPosition();
-
-			Font::Get()->RenderText(c, Float2(pos.x + 18, pos.y - 8));
-			Render();
-		}
-	}
-
-	void PopMouse(void* mouseBag)
-	{
-		pair<InvenBlock*, pair<UINT, Block*>>* input = static_cast<pair<InvenBlock*, pair<UINT, Block*>>*>(mouseBag);
-
-		if (input->second.second == nullptr && input->second.first <= 0)
-		{
-			input->first = this;
-
-			input->second.first = count;
-			count = 0;
-
-			input->second.second = block;
-			block = nullptr;
-		}
-	}
-
-	void InsertMouse(void* mouseBag)
-	{
-		pair<InvenBlock*, pair<UINT, Block*>>* input = static_cast<pair<InvenBlock*, pair<UINT, Block*>>*>(mouseBag);
-
-		if (input->second.second == nullptr) return;
-
-		if (block == nullptr || block->GetBlockData().modelname == input->second.second->GetBlockData().modelname) {
-			if (InsertBlock(input->second.second, input->second.first))
-			{
-				input->first = nullptr;
-				input->second.first = 0;
-				input->second.second = nullptr;
-				return;
-			}
-		}
-
-		input->first->SetBlock(input->second.second);
-		input->first->SetCount(input->second.first);
-
-		input->second.first = 0;
-		input->second.second = nullptr;
-	}
-
+	// 블록의 개수를 반환하는 함수 정의
 	const UINT& GetBlockCount() { return count; }
+
+	// 현재 InvenBlock에 들어있는 블록을 반환하는 함수 정의
 	Block* GetBlock() { return block; }
+
+	// InvenBlock에 들어있는 블록 개수를 반환하는 함수 정의
 	UINT GetCount() { return count; }
 
+	// InvenBlock에 블록을 설정하는 함수 정의
 	void SetBlock(Block* input) { block = input; }
+
+	// InvenBlock에 들어있는 블록 개수를 설정하는 함수 정의
 	void SetCount(UINT input) { count = input; }
 
+	void SetHasPlayer() { hasPlayer != hasPlayer; }
+
 private:
-	UINT count = 0;
-	Vector3 mainPos;
-	Block* block = nullptr;
+	UINT count = 0; // InvenBlock에 들어있는 블록의 개수
+	Vector3 mainPos; // InvenBlock의 위치
+	Block* block = nullptr; // InvenBlock에 들어있는 블록의 포인터
+	bool hasPlayer = true;
 };

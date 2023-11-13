@@ -1,4 +1,4 @@
-key,name,model,uiimage
-101,ÀÜµðºí·Ï,block0,Textures/UI/Blocks/blockRounded.png
-102,Èëºí·Ï,block1,Textures/UI/Blocks/blockDirtpng
-103,´«ºí·Ï,block2,Textures/UI/Blocks/blockSnow.png
+key,name,model,uiimage,cash
+101,ÀÜµðºí·Ï,block0,Textures/UI/Blocks/blockRounded.png,10
+102,Èëºí·Ï,block1,Textures/UI/Blocks/blockDirtpng,20
+103,´«ºí·Ï,block2,Textures/UI/Blocks/blockSnow.png,30

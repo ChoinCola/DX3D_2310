@@ -34,11 +34,11 @@ LightPixelInput VS(VertexUVNormalTangent input)
 float4 PS(LightPixelInput input) : SV_TARGET
 {
 	// 깊이값 참조
-	float depthValue = depthBuffer.Sample(samp, input.pos.xy).r;
-	float nowdepth = input.pos.z / input.pos.w;
-	// 깊이값 확인
-	if (nowdepth > depthValue)
-		discard;
+	//float depthValue = depthBuffer.Sample(samp, input.pos.xy).r;
+	//float nowdepth = input.pos.z / input.pos.w;
+	//// 깊이값 확인
+	//if (nowdepth > depthValue)
+	//	discard;
 		// 광원 데이터를 가져옵니다.
 		Material material = GetMaterial(input);
 	
