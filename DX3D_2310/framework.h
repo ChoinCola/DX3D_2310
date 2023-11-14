@@ -91,6 +91,7 @@ typedef XMVECTOR Vector4;	// 다양한 사용방식이 보장된 vector
 typedef XMFLOAT4X4 Float4x4;
 typedef function<void()> Event;
 typedef function<void(void*)> ParamEvent;
+typedef function<void(int)> IntParamEvent;
 
 
 // Framework Header
@@ -103,6 +104,7 @@ typedef function<void(void*)> ParamEvent;
 #include "Framework/Utilities/BinaryWriter.h"
 #include "Framework/Utilities/tinyxml2.h"
 #include "Framework/Utilities/Font.h"
+#include "Framework/Utilities/Observer.h"
 
 // Readcsv
 #include "Framework/Utilities/rapidcsv.h"
@@ -164,6 +166,7 @@ using namespace Utility;
 #include "Objects/Basic/Sphere.h"
 #include "Objects/Basic/Icosahedron.h"
 #include "Objects/Basic/UI/Button.h"
+#include "Objects/Basic/UI/Panel.h"
 
 #include "Objects/ColliderBall/Ball.h"
 
@@ -202,7 +205,7 @@ using namespace Utility;
 #include "Objects/MincraftObject/MineCraftUI.h"
 #include "Objects/MincraftObject/Steve.h"
 #include "Objects/MincraftObject/BlockIcon.h"
-
+#include "Objects/MincraftObject/Seller.h"
 // Scene
 #include "Scenes/Scene.h"
 #include "Scenes/TerrainScene.h"

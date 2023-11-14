@@ -25,7 +25,7 @@ void Steve::Update()
 	Control();
 
 	UpdateWorld();
-	MouseBag::Get()->Update();
+	Observer::Get()->ExcuteParamEvent("SellerCollision", this);
 }
 
 void Steve::GUIRender()
@@ -37,7 +37,7 @@ void Steve::GUIRender()
 void Steve::PostRender()
 {
 	ui->PostRender();
-	MouseBag::Get()->Render();
+
 }
 
 void Steve::Render()

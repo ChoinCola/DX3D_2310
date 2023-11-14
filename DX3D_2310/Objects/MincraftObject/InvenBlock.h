@@ -31,7 +31,6 @@ public:
 	// 다른 InvenBlock과 블록을 비교하는 함수 정의
 	bool CheckBlock(InvenBlock* block);
 
-	// 인벤토리 기준
 	// 마우스에서 블록을 꺼내는 함수 정의
 	void PopMouse();
 	// 마우스에 블록을 삽입하는 함수 정의
@@ -52,11 +51,18 @@ public:
 	// InvenBlock에 들어있는 블록 개수를 설정하는 함수 정의
 	void SetCount(UINT input) { count = input; }
 
-	void SetHasPlayer() { hasPlayer != hasPlayer; }
+	void SetHasPlayer() { hasPlayer = !hasPlayer; }
+	void SetCanInput() { canInput = !canInput; }
+	void SetCanPop() { canPop = !canPop; }
 
+	bool GetHasPlayer() { return hasPlayer; }
 private:
 	UINT count = 0; // InvenBlock에 들어있는 블록의 개수
 	Vector3 mainPos; // InvenBlock의 위치
 	Block* block = nullptr; // InvenBlock에 들어있는 블록의 포인터
+	Quad* hashud = nullptr;
+
 	bool hasPlayer = true;
+	bool canInput = true;
+	bool canPop = true;
 };

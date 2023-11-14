@@ -8,6 +8,7 @@ MinceCraftScene::MinceCraftScene()
 	Environment::Get()->GetLightBuffer()->GetData()->lights[0].isActive = true;
 
 	player = new Steve();
+	seller = new Seller();
 }
 
 MinceCraftScene::~MinceCraftScene()
@@ -16,12 +17,15 @@ MinceCraftScene::~MinceCraftScene()
 	BlockDataManager::Delete();
 
 	delete player;
+	delete seller;
 }
 
 void MinceCraftScene::Update()
 {
 	player->Update();
+	seller->Update();
 	BlockManager::Get()->Update();
+	MouseBag::Get()->Update();
 }
 
 void MinceCraftScene::PreRender()
@@ -31,15 +35,19 @@ void MinceCraftScene::PreRender()
 void MinceCraftScene::Render()
 {
 	BlockManager::Get()->Redner();
+	seller->Render();
 }
 
 void MinceCraftScene::PostRender()
 {
 	player->PostRender();
+	seller->PostRender();
+	MouseBag::Get()->Render();
 }
 
 void MinceCraftScene::GUIRender()
 {
-	BlockManager::Get()->GUIRender();
+	//BlockManager::Get()->GUIRender();
 	player->GUIRender();
+	seller->GUIRender();
 }

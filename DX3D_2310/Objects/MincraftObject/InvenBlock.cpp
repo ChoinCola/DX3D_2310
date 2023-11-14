@@ -7,6 +7,11 @@ InvenBlock::InvenBlock(Vector3 pos, Transform* Parent)
 {
 	// Button 클래스의 생성자를 호출하고 버튼 크기와 위치를 설정합니다.
 	GetMaterial()->SetDiffuseMap(L"Textures/Colors/Blue.png"); // 버튼의 디퓨즈 맵 설정
+	//hashud = new Quad(L"Textures/Colors/Blue.png");
+	hashud = new Quad(L"Textures/UI/MineCraftUI/NonHasPlayerObject.png");
+
+	hashud->SetParent(this);
+
 	SetLocalPosition(pos); // 버튼의 로컬 위치 설정
 
 	if (Parent != nullptr)
@@ -32,6 +37,13 @@ void InvenBlock::Update()
 		block->Update(); // InvenBlock에 들어있는 블록을 업데이트
 
 	UpdateWorld(); // 월드 변환 업데이트
+
+	if (hasPlayer)
+		hashud->GetMaterial()->SetDiffuseMap(L"Textures/UI/MineCraftUI/HasPlayerObject.png");
+	else
+		hashud->GetMaterial()->SetDiffuseMap(L"Textures/UI/MineCraftUI/NonHasPlayerObject.png");
+	hashud->UpdateWorld();
+
 }
 
 // 블록을 InvenBlock에 삽입하는 함수 정의
@@ -111,12 +123,18 @@ void InvenBlock::PostRender()
 
 		Font::Get()->RenderText(c, Float2(pos.x + 18, pos.y - 8)); // 블록 개수를 화면에 표시
 		Render();
+		hashud->Render();
 	}
+	//if (GetRender() == false)
+	//	IsRender();
+	//Render();
 }
 
 // 마우스에서 블록을 꺼내는 함수 정의
 void InvenBlock::PopMouse()
 {
+	if (!canPop) return;
+
 	UINT& count = MouseBag::Get()->GetCount();
 	InvenBlock*& Repos = MouseBag::Get()->GetBasePos();
 
@@ -137,10 +155,11 @@ void InvenBlock::PopMouse()
 // 마우스에 블록을 삽입하는 함수 정의
 void InvenBlock::InsertMouseFrominven()
 {
+	if (!canInput) return;
+
 	Block*& block = MouseBag::Get()->GetBlock();
 	UINT& count = MouseBag::Get()->GetCount();
 	InvenBlock*& Repos = MouseBag::Get()->GetBasePos();
-
 	if (block == nullptr) return;
 
 	if (this->block == nullptr || this->block->GetBlockData().key == block->GetBlockData().key) {
@@ -152,7 +171,6 @@ void InvenBlock::InsertMouseFrominven()
 			return;
 		}
 	}
-
 	Repos->SetBlock(block);
 	Repos->SetCount(count);
 

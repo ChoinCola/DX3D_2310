@@ -16,5 +16,6 @@ public:
 
 private:
 	Steve* player;
+	Seller* seller;
 	//Player* player;
 };
