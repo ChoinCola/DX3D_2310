@@ -9,9 +9,13 @@ InvenBlock::InvenBlock(Vector3 pos, Transform* Parent)
 	GetMaterial()->SetDiffuseMap(L"Textures/Colors/Blue.png"); // 버튼의 디퓨즈 맵 설정
 	//hashud = new Quad(L"Textures/Colors/Blue.png");
 	hashud = new Quad(L"Textures/UI/MineCraftUI/NonHasPlayerObject.png");
-
 	hashud->SetParent(this);
 
+	ShowDetails = new Quad(Vector3(100, 100));
+	ShowDetails->SetParent(this);
+	ShowDetails->SetLocalPosition(Vector3(50, 50));
+
+	Observer::Get()->AddIntParamEvent("SetHudEvent", bind(&InvenBlock::IsShowItemHud, this, placeholders::_1));
 	SetLocalPosition(pos); // 버튼의 로컬 위치 설정
 
 	if (Parent != nullptr)
@@ -42,15 +46,16 @@ void InvenBlock::Update()
 		hashud->GetMaterial()->SetDiffuseMap(L"Textures/UI/MineCraftUI/HasPlayerObject.png");
 	else
 		hashud->GetMaterial()->SetDiffuseMap(L"Textures/UI/MineCraftUI/NonHasPlayerObject.png");
-	hashud->UpdateWorld();
 
+	hashud->UpdateWorld();
+	ShowDetails->UpdateWorld();
 }
 
 // 블록을 InvenBlock에 삽입하는 함수 정의
 bool InvenBlock::InsertBlock(Block* block, UINT count, bool property)
 {
 	// 블록의 소유권 확인. 현재 소유권의 아이템과 이동하려는 칸이 같을경우에만 이동이 가능.
-	if (block != nullptr && this->block == nullptr && (property == hasPlayer)) {
+	if (block != nullptr && this->block == nullptr && (property == hasPlayer || property)) {
 		wstring name = ToWString(block->GetBlockData().modelname) + L".png";
 		GetMaterial()->SetDiffuseMap(L"Textures/UI/Blocks/" + name); // 버튼의 디퓨즈 맵을 블록 텍스처로 설정
 
@@ -74,17 +79,24 @@ bool InvenBlock::InsertBlock(Block* block, UINT count, bool property)
 }
 
 // InvenBlock에 다른 InvenBlock을 삽입하는 함수 정의
-void InvenBlock::InsertBlock(InvenBlock* block)
+bool InvenBlock::InsertBlock(InvenBlock* block)
 {
 	if (block != nullptr && CheckBlock(block)) {
 		count += block->GetCount();
 		delete block;
-		return;
+		return true;
 	}
 
-	if (block != nullptr)
-		block->SetLocalPosition(mainPos);
-	return;
+	if (this->block == nullptr) {
+		this->count = block->count;
+		this->block = block->block;
+
+		block->block = nullptr;
+		block->count = 0;
+		return true;
+	}
+
+	return false;
 }
 
 // InvenBlock에서 블록을 꺼내는 함수 정의
@@ -124,10 +136,46 @@ void InvenBlock::PostRender()
 		Font::Get()->RenderText(c, Float2(pos.x + 18, pos.y - 8)); // 블록 개수를 화면에 표시
 		Render();
 		hashud->Render();
+		ShowItemHud();
 	}
 	//if (GetRender() == false)
 	//	IsRender();
 	//Render();
+}
+
+void InvenBlock::ShowItemHud()
+{
+	if (block == nullptr) return;
+
+	if (CollisionChack(Mouse::Get()->GetPosition())) {
+		BlockData data = block->GetBlockData();
+		Vector3 pos = ShowDetails->GetGlobalPosition();
+		string havenow;
+
+		if (hasPlayer)
+			havenow = "Player";
+		else
+			havenow = "NonPlayer";
+
+		ShowDetails->Render();
+
+		Font::Get()->RenderText("Name : ", pos + Vector3(-30, 90, 0));
+		Font::Get()->RenderText(data.name, pos + Vector3(100, 90, 0));
+
+		Font::Get()->RenderText("Damage : ", pos + Vector3(-10, 60, 0));
+		Font::Get()->RenderText(to_string(data.damage), pos + Vector3(95, 60, 0));
+
+		Font::Get()->RenderText("Cash : ", pos + Vector3(-30, 30, 0));
+		Font::Get()->RenderText(to_string(data.cash), pos + Vector3(95, 30, 0));
+
+		Font::Get()->RenderText("소유권 : ", pos + Vector3(-10, -60, 0));
+		Font::Get()->RenderText(havenow, pos + Vector3(100, -60, 0));
+	}
+}
+
+void InvenBlock::IsShowItemHud(int input)
+{
+	ChackHudprint = input;
 }
 
 // 마우스에서 블록을 꺼내는 함수 정의
@@ -141,7 +189,6 @@ void InvenBlock::PopMouse()
 	if (MouseBag::Get()->GetBlock() == nullptr && count <= 0)
 	{
 		Repos = this;
-
 		count = this->count;
 		this->count = 0;
 
@@ -152,25 +199,28 @@ void InvenBlock::PopMouse()
 	}
 }
 
-// 마우스에 블록을 삽입하는 함수 정의
+// 블록을 삽입하는 함수 정의
 void InvenBlock::InsertMouseFrominven()
 {
-	if (!canInput) return;
-
 	Block*& block = MouseBag::Get()->GetBlock();
 	UINT& count = MouseBag::Get()->GetCount();
 	InvenBlock*& Repos = MouseBag::Get()->GetBasePos();
-	if (block == nullptr) return;
 
-	if (this->block == nullptr || this->block->GetBlockData().key == block->GetBlockData().key) {
-		if (InsertBlock(block, count, MouseBag::Get()->GetHasPlayer()))
-		{
-			Repos = nullptr;
-			count = 0;
-			block = nullptr;
-			return;
+	if (MouseBag::Get()->GetHasPlayer() || MouseBag::Get()->GetHasPlayer() == hasPlayer) {
+		if (block == nullptr) return;
+
+		if (this->block == nullptr || this->block->GetBlockData().key == block->GetBlockData().key) {
+			if (InsertBlock(block, count, MouseBag::Get()->GetHasPlayer()))
+			{
+				Repos = nullptr;
+				count = 0;
+				block = nullptr;
+				return;
+			}
 		}
+
 	}
+
 	Repos->SetBlock(block);
 	Repos->SetCount(count);
 

@@ -22,8 +22,10 @@ void Button::Update()
 	if (CollisionChack(Mouse::Get()->GetPosition()))
 	{
 		// 마우스 왼쪽 버튼이 눌렸을 때, 눌린 상태 플래그를 설정합니다.
-		if (Mouse::Get()->Down(0))
+		if (Mouse::Get()->Down(0)) {
+			RunEvent(event, paramevent, object);
 			isDownCheck = true;
+		}
 
 		// 마우스 왼쪽 버튼이 눌린 상태인 경우 DOWN 상태로 설정하고,
 		// 그렇지 않은 경우 OVER 상태로 설정합니다.
@@ -36,11 +38,10 @@ void Button::Update()
 		if (isDownCheck && Mouse::Get()->Up(0))
 		{
 			// 이벤트가 설정되어 있으면 실행합니다.
-			if (event)
-				event();
-
-			// 놓아짐 이벤트 및 이벤트 핸들러 객체를 실행합니다.
+			
 			RunEvent(Upevent, Upparamevent, Upobject);
+			// 놓아짐 이벤트 및 이벤트 핸들러 객체를 실행합니다.
+
 
 			// 눌린 상태 플래그를 해제합니다.
 			isDownCheck = false;
@@ -53,6 +54,7 @@ void Button::Update()
 
 		// 마우스 왼쪽 버튼이 놓아질 때, 눌린 상태 플래그를 해제합니다.
 		if (Mouse::Get()->Up(0)) {
+			
 			isDownCheck = false;
 		}
 	}
@@ -67,6 +69,8 @@ void Button::Update()
 		material->GetBuffer()->diffuse = DOWN_COLOR; // 눌린 상태의 색상
 		break;
 	case Button::OVER:
+		if (Overevent) Overevent();
+		if (Overparamevent && Overobject != nullptr) Overparamevent(Overobject);
 		material->GetBuffer()->diffuse = OVER_COLOR; // 마우스 포인터가 위에 있을 때의 색상
 		break;
 	}
@@ -87,7 +91,7 @@ void Button::ChackStateEvent()
 		break;
 	case Button::DOWN:
 		// DOWN 상태에서는 클릭 이벤트를 실행합니다.
-		RunEvent(event, paramevent, object);
+
 		break;
 	case Button::OVER:
 		break;

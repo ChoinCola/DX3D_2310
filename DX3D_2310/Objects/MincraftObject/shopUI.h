@@ -9,18 +9,22 @@ public:
 	void Update();
 	void PostRender();
 	void GUIRender();
-	void insertblock(Block* block);
-
+	void insertItemmap(Block* block);
+	void insertItemmap(InvenBlock* block);
+	void insertBuymap(Block* block, UINT count = 1, bool property = true);
+	void Trade();
 	void SetDrag() { isDrag = !isDrag; }
 
 	void IsOpenUI(bool input);
-
+	void Rotate_TradeOutline();
 private:
 	void InventoryRender();
 	void InventoryposUpdate();
 
-	void Under_inventoryViewUpdate();
-	void Under_inventoryViewRender();
+	void TradeButtonRender();
+	void TradeButtonUpdate();
+
+	InvenBlock* GetInvenBlockdataInitemmap(int num);
 
 private:
 	Vector3 dragoffset;
@@ -32,6 +36,9 @@ private:
 	Vector3 BuymapBase = { 18 * 2, -18 * 3 - 4, 0.0f };
 
 	Transform* moneypos;
+
+	Button* TradeButton;
+	Quad* TradeOutline;
 
 	bool isDrag = false;
 	int Buymapmoney = 0;

@@ -52,6 +52,18 @@ public:
 		this->Upobject = object;
 	}
 
+
+	// 버튼의 올려졌을때 이벤트를 설정하는 함수입니다.
+	void SetOverEvent(Event event) { this->Overevent = event; }
+
+	// 버튼의 올려졌을때 이벤트 및 이벤트 핸들러 객체를 설정하는 함수입니다.
+	void SetOverParamEvent(ParamEvent paramevent, void* object)
+	{
+		this->Overparamevent = paramevent;
+		this->Overobject = object;
+	}
+
+
 	// 현재 버튼의 상태를 반환하는 함수입니다.
 	State GetState() { return state; }
 
@@ -69,9 +81,14 @@ protected:
 	ParamEvent paramevent = nullptr; // 클릭 이벤트 핸들러 객체 포인터
 	void* object = nullptr; // 클릭 이벤트 핸들러 객체
 
+	Event Overevent = nullptr; // 위에 올려졌을때 이벤트 핸들러 함수 포인터
+	ParamEvent Overparamevent = nullptr; // 위에 올려졌을때 이벤트 핸들러 객체 포인터
+	void* Overobject = nullptr; // 위에 올려졌을때 이벤트 핸들러 객체
+
 	Event Upevent = nullptr; // 놓아짐 이벤트 핸들러 함수 포인터
 	ParamEvent Upparamevent = nullptr; // 놓아짐 이벤트 핸들러 객체 포인터
 	void* Upobject = nullptr; // 놓아짐 이벤트 핸들러 객체
 
 	bool isDownCheck = false; // 버튼이 눌렸는지 여부를 나타내는 플래그
+	bool ChackHudprint = false;
 };

@@ -3,6 +3,8 @@
 ShopUI::ShopUI(wstring textureFile)
 	: Quad(textureFile)
 {
+	Block* gold = new Block(BlockDataManager::Get()->GetObjectDatas(202));
+	delete gold;
 	SetLocalScale(Vector3(2, 2, 2));
 	SetActive(false);
 	IsRender();
@@ -53,6 +55,18 @@ ShopUI::ShopUI(wstring textureFile)
 			UIManager::Get()->AddUI(Buymap[i * Box_Width + j]);
 		}
 	}
+	Block* inputblock = new Block(BlockDataManager::Get()->GetObjectDatas(201));
+	insertItemmap(inputblock);
+
+	TradeButton = new Button(L"Textures/UI/MineCraftUI/Trade.png");
+	TradeButton->SetParent(this);
+	TradeButton->SetEvent(bind(&ShopUI::Trade, this));
+	TradeButton->SetOverEvent(bind(&ShopUI::Rotate_TradeOutline, this));
+
+	TradeOutline = new Quad(L"Textures/UI/MineCraftUI/Trade_Outline.png");
+	TradeOutline->SetParent(TradeButton);
+	TradeButton->SetTag("TradeButton");
+	TradeButton->Load();
 
 	Load();
 }
@@ -61,11 +75,14 @@ ShopUI::~ShopUI()
 {
 	Save();
 	moneypos->Save();
+	TradeButton->Save();
+	SAFE_DELETE(moneypos);
+	SAFE_DELETE(TradeButton);
+	SAFE_DELETE(TradeOutline);
 }
 
 void ShopUI::Update()
 {
-	Under_inventoryViewUpdate();
 
 	if (MouseBag::Get()->GetBlock() == nullptr) {
 		if (!isDrag && Mouse::Get()->Down(0) && CollisionChack(Mouse::Get()->GetPosition()))
@@ -97,16 +114,82 @@ void ShopUI::GUIRender()
 {
 	__super::GUIRender();
 	moneypos->GUIRender();
+	TradeButton->GUIRender();
 }
 
-void ShopUI::insertblock(Block* block)
+void ShopUI::insertItemmap(Block* block)
 {
 	FOR(24)
 	{
-		if (Buymap[i]->InsertBlock(block))
+		if (Itemmap[i]->InsertBlock(block, 1, false))
 			return;
-		if (Itemmap[i]->InsertBlock(block))
+	}
+
+	return;
+}
+
+void ShopUI::insertItemmap(InvenBlock* block)
+{
+	FOR(24)
+	{
+		if (Itemmap[i]->InsertBlock(block->GetBlock(), block->GetCount(), false))
+		{
+			block->SetBlock(nullptr);
+			block->SetCount(0);
 			return;
+		}
+			
+	}
+
+	return;
+}
+
+void ShopUI::insertBuymap(Block* block, UINT count, bool property)
+{
+	FOR(24)
+	{
+		if (Buymap[i]->InsertBlock(block, count, property)) {
+			if (Buymap[i]->GetHasPlayer() == false) Buymap[i]->SetHasPlayer();
+		}
+			return;
+	}
+
+	// 못넣으면 삭제함.
+	delete block;
+	return;
+}
+
+void ShopUI::Trade()
+{
+	int nowmoney = Buymapmoney;
+	int tradeitemmoney = 0;
+	int mygold = 0;
+
+	if (nowmoney < 0) return;
+
+	FOR(24)
+	{
+		if (Buymap[i]->GetBlock() != nullptr && Buymap[i]->GetBlock()->GetBlockData().itemtype == "gold")
+			mygold += Buymap[i]->GetBlock()->GetBlockData().cash * Buymap[i]->GetCount();
+
+		if (Buymap[i]->GetHasPlayer() == true && Buymap[i]->GetBlock() != nullptr)
+		{
+			Buymap[i]->SetHasPlayer();
+			insertItemmap(Buymap[i]);
+		}
+		else if (Buymap[i]->GetHasPlayer() == false && Buymap[i]->GetBlock() != nullptr) {
+			if (Buymap[i]->GetHasPlayer() == false) Buymap[i]->SetHasPlayer();
+			tradeitemmoney += Buymap[i]->GetBlock()->GetBlockData().cash * Buymap[i]->GetCount();
+		}
+
+	}
+	//nowmoney -= mygold;
+
+	int resultgold = nowmoney;
+
+	if (resultgold > 0) {
+		Block* gold = new Block(BlockDataManager::Get()->GetObjectDatas(202));
+		insertBuymap(gold, resultgold, true);
 	}
 }
 
@@ -116,6 +199,11 @@ void ShopUI::IsOpenUI(bool input)
 		IsRender();
 
 	SetActive(!GetRender());
+}
+
+void ShopUI::Rotate_TradeOutline()
+{
+	TradeOutline->Rotate(Vector3::Forward() * DELTA * 5);
 }
 
 void ShopUI::InventoryRender()
@@ -135,6 +223,7 @@ void ShopUI::InventoryRender()
 		else
 			Font::Get()->RenderText("+", moneypos->GetGlobalPosition() + def);
 
+		TradeButtonRender();
 	}
 }
 
@@ -152,15 +241,29 @@ void ShopUI::InventoryposUpdate()
 			else
 				moneyResult -= Buymap[i]->GetBlock()->GetBlockData().cash * Buymap[i]->GetCount();
 		}
+		else
+		{
+			if (Buymap[i]->GetHasPlayer() == true) Buymap[i]->SetHasPlayer();
+		}
 	}
 
 	Buymapmoney = moneyResult;
+	TradeButtonUpdate();
 }
 
-void ShopUI::Under_inventoryViewUpdate()
+void ShopUI::TradeButtonRender()
 {
+	TradeButton->Render();
+	TradeOutline->Render();
 }
 
-void ShopUI::Under_inventoryViewRender()
+void ShopUI::TradeButtonUpdate()
 {
+	TradeButton->Update();
+	TradeOutline->UpdateWorld();
+}
+
+InvenBlock* ShopUI::GetInvenBlockdataInitemmap(int num)
+{
+	return nullptr;
 }

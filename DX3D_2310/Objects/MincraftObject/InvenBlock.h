@@ -19,11 +19,13 @@ public:
 	// InvenBlock을 화면에 렌더링하는 함수 정의
 	void PostRender();
 
+	void ShowItemHud();
+	void IsShowItemHud(int input);
 	// 블록을 InvenBlock에 삽입하는 함수 정의
 	bool InsertBlock(Block* block, UINT count = 1, bool property = true);
 
 	// InvenBlock에 다른 InvenBlock을 삽입하는 함수 정의
-	void InsertBlock(InvenBlock* block);
+	bool InsertBlock(InvenBlock* block);
 
 	// InvenBlock에서 블록을 꺼내는 함수 정의
 	Block* PopBlock();
@@ -61,6 +63,7 @@ private:
 	Vector3 mainPos; // InvenBlock의 위치
 	Block* block = nullptr; // InvenBlock에 들어있는 블록의 포인터
 	Quad* hashud = nullptr;
+	Quad* ShowDetails = nullptr;
 
 	bool hasPlayer = true;
 	bool canInput = true;

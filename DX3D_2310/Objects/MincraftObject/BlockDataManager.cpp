@@ -37,6 +37,11 @@ void BlockDataManager::LoadTable()
 		data.modelname = datas[2];
 		data.uiimage = datas[3];
 		data.cash = stoi(datas[4]);
-		blockDatas[data.key] = data;
+		data.itemtype = datas[5];
+		data.damage = stoi(datas[6]);
+		if(data.itemtype == "block")
+			blockDatas[data.key] = data;
+		else
+			ObjectDatas[data.key] = data;
 	}
 }
