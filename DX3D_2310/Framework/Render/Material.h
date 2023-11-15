@@ -45,7 +45,7 @@ private:
 	string editName;
 	string file;
 	string shaderFile;
-
+	string projectPath;
 	VertexShader* vertexShader;
 	PixelShader* pixelShader;
 

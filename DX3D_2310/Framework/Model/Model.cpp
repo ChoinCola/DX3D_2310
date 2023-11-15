@@ -154,6 +154,37 @@ void Model::ReadMesh()
         meshes.push_back(mesh);
     }
 
+    size = reader->UInt();
+    nodes.resize(size);
+    for (NodeData& node : nodes)
+    {
+        node.index = reader->Int();
+        node.name = reader->String();
+        node.parent = reader->Int();
+        node.transform = reader->Matrix();
+    }
+
     // 사용이 끝난 BinaryReader를 삭제합니다.
     delete reader;
+
+    MakeBoneTransforms();
+}
+
+void Model::MakeBoneTransforms()
+{
+    boneTransforms.reserve(nodes.size());
+
+    for (NodeData node: nodes)
+    {
+        Matrix parent;
+        int parentIndex = node.parent;
+
+        if (parentIndex < 0)
+            parent = XMMatrixIdentity();
+        else
+            parent = boneTransforms[parentIndex];
+
+        boneTransforms.push_back(node.transform * parent);
+        nodeTransforms[node.name] = boneTransforms.back();
+    }
 }

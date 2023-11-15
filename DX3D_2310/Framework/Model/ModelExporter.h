@@ -16,6 +16,7 @@ private:
 	string CreateTexture(string file); // 텍스처 파일을 생성하기
 
 	// Mesh
+	void ReadNode(aiNode* node, int index, int parent); // 지정된 Ndoe값을 읽어오기
 	void ReadMesh(aiNode* node);	// 메쉬읽기
 	void WriteMesh();
 private:
@@ -27,4 +28,5 @@ private:
 
 	vector<Material*> materials;
 	vector<MeshData*> meshes;
+	vector<NodeData*> nodes;
 };

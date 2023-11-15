@@ -40,6 +40,7 @@ public:
 	void SetParent(Transform* transform) { parent = transform; }
 	void SetPivot(Vector3 pivot) { this->pivot = pivot; }
 	void SetTag(string tag) { this->tag = tag; }
+	void SetWorld(Matrix world) { this->world = world; }
 
 	Vector3 GetRight() const { return right.GetNormalized(); }
 	Vector3 GetLeft() const { return -right.GetNormalized(); }

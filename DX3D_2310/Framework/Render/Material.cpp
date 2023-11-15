@@ -9,6 +9,10 @@ Material::Material(wstring shaderFile)
     diffuseMap = Texture::Add(L"Textures/Colors/White.png", L"DM");
     specularMap = Texture::Add(L"Textures/Colors/White.png", L"SM");
     normalMap = Texture::Add(L"Textures/Colors/Blue.png");
+
+    char path[128];
+    GetCurrentDirectoryA(128, path);
+    projectPath = path;
 }
 
 Material::~Material()
@@ -241,9 +245,8 @@ void Material::SelectShader()
         if (DIALOG->IsOk())
         {
             string file = DIALOG->GetFilePathName();
-            char path[128];
-            GetCurrentDirectoryA(128, path);
-            string temp = string(path) + "/Shaders/";
+
+            string temp = projectPath + "/Shaders/";
             file = file.substr(temp.size());
 
             SetShader(ToWString(file));
@@ -281,6 +284,7 @@ void Material::SelectMap(string name, MapType mapType)
         if (DIALOG->IsOk())
         {
             string file = DIALOG->GetFilePathName();
+            file = file.substr(projectPath.size() + 1);
 
             switch (mapType)
             {

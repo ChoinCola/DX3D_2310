@@ -13,6 +13,7 @@
 #define CENTER_Y WIN_HEIGHT * 0.5f
 
 #define MAX_LIGHT 100
+#define MAX_BONE 256
 
 #define DEVICE		Device::Get()->GetDevice()
 #define DC			Device::Get()->GetDeviceContext()
@@ -206,12 +207,15 @@ using namespace Utility;
 #include "Objects/MincraftObject/Steve.h"
 #include "Objects/MincraftObject/BlockIcon.h"
 #include "Objects/MincraftObject/Seller.h"
+
 // Scene
 #include "Scenes/Scene.h"
 #include "Scenes/TerrainScene.h"
 
 #include "Manager/GameManager.h"
 #include "Manager/SceneManager.h"
+
+#include "Scenes/AnimationScene.h"
 #include "Scenes/GridScene.h"
 #include "Scenes/TerrainScene.h"
 #include "Scenes/CollisionScene.h"

@@ -76,6 +76,7 @@ ShopUI::~ShopUI()
 	Save();
 	moneypos->Save();
 	TradeButton->Save();
+
 	SAFE_DELETE(moneypos);
 	SAFE_DELETE(TradeButton);
 	SAFE_DELETE(TradeOutline);

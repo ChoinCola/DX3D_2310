@@ -12,3 +12,11 @@ public:
 	vector<ModelVertex> vertices;
 	vector<UINT> indices;
 };
+
+struct NodeData
+{
+	int index;
+	string name;
+	int parent;
+	Matrix transform;
+};

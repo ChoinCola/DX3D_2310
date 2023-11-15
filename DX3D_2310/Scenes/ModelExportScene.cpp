@@ -2,7 +2,7 @@
 
 ModelExportScene::ModelExportScene()
 {
-	string name = "Block0";
+	string name = "Jin";
 	string file = "Models/FBX/" + name + ".fbx";
 
 	exporter = new ModelExporter(name, file);
@@ -10,21 +10,21 @@ ModelExportScene::ModelExportScene()
 	exporter->ExportMesh();
 	delete exporter;
 
-	name = "Block1";
-	file = "Models/FBX/" + name + ".fbx";
+	//name = "Block1";
+	//file = "Models/FBX/" + name + ".fbx";
 
-	exporter = new ModelExporter(name, file);
-	exporter->ExportMaterial();
-	exporter->ExportMesh();
-	delete exporter;
+	//exporter = new ModelExporter(name, file);
+	//exporter->ExportMaterial();
+	//exporter->ExportMesh();
+	//delete exporter;
 
-	name = "Block2";
-	file = "Models/FBX/" + name + ".fbx";
+	//name = "Block2";
+	//file = "Models/FBX/" + name + ".fbx";
 
-	exporter = new ModelExporter(name, file);
-	exporter->ExportMaterial();
-	exporter->ExportMesh();
-	delete exporter;
+	//exporter = new ModelExporter(name, file);
+	//exporter->ExportMaterial();
+	//exporter->ExportMesh();
+	//delete exporter;
 }
 
 ModelExportScene::~ModelExportScene()

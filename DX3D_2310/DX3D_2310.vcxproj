@@ -241,6 +241,7 @@
     <ClInclude Include="Objects\RPG\Item\Table.h" />
     <ClInclude Include="Objects\Basic\UI\Button.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scenes\AnimationScene.h" />
     <ClInclude Include="Scenes\BoxPlayDemo.h" />
     <ClInclude Include="Scenes\LightScene.h" />
     <ClInclude Include="Scenes\MineCraftScene.h" />
@@ -323,6 +324,7 @@
     <ClCompile Include="Objects\RPG\Item\Item.cpp" />
     <ClCompile Include="Objects\RPG\Item\Table.cpp" />
     <ClCompile Include="Objects\Basic\UI\Button.cpp" />
+    <ClCompile Include="Scenes\AnimationScene.cpp" />
     <ClCompile Include="Scenes\BoxPlayDemo.cpp" />
     <ClCompile Include="Scenes\CollisionScene.cpp" />
     <ClCompile Include="Scenes\GridScene.cpp" />

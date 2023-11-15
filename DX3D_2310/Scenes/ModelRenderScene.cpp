@@ -3,7 +3,7 @@
 
 ModelRenderScene::ModelRenderScene()
 {
-	string name = "Block1";
+	string name = "Jin";
 
 	model = new Model(name);
 }

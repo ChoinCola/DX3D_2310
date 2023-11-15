@@ -32,6 +32,8 @@ void ModelExporter::ExportMaterial()
 
 void ModelExporter::ExportMesh()
 {
+	ReadNode(scene->mRootNode, -1, -1);
+	// rootnode가-1임을 기억하자.
 	ReadMesh(scene->mRootNode);
 	WriteMesh();
 }
@@ -189,6 +191,22 @@ string ModelExporter::CreateTexture(string file)
 	return path;
 }
 
+void ModelExporter::ReadNode(aiNode* node, int index, int parent)
+{
+	NodeData* nodeData = new NodeData();
+	nodeData->index = index;
+	nodeData->parent = parent;
+	nodeData->name = node->mName.C_Str();
+
+	Matrix matrix(node->mTransformation[0]);
+	nodeData->transform = XMMatrixTranspose(matrix); // 메트릭스 변환해야함.
+
+	nodes.push_back(nodeData);
+
+	FOR(node->mNumChildren)
+		ReadNode(node->mChildren[i], nodes.size(), index);
+}
+
 void ModelExporter::ReadMesh(aiNode* node)
 {
 	FOR(node->mNumMeshes)
@@ -303,5 +321,18 @@ void ModelExporter::WriteMesh()
 	// 어차피 정점데이터는 읽어도 파악이 힘들기 때문에, 이진데이터 형태로 압축률이 뛰어나게 저장한다.
 	// meshes 벡터를 비우고, BinaryWriter를 닫고 삭제
 	meshes.clear();
+
+	writer->UInt(nodes.size());
+	for (NodeData* node : nodes)
+	{
+		writer->Int(node->index);
+		writer->String(node->name);
+		writer->Int(node->parent);
+		writer->Matrix(node->transform);
+
+		delete node;
+	}
+	nodes.clear();
+
 	delete writer;
 }
