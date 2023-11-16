@@ -379,7 +379,8 @@ void ModelExporter::WriteMesh()
 	// 어차피 정점데이터는 읽어도 파악이 힘들기 때문에, 이진데이터 형태로 압축률이 뛰어나게 저장한다.
 	// meshes 벡터를 비우고, BinaryWriter를 닫고 삭제
 	meshes.clear();
-
+	
+	// 갹 노드의 데이터를 작성해서 저장한다.
 	writer->UInt(nodes.size());
 	for (NodeData* node : nodes)
 	{
@@ -392,6 +393,7 @@ void ModelExporter::WriteMesh()
 	}
 	nodes.clear();
 
+	// 갹 뼈대의 데이터를 작성해서 저장한다.
 	writer->UInt(bones.size());
 	for (BoneData* bone : bones)
 	{
@@ -408,22 +410,36 @@ void ModelExporter::WriteMesh()
 
 Clip* ModelExporter::ReadClip(aiAnimation* animation)
 {
+	// 새로운 Clip 객체를 동적으로 생성합니다.
 	Clip* clip = new Clip();
+
+	// 애니메이션의 이름을 Clip 객체에 할당합니다.
 	clip->name = animation->mName.C_Str();
+
+	// 애니메이션의 초당 틱 수를 Clip 객체에 할당합니다.
 	clip->tickPerSecond = (float)animation->mTicksPerSecond;
+
+	// 애니메이션의 총 프레임 수를 Clip 객체에 할당합니다.
 	clip->frameCount = (UINT)(animation->mDuration) + 1;
 
+	// 애니메이션 채널(노드)의 수만큼 ClipNode 객체를 담을 벡터를 할당합니다.
 	vector<ClipNode> clipNodes;
 	clipNodes.reserve(animation->mNumChannels);
+
+	// 각 애니메이션 채널(노드)에 대해 반복합니다.
 	FOR(animation->mNumChannels)
 	{
+		// 현재 채널(노드)을 가져옵니다.
 		aiNodeAnim* srcNode = animation->mChannels[i];
 
+		// 새로운 ClipNode 객체를 생성하고 이름을 설정합니다.
 		ClipNode node;
 		node.name = srcNode->mNodeName;
 
+		// KeyData 객체를 생성하여 각 키프레임의 위치, 회전, 스케일을 저장합니다.
 		KeyData data;
 
+		// 위치 키프레임 정보 저장
 		data.positions.resize(srcNode->mNumPositionKeys);
 		for (UINT k = 0; k < srcNode->mNumPositionKeys; k++)
 		{
@@ -436,6 +452,7 @@ Clip* ModelExporter::ReadClip(aiAnimation* animation)
 			data.positions[k] = keyPos;
 		}
 
+		// 회전 키프레임 정보 저장
 		data.rotations.resize(srcNode->mNumRotationKeys);
 		for (UINT k = 0; k < srcNode->mNumRotationKeys; k++)
 		{
@@ -451,6 +468,7 @@ Clip* ModelExporter::ReadClip(aiAnimation* animation)
 			data.rotations[k] = keyRot;
 		}
 
+		// 스케일 키프레임 정보 저장
 		data.scales.resize(srcNode->mNumScalingKeys);
 		for (UINT k = 0; k < srcNode->mNumScalingKeys; k++)
 		{
@@ -463,13 +481,17 @@ Clip* ModelExporter::ReadClip(aiAnimation* animation)
 			data.scales[k] = keyScale;
 		}
 
+		// SetClipNode 함수를 통해 키프레임 데이터를 ClipNode에 설정합니다.
 		SetClipNode(data, clip->frameCount, node);
 
+		// 현재 처리한 ClipNode을 벡터에 추가합니다.
 		clipNodes.push_back(node);
 	}
 
+	// 읽어온 키프레임 데이터를 이용하여 애니메이션의 프레임 데이터를 설정합니다.
 	ReadKeyFrame(clip, scene->mRootNode, clipNodes);
 
+	// 생성한 Clip 객체를 반환합니다.
 	return clip;
 }
 
@@ -485,12 +507,14 @@ void ModelExporter::WriteClip(Clip* clip, string clipName, UINT index)
 
 void ModelExporter::SetClipNode(const KeyData& keyData, const UINT& frameCount, ClipNode& clipNode)
 {
+	// 클립 노드에 키프레임의 변환(transform)을 저장할 벡터를 프레임 수만큼 할당합니다.
 	clipNode.transforms.resize(frameCount);
 
 	UINT posCount = 0;
 	UINT rotCount = 0;
 	UINT scaleCount = 0;
 
+	// 각 프레임에 대해 보간된 위치, 회전, 스케일 값을 계산하여 클립 노드에 저장합니다.
 	FOR(frameCount)
 	{
 		clipNode.transforms[i].pos = CalcInterpolationVector(keyData.positions, posCount, i);
@@ -501,37 +525,51 @@ void ModelExporter::SetClipNode(const KeyData& keyData, const UINT& frameCount, 
 
 Float3 ModelExporter::CalcInterpolationVector(const vector<KeyVector>& keyData, UINT& count, int curFrame)
 {
+	// 키프레임 데이터의 크기가 count보다 작거나 같거나, 키프레임 데이터가 1개 이하인 경우,
+	// 가장 마지막 키프레임의 값으로 반환합니다.
 	if (keyData.size() <= count || keyData.size() == 1)
 		return keyData.back().value;
 
 	KeyVector curValue = keyData[count];
 	KeyVector nextValue = curValue;
+
+	// 다음 키프레임이 존재하는 경우, nextValue를 다음 키프레임 값으로 설정합니다.
 	if (keyData.size() > count + 1)
 		nextValue = keyData[count + 1];
 
+	// 현재 프레임이 키프레임 사이에 위치한 비율을 계산합니다.
 	float t = ((float)curFrame - curValue.time) / (nextValue.time - curValue.time);
 
+	// 현재 프레임이 다음 키프레임과 일치하는 경우, 다음 키프레임으로 넘어갑니다.
 	if (curFrame == (int)nextValue.time)
 		count++;
 
+	// 선형 보간을 통해 현재 프레임의 위치 값을 반환합니다.
 	return MATH->Lerp(curValue.value, nextValue.value, t);
 }
 
 Float4 ModelExporter::CalcInterpolationQuat(const vector<KeyQuat>& keyData, UINT& count, int curFrame)
 {
+	// 키프레임 데이터의 크기가 count보다 작거나 같거나, 키프레임 데이터가 1개 이하인 경우,
+	// 가장 마지막 키프레임의 값으로 반환합니다.
 	if (keyData.size() <= count || keyData.size() == 1)
 		return keyData.back().value;
 
 	KeyQuat curValue = keyData[count];
 	KeyQuat nextValue = curValue;
+
+	// 다음 키프레임이 존재하는 경우, nextValue를 다음 키프레임 값으로 설정합니다.
 	if (keyData.size() > count + 1)
 		nextValue = keyData[count + 1];
 
+	// 현재 프레임이 키프레임 사이에 위치한 비율을 계산합니다.
 	float t = ((float)curFrame - curValue.time) / (nextValue.time - curValue.time);
 
+	// 현재 프레임이 다음 키프레임과 일치하는 경우, 다음 키프레임으로 넘어갑니다.
 	if (curFrame == (int)nextValue.time)
 		count++;
 
+	// 쿼터니언의 선형 보간을 수행하고 결과를 반환합니다.
 	Vector4 cur = XMLoadFloat4(&curValue.value);
 	Vector4 next = XMLoadFloat4(&nextValue.value);
 
