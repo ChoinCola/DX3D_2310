@@ -82,3 +82,28 @@ struct VertexUVNormalTangent
     {
     }
 };
+
+struct VertexUVNormalTangentBlend
+{
+    Float3 pos = {};
+    Float2 uv = {};
+    Float3 normal = {};
+    Float3 tangent = {};
+    Float4 indices = {};
+    Float4 weights = {};
+
+
+    VertexUVNormalTangentBlend()
+    {
+    }
+
+    VertexUVNormalTangentBlend(float x, float y, float z)
+        : pos(x, y, z)
+    {
+    }
+
+    VertexUVNormalTangentBlend(float x, float y, float z, float u, float v)
+        : pos(x, y, z), uv(u, v)
+    {
+    }
+};

@@ -38,6 +38,10 @@ void ModelExporter::ExportMesh()
 	WriteMesh();
 }
 
+void ModelExporter::ExportClip(string clipName)
+{
+}
+
 void ModelExporter::ReadMaterial()
 {
 	FOR(scene->mNumMaterials)
@@ -191,6 +195,43 @@ string ModelExporter::CreateTexture(string file)
 	return path;
 }
 
+// 뼈대에 대한 보간정보 뽑기.
+void ModelExporter::ReadBone(aiMesh* mesh, vector<VertexWeights>& vertexWeights)
+{
+	FOR(mesh->mNumBones)
+	{
+		UINT boneIndex = 0;
+		string name = mesh->mBones[i]->mName.C_Str();
+
+		// 뼈대가 이미 있는지 확인
+		if (boneMap.count(name) == 0)
+		{
+			boneIndex = boneCount++;
+			boneMap[name] = boneIndex;
+
+			BoneData* boneData = new BoneData();
+			boneData->name = name;
+			boneData->index = boneIndex;
+
+			Matrix matrix(mesh->mBones[i]->mOffsetMatrix[0]);// 배열로 제공하기는 하지만, 통상적으로 맨 앞의 값만 쓰게 됨.
+			boneData->offset = XMMatrixTranspose(matrix);
+
+			bones.push_back(boneData);
+		}
+		else
+		{
+			boneIndex = boneMap[name];
+		}
+
+		for (UINT j = 0; j < mesh->mBones[i]->mNumWeights; j++)
+		{
+			UINT index = mesh->mBones[i]->mWeights[j].mVertexId;
+			vertexWeights[index].Add(boneIndex,
+				mesh->mBones[i]->mWeights[j].mWeight);
+		}
+	}
+}
+
 void ModelExporter::ReadNode(aiNode* node, int index, int parent)
 {
 	NodeData* nodeData = new NodeData();
@@ -222,44 +263,61 @@ void ModelExporter::ReadMesh(aiNode* node)
 
 		// Mesh의 재질(Material) 인덱스를 MeshData 객체에 할당
 		mesh->materialIndex = srcMesh->mMaterialIndex;
+		vector<VertexWeights> vertexWeights(srcMesh->mNumVertices);
+		ReadBone(srcMesh, vertexWeights);
+
 
 		// Mesh의 정점(Vertex) 데이터를 복사
 		mesh->vertices.resize(srcMesh->mNumVertices);
 
-		FOR(srcMesh->mNumVertices)
+		for(UINT v = 0; v < srcMesh->mNumVertices; v++)
 		{
 			ModelVertex vertex;
 
 			// 정점 위치 정보를 복사
-			memcpy(&vertex.pos, &srcMesh->mVertices[i], sizeof(Float3));
+			memcpy(&vertex.pos, &srcMesh->mVertices[v], sizeof(Float3));
 
 			// 텍스처 좌표 정보가 있는 경우, 복사
 			if (srcMesh->HasTextureCoords(0))
-				memcpy(&vertex.uv, &srcMesh->mTextureCoords[0][i], sizeof(Float2));
+				memcpy(&vertex.uv, &srcMesh->mTextureCoords[0][v], sizeof(Float2));
 
 			// 법선 벡터 정보가 있는 경우, 복사
 			if (srcMesh->HasNormals())
-				memcpy(&vertex.normal, &srcMesh->mNormals[i], sizeof(Float3));
+				memcpy(&vertex.normal, &srcMesh->mNormals[v], sizeof(Float3));
 
 			// 접선 벡터 및 이접선 벡터 정보가 있는 경우, 복사
 			if (srcMesh->HasTangentsAndBitangents())
-				memcpy(&vertex.tangent, &srcMesh->mTangents[i], sizeof(Float3));
+				memcpy(&vertex.tangent, &srcMesh->mTangents[v], sizeof(Float3));
 
+			if (!vertexWeights.empty())
+			{
+				vertexWeights[v].Normalize();
+				
+				vertex.indices.x = (float)vertexWeights[v].indices[0];
+				vertex.indices.y = (float)vertexWeights[v].indices[1];
+				vertex.indices.z = (float)vertexWeights[v].indices[2];
+				vertex.indices.w = (float)vertexWeights[v].indices[3];
+
+				vertex.weights.x = vertexWeights[v].weights[0];
+				vertex.weights.y = vertexWeights[v].weights[1];
+				vertex.weights.z = vertexWeights[v].weights[2];
+				vertex.weights.w = vertexWeights[v].weights[3];
+			}
 			// MeshData의 정점 목록에 현재 정점 정보를 추가
-			mesh->vertices[i] = vertex;
+			mesh->vertices[v] = vertex;
 		}
 
 		// Mesh의 인덱스 데이터를 복사 복사하기위해 배열을 resize로 늘려줌.
 		mesh->indices.resize(srcMesh->mNumFaces * 3);
-		FOR(srcMesh->mNumFaces)
+		for (UINT f = 0; f < srcMesh->mNumFaces; f++)
 		{
 			// face = 그리기순서 얼굴, 면 이라고 생각하면됨.
-			aiFace& face = srcMesh->mFaces[i];
+			aiFace& face = srcMesh->mFaces[f];
 
 			// 각 면(Face)의 인덱스를 MeshData 객체의 인덱스 목록에 추가
 			for (UINT j = 0; j < face.mNumIndices; j++)
 			{
-				mesh->indices[i * 3 + j] = face.mIndices[j];
+				mesh->indices[f * 3 + j] = face.mIndices[j];
 			}
 		}
 
@@ -334,5 +392,153 @@ void ModelExporter::WriteMesh()
 	}
 	nodes.clear();
 
+	writer->UInt(bones.size());
+	for (BoneData* bone : bones)
+	{
+		writer->Int(bone->index);
+		writer->String(bone->name);
+		writer->Matrix(bone->offset);
+
+		delete bone;
+	}
+	bones.clear();
+
 	delete writer;
+}
+
+Clip* ModelExporter::ReadClip(aiAnimation* animation)
+{
+	Clip* clip = new Clip();
+	clip->name = animation->mName.C_Str();
+	clip->tickPerSecond = (float)animation->mTicksPerSecond;
+	clip->frameCount = (UINT)(animation->mDuration) + 1;
+
+	vector<ClipNode> clipNodes;
+	clipNodes.reserve(animation->mNumChannels);
+	FOR(animation->mNumChannels)
+	{
+		aiNodeAnim* srcNode = animation->mChannels[i];
+
+		ClipNode node;
+		node.name = srcNode->mNodeName;
+
+		KeyData data;
+
+		data.positions.resize(srcNode->mNumPositionKeys);
+		for (UINT k = 0; k < srcNode->mNumPositionKeys; k++)
+		{
+			KeyVector keyPos;
+			aiVectorKey key = srcNode->mPositionKeys[k];
+			keyPos.time = key.mTime;
+			memcpy_s(&keyPos.value, sizeof(Float3),
+				&key.mValue, sizeof(aiVector3D));
+
+			data.positions[k] = keyPos;
+		}
+
+		data.rotations.resize(srcNode->mNumRotationKeys);
+		for (UINT k = 0; k < srcNode->mNumRotationKeys; k++)
+		{
+			KeyQuat keyRot;
+			aiQuatKey key = srcNode->mRotationKeys[k];
+			keyRot.time = key.mTime;
+
+			keyRot.value.x = (float)key.mValue.x;
+			keyRot.value.y = (float)key.mValue.y;
+			keyRot.value.z = (float)key.mValue.z;
+			keyRot.value.w = (float)key.mValue.w;
+
+			data.rotations[k] = keyRot;
+		}
+
+		data.scales.resize(srcNode->mNumScalingKeys);
+		for (UINT k = 0; k < srcNode->mNumScalingKeys; k++)
+		{
+			KeyVector keyScale;
+			aiVectorKey key = srcNode->mScalingKeys[k];
+			keyScale.time = key.mTime;
+			memcpy_s(&keyScale.value, sizeof(Float3),
+				&key.mValue, sizeof(aiVector3D));
+
+			data.scales[k] = keyScale;
+		}
+
+		SetClipNode(data, clip->frameCount, node);
+
+		clipNodes.push_back(node);
+	}
+
+	ReadKeyFrame(clip, scene->mRootNode, clipNodes);
+
+	return clip;
+}
+
+void ModelExporter::ReadKeyFrame(Clip* clip, aiNode* node, vector<ClipNode>& clopNodes)
+{
+
+}
+
+void ModelExporter::WriteClip(Clip* clip, string clipName, UINT index)
+{
+
+}
+
+void ModelExporter::SetClipNode(const KeyData& keyData, const UINT& frameCount, ClipNode& clipNode)
+{
+	clipNode.transforms.resize(frameCount);
+
+	UINT posCount = 0;
+	UINT rotCount = 0;
+	UINT scaleCount = 0;
+
+	FOR(frameCount)
+	{
+		clipNode.transforms[i].pos = CalcInterpolationVector(keyData.positions, posCount, i);
+		clipNode.transforms[i].rot = CalcInterpolationQuat(keyData.rotations, rotCount, i);
+		clipNode.transforms[i].scale = CalcInterpolationVector(keyData.scales, scaleCount, i);
+	}
+}
+
+Float3 ModelExporter::CalcInterpolationVector(const vector<KeyVector>& keyData, UINT& count, int curFrame)
+{
+	if (keyData.size() <= count || keyData.size() == 1)
+		return keyData.back().value;
+
+	KeyVector curValue = keyData[count];
+	KeyVector nextValue = curValue;
+	if (keyData.size() > count + 1)
+		nextValue = keyData[count + 1];
+
+	float t = ((float)curFrame - curValue.time) / (nextValue.time - curValue.time);
+
+	if (curFrame == (int)nextValue.time)
+		count++;
+
+	return MATH->Lerp(curValue.value, nextValue.value, t);
+}
+
+Float4 ModelExporter::CalcInterpolationQuat(const vector<KeyQuat>& keyData, UINT& count, int curFrame)
+{
+	if (keyData.size() <= count || keyData.size() == 1)
+		return keyData.back().value;
+
+	KeyQuat curValue = keyData[count];
+	KeyQuat nextValue = curValue;
+	if (keyData.size() > count + 1)
+		nextValue = keyData[count + 1];
+
+	float t = ((float)curFrame - curValue.time) / (nextValue.time - curValue.time);
+
+	if (curFrame == (int)nextValue.time)
+		count++;
+
+	Vector4 cur = XMLoadFloat4(&curValue.value);
+	Vector4 next = XMLoadFloat4(&nextValue.value);
+
+	Vector4 rot = XMQuaternionSlerp(cur, next, t);
+
+	Float4 result;
+	XMStoreFloat4(&result, rot);
+
+	return result;
 }

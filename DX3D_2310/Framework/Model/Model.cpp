@@ -6,7 +6,7 @@ Model::Model(string name) : name(name)
 
 	ReadMaterial();
 	ReadMesh();
-
+    MakeTreenode();
 	worldBuffer = new MatrixBuffer();
 }
 
@@ -36,6 +36,7 @@ void Model::GUIRender()
 
 	for (Material* material : materials)
 		material->GUIRender();
+    RenderTreenode(0);
 }
 
 void Model::SetShader(wstring file)
@@ -186,5 +187,40 @@ void Model::MakeBoneTransforms()
 
         boneTransforms.push_back(node.transform * parent);
         nodeTransforms[node.name] = boneTransforms.back();
+    }
+}
+
+void Model::RenderTreenode(int num)
+{
+    // 트리 노드를 펼치거나 축소하는 버튼 렌더링
+    if (ImGui::TreeNode(nodes[num].name.c_str()))
+    {
+
+        /*
+            데이터가 더 필요하다면 nodes[num]에서 데이터를 뽑아서 
+            여기에 ImGUI::로 출력하면 됩니다.
+        */
+
+        // 자식 노드가 있는 경우 자식 노드를 렌더링
+        for (int& child : nodetree[num])
+        {
+            RenderTreenode(child);
+        }
+        // 트리 노드를 닫기
+        ImGui::TreePop();
+    }
+}
+
+void Model::MakeTreenode()
+{
+    nodetree.resize(nodes.size());
+    for (auto& node : nodes)
+    {
+        if (node.index == -1) continue;
+        if (node.parent == -1) {
+            nodetree[0].emplace_back(node.index);
+            continue;
+        }
+        nodetree[node.parent].emplace_back(node.index);
     }
 }

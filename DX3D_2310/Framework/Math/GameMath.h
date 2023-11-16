@@ -18,6 +18,8 @@ public:
 	int Random(const int& min, const int& max);
 	float Random(const float& min, const float& max);
 
+	Vector3 Lerp(const Vector3& start, const Vector3 end, const float& t);
+
 private:
 	random_device randomDevice;
 	mt19937_64 generator;

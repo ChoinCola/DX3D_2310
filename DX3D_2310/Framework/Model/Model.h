@@ -26,11 +26,17 @@ private:
 
 	void MakeBoneTransforms();
 
+	void RenderTreenode(int num);
+	void MakeTreenode();
+
 protected:
 	string name;
 	vector<Material*> materials;
 	vector<ModelMesh*> meshes;
 	vector<NodeData> nodes;
+
+	// 노드 부모관계를 정리해야하기 때문에 vector<vector> 형태로 정리한다.
+	vector<vector<int>> nodetree;
 
 	// 모델과 메시의 정보가 여러개임으로 한번에 worldBuffer로 관리한다.
 	MatrixBuffer* worldBuffer;

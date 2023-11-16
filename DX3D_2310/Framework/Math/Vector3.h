@@ -52,8 +52,8 @@ public:
 		}
 	}
 
-	Vector3 operator+(const Vector3& v) { return value + v.value; }
-	Vector3 operator-(const Vector3& v) { return value - v.value; }
+	Vector3 operator+(const Vector3& v) const { return value + v.value; }
+	Vector3 operator-(const Vector3& v) const { return value - v.value; }
 
 	void operator += (const Vector3& v) { value += v.value; }
 	void operator -= (const Vector3& v) { value -= v.value; }
