@@ -14,7 +14,7 @@ public:
 	void GUIRender() override;
 
 private:
-	Model* model;
+	ModelAnimator* model;
 	Model* weapon;
 
 	Transform* rightHand;

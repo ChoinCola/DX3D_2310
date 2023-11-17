@@ -3,44 +3,61 @@
 class Model : public Transform
 {
 public:
-	Model(string name);
-	~Model();
+    // 생성자: 주어진 이름으로 모델 초기화
+    Model(string name);
 
-	void Render();
-	void GUIRender();
+    // 소멸자: 모델이 파괴될 때 자원 정리
+    ~Model();
 
-	void SetShader(wstring file);
+    // 모델을 렌더링하는 함수
+    void Render();
 
-	Matrix GetNodeTransform(string name) { return nodeTransforms[name]; }
-	Vector3 GetNodeLocalPosition(string name)
-	{
-		Vector3 scale, rotation, translation;
-		XMMATRIX matrix = nodeTransforms[name];
-		XMMatrixDecompose(scale.GetValue(), rotation.GetValue(), translation.GetValue(), matrix);
-		return translation;
-	}
+    // 모델의 GUI를 렌더링하는 함수
+    void GUIRender();
+
+    // 주어진 파일로 Shader를 설정하는 함수
+    void SetShader(wstring file);
+
+    // 주어진 노드의 변환 매트릭스를 반환하는 함수
+    Matrix GetNodeTransform(string name) { return nodeTransforms[name]; }
+
+    // 주어진 노드의 로컬 위치를 반환하는 함수
+    Vector3 GetNodeLocalPosition(string name)
+    {
+        Vector3 scale, rotation, translation;
+        XMMATRIX matrix = nodeTransforms[name];
+        XMMatrixDecompose(scale.GetValue(), rotation.GetValue(), translation.GetValue(), matrix);
+        return translation;
+    }
 
 private:
-	void ReadMaterial();
-	void ReadMesh();
+    // 재료 정보를 읽어오는 함수
+    void ReadMaterial();
 
-	void MakeBoneTransforms();
+    // 메시 정보를 읽어오는 함수
+    void ReadMesh();
 
-	void RenderTreenode(int num);
-	void MakeTreenode();
+    // 뼈대의 변환 매트릭스를 생성하는 함수
+    void MakeBoneTransforms();
+
+    // 특정 번호의 트리 노드를 렌더링하는 함수
+    void RenderTreenode(int num);
+
+    // 트리 노드를 생성하는 함수
+    void MakeTreenode();
 
 protected:
-	string name;
-	vector<Material*> materials;
-	vector<ModelMesh*> meshes;
-	vector<NodeData> nodes;
+    string name;                        // 모델의 이름
+    vector<Material*> materials;        // 재료 정보를 저장하는 벡터
+    vector<ModelMesh*> meshes;          // 모델 메시 정보를 저장하는 벡터
+    vector<NodeData> nodes;             // 모델의 노드 정보를 저장하는 벡터
+    vector<BoneData> bones;             // 뼈대 정보를 저장하는 벡터
 
-	// 노드 부모관계를 정리해야하기 때문에 vector<vector> 형태로 정리한다.
-	vector<vector<int>> nodetree;
+    vector<vector<int>> nodetree;       // 노드의 부모 관계를 저장하는 2D 벡터
 
-	// 모델과 메시의 정보가 여러개임으로 한번에 worldBuffer로 관리한다.
-	MatrixBuffer* worldBuffer;
+    MatrixBuffer* worldBuffer;          // 모델과 메시의 정보를 담는 버퍼
 
-	vector<Matrix> boneTransforms;
-	map<string, Matrix> nodeTransforms;
+    vector<Matrix> boneTransforms;      // 뼈대의 변환 매트릭스를 저장하는 벡터
+    map<string, Matrix> nodeTransforms; // 노드의 변환 매트릭스를 저장하는 맵
+    map<string, UINT> boneMap;          // 뼈대의 인덱스를 저장하는 맵
 };

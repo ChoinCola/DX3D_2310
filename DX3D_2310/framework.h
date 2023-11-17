@@ -14,6 +14,7 @@
 
 #define MAX_LIGHT 100
 #define MAX_BONE 256
+#define MAX_FRAME 256
 
 #define DEVICE		Device::Get()->GetDevice()
 #define DC			Device::Get()->GetDeviceContext()
@@ -159,6 +160,8 @@ using namespace Utility;
 #include "Framework/Model/ModelExporter.h"
 #include "Framework/Model/ModelMesh.h"
 #include "Framework/Model/Model.h"
+#include "Framework/Model/ModelClip.h"
+#include "Framework/Model/ModelAnimator.h"
 
 // Obejct Header
 #include "Objects/Basic/GameObject.h"

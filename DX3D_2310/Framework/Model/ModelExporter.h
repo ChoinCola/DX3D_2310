@@ -50,7 +50,7 @@ private:
     Clip* ReadClip(aiAnimation* animation);
 
     // ReadKeyFrame: 클립의 키프레임을 읽어옵니다.
-    void ReadKeyFrame(Clip* clip, aiNode* node, vector<ClipNode>& clopNodes);
+    void ReadKeyFrame(Clip* clip, aiNode* node, vector<ClipNode>& clipNodes);
 
     // WriteClip: 클립을 저장합니다.
     void WriteClip(Clip* clip, string clipName, UINT index);

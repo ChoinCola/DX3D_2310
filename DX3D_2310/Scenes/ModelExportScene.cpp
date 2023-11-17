@@ -25,6 +25,13 @@ ModelExportScene::ModelExportScene()
 	//exporter->ExportMaterial();
 	//exporter->ExportMesh();
 	//delete exporter;
+
+
+	string clipName = "Dancilng";
+	file = "Models/Animations/" + name + "/" + clipName + ".fbx";
+	exporter = new ModelExporter(name, file);
+	exporter->ExportClip(clipName);
+	delete exporter;
 }
 
 ModelExportScene::~ModelExportScene()

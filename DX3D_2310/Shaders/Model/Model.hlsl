@@ -3,11 +3,13 @@
 #include "../PixelHeader.hlsli"
 
 // 꼭짓점 셰이더 함수입니다.
-LightPixelInput VS(VertexUVNormalTangent input)
+LightPixelInput VS(VertexUVNormalTangentBlend input)
 {
 	LightPixelInput output;
 	// 입력 꼭짓점을 월드 공간으로 변환합니다.
-	output.pos = mul(input.pos, world);
+	matrix transform = mul(SkinWorld(input.indices, input.weights), world);
+	
+	output.pos = mul(input.pos, transform);
 	// 월드 공간에서의 위치를 저장합니다.
 	output.worldPos = output.pos;
 	// 뷰 공간에서의 위치를 저장합니다.
@@ -23,8 +25,8 @@ LightPixelInput VS(VertexUVNormalTangent input)
 	
 	// 노멀과 탄젠트를 월드 공간으로 변환하고, 
 	// 빈노멀(노멀과 탄젠트에 수직인 벡터)을 계산합니다.
-	output.normal = mul(input.normal, (float3x3) world);
-	output.tangent = mul(input.tangent, (float3x3) world);
+	output.normal = mul(input.normal, (float3x3) transform);
+	output.tangent = mul(input.tangent, (float3x3) transform);
 	output.binormal = cross(output.normal, output.tangent);
 	
 	return output;
@@ -33,7 +35,6 @@ LightPixelInput VS(VertexUVNormalTangent input)
 // 픽셀 셰이더 함수입니다.
 float4 PS(LightPixelInput input) : SV_TARGET
 {
-	// 광원 데이터를 가져옵니다.
 	Material material = GetMaterial(input);
 	
 	float4 ambient = CalcAmbient(material);

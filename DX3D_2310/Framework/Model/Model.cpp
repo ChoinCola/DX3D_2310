@@ -165,6 +165,16 @@ void Model::ReadMesh()
         node.transform = reader->Matrix();
     }
 
+    size = reader->UInt();
+    bones.resize(size);
+    for (BoneData& bone : bones)
+    {
+        bone.index = reader->Int();
+        bone.name = reader->String();
+        bone.offset = reader->Matrix();
+
+        boneMap[bone.name] = bone.index;
+    }
     // 사용이 끝난 BinaryReader를 삭제합니다.
     delete reader;
 
@@ -173,19 +183,25 @@ void Model::ReadMesh()
 
 void Model::MakeBoneTransforms()
 {
+    // 뼈대의 변환 매트릭스를 미리 예약
     boneTransforms.reserve(nodes.size());
 
-    for (NodeData node: nodes)
+    // 각 노드에 대해 반복
+    for (NodeData node : nodes)
     {
         Matrix parent;
         int parentIndex = node.parent;
 
+        // 부모 노드가 없으면 단위 행렬로 초기화
         if (parentIndex < 0)
             parent = XMMatrixIdentity();
         else
             parent = boneTransforms[parentIndex];
 
+        // 현재 노드의 변환 매트릭스를 부모의 매트릭스와 곱하여 뼈대의 매트릭스로 저장
         boneTransforms.push_back(node.transform * parent);
+
+        // 노드 이름과 해당 노드의 변환 매트릭스를 맵에 저장
         nodeTransforms[node.name] = boneTransforms.back();
     }
 }

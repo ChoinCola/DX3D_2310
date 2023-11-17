@@ -3,30 +3,35 @@
 
 AnimationScene::AnimationScene()
 {
-	model = new Model("Jin");
-	model->SetLocalScale(Vector3(0.01, 0.01, 0.01));
+	model = new ModelAnimator("Jin");
+	model->ReadClip("Dancing");
+	model->ReadClip("Walking");
+	model->CreateTexture();
 
-	weapon = new Model("weapon0");
+	//model->SetLocalScale(Vector3(0.01, 0.01, 0.01));
 
-	rightHand = new Transform();
-	rightHand->SetWorld(model->GetNodeTransform("mixamorig:RightHand"));
-	//rightHand->SetParent(model);
+	//weapon = new Model("weapon0");
 
-	weapon->SetParent(rightHand);
+	//rightHand = new Transform();
+	//rightHand->SetWorld(model->GetNodeTransform("mixamorig:RightHand"));
+	////rightHand->SetParent(model);
+
+	//weapon->SetParent(rightHand);
+
 }
 
 AnimationScene::~AnimationScene()
 {
 	SAFE_DELETE(model);
-	SAFE_DELETE(weapon);
+	//SAFE_DELETE(weapon);
 }
 
 void AnimationScene::Update()
 {
-	model->UpdateWorld();
-	rightHand->SetWorld(model->GetNodeTransform("mixamorig:RightHand"));
-	//rightHand->UpdateWorld();
-	weapon->UpdateWorld();
+	model->Update();
+	//rightHand->SetWorld(model->GetNodeTransform("mixamorig:RightHand"));
+	////rightHand->UpdateWorld();
+	//weapon->UpdateWorld();
 }
 
 void AnimationScene::PreRender()
@@ -36,7 +41,7 @@ void AnimationScene::PreRender()
 void AnimationScene::Render()
 {
 	model->Render();
-	weapon->Render();
+	//weapon->Render();
 }
 
 void AnimationScene::PostRender()
@@ -46,5 +51,5 @@ void AnimationScene::PostRender()
 void AnimationScene::GUIRender()
 {
 	model->GUIRender();
-	weapon->GUIRender();
+	//weapon->GUIRender();
 }

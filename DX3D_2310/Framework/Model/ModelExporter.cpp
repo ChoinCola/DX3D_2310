@@ -40,6 +40,11 @@ void ModelExporter::ExportMesh()
 
 void ModelExporter::ExportClip(string clipName)
 {
+	FOR(scene->mNumAnimations)
+	{
+		Clip* clip = ReadClip(scene->mAnimations[i]);
+		WriteClip(clip, clipName, i);
+	}
 }
 
 void ModelExporter::ReadMaterial()
@@ -495,14 +500,95 @@ Clip* ModelExporter::ReadClip(aiAnimation* animation)
 	return clip;
 }
 
-void ModelExporter::ReadKeyFrame(Clip* clip, aiNode* node, vector<ClipNode>& clopNodes)
+void ModelExporter::ReadKeyFrame(Clip* clip, aiNode* node, vector<ClipNode>& clipNodes)
 {
+	// 키프레임 정보 하나 만들기
+	KeyFrame* keyFrame = new KeyFrame();
+	keyFrame->boneName = node->mName.C_Str();
+	keyFrame->transforms.reserve(clip->frameCount);
 
+	// 클립의 각 프레임에 대한 처리
+	FOR(clip->frameCount)
+	{
+		ClipNode* clipNode = nullptr;
+
+		// 현재 노드가 클립 노드 벡터에 있는지 확인
+		for (ClipNode& temp : clipNodes)
+		{
+			if (temp.name == node->mName)
+			{
+				clipNode = &temp;
+				break;
+			}
+		}
+
+		// 키프레임의 변환 정보를 저장할 구조체 생성
+		KeyTransform keyTransform;
+
+		// 클립 노드 벡터에 현재 노드가 없는 경우
+		if (clipNode == nullptr)
+		{
+			// 현재 노드의 전역 변환 행렬을 읽어와서 분해
+			Matrix transform(node->mTransformation[0]);
+			transform = XMMatrixTranspose(transform);
+
+			Vector3 S, R, T;
+			XMMatrixDecompose(S.GetValue(), R.GetValue(), T.GetValue(), transform);
+			keyTransform.scale = S;
+			XMStoreFloat4(&keyTransform.rot, R);
+			keyTransform.pos = T;
+		}
+		else
+		{
+			// 클립 노드 벡터에 현재 노드가 있는 경우 해당 노드의 변환 정보 사용
+			keyTransform = clipNode->transforms[i];
+		}
+
+		// 키프레임에 변환 정보 추가
+		keyFrame->transforms.push_back(keyTransform);
+	}
+
+	// 생성한 키프레임을 클립에 추가
+	clip->keyFrames.push_back(keyFrame);
+
+	// 노드의 자식에 대해 재귀적으로 처리
+	FOR(node->mNumChildren)
+		ReadKeyFrame(clip, node->mChildren[i], clipNodes);
 }
 
 void ModelExporter::WriteClip(Clip* clip, string clipName, UINT index)
 {
+	// 클립을 저장할 파일 경로 생성
+	string file = "Models/Clips/" + name + "/" + clipName + to_string(index) + ".clip";
 
+	// 폴더가 존재하지 않으면 생성
+	CreateFolders(file);
+
+	// BinaryWriter 객체를 사용하여 파일에 쓰기
+	BinaryWriter* writer = new BinaryWriter(file);
+
+	// 클립 정보 기록
+	writer->String(clip->name);
+	writer->UInt(clip->frameCount);
+	writer->Float(clip->tickPerSecond);
+
+	// 키프레임 개수 및 각 키프레임 정보 기록
+	writer->UInt(clip->keyFrames.size());
+	for (KeyFrame* keyFrame : clip->keyFrames)
+	{
+		writer->String(keyFrame->boneName);
+		writer->UInt(keyFrame->transforms.size());
+		writer->Byte(keyFrame->transforms.data(), sizeof(KeyTransform) * keyFrame->transforms.size());
+
+		// 사용이 완료된 키프레임 객체 삭제
+		delete keyFrame;
+	}
+
+	// 사용이 완료된 클립 객체 삭제
+	delete clip;
+
+	// BinaryWriter 객체 삭제
+	delete writer;
 }
 
 void ModelExporter::SetClipNode(const KeyData& keyData, const UINT& frameCount, ClipNode& clipNode)
