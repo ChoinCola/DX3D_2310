@@ -198,6 +198,7 @@ using namespace Utility;
 #include "Object.h"
 
 // RPG Header
+#include "Objects/RPG/Character/TravelerSkin.h"
 #include "Objects/MincraftObject/UIManager.h"
 #include "Objects/RPG/Character/Player.h"
 #include "Objects/MincraftObject/BlockDataManager.h"
@@ -210,6 +211,8 @@ using namespace Utility;
 #include "Objects/MincraftObject/Steve.h"
 #include "Objects/MincraftObject/BlockIcon.h"
 #include "Objects/MincraftObject/Seller.h"
+
+
 
 // Scene
 #include "Scenes/Scene.h"

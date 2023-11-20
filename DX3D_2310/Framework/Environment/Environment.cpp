@@ -10,10 +10,15 @@ Environment::Environment()
 	mainCamera = new Camera();
 	lightBuffer = new LightBuffer();
 	uiViewBuffer = new ViewBuffer();
+
+	lightBuffer->GetData()->lights[0].isActive = true;
+	lightBuffer->Load("TextData/Light/", 0);
 }
 
 Environment::~Environment()
 {
+	lightBuffer->Save("TextData/Light/", 0);
+
 	delete projectionBuffer;
 
 	delete samplerState;
@@ -30,8 +35,6 @@ void Environment::Update()
 	if(KEY->Down(VK_F1))
 		isWireMode = !isWireMode;
 
-
-
 	mainCamera->Update();
 
 	//if(Mouse::Get()->GetIsSetMouseHold())
@@ -45,9 +48,18 @@ void Environment::GUIRender()
 	{
 		if (ImGui::Button("Add"))
 			lightBuffer->GetData()->lightCount++;
+		ImGui::SameLine();
+		if (ImGui::Button("Delete"))
+			lightBuffer->GetData()->lightCount--;
 
-		FOR(lightBuffer->GetData()->lightCount)
-			EditLight(&lightBuffer->GetData()->lights[i], i);
+		FOR(lightBuffer->GetData()->lightCount) {
+			if (ImGui::TreeNode(("Light_" + to_string(i)).c_str())) {
+				EditLight(&lightBuffer->GetData()->lights[i], i);
+				SaveDialog(i);
+				LoadDialog(i);
+				ImGui::TreePop();
+			}
+		}
 
 		ImGui::ColorEdit3("AmbientLight", (float*)&lightBuffer->GetData()->ambientLight);
 		ImGui::ColorEdit3("AmbientCeil", (float*)&lightBuffer->GetData()->ambientCeil);
@@ -147,3 +159,50 @@ void Environment::EditLight(LightBuffer::Light* light, int index)
 
 // 우측으로 갈 때 z는 sin만큼 떨어지고, x는 cos만큼 올라야함.
 // 좌측으로 갈 때 z는 sin만큼 떨어지고, x는 cos만큼 떨어져야함.
+
+void Environment::SaveDialog(UINT i)
+{
+	string key = "Save";
+
+	if (ImGui::Button(key.c_str()))
+		lightBuffer->Save("TextData/Light/", i);
+
+	ImGui::SameLine();
+
+	key = "SaveAs";
+
+	if (ImGui::Button(key.c_str()))
+		DIALOG->OpenDialog(key.c_str(), key.c_str(), ".lu", ".");
+
+	if (DIALOG->Display(key.c_str()))
+	{
+		if (DIALOG->IsOk())
+		{
+			string file = DIALOG->GetFilePathName();
+
+			lightBuffer->Save(file, i);
+		}
+
+		DIALOG->Close();
+	}
+}
+
+void Environment::LoadDialog(UINT i)
+{
+	string key = "Load";
+
+	if (ImGui::Button(key.c_str()))
+		DIALOG->OpenDialog(key.c_str(), key.c_str(), ".lu", ".");
+
+	if (DIALOG->Display(key.c_str()))
+	{
+		if (DIALOG->IsOk())
+		{
+			string file = DIALOG->GetFilePathName();
+
+			lightBuffer->Load(file, i);
+		}
+
+		DIALOG->Close();
+	}
+}

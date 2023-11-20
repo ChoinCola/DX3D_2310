@@ -23,17 +23,36 @@ ModelAnimator::~ModelAnimator()
 
 void ModelAnimator::Update()
 {
+    // 현재 클립과 이전클립을 확인하여 적용
     int clip = frameBuffer->GetData()->clip;
-    frameBuffer->GetData()->curFrame = (int)nowFrame;
-    frameBuffer->GetData()->nextcurFrame = ((int)nowFrame + 1) % (clips[clip]->frameCount - 1);
-    frameBuffer->GetData()->time = nowFrame - frameBuffer->GetData()->curFrame;
+    int nextclip = frameBuffer->GetData()->nextclip;
 
+    // 가장 작은 클립의 프레임을 기준으로 계산해야 애니메이션이 깨지지 않는다.
+    int minframecount = min(clips[clip]->frameCount, clips[nextclip]->frameCount) - 1;
+
+    // AutoAnimation이 켜져있을 때 만, DELTA를 전달한다.
     if (AutoAnimation)
-    {
         nowFrame += DELTA * clips[clip]->tickPerSecond * frameBuffer->GetData()->scale;
-    }
-    if (nowFrame > clips[clip]->frameCount - 1)
+
+    if (nowFrame >= minframecount)
         nowFrame = 0;
+
+    // clip 전환함수
+    if (frameBuffer->GetData()->clip != frameBuffer->GetData()->nextclip)
+    {
+        frameBuffer->GetData()->transtime += DELTA;
+
+        if(frameBuffer->GetData()->transtime >= frameBuffer->GetData()->transtimemax)
+            frameBuffer->GetData()->clip = frameBuffer->GetData()->nextclip;
+    }
+    else
+        frameBuffer->GetData()->transtime = 0;
+
+    // 클립 업데이트 함수, 각 함수의 현재타임과 다음과 이전프레임의 보간자를 buffer로 전송한다.
+
+    frameBuffer->GetData()->curFrame = (int)nowFrame;
+    frameBuffer->GetData()->nextcurFrame = ((int)nowFrame + 1) % (minframecount);
+    frameBuffer->GetData()->time = nowFrame - frameBuffer->GetData()->curFrame;
 
     UpdateWorld();
 }
@@ -50,9 +69,11 @@ void ModelAnimator::GUIRender()
 {
     int clip = frameBuffer->GetData()->clip;
 
-    ImGui::SliderInt("Clip", (int*)&frameBuffer->GetData()->clip, 0, clips.size() - 1);
+    ImGui::SliderInt("Clip", (int*)&frameBuffer->GetData()->nextclip, 0, clips.size() - 1);
     ImGui::SliderFloat("Frame", &nowFrame, 0, clips[clip]->frameCount - 1);
     ImGui::SliderFloat("Speed", &frameBuffer->GetData()->scale, 0, 3.0f);
+    ImGui::SliderFloat("Animation Transtime", &frameBuffer->GetData()->transtimemax, 0, 1.0f);
+    ImGui::Text(to_string(frameBuffer->GetData()->transtime).c_str());
 
     ImGui::Text(to_string((clips[clip]->frameCount - 1)).c_str());
     ImGui::Text(to_string(frameBuffer->GetData()->nextcurFrame).c_str());

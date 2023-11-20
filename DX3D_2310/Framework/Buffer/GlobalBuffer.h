@@ -84,9 +84,136 @@ public:
 	{
 	}
 
+	void Save(string file, UINT num)
+	{
+		tinyxml2::XMLDocument* document = new tinyxml2::XMLDocument();
+		tinyxml2::XMLElement* Light = document->NewElement("Light");
+		Light->SetAttribute("Name", file.c_str());
+		document->InsertFirstChild(Light);
+
+		tinyxml2::XMLElement* property = document->NewElement("Property");
+		tinyxml2::XMLElement* color = document->NewElement("Color");
+		color->SetAttribute("R", data.lights[num].color.x);
+		color->SetAttribute("G", data.lights[num].color.y);
+		color->SetAttribute("B", data.lights[num].color.z);
+		color->SetAttribute("A", data.lights[num].color.w);
+		property->InsertEndChild(color);
+
+		tinyxml2::XMLElement* direction = document->NewElement("direction");
+		direction->SetAttribute("X", data.lights[num].direction.x);
+		direction->SetAttribute("Y", data.lights[num].direction.y);
+		direction->SetAttribute("Z", data.lights[num].direction.z);
+		property->InsertEndChild(direction);
+
+		tinyxml2::XMLElement* position = document->NewElement("position");
+		position->SetAttribute("X", data.lights[num].position.x);
+		position->SetAttribute("Y", data.lights[num].position.y);
+		position->SetAttribute("Z", data.lights[num].position.z);
+		property->InsertEndChild(position);
+
+		tinyxml2::XMLElement* type = document->NewElement("type");
+		type->SetAttribute("type", data.lights[num].type);
+		property->InsertEndChild(type);
+
+		tinyxml2::XMLElement* range = document->NewElement("range");
+		range->SetAttribute("range", data.lights[num].range);
+		property->InsertEndChild(range);
+
+		tinyxml2::XMLElement* inner = document->NewElement("inner");
+		inner->SetAttribute("inner", data.lights[num].inner);
+		property->InsertEndChild(inner);
+
+		tinyxml2::XMLElement* outer = document->NewElement("outer");
+		outer->SetAttribute("outer", data.lights[num].outer);
+		property->InsertEndChild(outer);
+
+		tinyxml2::XMLElement* isActive = document->NewElement("isActive");
+		isActive->SetAttribute("isActive", data.lights[num].isActive);
+		property->InsertEndChild(isActive);
+
+		tinyxml2::XMLElement* attentionIntensity = document->NewElement("attentionIntensity");
+		attentionIntensity->SetAttribute("attentionIntensity", data.lights[num].attentionIntensity);
+		property->InsertEndChild(attentionIntensity);
+
+		tinyxml2::XMLElement* AmbientLight = document->NewElement("AmbientLight");
+		AmbientLight->SetAttribute("R", data.ambientLight.x);
+		AmbientLight->SetAttribute("G", data.ambientLight.y);
+		AmbientLight->SetAttribute("B", data.ambientLight.z);
+		property->InsertEndChild(AmbientLight);
+
+		tinyxml2::XMLElement* AmbientCeil = document->NewElement("AmbientCeil");
+		AmbientCeil->SetAttribute("R", data.ambientCeil.x);
+		AmbientCeil->SetAttribute("G", data.ambientCeil.y);
+		AmbientCeil->SetAttribute("B", data.ambientCeil.z);
+		property->InsertEndChild(AmbientCeil);
+
+		Light->InsertEndChild(property);
+
+		document->SaveFile((file + to_string(num) + ".lu").c_str());
+		delete document;
+	}
+	void Load(string file, UINT num)
+	{
+		tinyxml2::XMLDocument* document = new tinyxml2::XMLDocument();
+		document->LoadFile((file + to_string(num) + ".lu").c_str());
+
+		if(document->Error())
+			document->LoadFile(file.c_str());
+
+		if (document->Error()) return;
+
+		tinyxml2::XMLElement* Light = document->FirstChildElement();
+
+		tinyxml2::XMLElement* property = Light->FirstChildElement();
+		tinyxml2::XMLElement* color = property->FirstChildElement();
+		data.lights[num].color.x = color->FloatAttribute("R");
+		data.lights[num].color.y = color->FloatAttribute("G");
+		data.lights[num].color.z = color->FloatAttribute("B");
+		data.lights[num].color.w = color->FloatAttribute("A");
+
+		tinyxml2::XMLElement* direction = color->NextSiblingElement();
+		data.lights[num].direction.x = color->FloatAttribute("X");
+		data.lights[num].direction.y = color->FloatAttribute("Y");
+		data.lights[num].direction.z = color->FloatAttribute("Z");
+
+		tinyxml2::XMLElement* position = direction->NextSiblingElement();
+		data.lights[num].position.x = position->FloatAttribute("X");
+		data.lights[num].position.y = position->FloatAttribute("Y");
+		data.lights[num].position.z = position->FloatAttribute("Z");
+
+		tinyxml2::XMLElement* type = position->NextSiblingElement();
+		data.lights[num].type = type->IntAttribute("type");
+
+		tinyxml2::XMLElement* range = type->NextSiblingElement();
+		data.lights[num].range = range->FloatAttribute("range");
+
+		tinyxml2::XMLElement* inner = range->NextSiblingElement();
+		data.lights[num].inner = inner->FloatAttribute("inner");
+
+		tinyxml2::XMLElement* outer = inner->NextSiblingElement();
+		data.lights[num].outer = outer->FloatAttribute("outer");
+
+		tinyxml2::XMLElement* isActive = outer->NextSiblingElement();
+		data.lights[num].isActive = isActive->FloatAttribute("isActive");
+
+		tinyxml2::XMLElement* attentionIntensity = isActive->NextSiblingElement();
+		data.lights[num].attentionIntensity = attentionIntensity->FloatAttribute("attentionIntensity");
+
+		tinyxml2::XMLElement* AmbientLight = attentionIntensity->NextSiblingElement();
+		data.ambientLight.x = AmbientLight->FloatAttribute("R");
+		data.ambientLight.y = AmbientLight->FloatAttribute("G");
+		data.ambientLight.z = AmbientLight->FloatAttribute("B");
+
+		tinyxml2::XMLElement* AmbientCeil = AmbientLight->NextSiblingElement();
+		data.ambientCeil.x = AmbientCeil->FloatAttribute("R");
+		data.ambientCeil.y = AmbientCeil->FloatAttribute("G");
+		data.ambientCeil.z = AmbientCeil->FloatAttribute("B");
+
+		delete document;
+	}
+
 	Data* GetData() { return &data; }
-	void Save() {}
-	void Load() {}
+
 private:
 	Data data;
 };

@@ -26,10 +26,19 @@ private:
 
 	float velocity = 0.0f;
 
+	Vector3 Uprotation = {};
+
 	Vector3 prevMousePos;
 	POINT clientCenterPos = { WIN_WIDTH >> 1, WIN_HEIGHT >> 1 };
 
 	bool isFree = true;
 
 	MineCraftUI* ui;
+	TravelerSkin* model;
+
+	float v[3] = { 0, 1, -5 };
+	float r[3];
+
+	Vector3 campos = {};
+	Vector3 camrot = {};
 };

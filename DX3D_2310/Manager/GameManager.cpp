@@ -11,17 +11,17 @@ GameManager::GameManager()
     //SceneManager::Get()->Create("Collision", new CollisionScene());
    // SceneManager::Get()->Create("Exporter", new ModelExportScene());
     //SceneManager::Get()->Create("Start", new ModelRenderScene());
-    SceneManager::Get()->Create("Animation", new AnimationScene());
+    //SceneManager::Get()->Create("Animation", new AnimationScene());
     //SceneManager::Get()->Create("RPG", new RPG());
-    //SceneManager::Get()->Create("MineCraftScene", new MinceCraftScene());
+    SceneManager::Get()->Create("MineCraftScene", new MinceCraftScene());
 
     SceneManager::Get()->Add("Grid");
-    //SceneManager::Get()->Add("MineCraftScene");
+    SceneManager::Get()->Add("MineCraftScene");
     //SceneManager::Get()->Add("Collision");
     //SceneManager::Get()->Add("RPG");
     //SceneManager::Get()->Add("Exporter");
-   // SceneManager::Get()->Add("Start");
-    SceneManager::Get()->Add("Animation");
+    //SceneManager::Get()->Add("Start");
+    //SceneManager::Get()->Add("Animation");
 }
 
 GameManager::~GameManager()

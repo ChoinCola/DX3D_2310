@@ -5,6 +5,15 @@ Player::Player(Vector3 pos)
 {
 	SetLocalPosition(pos);
 	SetLocalScale(Vector3(0.3, 0.3, 0.3));
+
+	Character = new ModelAnimator("Traveler");
+	Character->ReadClip("Walk");
+	Character->ReadClip("Right_Walk");
+	Character->ReadClip("Walking");
+	Character->ReadClip("Walking");
+	Character->CreateTexture();
+
+
 	itemBox = new ItemBox();
 	moveSpeed = 5;
 	rotSpeed = 10;

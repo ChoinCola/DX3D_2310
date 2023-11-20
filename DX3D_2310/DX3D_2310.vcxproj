@@ -236,6 +236,7 @@
     <ClInclude Include="Objects\Robot\Robot.h" />
     <ClInclude Include="Objects\RPG\Character\ItemBox.h" />
     <ClInclude Include="Objects\RPG\Character\Player.h" />
+    <ClInclude Include="Objects\RPG\Character\TravelerSkin.h" />
     <ClInclude Include="Objects\RPG\Item\Box.h" />
     <ClInclude Include="Objects\RPG\Item\Chair.h" />
     <ClInclude Include="Objects\RPG\Item\Item.h" />
@@ -323,6 +324,7 @@
     <ClCompile Include="Objects\Robot\Robot.cpp" />
     <ClCompile Include="Objects\RPG\Character\ItemBox.cpp" />
     <ClCompile Include="Objects\RPG\Character\Player.cpp" />
+    <ClCompile Include="Objects\RPG\Character\TravelerSkin.cpp" />
     <ClCompile Include="Objects\RPG\Item\Box.cpp" />
     <ClCompile Include="Objects\RPG\Item\Chair.cpp" />
     <ClCompile Include="Objects\RPG\Item\Item.cpp" />

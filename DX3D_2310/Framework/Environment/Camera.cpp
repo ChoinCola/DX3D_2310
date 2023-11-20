@@ -29,7 +29,7 @@ void Camera::GUIRender()
 	if (ImGui::TreeNode("CameraOption"))
 	{
 		ImGui::DragFloat("MoveSpeed", &moveSpeed);
-		ImGui::DragFloat("MoveSpeed", &rotSpeed);
+		ImGui::DragFloat("RotSpeed", &rotSpeed);
 
 		ImGui::TreePop();
 	}

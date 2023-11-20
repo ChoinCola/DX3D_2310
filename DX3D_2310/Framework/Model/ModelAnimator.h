@@ -14,11 +14,13 @@ protected:
 	struct Frame
 	{
 		int clip = 0;        // 현재 재생 중인 클립의 인덱스
+		int nextclip = 0;	// 다음 클립의 인덱스
 		int curFrame = 0;    // 현재 프레임 인덱스
 		int nextcurFrame = 0;    // 다음 프레임 인덱스
 		float time = 0;      // 현재 프레임에서의 경과 시간
 		float scale = 1.0f;   // 애니메이션 재생 속도 조절용 스케일
-		Float3 def;
+		float transtime = 0; // 애니메이션 전환속도 조절용 스케일
+		float transtimemax = 0.5; // 애니메이션 전환속도를 버퍼로 전달함.
 	};
 
 	// FrameBuffer 클래스: 상속된 ConstBuffer를 사용하여 프레임 데이터를 GPU에 전달하는 클래스
@@ -51,6 +53,9 @@ public:
 	// 텍스처 생성 함수: 텍스처를 생성하여 저장
 	void CreateTexture();
 
+	void SetAnimation(UINT num) { frameBuffer->GetData()->nextclip = num; }
+	void SetRunAnimation(bool input) { AutoAnimation = input; }
+
 protected:
 	// 클립 변환 생성 함수: 지정된 인덱스에 대한 클립 변환 매트릭스 생성
 	void CreateClipTransform(UINT index);
@@ -68,4 +73,5 @@ protected:
 
 	bool AutoAnimation = false; // 자동 애니메이션 재생 여부를 나타내는 플래그
 	float nowFrame = 0;         // 현재 프레임을 나타내는 변수
+	float transtime = 0.5f;		// 애니메이션간 전환속도를 나타냄.
 };

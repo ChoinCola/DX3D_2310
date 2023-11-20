@@ -34,6 +34,7 @@ void MinceCraftScene::PreRender()
 
 void MinceCraftScene::Render()
 {
+	player->Render();
 	BlockManager::Get()->Redner();
 	seller->Render();
 }

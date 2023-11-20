@@ -32,8 +32,11 @@ public:
         return lightBuffer->GetData()->lightCount;
     }
 
+
 private:
     void EditLight(LightBuffer::Light* light, int index);
+    void SaveDialog(UINT i);
+    void LoadDialog(UINT i);
 
 private:
     MatrixBuffer* projectionBuffer;

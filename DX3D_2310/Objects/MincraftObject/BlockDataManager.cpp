@@ -18,9 +18,9 @@ void BlockDataManager::LoadTable()
 	// 헤더값을 치우기 위한 변수
 	bool isFirstLine = true;
 
-	while (loadFile.eof() == false)
+	while (getline(loadFile, temp))
 	{
-		getline(loadFile, temp);
+		//getline(loadFile, temp);
 
 		if (isFirstLine)
 		{

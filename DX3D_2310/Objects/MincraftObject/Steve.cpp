@@ -7,6 +7,8 @@ Steve::Steve()
 	prevMousePos = mousePos;
 	ClientToScreen(hWnd, &clientCenterPos);
 
+	model = new TravelerSkin(this);
+	model->SetRunAnimation(true);
 	ui = new MineCraftUI();
 }
 
@@ -26,12 +28,20 @@ void Steve::Update()
 
 	UpdateWorld();
 	Observer::Get()->ExcuteParamEvent("SellerCollision", this);
+	model->Update();
 }
 
 void Steve::GUIRender()
 {
 	ui->GUIRender();
+	model->GUIRender();
 
+	ImGui::Text(to_string(GetLocalRotation().x).c_str());
+	ImGui::DragFloat3("CamPos", &v[0], 1.0f, -100.0f, 100.0f);
+	ImGui::DragFloat3("CamRot", &r[0], 1.0f, -100.0f, 100.0f);
+
+	campos = Vector3(v[0], v[1], v[2]);
+	camrot = Vector3(r[0], r[1], r[2]);
 }
 
 void Steve::PostRender()
@@ -42,22 +52,33 @@ void Steve::PostRender()
 
 void Steve::Render()
 {
+	model->Render();
 }
 
 void Steve::Move()
 {
 	// 이동벡터에서 y값은 의미없음으로 y값은 항상 0으로 초기화해준다.
+	model->SetAnimation(Idle);
+	// Free모드일경우에는 그냥 이동벡터 적용안함.
+		// esc가 눌렸을 경우에만 이동을 반환한다.
+	if (KEY->Down(VK_ESCAPE))
+		isFree = !isFree;
+	CAM->SetParent(nullptr);
+	if (isFree) return;
+
 	if (KEY->Press('W'))
 	{
 		Vector3 forward = GetForward();
 		forward.y = 0;
 		Translate(forward.GetNormalized() * moveSpeed * DELTA);
+		model->SetAnimation(Front);
 	}
 	else if (KEY->Press('S'))
 	{
 		Vector3 back = GetBack();
 		back.y = 0;
 		Translate(back.GetNormalized() * moveSpeed * DELTA);
+		model->SetAnimation(Back);
 	}
 
 	if (KEY->Press('A'))
@@ -65,32 +86,41 @@ void Steve::Move()
 		Vector3 left = GetLeft();
 		left.y = 0;
 		Translate(left.GetNormalized() * moveSpeed * DELTA);
+		model->SetAnimation(Left);
+
 	}
 	else if (KEY->Press('D'))
 	{
 		Vector3 right = GetRight();
 		right.y = 0;
 		Translate(right.GetNormalized() * moveSpeed * DELTA);
-	}
-	// esc가 눌렸을 경우에만 이동을 반환한다.
-	if (KEY->Down(VK_ESCAPE))
-		isFree = !isFree;
-	// Free모드일경우에는 그냥 이동벡터 적용안함.
-	if (isFree) return;
+		model->SetAnimation(Right);
 
+	}
 	// 현재 delta값에 마우스 pos값을 받아옴.
 	Vector3 delta = mousePos - Vector3(CENTER_X, CENTER_Y);
 	SetCursorPos(clientCenterPos.x, clientCenterPos.y);
 
 	// 회전값 적용
+	Uprotation += Vector3::Up() * delta.x * rotSpeed * DELTA;
+
+
+
 	Rotate(Vector3::Up() * delta.x * rotSpeed * DELTA);
+
+	if (GetLocalRotation().x > 1)
+		SetLocalRotation(Vector3(1, GetLocalRotation().y, GetLocalRotation().z));
+	else if (GetLocalRotation().x < -0.1)
+		SetLocalRotation(Vector3(-0.1, GetLocalRotation().y, GetLocalRotation().z));
+
 	Rotate(Vector3::Left() * delta.y * rotSpeed * DELTA);
 
-	//localPosition.y = BlockManager::Get()->GetHeight(localPosition) + Radius();
+	//localPosition.y = BlockManager::Get()->GetHeight(localPosition) * 20;
 
 	// 카메라 업데이트
-	CAM->SetLocalPosition(localPosition);
-	CAM->SetLocalRotation(localRotation);
+	CAM->SetParent(this);
+	CAM->SetLocalPosition(campos);
+	CAM->SetLocalRotation(camrot);
 }
 
 // 써있는거는 점프라고 써져있지만, 사실 점프와 높이값설정을 같이사용한다.

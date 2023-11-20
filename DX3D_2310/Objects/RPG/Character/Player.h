@@ -29,7 +29,7 @@ private:
 
 private:
 	ItemBox* itemBox = nullptr;
-	Model* Character = nullptr;
+	ModelAnimator* Character = nullptr;
 	Terrain* terrain = nullptr;
 	Ray DownRay;
 

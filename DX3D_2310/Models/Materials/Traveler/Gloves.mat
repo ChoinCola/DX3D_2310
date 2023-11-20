@@ -1,0 +1,13 @@
+<Material Name="Gloves" Shader="Model/Model.hlsl">
+    <Texture>
+        <DiffsueMap DM="Textures/Model/Traveler/clothing.png"/>
+        <SpecularMap SM="Textures/Colors/White.png"/>
+        <NormalMap NM="Textures/Colors/Blue.png"/>
+    </Texture>
+    <Property Shininess="8.5380001" HasNormalMap="0">
+        <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
+        <Specular R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
+        <Ambient R="0.59313726" G="0.59313726" B="0.59313726" A="1"/>
+        <Emissive R="0.29901963" G="0.29901963" B="0.27849868" A="1"/>
+    </Property>
+</Material>
