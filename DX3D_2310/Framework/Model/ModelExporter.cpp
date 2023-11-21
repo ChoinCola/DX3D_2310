@@ -264,7 +264,9 @@ void ModelExporter::ReadMesh(aiNode* node)
 		mesh->name = node->mName.C_Str();
 
 		// 현재 처리 중인 Mesh에 대한 포인터를 가져옵니다.
-		aiMesh* srcMesh = scene->mMeshes[i];
+		UINT index = node->mMeshes[i];
+		aiMesh* srcMesh = scene->mMeshes[index];
+
 
 		// Mesh의 재질(Material) 인덱스를 MeshData 객체에 할당
 		mesh->materialIndex = srcMesh->mMaterialIndex;

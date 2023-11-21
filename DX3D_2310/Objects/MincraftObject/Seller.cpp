@@ -4,7 +4,7 @@ Seller::Seller()
 {
 	localPosition = { 0, 4, 0 };
 	ui = new ShopUI(L"Textures/UI/MineCraftUI/ShopUI.png");
-	model = new Model("Jin");
+	model = new Model("Traveler");
 	model->SetParent(this);
 	model->SetLocalScale(Vector3(0.001, 0.001, 0.001));
 

@@ -58,7 +58,6 @@ void Steve::Render()
 void Steve::Move()
 {
 	// 이동벡터에서 y값은 의미없음으로 y값은 항상 0으로 초기화해준다.
-	model->SetAnimation(Idle);
 	// Free모드일경우에는 그냥 이동벡터 적용안함.
 		// esc가 눌렸을 경우에만 이동을 반환한다.
 	if (KEY->Down(VK_ESCAPE))
@@ -80,8 +79,7 @@ void Steve::Move()
 		Translate(back.GetNormalized() * moveSpeed * DELTA);
 		model->SetAnimation(Back);
 	}
-
-	if (KEY->Press('A'))
+	else if (KEY->Press('A'))
 	{
 		Vector3 left = GetLeft();
 		left.y = 0;
@@ -96,6 +94,10 @@ void Steve::Move()
 		Translate(right.GetNormalized() * moveSpeed * DELTA);
 		model->SetAnimation(Right);
 
+	}
+	else
+	{
+		model->SetAnimation(Idle);
 	}
 	// 현재 delta값에 마우스 pos값을 받아옴.
 	Vector3 delta = mousePos - Vector3(CENTER_X, CENTER_Y);

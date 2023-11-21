@@ -13,26 +13,37 @@ protected:
 	// Frame 구조체: 애니메이션 재생에 사용되는 프레임 정보를 저장하는 구조체
 	struct Frame
 	{
-		int clip = 0;        // 현재 재생 중인 클립의 인덱스
-		int nextclip = 0;	// 다음 클립의 인덱스
-		int curFrame = 0;    // 현재 프레임 인덱스
-		int nextcurFrame = 0;    // 다음 프레임 인덱스
-		float time = 0;      // 현재 프레임에서의 경과 시간
-		float scale = 1.0f;   // 애니메이션 재생 속도 조절용 스케일
-		float transtime = 0; // 애니메이션 전환속도 조절용 스케일
-		float transtimemax = 0.5; // 애니메이션 전환속도를 버퍼로 전달함.
+		int clip = 0;   // 현재 재생 중인 클립의 인덱스
+		int curFrame = 0;   // 현재 프레임 인덱스
+		float time = 0.0f;  // 현재 프레임에서의 경과 시간
+		float scale = 1.0f;  // 애니메이션 재생 속도 조절용 스케일
+	};
+
+	struct Motion
+	{
+		float takeTime = 0.2f;
+		float tweenTime = 0.0f;
+		float runningTime = 0.0f;
+		float padding;
+
+		Frame cur, next;
+
+		Motion()
+		{
+			next.clip = -1.0f;
+		}
 	};
 
 	// FrameBuffer 클래스: 상속된 ConstBuffer를 사용하여 프레임 데이터를 GPU에 전달하는 클래스
 	class FrameBuffer : public ConstBuffer
 	{
 	public:
-		FrameBuffer() : ConstBuffer(&frame, sizeof(Frame)) {}; // 프레임 데이터를 상속된 ConstBuffer에 전달
+		FrameBuffer() : ConstBuffer(&motion, sizeof(Motion)) {}; // 프레임 데이터를 상속된 ConstBuffer에 전달
 
-		Frame* GetData() { return &frame; } // 프레임 데이터에 대한 포인터 반환
+		Motion* GetData() { return &motion; } // 프레임 데이터에 대한 포인터 반환
 
 	private:
-		Frame frame; // 프레임 데이터를 저장하는 구조체 인스턴스
+		Motion motion; // 프레임 데이터를 저장하는 구조체 인스턴스
 	};
 
 public:
@@ -50,15 +61,18 @@ public:
 
 	// 클립 읽기 함수: 애니메이션 클립을 읽어와서 저장
 	void ReadClip(string clipName, UINT clipNum = 0, UINT count = 0);
+
+	void PlayerClip(int clip, float scale = 1.0f, float taketime = 0.2f);
 	// 텍스처 생성 함수: 텍스처를 생성하여 저장
 	void CreateTexture();
+	void PlayClip(int clip, float scale = 1.0f, float takeTime = 0.2f);
 
-	void SetAnimation(UINT num) { frameBuffer->GetData()->nextclip = num; }
-	void SetRunAnimation(bool input) { AutoAnimation = input; }
+	void SetRunAnimation(bool input) { IsPlay = input; }
 
 protected:
 	// 클립 변환 생성 함수: 지정된 인덱스에 대한 클립 변환 매트릭스 생성
 	void CreateClipTransform(UINT index);
+	void UpdateFrame();
 
 protected:
 	vector<ModelClip*> clips; // 모델 클립들을 저장하는 벡터
@@ -71,7 +85,5 @@ protected:
 
 	FrameBuffer* frameBuffer; // 상속된 ConstBuffer를 사용하여 프레임 데이터를 GPU에 전달하는 인스턴스
 
-	bool AutoAnimation = false; // 자동 애니메이션 재생 여부를 나타내는 플래그
-	float nowFrame = 0;         // 현재 프레임을 나타내는 변수
-	float transtime = 0.5f;		// 애니메이션간 전환속도를 나타냄.
+	bool IsPlay = true; // 자동 애니메이션 재생 여부를 나타내는 플래그
 };

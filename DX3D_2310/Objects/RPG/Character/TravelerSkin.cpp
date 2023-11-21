@@ -21,25 +21,26 @@ void TravelerSkin::SetAnimation(UINT input)
 	switch (input)
 	{
 	case Idle :
-		frameBuffer->GetData()->nextclip = 0;
+		PlayClip(0);
 		break;
 
 	case Front :
-		frameBuffer->GetData()->nextclip = 1;
+		PlayClip(1);
+
 		break;
 
 	case Right :
-		frameBuffer->GetData()->nextclip = 3;
+		PlayClip(3);
+
 		break;
 
 	case Left :
-		frameBuffer->GetData()->nextclip = 5;
+		PlayClip(5);
 		break;
 
 	case Back :
-		frameBuffer->GetData()->nextclip = 7;
+		PlayClip(7);
 		break;
-
 	}
 }
 
