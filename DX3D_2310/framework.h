@@ -211,7 +211,7 @@ using namespace Utility;
 #include "Objects/MincraftObject/Steve.h"
 #include "Objects/MincraftObject/BlockIcon.h"
 #include "Objects/MincraftObject/Seller.h"
-
+#include "Objects/Raid/Traveler.h"
 
 
 // Scene
@@ -230,7 +230,7 @@ using namespace Utility;
 #include "Scenes/ModelRenderScene.h"
 #include "Scenes/BoxPlayDemo.h"
 #include "Scenes/MineCraftScene.h"
-
+#include "Scenes/RaidScene.h"
 #include "Scenes/RPG.h"
 #include "Scenes/LightScene.h"
 extern HWND hWnd;

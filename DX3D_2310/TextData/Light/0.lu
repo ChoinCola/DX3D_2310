@@ -1,7 +1,7 @@
 <Light Name="TextData/Light/">
     <Property>
         <Color R="1" G="1" B="1" A="1"/>
-        <direction X="0" Y="0" Z="0"/>
+        <direction X="0" Y="-0.25299999" Z="0"/>
         <position X="0" Y="0" Z="0"/>
         <type type="0"/>
         <range range="100"/>

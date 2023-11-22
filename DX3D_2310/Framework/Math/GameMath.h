@@ -18,7 +18,10 @@ public:
 	int Random(const int& min, const int& max);
 	float Random(const float& min, const float& max);
 
-	Vector3 Lerp(const Vector3& start, const Vector3 end, const float& t);
+	float Clamp(const float& min, const float& max, const float& value) const;
+
+	Vector3 Lerp(const Vector3& start, const Vector3& end, float t) const;
+	Matrix Lerp(const Matrix& start, const Matrix& end, float t) const;
 
 private:
 	random_device randomDevice;

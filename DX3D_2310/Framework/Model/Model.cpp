@@ -61,7 +61,6 @@ void Model::ReadMaterial()
 
         exporter = new ModelExporter(name, file);
         exporter->ExportMaterial();
-        exporter->ExportMesh();
 
         file = "Models/Materials/" + name + "/" + name + ".mats";
         // Material 데이터 파일의 경로를 생성합니다. 이 경로는 Material 파일이 저장된 디렉터리와 파일 이름으로 구성됩니다.
@@ -108,7 +107,24 @@ void Model::ReadMesh()
 
     // 파일 열기에 실패한 경우, assert 함수를 사용하여 오류를 처리합니다.
     // assert하는게 더 찾기 쉽고 안전하기 때문,
-    if (reader->IsFailed()) assert(false);
+    if (reader->IsFailed()) {
+        ModelExporter* exporter;
+
+        file = "Models/FBX/" + name + ".fbx";
+
+        exporter = new ModelExporter(name, file);
+        exporter->ExportMesh();
+
+        file = "Models/Materials/" + name + "/" + name + ".mats";
+        // Material 데이터 파일의 경로를 생성합니다. 이 경로는 Material 파일이 저장된 디렉터리와 파일 이름으로 구성됩니다.
+
+        reader = new BinaryReader(file);
+        // Material 데이터 파일을 읽기 위한 BinaryReader를 생성하고 파일을 엽니다.
+        delete exporter;
+        // 다시불러오기도 실패하면 그냥 터트림.
+        if (reader->IsFailed())
+            assert(false);
+    }
 
     // Mesh 데이터의 개수를 파일에서 읽어옵니다.
     // 데이터 개수를 알아야 돌릴수있음.

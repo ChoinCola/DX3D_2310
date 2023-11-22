@@ -13,6 +13,7 @@ public:
 	void PostRender() override;
 	void GUIRender() override;
 
+	void End();
 private:
 	ModelAnimator* model;
 	Model* weapon;

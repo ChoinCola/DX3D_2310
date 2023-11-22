@@ -61,13 +61,15 @@ public:
 
 	// 클립 읽기 함수: 애니메이션 클립을 읽어와서 저장
 	void ReadClip(string clipName, UINT clipNum = 0, UINT count = 0);
-
-	void PlayerClip(int clip, float scale = 1.0f, float taketime = 0.2f);
-	// 텍스처 생성 함수: 텍스처를 생성하여 저장
-	void CreateTexture();
 	void PlayClip(int clip, float scale = 1.0f, float takeTime = 0.2f);
 
+	// 텍스처 생성 함수: 텍스처를 생성하여 저장
+	void CreateTexture();
+
+	Matrix GetTransformByNode(int nodeIndex);
+
 	void SetRunAnimation(bool input) { IsPlay = input; }
+	ModelClip* GetClip(UINT clip) { return clips[clip]; }
 
 protected:
 	// 클립 변환 생성 함수: 지정된 인덱스에 대한 클립 변환 매트릭스 생성

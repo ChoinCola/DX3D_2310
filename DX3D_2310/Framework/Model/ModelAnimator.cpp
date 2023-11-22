@@ -109,15 +109,6 @@ void ModelAnimator::ReadClip(string clipName, UINT clipNum, UINT count)
     delete reader; // BinaryReader 객체 해제
 }
 
-void ModelAnimator::PlayerClip(int clip, float scale, float taketime)
-{
-    IsPlay = true;
-
-    frameBuffer->GetData()->next.clip = clip;
-    frameBuffer->GetData()->next.scale = scale;
-    frameBuffer->GetData()->takeTime = taketime;
-}
-
 void ModelAnimator::CreateTexture()
 {
     // 애니메이션 클립의 개수를 얻습니다.
@@ -198,10 +189,40 @@ void ModelAnimator::PlayClip(int clip, float scale, float takeTime)
 {
     IsPlay = true;
 
-    if (clip == frameBuffer->GetData()->cur.clip) return;
     frameBuffer->GetData()->next.clip = clip;
     frameBuffer->GetData()->next.scale = scale;
     frameBuffer->GetData()->takeTime = takeTime;
+
+    clips[clip]->Init();
+}
+
+Matrix ModelAnimator::GetTransformByNode(int nodeIndex)
+{
+
+    Matrix curAnim;
+
+    {
+        Frame& frame = frameBuffer->GetData()->cur;
+
+        Matrix cur = nodeTransforms[frame.clip].transform[frame.curFrame][nodeIndex];
+        Matrix next = nodeTransforms[frame.clip].transform[frame.curFrame + 1][nodeIndex];
+
+        curAnim = MATH->Lerp(cur, next, frame.time) * world;
+    }
+
+    {
+        Frame& frame = frameBuffer->GetData()->next;
+
+        if (frame.clip < 0)
+            return curAnim;
+
+        Matrix cur = nodeTransforms[frame.clip].transform[frame.curFrame][nodeIndex];
+        Matrix next = nodeTransforms[frame.clip].transform[frame.curFrame + 1][nodeIndex];
+
+        Matrix nextAnim = MATH->Lerp(cur, next, frame.time) * world;
+
+        return MATH->Lerp(curAnim, nextAnim, frameBuffer->GetData()->tweenTime);
+    }
 }
 
 void ModelAnimator::CreateClipTransform(UINT index)
@@ -282,12 +303,15 @@ void ModelAnimator::UpdateFrame()
         ModelClip* clip = clips[frame->clip];
 
         frame->time += clip->tickPerSecond * frame->scale * DELTA;
+        clip->playTime += frame->scale * DELTA;
 
         if (frame->time >= 1.0f)
         {
             frame->curFrame = (frame->curFrame + 1) % (clip->frameCount - 1);
             frame->time -= 1.0f;
         }
+
+        clip->Excute();
     }
 
     {
