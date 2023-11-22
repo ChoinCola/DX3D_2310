@@ -1,13 +1,13 @@
-<Material Name="hair" Shader="Model/Model.hlsl">
+<Material Name="hair" Shader="Light/Light.hlsl">
     <Texture>
         <DiffsueMap DM="Textures/Model/Traveler/hair.png"/>
         <SpecularMap SM="Textures/Colors/White.png"/>
         <NormalMap NM="Textures/Colors/Blue.png"/>
     </Texture>
-    <Property Shininess="4.277" HasNormalMap="0">
-        <Diffuse R="0.88725489" G="0.88725489" B="0.88725489" A="1"/>
-        <Specular R="0.82843137" G="0.81624854" B="0.81624854" A="1"/>
-        <Ambient R="0.70098042" G="0.69410807" B="0.58415031" A="1"/>
-        <Emissive R="0.19117647" G="0.19117647" B="0.19117647" A="1"/>
+    <Property Shininess="100" HasNormalMap="0">
+        <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
+        <Specular R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
+        <Ambient R="0" G="0" B="0" A="1"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
     </Property>
 </Material>

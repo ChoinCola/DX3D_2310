@@ -5,9 +5,11 @@ class ModelAnimator : public Model
 {
 protected:
 	// ClipTransform 구조체: 각 프레임 및 본에 대한 변환 매트릭스를 저장하는 구조체
+
+
 	struct ClipTransform
 	{
-		Matrix transform[MAX_FRAME][MAX_BONE]; // 각 프레임 및 본에 대한 변환 매트릭스 배열
+		Datainput transform[MAX_FRAME][MAX_BONE]; // 각 프레임 및 본에 대한 변환 매트릭스 배열
 	};
 
 	// Frame 구조체: 애니메이션 재생에 사용되는 프레임 정보를 저장하는 구조체
@@ -69,6 +71,10 @@ public:
 	Matrix GetTransformByNode(int nodeIndex);
 
 	void SetRunAnimation(bool input) { IsPlay = input; }
+	ModelClip* GetClip(UINT clip) { return clips[clip]; }
+
+	Matrix GetTransformByNode(int nodeIndex);
+
 	ModelClip* GetClip(UINT clip) { return clips[clip]; }
 
 protected:

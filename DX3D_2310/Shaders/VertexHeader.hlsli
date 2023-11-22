@@ -195,7 +195,7 @@ float3x3 QuaternionToMatrix(float4 qu)
 // 행렬에서 이동 부분을 추출하는 함수
 float3 ExtractTranslation(float4x4 input)
 {
-	float3 output = input._14_24_34;
+	float3 output = input._41_42_43;
 	
 	return output;
 }
@@ -204,9 +204,9 @@ float3 ExtractScale(float4x4 input)
 {
 	float3 output;
 
-	output.x = length(input._11_21_31);
-	output.y = length(input._12_22_32);
-	output.z = length(input._13_23_33);
+	output.x = length(input._11_12_13);
+	output.y = length(input._21_22_23);
+	output.z = length(input._31_32_33);
 	
 	return output;
 }
@@ -216,9 +216,12 @@ float3x3 ExtractRotation(float4x4 input)
 	input._41_42_43 = 0;
 	
 	float3 scale = ExtractScale(input);
-	input._11_21_31 /= scale.x;
-	input._12_22_32 /= scale.y;
-	input._13_23_33 /= scale.z;
+	scale = 1 / scale;
+	float4x4 ScaleInverseMatrix = 0;
+	ScaleInverseMatrix._11_22_33 = scale.xyz;
+	ScaleInverseMatrix._44 = 1;
+	
+	input = mul(input, ScaleInverseMatrix);
 	
 	float3x3 result;
 	result._11 = input._11;
@@ -311,6 +314,28 @@ float4x4 InterpolateTransform(float4x4 start, float4x4 end, float t)
 	return SRTtoMatrix(interpolatedScale, interpolatedRotation, interpolatedTranslation);
 }
 
+float4x4 MakeMatrix(float4 Scale, float4 Rotation, float4 Translation)
+{
+	float4x4 scale = 0;
+	scale._11_22_33_44 = 1;
+	float4x4 rotation = 0;
+	rotation._11_22_33_44 = 1;
+	float4x4 translation = 0;
+	translation._11_22_33_44 = 1;
+	
+	scale._11_22_33 = Scale.xyz;
+	translation._41_42_43 = Translation.xyz;
+	
+	float3x3 qutoromat;
+	
+	qutoromat = QuaternionToMatrix(Rotation);
+	
+	rotation._11_21_31 = qutoromat._11_21_31;
+	rotation._12_22_32 = qutoromat._12_22_32;
+	rotation._13_23_33 = qutoromat._13_23_33;
+
+	return mul(mul(translation, rotation), scale);
+}
 
 
 // 'SkinWorld' 함수 정의: float4 형식의 'indices'와 'weights' 매개변수를 받음
@@ -324,11 +349,18 @@ matrix SkinWorld(float4 indices, float4 weights)
     
     // 시간 보간을 적용한 현재와 다음 애니메이션 프레임을 위한 행렬 선언
 	matrix curAnim, nextAnim;
-    
+	curAnim = 0;
     // 현재와 다음 애니메이션 프레임의 구성 요소를 위한 float4 벡터 선언
-	float4 c0, c1, c2, c3;
-	float4 n0, n1, n2, n3;
+	float4 s0, r1, t2, def3;
+	float4 ns0, nr1, nt2, ndef3;
     
+	float4 curs, curr, curt;
+
+	float4 mains, mainr, maint;
+	mains = mainr = maint = 0;
+	float4 nmains, nmainr, nmaint;
+	nmains = nmainr = nmaint = 0;
+	
     // 각 본에 대해 반복 (최적화를 위한 언롤 루프)
     [unroll(4)]
 	for (int i = 0; i < 4; i++)
@@ -336,63 +368,58 @@ matrix SkinWorld(float4 indices, float4 weights)
         // 모션 데이터에서 현재 클립 및 프레임 정보를 가져옴
 		int clip = motion.cur.clip;
 		int curFrame = motion.cur.curFrame;
-        
+
         // 텍스처에서 현재 애니메이션 프레임의 변환 행렬 구성 요소를 로드
-		c0 = transformMap.Load(int4(indices[i] * 4 + 0, curFrame, clip, 0));
-		c1 = transformMap.Load(int4(indices[i] * 4 + 1, curFrame, clip, 0));
-		c2 = transformMap.Load(int4(indices[i] * 4 + 2, curFrame, clip, 0));
-		c3 = transformMap.Load(int4(indices[i] * 4 + 3, curFrame, clip, 0));
-        
-        // 현재 애니메이션 프레임의 행렬 생성
-		cur = matrix(c0, c1, c2, c3);
+		s0 = transformMap.Load(int4(indices[i] * 4 + 0, curFrame, clip, 0));
+		r1 = transformMap.Load(int4(indices[i] * 4 + 1, curFrame, clip, 0));
+		t2 = transformMap.Load(int4(indices[i] * 4 + 2, curFrame, clip, 0));
         
         // 다음 프레임의 변환 행렬 구성 요소 로드
-		n0 = transformMap.Load(int4(indices[i] * 4 + 0, curFrame + 1, clip, 0));
-		n1 = transformMap.Load(int4(indices[i] * 4 + 1, curFrame + 1, clip, 0));
-		n2 = transformMap.Load(int4(indices[i] * 4 + 2, curFrame + 1, clip, 0));
-		n3 = transformMap.Load(int4(indices[i] * 4 + 3, curFrame + 1, clip, 0));
-        
-        // 다음 프레임의 행렬 생성
-		next = matrix(n0, n1, n2, n3);
+		ns0 = transformMap.Load(int4(indices[i] * 4 + 0, curFrame + 1, clip, 0));
+		nr1 = transformMap.Load(int4(indices[i] * 4 + 1, curFrame + 1, clip, 0));
+		nt2 = transformMap.Load(int4(indices[i] * 4 + 2, curFrame + 1, clip, 0));
         
         // 현재와 다음 프레임을 시간에 따라 보간하여 현재 애니메이션 행렬 생성
-		curAnim = lerp(cur, next, motion.cur.time);
-		transform += mul(weights[i], curAnim);
-	}
+		curs = lerp(s0, ns0, motion.cur.time);
+		curr = slerp(r1, nr1, motion.cur.time);
+		curt = lerp(t2, nt2, motion.cur.time);
+		// 현재 프레임의 vertice간 비율작업
+		mains += mul(weights[i], curs);
+		mainr += mul(weights[i], curr);
+		maint += mul(weights[i], curt);
+		curAnim += mul(weights[i], MakeMatrix(mains, mainr, maint));
+		//        // 모션 데이터에서 현재 클립 및 프레임 정보를 가져옴
+		//clip = motion.next.clip;
+		//curFrame = motion.next.curFrame;
 
-	if (motion.next.clip <= -1)
-		return transform;
+  //      // 텍스처에서 현재 애니메이션 프레임의 변환 행렬 구성 요소를 로드
+		//s0 = transformMap.Load(int4(indices[i] * 4 + 0, curFrame, clip, 0));
+		//r1 = transformMap.Load(int4(indices[i] * 4 + 1, curFrame, clip, 0));
+		//t2 = transformMap.Load(int4(indices[i] * 4 + 2, curFrame, clip, 0));
+		
+  //      // 다음 프레임의 변환 행렬 구성 요소 로드
+		//ns0 = transformMap.Load(int4(indices[i] * 4 + 0, curFrame + 1, clip, 0));
+		//nr1 = transformMap.Load(int4(indices[i] * 4 + 1, curFrame + 1, clip, 0));
+		//nt2 = transformMap.Load(int4(indices[i] * 4 + 2, curFrame + 1, clip, 0));
         
-	// 모션의 다음 클립 및 프레임 정보를 가져옴
-	[unroll(4)]
-	for (int i = 0; i < 4; i++)
-	{
-		int clip = motion.next.clip;
-		int curFrame = motion.next.curFrame;
-	
-        // 클립이 유효한 경우에만 실행되는 조건문
-        // 다시 다음 클립의 현재 및 다음 프레임의 변환 행렬 구성 요소 로드
-		c0 = transformMap.Load(int4(indices[i] * 4 + 0, curFrame, clip, 0));
-		c1 = transformMap.Load(int4(indices[i] * 4 + 1, curFrame, clip, 0));
-		c2 = transformMap.Load(int4(indices[i] * 4 + 2, curFrame, clip, 0));
-		c3 = transformMap.Load(int4(indices[i] * 4 + 3, curFrame, clip, 0));
-        
-        // 다시 현재 및 다음 프레임의 행렬 생성
-		cur = matrix(c0, c1, c2, c3);
-        
-		n0 = transformMap.Load(int4(indices[i] * 4 + 0, curFrame + 1, clip, 0));
-		n1 = transformMap.Load(int4(indices[i] * 4 + 1, curFrame + 1, clip, 0));
-		n2 = transformMap.Load(int4(indices[i] * 4 + 2, curFrame + 1, clip, 0));
-		n3 = transformMap.Load(int4(indices[i] * 4 + 3, curFrame + 1, clip, 0));
-        // 다음 프레임의 행렬 생성
-		next = matrix(n0, n1, n2, n3);
-           
-        // 현재와 다음 애니메이션 행렬을 tweenTime에 따라 보간하여 최종 애니메이션 행렬 생성
-		nextAnim = lerp(cur, next, motion.next.time);
-        // 가중치를 곱하여 결과 행렬에 더함
-		nextTransform += mul(weights[i], nextAnim);
+  //      // 현재와 다음 프레임을 시간에 따라 보간하여 현재 애니메이션 행렬 생성
+		//curs = lerp(s0, ns0, motion.next.time);
+		//curr = slerp(r1, nr1, motion.next.time);
+		//curt = lerp(t2, nt2, motion.next.time);
+		
+		//nmains += mul(weights[i], curs);
+		//nmainr += mul(weights[i], curr);
+		//nmaint += mul(weights[i], curt);
 	}
-    
-    // 최종 결과 행렬 반환
-	return lerp(transform, nextTransform, motion.tweenTime);
+	return curAnim;
+	//if (motion.next.clip <= -1)
+		return MakeMatrix(mains, mainr, maint);
+        
+	//// 다음프레임과 현제프레임의 보간작업.
+	//mains = lerp(mains, nmains, motion.tweenTime);
+	//mainr = slerp(mainr, nmainr, motion.tweenTime);
+	//maint = lerp(maint, nmaint, motion.tweenTime);
+
+ //   // 최종 결과 행렬 반환
+	//return MakeMatrix(mains, mainr, maint);
 }
