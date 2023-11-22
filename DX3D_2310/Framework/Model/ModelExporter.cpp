@@ -394,7 +394,7 @@ void ModelExporter::WriteMesh()
 		writer->Int(node->index);
 		writer->String(node->name);
 		writer->Int(node->parent);
-		writer->Matrix(node->transform);
+		writer->Matrix(node->transform.GetMatrix());
 
 		delete node;
 	}
@@ -406,7 +406,7 @@ void ModelExporter::WriteMesh()
 	{
 		writer->Int(bone->index);
 		writer->String(bone->name);
-		writer->Matrix(bone->offset);
+		writer->Matrix(bone->offset.GetMatrix());
 
 		delete bone;
 	}

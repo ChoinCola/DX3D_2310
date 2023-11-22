@@ -202,6 +202,33 @@ void ModelAnimator::PlayClip(int clip, float scale, float takeTime)
     frameBuffer->GetData()->next.clip = clip;
     frameBuffer->GetData()->next.scale = scale;
     frameBuffer->GetData()->takeTime = takeTime;
+
+    clips[clip]->Init();
+}
+
+Matrix ModelAnimator::GetTransformByNode(int nodeIndex)
+{
+    Matrix curAnim;
+
+    {
+        Frame& frame = frameBuffer->GetData()->cur;
+        Matrix cur = nodeTransforms[frame.clip].transform[frame.curFrame][nodeIndex].GetMatrix();
+        Matrix next = nodeTransforms[frame.clip].transform[frame.curFrame + 1][nodeIndex].GetMatrix();
+        curAnim = MATH->Lerp(cur, next, frame.time);
+    }
+
+
+    {
+        Frame& frame = frameBuffer->GetData()->cur;
+        if(frame.clip < 0)
+            return curAnim;
+        Matrix cur = nodeTransforms[frame.clip].transform[frame.curFrame][nodeIndex].GetMatrix();
+        Matrix next = nodeTransforms[frame.clip].transform[frame.curFrame + 1][nodeIndex].GetMatrix();
+        
+        Matrix nextAnim = MATH->Lerp(cur, next, frame.time);
+
+        curAnim = MATH->Lerp(curAnim, nextAnim, frameBuffer->GetData()->tweenTime);
+    }
 }
 
 void ModelAnimator::CreateClipTransform(UINT index)
@@ -225,21 +252,16 @@ void ModelAnimator::CreateClipTransform(UINT index)
             if (frame != nullptr)
             {
                 KeyTransform& transform = frame->transforms[i];
-
-                // XMMatrixTransformation 함수를 사용하여 변환 매트릭스 생성
-                animation = XMMatrixTransformation(
-                    XMVectorZero(),            // 스케일 중심점
-                    XMQuaternionIdentity(),    // 회전을 나타내는 쿼터니언
-                    Vector3(transform.scale),  // 스케일 벡터
-                    XMVectorZero(),            // 회전 중심점
-                    XMLoadFloat4(&transform.rot),   // 회전 쿼터니언을 로드
-                    Vector3(transform.pos)     // 이동 벡터
-                );
+                nodeTransforms[index].transform[i][nodeIndex].Scale = transform.scale;
+                nodeTransforms[index].transform[i][nodeIndex].Rotation = Vector3(transform.rot.x, transform.rot.y, transform.rot.z);
+                nodeTransforms[index].transform[i][nodeIndex].Transform = transform.pos;
             }
             else
             {
                 // 키프레임이 없으면 변환 매트릭스를 단위 행렬로 초기화
-                animation = XMMatrixIdentity();
+                nodeTransforms[index].transform[i][nodeIndex].Scale     = Vector3(+1, +1, +1);
+                nodeTransforms[index].transform[i][nodeIndex].Rotation  = Vector3(+0, +0, +0);
+                nodeTransforms[index].transform[i][nodeIndex].Transform = Vector3(+0, +0, +0);
             }
 
             // 부모 노드의 변환 매트릭스를 가져옵니다.
@@ -249,10 +271,10 @@ void ModelAnimator::CreateClipTransform(UINT index)
             if (parentIndex < 0)
                 parent = XMMatrixIdentity();
             else
-                parent = nodeTransforms[index].transform[i][parentIndex];
+                parent = nodeTransforms[index].transform[i][parentIndex].GetMatrix();
 
             // 현재 노드의 변환 매트릭스를 계산하여 저장
-            nodeTransforms[index].transform[i][nodeIndex] = animation * parent;
+            nodeTransforms[index].transform[i][nodeIndex] *= parent;
 
             // 현재 노드가 본에 해당한다면 클립 변환 매트릭스에도 저장
             int boneIndex = -1;
@@ -261,8 +283,9 @@ void ModelAnimator::CreateClipTransform(UINT index)
 
             if (boneIndex >= 0)
             {
-                Matrix offset = bones[boneIndex].offset;
-                offset *= nodeTransforms[index].transform[i][nodeIndex];
+                Datainput offset = bones[boneIndex].offset;
+                Datainput nodem = nodeTransforms[index].transform[i][nodeIndex];
+                offset *= nodem;
 
                 clipTransforms[index].transform[i][boneIndex] = offset;
             }
@@ -282,12 +305,14 @@ void ModelAnimator::UpdateFrame()
         ModelClip* clip = clips[frame->clip];
 
         frame->time += clip->tickPerSecond * frame->scale * DELTA;
-
+        clip->playTime += frame->scale * DELTA;
         if (frame->time >= 1.0f)
         {
             frame->curFrame = (frame->curFrame + 1) % (clip->frameCount - 1);
             frame->time -= 1.0f;
         }
+
+        clip->Excute();
     }
 
     {

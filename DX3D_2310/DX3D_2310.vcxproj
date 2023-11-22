@@ -229,6 +229,7 @@
     <ClInclude Include="Objects\MincraftObject\InventoryUI.h" />
     <ClInclude Include="Objects\MincraftObject\MineCraftUI.h" />
     <ClInclude Include="Objects\MincraftObject\MouseBag.h" />
+    <ClInclude Include="Objects\MincraftObject\Raid\Groot.h" />
     <ClInclude Include="Objects\MincraftObject\Seller.h" />
     <ClInclude Include="Objects\MincraftObject\shopUI.h" />
     <ClInclude Include="Objects\MincraftObject\Steve.h" />
@@ -317,6 +318,7 @@
     <ClCompile Include="Objects\MincraftObject\InventoryUI.cpp" />
     <ClCompile Include="Objects\MincraftObject\MineCraftUI.cpp" />
     <ClCompile Include="Objects\MincraftObject\MouseBag.cpp" />
+    <ClCompile Include="Objects\MincraftObject\Raid\Groot.cpp" />
     <ClCompile Include="Objects\MincraftObject\Seller.cpp" />
     <ClCompile Include="Objects\MincraftObject\shopUI.cpp" />
     <ClCompile Include="Objects\MincraftObject\Steve.cpp" />

@@ -1,13 +1,13 @@
-<Material Name="Face" Shader="Model/Model.hlsl">
+<Material Name="Face" Shader="Light/Light.hlsl">
     <Texture>
         <DiffsueMap DM="Textures/Model/Traveler/face.png"/>
         <SpecularMap SM="Textures/Colors/White.png"/>
         <NormalMap NM="Textures/Colors/Blue.png"/>
     </Texture>
-    <Property Shininess="4.2779999" HasNormalMap="0">
+    <Property Shininess="100" HasNormalMap="0">
         <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
         <Specular R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
-        <Ambient R="0.70588231" G="0.70588231" B="0.70588231" A="1"/>
-        <Emissive R="0.18627453" G="0.18353519" B="0.18353519" A="1"/>
+        <Ambient R="0" G="0" B="0" A="1"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
     </Property>
 </Material>
