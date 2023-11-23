@@ -29,7 +29,7 @@ public:
         XMMatrixDecompose(scale.GetValue(), rotation.GetValue(), translation.GetValue(), matrix);
         return translation;
     }
-
+    UINT GetBoneIndex(string bonesname) { return boneMap[bonesname]; }
 private:
     // 재료 정보를 읽어오는 함수
     void ReadMaterial();

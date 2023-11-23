@@ -20,6 +20,7 @@ public:
 
 	float Clamp(const float& min, const float& max, const float& value) const;
 
+	float Lerp(const float& start, const float& end, float t) const;
 	Vector3 Lerp(const Vector3& start, const Vector3& end, float t) const;
 	Matrix Lerp(const Matrix& start, const Matrix& end, float t) const;
 
@@ -30,3 +31,4 @@ private:
 	uniform_int_distribution<int> intdistribution;
 	uniform_real_distribution<float> floatdistribution;
 };
+

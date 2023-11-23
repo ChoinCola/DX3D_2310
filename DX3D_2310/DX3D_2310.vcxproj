@@ -233,6 +233,7 @@
     <ClInclude Include="Objects\MincraftObject\shopUI.h" />
     <ClInclude Include="Objects\MincraftObject\Steve.h" />
     <ClInclude Include="Objects\MincraftObject\UIManager.h" />
+    <ClInclude Include="Objects\Raid\Sword.h" />
     <ClInclude Include="Objects\Raid\Traveler.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
     <ClInclude Include="Objects\RPG\Character\ItemBox.h" />
@@ -323,6 +324,7 @@
     <ClCompile Include="Objects\MincraftObject\shopUI.cpp" />
     <ClCompile Include="Objects\MincraftObject\Steve.cpp" />
     <ClCompile Include="Objects\MincraftObject\UIManager.cpp" />
+    <ClCompile Include="Objects\Raid\Sword.cpp" />
     <ClCompile Include="Objects\Raid\Traveler.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />
     <ClCompile Include="Objects\RPG\Character\ItemBox.cpp" />

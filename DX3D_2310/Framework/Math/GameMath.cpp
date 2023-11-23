@@ -27,6 +27,13 @@ float GameMath::Clamp(const float& min, const float& max, const float& value) co
     return value;
 }
 
+float GameMath::Lerp(const float& start, const float& end, float t) const
+{
+    t = Clamp(0.0f, 1.0f, t);
+
+    return start + (end - start) * t;
+}
+
 Vector3 GameMath::Lerp(const Vector3& start, const Vector3& end, float t) const
 {
     t = Clamp(0.0f, 1.0f, t);

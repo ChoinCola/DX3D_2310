@@ -211,7 +211,9 @@ using namespace Utility;
 #include "Objects/MincraftObject/Steve.h"
 #include "Objects/MincraftObject/BlockIcon.h"
 #include "Objects/MincraftObject/Seller.h"
+#include "Objects/Raid/Sword.h"
 #include "Objects/Raid/Traveler.h"
+
 
 
 // Scene

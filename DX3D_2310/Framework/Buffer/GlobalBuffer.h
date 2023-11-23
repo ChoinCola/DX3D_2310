@@ -163,8 +163,8 @@ public:
 		if (document->Error()) return;
 
 		tinyxml2::XMLElement* Light = document->FirstChildElement();
-
 		tinyxml2::XMLElement* property = Light->FirstChildElement();
+
 		tinyxml2::XMLElement* color = property->FirstChildElement();
 		data.lights[num].color.x = color->FloatAttribute("R");
 		data.lights[num].color.y = color->FloatAttribute("G");
@@ -172,9 +172,9 @@ public:
 		data.lights[num].color.w = color->FloatAttribute("A");
 
 		tinyxml2::XMLElement* direction = color->NextSiblingElement();
-		data.lights[num].direction.x = color->FloatAttribute("X");
-		data.lights[num].direction.y = color->FloatAttribute("Y");
-		data.lights[num].direction.z = color->FloatAttribute("Z");
+		data.lights[num].direction.x = direction->FloatAttribute("X");
+		data.lights[num].direction.y = direction->FloatAttribute("Y");
+		data.lights[num].direction.z = direction->FloatAttribute("Z");
 
 		tinyxml2::XMLElement* position = direction->NextSiblingElement();
 		data.lights[num].position.x = position->FloatAttribute("X");

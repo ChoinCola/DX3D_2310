@@ -115,7 +115,7 @@ void Model::ReadMesh()
         exporter = new ModelExporter(name, file);
         exporter->ExportMesh();
 
-        file = "Models/Materials/" + name + "/" + name + ".mats";
+        file = "Models/Meshes/" + name + ".mesh";
         // Material 데이터 파일의 경로를 생성합니다. 이 경로는 Material 파일이 저장된 디렉터리와 파일 이름으로 구성됩니다.
 
         reader = new BinaryReader(file);
@@ -227,7 +227,7 @@ void Model::RenderTreenode(int num)
     // 트리 노드를 펼치거나 축소하는 버튼 렌더링
     if (ImGui::TreeNode(nodes[num].name.c_str()))
     {
-
+        ImGui::Text(to_string(nodes[num].index).c_str());
         /*
             데이터가 더 필요하다면 nodes[num]에서 데이터를 뽑아서 
             여기에 ImGUI::로 출력하면 됩니다.
