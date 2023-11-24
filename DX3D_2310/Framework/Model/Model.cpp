@@ -45,6 +45,14 @@ void Model::SetShader(wstring file)
 		material->SetShader(file);
 }
 
+Material* Model::AddMaterial()
+{
+    Material* result = new Material();
+    materials.push_back(result);
+
+    return result;
+}
+
 void Model::ReadMaterial()
 {
     string file = "Models/Materials/" + name + "/" + name + ".mats";
@@ -215,7 +223,7 @@ void Model::MakeBoneTransforms()
             parent = boneTransforms[parentIndex];
 
         // 현재 노드의 변환 매트릭스를 부모의 매트릭스와 곱하여 뼈대의 매트릭스로 저장
-        boneTransforms.push_back(node.transform.GetMatrix() * parent);
+        boneTransforms.push_back(node.transform * parent);
 
         // 노드 이름과 해당 노드의 변환 매트릭스를 맵에 저장
         nodeTransforms[node.name] = boneTransforms.back();

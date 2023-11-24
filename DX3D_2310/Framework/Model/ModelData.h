@@ -2,52 +2,6 @@
 
 typedef VertexUVNormalTangentBlend ModelVertex;
 
-struct Datainput
-{
-	Vector3 Scale;
-	Vector3 Rotation;
-	Vector3 Transform;
-	Float4 def;
-
-	Matrix GetMatrix()
-	{
-		Matrix result = XMMatrixTransformation(
-			XMVectorZero(),            // 스케일 중심점
-			XMQuaternionIdentity(),    // 회전을 나타내는 쿼터니언
-			Scale,  // 스케일 벡터
-			XMVectorZero(),            // 회전 중심점
-			Rotation,   // 회전 쿼터니언을 로드
-			Transform);     // 이동 벡터
-
-		return result;
-	}
-
-	void operator*=(const Matrix& matrix)
-	{
-		Matrix result =
-			XMMatrixTransformation(
-				XMVectorZero(),            // 스케일 중심점
-				XMQuaternionIdentity(),    // 회전을 나타내는 쿼터니언
-				Scale,  // 스케일 벡터
-				XMVectorZero(),            // 회전 중심점
-				Rotation,   // 회전 쿼터니언을 로드
-				Transform);     // 이동 벡터
-
-		XMMatrixDecompose(Scale.GetValue(), Rotation.GetValue(), Transform.GetValue(), XMMatrixMultiply(result, matrix));
-	}
-
-	void operator*=(Datainput& matrix)
-	{
-		Scale = Scale * matrix.Scale;
-		Rotation = Rotation * matrix.Rotation;
-		Transform = Transform * matrix.Transform;
-	}
-	void operator = (const Matrix& matrix)
-	{
-		XMMatrixDecompose(Scale.GetValue(), Rotation.GetValue(), Transform.GetValue(), matrix);
-	}
-};
-
 // 일반적인 데이터와 같으나, Model전용 meshData를 저장하는 구조체가 따로 필요하다.
 // 모델에는 materialIndex데이터가 들어가야하고, 일반적인 Mesh구조체와 다르게 작성되기 때문,
 
@@ -68,7 +22,7 @@ struct NodeData
 	int index;         // 노드(뼈대)의 인덱스
 	string name;       // 노드(뼈대)의 이름
 	int parent;        // 부모 노드(뼈대)의 인덱스
-	Datainput transform;  // 노드(뼈대)의 변환 행렬
+	Matrix transform;  // 노드(뼈대)의 변환 행렬
 };
 
 // BoneData 구조체는 모델의 뼈대(Bone) 데이터를 저장하는 구조체입니다.
@@ -76,7 +30,7 @@ struct BoneData
 {
 	int index;         // 뼈대의 인덱스
 	string name;       // 뼈대의 이름
-	Datainput offset;     // 뼈대의 로컬 변환 행렬
+	Matrix offset;     // 뼈대의 로컬 변환 행렬
 };
 
 // vertice의 보간값을 채우기 위한 데이터정보.

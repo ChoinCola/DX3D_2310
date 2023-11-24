@@ -394,7 +394,7 @@ void ModelExporter::WriteMesh()
 		writer->Int(node->index);
 		writer->String(node->name);
 		writer->Int(node->parent);
-		writer->Matrix(node->transform.GetMatrix());
+		writer->Matrix(node->transform);
 
 		delete node;
 	}
@@ -406,7 +406,7 @@ void ModelExporter::WriteMesh()
 	{
 		writer->Int(bone->index);
 		writer->String(bone->name);
-		writer->Matrix(bone->offset.GetMatrix());
+		writer->Matrix(bone->offset);
 
 		delete bone;
 	}
@@ -415,6 +415,8 @@ void ModelExporter::WriteMesh()
 	delete writer;
 }
 
+/*
+*	언리얼 부분에서 사용가능
 Clip* ModelExporter::ReadClip(aiAnimation* animation)
 {
 	// 새로운 Clip 객체를 동적으로 생성합니다.
@@ -495,6 +497,100 @@ Clip* ModelExporter::ReadClip(aiAnimation* animation)
 		clipNodes.push_back(node);
 	}
 
+	// 읽어온 키프레임 데이터를 이용하여 애니메이션의 프레임 데이터를 설정합니다.
+	ReadKeyFrame(clip, scene->mRootNode, clipNodes);
+
+	// 생성한 Clip 객체를 반환합니다.
+	return clip;
+}
+*/
+
+Clip* ModelExporter::ReadClip(aiAnimation* animation)
+{
+	// 새로운 Clip 객체를 동적으로 생성합니다.
+	Clip* clip = new Clip();
+
+	// 애니메이션의 이름을 Clip 객체에 할당합니다.
+	clip->name = animation->mName.C_Str();
+
+	// 애니메이션의 초당 틱 수를 Clip 객체에 할당합니다.
+	clip->tickPerSecond = (float)animation->mTicksPerSecond;
+
+	// 애니메이션의 총 프레임 수를 Clip 객체에 할당합니다.
+	clip->frameCount = (UINT)(animation->mDuration) + 1;
+
+	// 애니메이션 채널(노드)의 수만큼 ClipNode 객체를 담을 벡터를 할당합니다.
+	vector<ClipNode> clipNodes;
+	clipNodes.reserve(animation->mNumChannels);
+
+	// 각 애니메이션 채널(노드)에 대해 반복합니다.
+	FOR(animation->mNumChannels)
+	{
+		// 현재 채널(노드)을 가져옵니다.
+		aiNodeAnim* srcNode = animation->mChannels[i];
+
+		// 새로운 ClipNode 객체를 생성하고 이름을 설정합니다.
+		ClipNode node;
+		node.name = srcNode->mNodeName;
+
+		KeyTransform transform;
+
+		for (UINT k = 0; k < clip->frameCount; k++)
+		{
+			bool isFound = false;
+			float t = node.transforms.size();
+			// 포지션 키의 크기. k가 포지션키보다 크면 배열 벗어났다는 으미
+			if(k < srcNode->mNumPositionKeys &&
+				MATH->NearlyEqual((float)srcNode->mPositionKeys[k].mTime, t))
+			{
+				aiVectorKey key = srcNode->mPositionKeys[k];
+				memcpy_s(&transform.pos, sizeof(Float3),
+					&key.mValue, sizeof(aiVector3D));
+
+				isFound = true; // 데이터가 하나라도 존재하는지 검사.
+			}
+
+			if (k < srcNode->mNumRotationKeys &&
+				MATH->NearlyEqual((float)srcNode->mRotationKeys[k].mTime, t))
+			{
+				aiQuatKey key = srcNode->mRotationKeys[k];
+
+				transform.rot.x = (float)key.mValue.x;
+				transform.rot.y = (float)key.mValue.y;
+				transform.rot.z = (float)key.mValue.z;
+				transform.rot.w = (float)key.mValue.w;
+
+				isFound = true; // 데이터가 하나라도 존재하는지 검사.
+			}
+
+			if (k < srcNode->mNumScalingKeys &&
+				MATH->NearlyEqual((float)srcNode->mScalingKeys[k].mTime, t))
+			{
+				aiVectorKey key = srcNode->mScalingKeys[k];
+				memcpy_s(&transform.scale, sizeof(Float3),
+					&key.mValue, sizeof(aiVector3D));
+
+				isFound = true; // 데이터가 하나라도 존재하는지 검사.
+			}
+
+			if (isFound)
+				node.transforms.push_back(transform);
+		}
+		if (node.transforms.size() < clip->frameCount)
+		{
+			// 빠진 갯수가 여기에 들어간다. 비어있는 부분의 개수가
+			UINT count = clip->frameCount - node.transforms.size();
+			KeyTransform keyTransform = node.transforms.back();
+
+			// 빠진 갯수만큼 보정해서 넣어준다.
+			for(UINT n = 0; n < count; n++)
+			{
+				node.transforms.push_back(keyTransform);
+			}
+		}
+
+		clipNodes.push_back(node);
+	}
 	// 읽어온 키프레임 데이터를 이용하여 애니메이션의 프레임 데이터를 설정합니다.
 	ReadKeyFrame(clip, scene->mRootNode, clipNodes);
 

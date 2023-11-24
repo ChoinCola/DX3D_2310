@@ -18,6 +18,8 @@ public:
     // 주어진 파일로 Shader를 설정하는 함수
     void SetShader(wstring file);
 
+    Material* AddMaterial();
+
     // 주어진 노드의 변환 매트릭스를 반환하는 함수
     Matrix GetNodeTransform(string name) { return nodeTransforms[name]; }
 
