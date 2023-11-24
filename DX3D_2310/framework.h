@@ -235,5 +235,6 @@ using namespace Utility;
 #include "Scenes/RaidScene.h"
 #include "Scenes/RPG.h"
 #include "Scenes/LightScene.h"
+
 extern HWND hWnd;
 extern Vector3 mousePos;
