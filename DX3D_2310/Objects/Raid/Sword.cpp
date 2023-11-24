@@ -22,6 +22,6 @@ void Sword::Update()
 
 void Sword::Render()
 {
-	Model::Render();
+	Model::Render(); 
 	collider->Render();
 }
