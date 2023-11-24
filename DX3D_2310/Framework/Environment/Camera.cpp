@@ -273,24 +273,37 @@ void Camera::FreeMode()
 
 void Camera::FollowMode()
 {
+	// 대상 회전을 부드럽게 따라가기 위해 보간 (Lerp)을 사용합니다.
 	destRot = MATH->Lerp(destRot, target->GetLocalRotation().y, rotDamping * DELTA);
+
+	// 회전 행렬을 계산하고 보간된 회전을 적용합니다.
 	rotMatrix = XMMatrixRotationY(destRot + rotY);
 
+	// 세계 공간에서의 전방 벡터를 계산합니다.
 	Vector3 forward = XMVector3TransformNormal(Vector3::Forward(), rotMatrix);
 
+	// 목표 위치를 지정된 거리와 높이로 대상 뒤에 설정합니다.
 	destPos = target->GetGlobalPosition() - forward * distance;
 	destPos.y += height;
 
+	// 부드럽게 카메라를 대상 위치로 이동시킵니다.
 	localPosition = MATH->Lerp(localPosition, destPos, moveDamping * DELTA);
 
+	// 최종 대상 위치를 얻기 위해 포커스 오프셋을 적용합니다.
 	Vector3 offset = XMVector3TransformCoord(focusOffset, rotMatrix);
 	Vector3 targetPos = target->GetGlobalPosition() + offset;
 
+	// 카메라에서 대상까지의 방향을 계산하고 정규화합니다.
 	Vector3 dir = (targetPos - localPosition).GetNormalized();
+
+	// 수직 회전을 무시하고 XZ 평면으로 방향을 투영합니다.
 	forward = Vector3(dir.x, 0.0f, dir.z).GetNormalized();
 
+	// 활성화된 경우, 카메라가 X축을 따라 대상을 보도록 로컬 회전을 업데이트합니다.
 	if (isLookAtTargetX)
 		localRotation.x = acos(Vector3::Dot(forward, dir));
+
+	// 활성화된 경우, 카메라가 Y축을 따라 대상을 보도록 로컬 회전을 업데이트합니다.
 	if (isLookAtTargetY)
 		localRotation.y = atan2(dir.x, dir.z);
 }

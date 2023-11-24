@@ -32,11 +32,21 @@ void Model::Render()
 
 void Model::GUIRender()
 {
-	Transform::GUIRender();
+    if (ImGui::TreeNode(name.c_str()))
+    {
+        Transform::GUIRender();
 
-	for (Material* material : materials)
-		material->GUIRender();
-    RenderTreenode(0);
+        FOR(meshes.size())
+        {
+            ImGui::Text("%d : %s", i, meshes[i]->GetName().c_str());
+        }
+
+        for (Material* material : materials)
+            material->GUIRender();
+        MeshSetting();
+        RenderTreenode(0);
+        ImGui::TreePop();
+    }
 }
 
 void Model::SetShader(wstring file)
@@ -51,6 +61,75 @@ Material* Model::AddMaterial()
     materials.push_back(result);
 
     return result;
+}
+
+void Model::SetMeshMaterial(UINT meshIndex, UINT materialIndex)
+{
+    meshes[meshIndex]->SetMaterial(materials[materialIndex], materialIndex);
+}
+
+void Model::SaveMateirals()
+{
+
+    string savePath = "Models/Materials/" + name + "/";
+    string file = name + ".mats";
+
+    BinaryWriter* writer = new BinaryWriter(savePath + file);
+
+    writer->UInt(materials.size());
+
+    for (Material* material : materials)
+    {
+        string path = savePath + material->GetName() + ".mat";
+        material->Save(path);
+
+        writer->String(path);
+    }
+
+    delete writer;
+
+}
+
+void Model::SaveMeshes()
+{
+    string path = "Models/Meshes/" + name + ".mesh";
+
+    CreateFolders(path);
+
+    BinaryWriter* writer = new BinaryWriter(path);
+
+    writer->UInt(meshes.size());
+    for (ModelMesh* mesh : meshes)
+    {
+        writer->String(mesh->GetName());
+        writer->UInt(mesh->GetData().materialIndex);
+
+        writer->UInt(mesh->GetData().vertices.size());
+        writer->Byte(mesh->GetData().vertices.data(),
+            sizeof(ModelVertex) * mesh->GetData().vertices.size());
+
+        writer->UInt(mesh->GetData().indices.size());
+        writer->Byte(mesh->GetData().indices.data(),
+            sizeof(UINT) * mesh->GetData().indices.size());
+    }
+
+    writer->UInt(nodes.size());
+    for (NodeData node : nodes)
+    {
+        writer->Int(node.index);
+        writer->String(node.name);
+        writer->Int(node.parent);
+        writer->Matrix(node.transform);
+    }
+
+    writer->UInt(bones.size());
+    for (BoneData bone : bones)
+    {
+        writer->Int(bone.index);
+        writer->String(bone.name);
+        writer->Matrix(bone.offset);
+    }
+    delete writer;
 }
 
 void Model::ReadMaterial()
@@ -150,9 +229,9 @@ void Model::ReadMesh()
 
         // ModelMesh 클래스의 인스턴스를 생성하고 Mesh의 이름을 설정합니다.
         ModelMesh* mesh = new ModelMesh(meshName);
-
+        UINT materialIndex = reader->UInt();
         // Mesh에 해당하는 Material을 materials 벡터에서 찾아 설정합니다.
-        mesh->SetMaterial(materials[reader->UInt()]);
+        mesh->SetMaterial(materials[materialIndex], materialIndex);
 
         // Mesh의 정점 (vertices) 개수를 파일에서 읽어옵니다.
         UINT vertexCount = reader->UInt();
@@ -262,5 +341,21 @@ void Model::MakeTreenode()
             continue;
         }
         nodetree[node.parent].emplace_back(node.index);
+    }
+}
+
+void Model::MeshSetting()
+{
+    ImGui::SliderInt("Mesh", &selectMeshNum, 0, GetMeshNum());
+    if (ImGui::Button("AddMaterial"))
+    {
+        UINT materialIndex = GetMaterialNum();
+       GetMesh(selectMeshNum)->SetMaterial(AddMaterial(), materialIndex);
+    }
+
+    if (ImGui::Button("SaveModelData"))
+    {
+        SaveMateirals();
+        SaveMeshes();
     }
 }

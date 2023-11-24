@@ -1,13 +1,13 @@
-<Material Name="expression" Shader="Light/Light.hlsl">
+<Material Name="expression" Shader="Model/2DTextureModel.hlsl">
     <Texture>
         <DiffsueMap DM="Textures/Model/Traveler/expression.png"/>
         <SpecularMap SM="Textures/Colors/White.png"/>
         <NormalMap NM="Textures/Colors/Blue.png"/>
     </Texture>
-    <Property Shininess="100" HasNormalMap="0">
+    <Property Shininess="9.6280003" HasNormalMap="0">
         <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
         <Specular R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
-        <Ambient R="0" G="0" B="0" A="1"/>
-        <Emissive R="0" G="0" B="0" A="1"/>
+        <Ambient R="0.64313728" G="0.64313728" B="0.64313728" A="1"/>
+        <Emissive R="0.21176471" G="0.21176471" B="0.21176471" A="1"/>
     </Property>
 </Material>

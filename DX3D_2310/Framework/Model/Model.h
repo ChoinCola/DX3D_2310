@@ -19,9 +19,16 @@ public:
     void SetShader(wstring file);
 
     Material* AddMaterial();
+    void SetMeshMaterial(UINT meshIndex, UINT materialIndex);
 
-    // 주어진 노드의 변환 매트릭스를 반환하는 함수
+    void SaveMateirals();
+    void SaveMeshes();
+
+    ModelMesh* GetMesh(UINT index) { return meshes[index]; }
+    UINT GetMeshNum() { return meshes.size(); }
+    UINT GetMaterialNum() { return materials.size(); }
     Matrix GetNodeTransform(string name) { return nodeTransforms[name]; }
+    string GetName() { return name; }
 
     // 주어진 노드의 로컬 위치를 반환하는 함수
     Vector3 GetNodeLocalPosition(string name)
@@ -48,6 +55,8 @@ private:
     // 트리 노드를 생성하는 함수
     void MakeTreenode();
 
+    void MeshSetting();
+
 protected:
     string name;                        // 모델의 이름
     vector<Material*> materials;        // 재료 정보를 저장하는 벡터
@@ -62,4 +71,6 @@ protected:
     vector<Matrix> boneTransforms;      // 뼈대의 변환 매트릭스를 저장하는 벡터
     map<string, Matrix> nodeTransforms; // 노드의 변환 매트릭스를 저장하는 맵
     map<string, UINT> boneMap;          // 뼈대의 인덱스를 저장하는 맵
+
+    int selectMeshNum = 0;
 };

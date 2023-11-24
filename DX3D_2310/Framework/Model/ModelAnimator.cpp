@@ -37,16 +37,20 @@ void ModelAnimator::Render()
 
 void ModelAnimator::GUIRender()
 {
-    int clip = frameBuffer->GetData()->cur.clip;
+    if (ImGui::TreeNode(name.c_str()))
+    {
+        int clip = frameBuffer->GetData()->cur.clip;
 
-    ImGui::SliderInt("Clip", &frameBuffer->GetData()->next.clip, 0, clips.size() - 1);
-    ImGui::SliderInt("Frame", &frameBuffer->GetData()->cur.curFrame, 0, clips[clip]->frameCount - 1);
-    ImGui::SliderFloat("Speed", &frameBuffer->GetData()->cur.scale, 0, 3.0f);
-    ImGui::SliderFloat("Animation Transtime", &frameBuffer->GetData()->takeTime, 0, 1.0f);
+        ImGui::SliderInt("Clip", &frameBuffer->GetData()->next.clip, 0, clips.size() - 1);
+        ImGui::SliderInt("Frame", &frameBuffer->GetData()->cur.curFrame, 0, clips[clip]->frameCount - 1);
+        ImGui::SliderFloat("Speed", &frameBuffer->GetData()->cur.scale, 0, 3.0f);
+        ImGui::SliderFloat("Animation Transtime", &frameBuffer->GetData()->takeTime, 0, 1.0f);
 
-    ImGui::Checkbox("AutoAnimation", &IsPlay);
+        ImGui::Checkbox("AutoAnimation", &IsPlay);
 
-    __super::GUIRender();
+        __super::GUIRender();
+        ImGui::TreePop();
+    }
 }
 
 void ModelAnimator::ReadClip(string clipName, UINT clipNum, UINT count)

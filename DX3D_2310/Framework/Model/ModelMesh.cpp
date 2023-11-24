@@ -2,6 +2,7 @@
 
 ModelMesh::ModelMesh(string name) : name(name)
 {
+    data.name = name;
 }
 
 ModelMesh::~ModelMesh()
@@ -36,4 +37,7 @@ void ModelMesh::CreateMesh(void* vertices, UINT vertexCount, void* indices, UINT
 
     // Mesh를 생성하는 함수를 호출하여 정점 및 인덱스 데이터로 Mesh를 초기화합니다.
     mesh->CreateMesh();
+
+    data.vertices = mesh->GetVertices();
+    data.indices = mesh->GetIndices();
 }
