@@ -10,6 +10,14 @@ public:
 	Vector3(Vector4 value) : value(value) {}
 
 	operator Vector4() { return value; }
+
+	operator Float4()
+	{
+		Float4 result;
+		XMStoreFloat4(&result, value);
+
+		return result;
+	}
 	operator Float3()
 	{
 		Float3 result;
@@ -29,10 +37,12 @@ public:
 	void SetX(const float& x) { value = XMVectorSetX(value, x); }
 	void SetY(const float& y) { value = XMVectorSetY(value, y); }
 	void SetZ(const float& z) { value = XMVectorSetZ(value, z); }
+	void SetW(const float& z) { value = XMVectorSetW(value, z); }
 
 	float GetX() const { return XMVectorGetX(value); }
 	float GetY() const { return XMVectorGetY(value); }
 	float GetZ() const { return XMVectorGetZ(value); }
+	float GetW() const { return XMVectorGetW(value); }
 
 	// 함수를 끌어다가 쓰는것.
 	__declspec(property(get = GetX, put = SetX)) float x;
@@ -86,6 +96,11 @@ public:
 
 	Vector4* GetValue() { return &value; }
 	const Float3 GetvalueFloat3() { return { this->GetX(),this->GetY(),this->GetZ() }; }
+	const Float4 GetvalueFloat4() { 
+		XMFLOAT4 result;
+		DirectX::XMStoreFloat4(&result, value);
+		return result;
+	}
 
 	// 외적 함수
 	static Vector3 Cross(const Vector3& vec1, const Vector3& vec2) { return XMVector3Cross(vec1.value, vec2.value); }
