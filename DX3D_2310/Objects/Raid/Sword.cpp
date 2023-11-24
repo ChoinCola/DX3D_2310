@@ -1,7 +1,8 @@
 #include "Framework.h"
 
-Sword::Sword() : Model("weapon0")
+Sword::Sword() : Model("Sword")
 {
+	Load();
 	collider = new BoxCollider();
 	collider->SetTag(name + "Collider");
 	collider->SetParent(this);
@@ -11,6 +12,8 @@ Sword::Sword() : Model("weapon0")
 
 Sword::~Sword()
 {
+	Save();
+	collider->Save();
 	delete collider;
 }
 
