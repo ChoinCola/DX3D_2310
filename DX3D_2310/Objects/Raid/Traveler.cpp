@@ -15,8 +15,6 @@ Traveler::Traveler()
     sword = new Sword();
     sword->SetParent(rightHand);
     sword->Load();
-
-    prevMousePos = mousePos;
 }
 
 Traveler::~Traveler()
@@ -43,8 +41,10 @@ void Traveler::Update()
 
 void Traveler::Render()
 {
+    
     bodyMesh->Render();
     sword->Render();
+    __super::Render();
 }
 
 void Traveler::GUIRender()
@@ -108,11 +108,8 @@ void Traveler::Control()
     if (!isMoveZ)
         veloctiy.z = MATH->Lerp(veloctiy.z, 0.0f, deceleration * DELTA);
 
-    Vector3 delta = mousePos - prevMousePos;
-    prevMousePos = mousePos;
-
-    Rotate(Vector3::Up() * delta.x * rotSpeed * DELTA);
-    CAM->Rotate(Vector3::Left() * delta.y * rotSpeed * DELTA);
+    Rotate(Vector3::Up() * Mouse::Get()->GetMoveValue().x * rotSpeed * DELTA);
+    CAM->Rotate(Vector3::Left() * Mouse::Get()->GetMoveValue().y * rotSpeed * DELTA);
 }
 
 void Traveler::Move()

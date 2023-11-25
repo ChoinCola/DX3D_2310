@@ -213,6 +213,7 @@ using namespace Utility;
 #include "Objects/MincraftObject/Seller.h"
 #include "Objects/Raid/Sword.h"
 #include "Objects/Raid/Traveler.h"
+#include "Objects/Raid/Monster.h"
 
 
 

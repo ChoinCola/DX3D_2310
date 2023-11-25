@@ -34,6 +34,15 @@ public:
 		return result;
 	}
 
+	operator string()
+	{
+		string result;
+		result = "X : " + to_string(GetX()) + " Y : " + to_string(GetY()) + " Z : " + to_string(GetZ());
+
+		return result;
+	}
+
+
 	void SetX(const float& x) { value = XMVectorSetX(value, x); }
 	void SetY(const float& y) { value = XMVectorSetY(value, y); }
 	void SetZ(const float& z) { value = XMVectorSetZ(value, z); }

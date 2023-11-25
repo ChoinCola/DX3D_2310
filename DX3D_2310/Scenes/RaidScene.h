@@ -13,5 +13,7 @@ public:
 
 private:
     Traveler* traveler;
+    Monster* monster;
+
     Terrain* terrain;
 };

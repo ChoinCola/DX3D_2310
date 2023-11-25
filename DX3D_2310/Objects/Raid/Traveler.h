@@ -1,6 +1,6 @@
 #pragma once
 
-class Traveler : public CapsuleCollider
+class Traveler : public SphereCollider
 {
 private:
     enum ActionState

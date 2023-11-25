@@ -330,7 +330,16 @@
     <ClInclude Include="Objects\RPG\Character\TravelerSkin.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\MincraftObject\Raid\Groot.h">
+    <ClInclude Include="Objects\Raid\Sword.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Raid\Traveler.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\RaidScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Raid\Monster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -575,7 +584,16 @@
     <ClCompile Include="Objects\RPG\Character\TravelerSkin.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\MincraftObject\Raid\Groot.cpp">
+    <ClCompile Include="Objects\Raid\Sword.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Raid\Traveler.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\RaidScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Raid\Monster.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -598,6 +616,7 @@
     <FxCompile Include="Shaders\Light\Light.hlsl" />
     <FxCompile Include="Shaders\Basic\Texture.hlsl" />
     <FxCompile Include="Shaders\Model\Model.hlsl" />
+    <FxCompile Include="Shaders\Model\2DTextureModel.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\Lib\DirectXTex.lib" />
