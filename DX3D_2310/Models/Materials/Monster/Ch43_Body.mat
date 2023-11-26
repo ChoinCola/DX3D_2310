@@ -1,4 +1,4 @@
-<Material Name="Ch43_Body" Shader="Light/Light.hlsl">
+<Material Name="Ch43_Body" Shader="Model/Model.hlsl">
     <Texture>
         <DiffsueMap DM="Textures/Model/Monster/Ch43_1001_Diffuse.png"/>
         <SpecularMap SM="Textures/Model/Monster/Ch43_1001_Specular.png"/>
@@ -7,7 +7,7 @@
     <Property Shininess="20" HasNormalMap="1">
         <Diffuse R="0.80000001" G="0.80000001" B="0.80000001" A="1"/>
         <Specular R="0.5" G="0.5" B="0.5" A="1"/>
-        <Ambient R="0" G="0" B="0" A="1"/>
+        <Ambient R="0.25490195" G="0.25490195" B="0.25490195" A="1"/>
         <Emissive R="0" G="0" B="0" A="1"/>
     </Property>
 </Material>

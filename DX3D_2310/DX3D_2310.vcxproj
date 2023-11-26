@@ -167,6 +167,7 @@
     <ClInclude Include="Framework\Buffer\VertexLayouts.h" />
     <ClInclude Include="Framework\Device\Device.h" />
     <ClInclude Include="Framework\Environment\Minimap.h" />
+    <ClInclude Include="Framework\Environment\UIRenderMaster.h" />
     <ClInclude Include="Framework\Math\GameMath.h" />
     <ClInclude Include="Framework\Math\Transform.h" />
     <ClInclude Include="Framework\Math\Vector3.h" />
@@ -236,6 +237,7 @@
     <ClInclude Include="Objects\Raid\Monster.h" />
     <ClInclude Include="Objects\Raid\Sword.h" />
     <ClInclude Include="Objects\Raid\Traveler.h" />
+    <ClInclude Include="Objects\Raid\UI\HPbar.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
     <ClInclude Include="Objects\RPG\Character\ItemBox.h" />
     <ClInclude Include="Objects\RPG\Character\Player.h" />
@@ -278,6 +280,7 @@
     <ClCompile Include="Framework\Environment\Camera.cpp" />
     <ClCompile Include="Framework\Environment\Environment.cpp" />
     <ClCompile Include="Framework\Environment\Minimap.cpp" />
+    <ClCompile Include="Framework\Environment\UIRenderMaster.cpp" />
     <ClCompile Include="Framework\Math\GameMath.cpp" />
     <ClCompile Include="Framework\Math\Transform.cpp" />
     <ClCompile Include="Framework\Model\Model.cpp" />
@@ -328,6 +331,7 @@
     <ClCompile Include="Objects\Raid\Monster.cpp" />
     <ClCompile Include="Objects\Raid\Sword.cpp" />
     <ClCompile Include="Objects\Raid\Traveler.cpp" />
+    <ClCompile Include="Objects\Raid\UI\HPbar.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />
     <ClCompile Include="Objects\RPG\Character\ItemBox.cpp" />
     <ClCompile Include="Objects\RPG\Character\Player.cpp" />

@@ -9,8 +9,10 @@ public:
 	void Update();
 	void Render();
 
+	float GetDamage() { return damage; }
 	BoxCollider* GetCollider() { return collider; }
 
 private:
 	BoxCollider* collider;
+	float damage = 10;
 };

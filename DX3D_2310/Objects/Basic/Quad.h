@@ -9,7 +9,10 @@ public:
 	~Quad();
 
 	void Render();
-
+	Float2 GetDaflatSize()
+	{
+		return size;
+	}
 	Float2 GetSize()
 	{
 		return 

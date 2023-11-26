@@ -19,6 +19,9 @@ public:
     void Update();
     void Render();
     void GUIRender();
+    void PostRender();
+    void SetMonster();
+
 
 private:
     void Attack();
@@ -52,4 +55,13 @@ private:
     Vector3 veloctiy;
 
     Vector3 prevMousePos;
+
+    Quad* HPbar;
+    Vector3 HPBar_DefaltPos = {};
+    Vector3 HPBar_DefaltScale = {1, 1, 1};
+
+    Event attack;
+private:
+    float HP = 100;
+    float Damage = 10;
 };

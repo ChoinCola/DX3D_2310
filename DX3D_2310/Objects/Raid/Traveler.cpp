@@ -3,6 +3,11 @@
 
 Traveler::Traveler()
 {
+    UIRenderMaster::Get()->InputUI2D("Travler_HP", L"Textures/Colors/Red.png");
+    HPbar = UIRenderMaster::Get()->GetUI2D("Travler_HP");
+    SetTag("Travler_collider");
+    Load();
+
     bodyMesh = new ModelAnimator("Traveler");
     bodyMesh->SetShader(L"Model/2DTextureModel.hlsl");
     bodyMesh->Load();
@@ -26,11 +31,14 @@ Traveler::~Traveler()
 
 void Traveler::Update()
 {
+    UIRenderMaster::Get()->Set2DUIScaleAtSort
+    ("Travler_HP",1 ,HP * 0.01, 1.0f, Vector3(150, 100, 1), Vector3(1, 0.1, 1));
+    if (curState == ATTACK) Observer::Get()->ExcuteParamEvent("MonsterHit", sword);
+    attack = nullptr;
     Attack();
     Control();
     Move();
     SetAction();
-
 
     rightHand->SetWorld(bodyMesh->GetTransformByNode(sword_transform));
 
@@ -41,7 +49,6 @@ void Traveler::Update()
 
 void Traveler::Render()
 {
-    
     bodyMesh->Render();
     sword->Render();
     __super::Render();
@@ -50,9 +57,23 @@ void Traveler::Render()
 void Traveler::GUIRender()
 {
     ImGui::DragInt("Swordtransform",&sword_transform,1.0f,0,199);
+    ImGui::DragFloat("HP", &HP, 1.0f, 0, 100);
+    string def = HPbar->GetLocalScale();
+    ImGui::Text(def.c_str());
+
     bodyMesh->GUIRender();
     sword->GUIRender();
     sword->GetCollider()->GUIRender();
+    __super::Render();
+}
+
+void Traveler::PostRender()
+{
+   // hpbar->Render();
+}
+
+void Traveler::SetMonster()
+{
 }
 
 void Traveler::Attack()
@@ -60,6 +81,7 @@ void Traveler::Attack()
     if (KEY->Down(VK_LBUTTON))
     {
         SetState(ATTACK);
+        
     }
 }
 
@@ -171,5 +193,4 @@ void Traveler::ReadClips()
     bodyMesh->GetClip(ATTACK)->SetEvent(bind(&Traveler::EndAttack, this), 0.8f);
     bodyMesh->GetClip(ATTACK)->SetEvent(bind(&Traveler::ActiveSowdCollider, this), 0.3f);
     bodyMesh->GetClip(ATTACK)->SetEvent(bind(&Traveler::InactiveSowdCollider, this), 0.45f);
-
 }

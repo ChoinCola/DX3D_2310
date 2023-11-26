@@ -5,7 +5,7 @@ RaidScene::RaidScene()
 {
 	traveler = new Traveler();
 	monster = new Monster();
-	monster->SetLocalPosition(Vector3(10, 0, 10));
+	monster->SetLocalPosition(Vector3(20, 2, 20));
 	monster->SetPlayerCollider(traveler);
 
 	terrain = new Terrain(L"Textures/HeightMaps/Miro.png", 1.0f, true);
@@ -40,6 +40,7 @@ void RaidScene::Render()
 
 void RaidScene::PostRender()
 {
+	traveler->PostRender();
 }
 
 void RaidScene::GUIRender()

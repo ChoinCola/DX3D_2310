@@ -15,7 +15,9 @@ private:
         HIT4,
 
         ATTACK,
-        ATTACK2
+        ATTACK2,
+        
+        DEATH
     };
 
     const float EPSILON = 0.1f;
@@ -34,6 +36,8 @@ private:
     void Attack();
     void EndAttack();
 
+    void Hitnow(void* collider);
+
     void Control();
     void Move();
     void SetAction();
@@ -42,6 +46,7 @@ private:
 
     void ReadClips();
     void SearchPlayer();
+    void Death();
 
 private:
     ModelAnimator* bodyMesh;
@@ -56,7 +61,6 @@ private:
 
     bool AttackPos = false;
 
-    int sword_transform = 26;
     Vector3 veloctiy;
 
     Vector3 prevMousePos;
@@ -64,6 +68,16 @@ private:
     Collider* Playercol = nullptr;
     Vector3 PlayerLastPos = {};
     Vector3 PtoMdir = {};
+
+    list<Monster*> immolation;
     float SearchTime = 2.0f;
     float SearchTimeNow = 0;
+
+private:
+    float HP = 100.0f;
+    float damage = 10.0f;
+
+    bool Hitself = false;
+    bool death = false;
+    HPbar* hpbar = nullptr;
 };

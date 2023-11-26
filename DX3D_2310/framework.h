@@ -93,6 +93,7 @@ typedef XMVECTOR Vector4;	// 다양한 사용방식이 보장된 vector
 typedef XMFLOAT4X4 Float4x4;
 typedef function<void()> Event;
 typedef function<void(void*)> ParamEvent;
+typedef function<void(void*, void*)> ParamEvent2;
 typedef function<void(int)> IntParamEvent;
 
 
@@ -174,6 +175,7 @@ using namespace Utility;
 
 #include "Objects/ColliderBall/Ball.h"
 
+#include "Framework/Environment/UIRenderMaster.h"
 
 // Robot Header
 #include "Objects/Robot/Robot.h"
@@ -212,6 +214,7 @@ using namespace Utility;
 #include "Objects/MincraftObject/BlockIcon.h"
 #include "Objects/MincraftObject/Seller.h"
 #include "Objects/Raid/Sword.h"
+#include "Objects/Raid/UI/HPbar.h"
 #include "Objects/Raid/Traveler.h"
 #include "Objects/Raid/Monster.h"
 
