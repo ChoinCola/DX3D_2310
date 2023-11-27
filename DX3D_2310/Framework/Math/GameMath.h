@@ -24,6 +24,9 @@ public:
 	Vector3 Lerp(const Vector3& start, const Vector3& end, float t) const;
 	Matrix Lerp(const Matrix& start, const Matrix& end, float t) const;
 
+	// 선분과 점이 있을 때, 점과 가장 가까운 선분의 점
+	Vector3 ClosestPointOnLine(const Vector3& start, const Vector3& end, const Vector3& point) const;
+
 private:
 	random_device randomDevice;
 	mt19937_64 generator;

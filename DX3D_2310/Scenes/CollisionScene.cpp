@@ -2,14 +2,14 @@
 
 CollisionScene::CollisionScene()
 {
-	colliders.push_back(new SphereCollider());
-	colliders.back()->SetTag("Sphere1");
+	colliders.push_back(new CapsuleCollider());
+	colliders.back()->SetTag("Capsule1");
 	//colliders.push_back(new SphereCollider());
 	//colliders.back()->SetTag("Sphere2");
     colliders.push_back(new BoxCollider());
     colliders.back()->SetTag("Box1");
-    //colliders.push_back(new BoxCollider());
-    //colliders.back()->SetTag("Box2");
+    //colliders.push_back(new CapsuleCollider());
+    //colliders.back()->SetTag("Capsule2");
 }
 
 CollisionScene::~CollisionScene()
@@ -20,29 +20,29 @@ CollisionScene::~CollisionScene()
 
 void CollisionScene::Update()
 {
-    //Ray ray = CAM->ScreenPointToRay(Mouse::Get()->GetPosition());
+    Ray ray = CAM->ScreenPointToRay(Mouse::Get()->GetPosition());
 
-    //Contact contact;
+    Contact contact;
 
-    //if (colliders[0]->IsRayCollision(ray, &contact))
-    //{
-    //    colliders[0]->SetColor(1, 0, 0); 
-    //}
-    //else
-    //{
-    //    colliders[0]->SetColor(0, 1, 0);
-    //}
-
-    if (colliders[0]->IsCollision(colliders[1]))
+    if (colliders[0]->IsRayCollision(ray, &contact))
     {
-        colliders[0]->SetColor(1, 0, 0);
-        colliders[1]->SetColor(1, 0, 0);
+        colliders[0]->SetColor(1, 0, 0); 
     }
     else
     {
         colliders[0]->SetColor(0, 1, 0);
-        colliders[1]->SetColor(0, 1, 0);
     }
+
+    //if (colliders[0]->IsCollision(colliders[1]))
+    //{
+    //    colliders[0]->SetColor(1, 0, 0);
+    //    colliders[1]->SetColor(1, 0, 0);
+    //}
+    //else
+    //{
+    //    colliders[0]->SetColor(0, 1, 0);
+    //    colliders[1]->SetColor(0, 1, 0);
+    //}
 
 
     for (Collider* collider : colliders)

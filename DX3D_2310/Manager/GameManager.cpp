@@ -8,20 +8,20 @@ GameManager::GameManager()
 
 
     SceneManager::Get()->Create("Grid", new GridScene());
-    //SceneManager::Get()->Create("Collision", new CollisionScene());
+    SceneManager::Get()->Create("Collision", new CollisionScene());
    // SceneManager::Get()->Create("Exporter", new ModelExportScene());
     //SceneManager::Get()->Create("Start", new ModelRenderScene());
     //SceneManager::Get()->Create("Animation", new AnimationScene());
     //SceneManager::Get()->Create("MineCraftScene", new MinceCraftScene());
-    SceneManager::Get()->Create("Raid", new RaidScene());
+    //SceneManager::Get()->Create("Raid", new RaidScene());
 
     SceneManager::Get()->Add("Grid");
     //SceneManager::Get()->Add("MineCraftScene");
-    //SceneManager::Get()->Add("Collision");
+    SceneManager::Get()->Add("Collision");
     //SceneManager::Get()->Add("RPG");
     //SceneManager::Get()->Add("Exporter");
     //SceneManager::Get()->Add("Start");
-    SceneManager::Get()->Add("Raid");
+    //SceneManager::Get()->Add("Raid");
     //SceneManager::Get()->Add("Animation");
 }
 
@@ -50,11 +50,12 @@ void GameManager::Render()
 
     Environment::Get()->Set();
     SceneManager::Get()->Render();
-    UIRenderMaster::Get()->Render();
+
     Font::Get()->GetDC()->BeginDraw(); // 클리어. 폰트출력하기 위한 사전작업.
 
     Environment::Get()->SetPost();
     SceneManager::Get()->PostRender();
+    UIRenderMaster::Get()->Render();
     UIRenderMaster::Get()->PostRender();
 
     ImGui_ImplDX11_NewFrame();

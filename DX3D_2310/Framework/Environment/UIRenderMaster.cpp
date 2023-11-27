@@ -75,7 +75,7 @@ void UIRenderMaster::Set2DUIScaleAtSort
 	Quad* ui = UImap[UI];
 	Float2 size = ui->GetDaflatSize();
 
-	ui->SetLocalScale(DefaltScale - Vector3(1-x, 1-y, 0));
+	ui->SetLocalScale(DefaltScale - Vector3(1 - x, 1 - y, 0));
 
 	switch (sort)
 	{
@@ -99,19 +99,21 @@ void UIRenderMaster::Set3DUIScaleAtSort
 	// 2 = Áß¾Ó
 	Quad* ui = _3DUImap[UI];
 	Float2 size = ui->GetDaflatSize();
+	Vector3 screenPos = CAM->WorldToScreen(DefaltPos + Vector3(0, 0.5f, 0));
+
 	Vector3 depot = ((1 - x) * DefaltScale.x, (1 - y)* DefaltScale.y, 0);
 	ui->SetLocalScale(DefaltScale - Vector3((1 - x) * DefaltScale.x, (1 - y) * DefaltScale.y, 0));
 
 	switch (sort)
 	{
 	case 0:
-		ui->SetLocalPosition(DefaltPos - depot * 0.5);
+		ui->SetLocalPosition(screenPos - depot * 0.5);
 		break;
 	case 1:
-		ui->SetLocalPosition(DefaltPos + depot * 0.5);
+		ui->SetLocalPosition(screenPos + depot * 0.5);
 		break; 
 	case 2:  
-		ui->SetLocalPosition(DefaltPos);
+		ui->SetLocalPosition(screenPos);
 		break;
 	}
 }

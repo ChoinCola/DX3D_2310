@@ -346,11 +346,18 @@ void Model::MakeTreenode()
 
 void Model::MeshSetting()
 {
-    ImGui::SliderInt("Mesh", &selectMeshNum, 0, GetMeshNum());
+
     if (ImGui::Button("AddMaterial"))
     {
-        UINT materialIndex = GetMaterialNum();
-       GetMesh(selectMeshNum)->SetMaterial(AddMaterial(), materialIndex);
+        AddMaterial();
+    }
+
+    ImGui::SliderInt("Mesh", &selectMeshNum, 0, GetMeshNum());
+    ImGui::SliderInt("Material", &selectMatarialNum, 0, GetMaterialNum());
+
+    if (ImGui::Button("SetMaterial"))
+    {
+        SetMeshMaterial(selectMeshNum, selectMatarialNum);
     }
 
     if (ImGui::Button("SaveModelData"))

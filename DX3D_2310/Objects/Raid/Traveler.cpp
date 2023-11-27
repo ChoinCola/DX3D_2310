@@ -130,8 +130,14 @@ void Traveler::Control()
     if (!isMoveZ)
         veloctiy.z = MATH->Lerp(veloctiy.z, 0.0f, deceleration * DELTA);
 
-    Rotate(Vector3::Up() * Mouse::Get()->GetMoveValue().x * rotSpeed * DELTA);
-    CAM->Rotate(Vector3::Left() * Mouse::Get()->GetMoveValue().y * rotSpeed * DELTA);
+    float rot;
+    if (Mouse::Get()->GetIsSetMouseHold())
+        rot = rotSpeed * 3;
+    else
+        rot = rotSpeed;
+
+    Rotate(Vector3::Up() * Mouse::Get()->GetMoveValue().x * rot * DELTA);
+    CAM->Rotate(Vector3::Left() * Mouse::Get()->GetMoveValue().y * rot * DELTA);
 }
 
 void Traveler::Move()

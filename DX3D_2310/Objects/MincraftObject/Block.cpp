@@ -40,7 +40,6 @@ void Block::PostRender()
 
 	Vector3 screenPos = CAM->WorldToScreen(localPosition + Vector3(0, 0.5f, 0));
 	Font::Get()->RenderText(data.name, { screenPos.x, screenPos.y });
-
 }
 
 void Block::GUIRender()

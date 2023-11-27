@@ -73,4 +73,5 @@ protected:
     map<string, UINT> boneMap;          // 뼈대의 인덱스를 저장하는 맵
 
     int selectMeshNum = 0;
+    int selectMatarialNum = 0;
 };

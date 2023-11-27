@@ -47,3 +47,16 @@ Matrix GameMath::Lerp(const Matrix& start, const Matrix& end, float t) const
 
     return start + (end - start) * t;
 }
+
+Vector3 GameMath::ClosestPointOnLine(const Vector3& start, const Vector3& end, const Vector3& point) const
+{
+    Vector3 line = end - start;
+    Vector3 A = point - start;
+
+
+    float x = Vector3::Dot(line, A);
+    float y = Vector3::Dot(line, line);
+
+    float t = Clamp(0.0f, 1.0f, x / y);
+    return start + line * t;
+}

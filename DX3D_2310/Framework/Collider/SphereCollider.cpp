@@ -52,6 +52,8 @@ bool SphereCollider::IsSphereCollision(SphereCollider* collider)
 
 bool SphereCollider::IsCapsuleCollision(CapsuleCollider* collider)
 {
+
+
 	return false;
 }
 
