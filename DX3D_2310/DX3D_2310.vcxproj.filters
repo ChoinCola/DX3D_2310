@@ -228,37 +228,13 @@
     <ClInclude Include="Framework\Collider\SphereCollider.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Scenes\RPG.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\RPG\Character\Player.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\RPG\Item\Item.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Utilities\rapidcsv.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\RPG\Item\Chair.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\RPG\Item\Table.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\RPG\Character\ItemBox.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Math\GameMath.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Scenes\BoxPlayDemo.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\RPG\Item\Box.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Scenes\MineCraftScene.h">
@@ -327,9 +303,6 @@
     <ClInclude Include="Framework\Model\ModelAnimator.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\RPG\Character\TravelerSkin.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Objects\Raid\Sword.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -357,10 +330,10 @@
     <ClInclude Include="Objects\TopViewGame\Map.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\TopViewGame\Player.h">
+    <ClInclude Include="Objects\TopViewGame\TopPlayer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\TopViewGame\Obejct\Tree.h">
+    <ClInclude Include="Objects\TopViewGame\Obejct\Trees.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Objects\TopViewGame\Obejct\Grass.h">
@@ -373,6 +346,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Objects\TopViewGame\Master\ObejctMaster.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\TopViewGame\Monster\TopMonster.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\TopViewGame\_TopViewGamestruct.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -521,28 +500,7 @@
     <ClCompile Include="Framework\Collider\SphereCollider.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Scenes\RPG.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\RPG\Item\Item.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\RPG\Character\Player.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\RPG\Item\Chair.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\RPG\Item\Table.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\RPG\Character\ItemBox.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Scenes\BoxPlayDemo.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\RPG\Item\Box.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Scenes\MineCraftScene.cpp">
@@ -614,9 +572,6 @@
     <ClCompile Include="Framework\Model\ModelAnimator.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\RPG\Character\TravelerSkin.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Objects\Raid\Sword.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -644,6 +599,15 @@
     <ClCompile Include="Scenes\TopViewGame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\TopViewGame\Obejct\Trees.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\TopViewGame\Map.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\TopViewGame\TopPlayer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2310.rc">
@@ -667,6 +631,7 @@
     <FxCompile Include="Shaders\Model\2DTextureModel.hlsl" />
     <FxCompile Include="Shaders\Instancing\TextureInstancing.hlsl" />
     <FxCompile Include="Shaders\LandScape\Skybox.hlsl" />
+    <FxCompile Include="Shaders\Model\ModelInstancing.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\Lib\DirectXTex.lib" />

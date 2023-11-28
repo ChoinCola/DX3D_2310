@@ -7,8 +7,6 @@ Steve::Steve()
 	prevMousePos = mousePos;
 	ClientToScreen(hWnd, &clientCenterPos);
 
-	model = new TravelerSkin(this);
-	model->SetRunAnimation(true);
 	ui = new MineCraftUI();
 }
 
@@ -28,13 +26,12 @@ void Steve::Update()
 
 	UpdateWorld();
 	Observer::Get()->ExcuteParamEvent("SellerCollision", this);
-	model->Update();
+
 }
 
 void Steve::GUIRender()
 {
 	ui->GUIRender();
-	model->GUIRender();
 
 	ImGui::Text(to_string(GetLocalRotation().x).c_str());
 	ImGui::DragFloat3("CamPos", &v[0], 1.0f, -100.0f, 100.0f);
@@ -52,7 +49,6 @@ void Steve::PostRender()
 
 void Steve::Render()
 {
-	model->Render();
 }
 
 void Steve::Move()
@@ -70,21 +66,21 @@ void Steve::Move()
 		Vector3 forward = GetForward();
 		forward.y = 0;
 		Translate(forward.GetNormalized() * moveSpeed * DELTA);
-		model->SetAnimation(Front);
+
 	}
 	else if (KEY->Press('S'))
 	{
 		Vector3 back = GetBack();
 		back.y = 0;
 		Translate(back.GetNormalized() * moveSpeed * DELTA);
-		model->SetAnimation(Back);
+
 	}
 	else if (KEY->Press('A'))
 	{
 		Vector3 left = GetLeft();
 		left.y = 0;
 		Translate(left.GetNormalized() * moveSpeed * DELTA);
-		model->SetAnimation(Left);
+
 
 	}
 	else if (KEY->Press('D'))
@@ -92,12 +88,12 @@ void Steve::Move()
 		Vector3 right = GetRight();
 		right.y = 0;
 		Translate(right.GetNormalized() * moveSpeed * DELTA);
-		model->SetAnimation(Right);
+
 
 	}
 	else
 	{
-		model->SetAnimation(Idle);
+
 	}
 	// 현재 delta값에 마우스 pos값을 받아옴.
 	Vector3 delta = mousePos - Vector3(CENTER_X, CENTER_Y);

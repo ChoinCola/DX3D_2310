@@ -32,7 +32,10 @@ private:
 	Mesh<VertexType>* mesh;
 	Mesh<VertexColor>* normalline;
 	RasterizerState* RSset;
+
 	Texture* heightMap;
+	Vector3 defaltsize = {};
+
 	int x = 0, z = 0;
 	double y = 0;
 	double D = 0;

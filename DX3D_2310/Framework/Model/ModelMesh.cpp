@@ -16,6 +16,12 @@ void ModelMesh::Render()
 	mesh->Draw();
 }
 
+void ModelMesh::RenderInstanced(UINT count)
+{
+    material->Set();
+    mesh->DrawInstanced(count);
+}
+
 void ModelMesh::CreateMesh(void* vertices, UINT vertexCount, void* indices, UINT indexCount)
 {
     // Mesh 클래스의 인스턴스를 생성합니다.

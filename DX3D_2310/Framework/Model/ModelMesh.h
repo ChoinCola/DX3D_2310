@@ -7,7 +7,7 @@ public:
 	~ModelMesh();
 
 	void Render();
-	
+	void RenderInstanced(UINT count);
 	void CreateMesh(void* vertices, UINT vertexCount,
 		void* indices, UINT indexCount);
 

@@ -11,7 +11,7 @@ public:
 
     // ¸ðµ¨À» ·»´õ¸µÇÏ´Â ÇÔ¼ö
     void Render();
-
+    void RenderInstanced(UINT count);
     // ¸ðµ¨ÀÇ GUI¸¦ ·»´õ¸µÇÏ´Â ÇÔ¼ö
     void GUIRender();
 

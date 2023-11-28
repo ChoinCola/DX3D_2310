@@ -32,6 +32,7 @@ struct VertexUVNormalTangent
 	float3 normal : NORMAL;
 	float3 tangent : TANGENT;
 	
+	matrix transform : INSTANCE_TRANSFORM;
 };
 
 struct VertexUVNormalTangentBlend
@@ -43,6 +44,8 @@ struct VertexUVNormalTangentBlend
 	float4 indices : BLENDINDICES;
 	// 특정 본들, 본에 꼽혀있을 때, 어떤 본에 가중치를 줄 것인지 웨이트가 들어감.
 	float4 weights : BLENDWEIGHTS;
+	
+	matrix transform : INSTANCE_TRANSFORM;
 };
 
 ////////////////////////////////////////////////////

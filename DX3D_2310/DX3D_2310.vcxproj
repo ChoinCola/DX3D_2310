@@ -240,21 +240,15 @@
     <ClInclude Include="Objects\Raid\Traveler.h" />
     <ClInclude Include="Objects\Raid\UI\HPbar.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
-    <ClInclude Include="Objects\RPG\Character\ItemBox.h" />
-    <ClInclude Include="Objects\RPG\Character\Player.h" />
-    <ClInclude Include="Objects\RPG\Character\TravelerSkin.h" />
-    <ClInclude Include="Objects\RPG\Item\Box.h" />
-    <ClInclude Include="Objects\RPG\Item\Chair.h" />
-    <ClInclude Include="Objects\RPG\Item\Item.h" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="Objects\RPG\Item\Table.h" />
     <ClInclude Include="Objects\Basic\UI\Button.h" />
+    <ClInclude Include="Objects\TopViewGame\Monster\TopMonster.h" />
     <ClInclude Include="Objects\TopViewGame\Obejct\Grass.h" />
     <ClInclude Include="Objects\TopViewGame\Map.h" />
     <ClInclude Include="Objects\TopViewGame\Master\ObejctMaster.h" />
     <ClInclude Include="Objects\TopViewGame\Master\MonsterMaster.h" />
-    <ClInclude Include="Objects\TopViewGame\Player.h" />
-    <ClInclude Include="Objects\TopViewGame\Obejct\Tree.h" />
+    <ClInclude Include="Objects\TopViewGame\_TopViewGamestruct.h" />
+    <ClInclude Include="Objects\TopViewGame\TopPlayer.h" />
+    <ClInclude Include="Objects\TopViewGame\Obejct\Trees.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\AnimationScene.h" />
     <ClInclude Include="Scenes\BoxPlayDemo.h" />
@@ -266,7 +260,6 @@
     <ClInclude Include="Scenes\CollisionScene.h" />
     <ClInclude Include="Scenes\GridScene.h" />
     <ClInclude Include="Scenes\RaidScene.h" />
-    <ClInclude Include="Scenes\RPG.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\TerrainScene.h" />
     <ClInclude Include="Scenes\TopViewGame.h" />
@@ -343,14 +336,10 @@
     <ClCompile Include="Objects\Raid\Traveler.cpp" />
     <ClCompile Include="Objects\Raid\UI\HPbar.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />
-    <ClCompile Include="Objects\RPG\Character\ItemBox.cpp" />
-    <ClCompile Include="Objects\RPG\Character\Player.cpp" />
-    <ClCompile Include="Objects\RPG\Character\TravelerSkin.cpp" />
-    <ClCompile Include="Objects\RPG\Item\Box.cpp" />
-    <ClCompile Include="Objects\RPG\Item\Chair.cpp" />
-    <ClCompile Include="Objects\RPG\Item\Item.cpp" />
-    <ClCompile Include="Objects\RPG\Item\Table.cpp" />
     <ClCompile Include="Objects\Basic\UI\Button.cpp" />
+    <ClCompile Include="Objects\TopViewGame\Map.cpp" />
+    <ClCompile Include="Objects\TopViewGame\Obejct\Trees.cpp" />
+    <ClCompile Include="Objects\TopViewGame\TopPlayer.cpp" />
     <ClCompile Include="Scenes\AnimationScene.cpp" />
     <ClCompile Include="Scenes\BoxPlayDemo.cpp" />
     <ClCompile Include="Scenes\CollisionScene.cpp" />
@@ -361,7 +350,6 @@
     <ClCompile Include="Scenes\ModelExportScene.cpp" />
     <ClCompile Include="Scenes\ModelRenderScene.cpp" />
     <ClCompile Include="Scenes\RaidScene.cpp" />
-    <ClCompile Include="Scenes\RPG.cpp" />
     <ClCompile Include="Scenes\TerrainScene.cpp" />
     <ClCompile Include="Scenes\TopViewGame.cpp" />
   </ItemGroup>
@@ -416,6 +404,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="Shaders\Model\Model.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\Model\ModelInstancing.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

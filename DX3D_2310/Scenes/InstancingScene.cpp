@@ -29,7 +29,6 @@ InstancingScene::InstancingScene()
 	}
 
 	instanceBuffer = new VertexBuffer(instanceData.data(), sizeof(Matrix), COUNT);
-
 }
 
 InstancingScene::~InstancingScene()
@@ -53,7 +52,6 @@ void InstancingScene::Render()
 
 	instanceBuffer->Set(1);
 	quad->RenderInstanced(COUNT);
-
 }
 
 void InstancingScene::PostRender()

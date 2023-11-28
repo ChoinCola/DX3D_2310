@@ -34,7 +34,6 @@ private:
 	bool isFree = true;
 
 	MineCraftUI* ui;
-	TravelerSkin* model;
 
 	float v[3] = { 0, 1, -5 };
 	float r[3];

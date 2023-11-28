@@ -12,4 +12,8 @@ public:
 	void Render() override;
 	void PostRender() override;
 	void GUIRender() override;
+
+private:
+	TopPlayer* player;
+	Map* map;
 };

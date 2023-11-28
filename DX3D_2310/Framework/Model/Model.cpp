@@ -30,6 +30,15 @@ void Model::Render()
 		mesh->Render();
 }
 
+void Model::RenderInstanced(UINT count)
+{
+    worldBuffer->Set(world);
+    worldBuffer->SetVS(0);
+
+    for (ModelMesh* mesh : meshes)
+        mesh->RenderInstanced(count);
+}
+
 void Model::GUIRender()
 {
     if (ImGui::TreeNode(name.c_str()))

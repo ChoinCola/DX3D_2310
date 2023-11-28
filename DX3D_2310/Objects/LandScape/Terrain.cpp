@@ -256,10 +256,13 @@ void Terrain::MakeMesh(bool tile, bool flip)
 {
 	width = heightMap->GetSize().x;
 	height = heightMap->GetSize().y;
+	if (width == 0) width = 10;
+	if (height == 0) height = 10;
 
 	vector<Float4> pixels;
 	heightMap->ReadPixels(pixels);
-
+	bool defaltpixels = false;
+	if (!pixels.empty()) defaltpixels = true;
 	vector<VertexType>& vertices = mesh->GetVertices();
 
 	vertices.reserve(width * height);
@@ -270,9 +273,10 @@ void Terrain::MakeMesh(bool tile, bool flip)
 			vertex.uv.x = x / (float)(width -	1) * (tile * width ? tile * width : 1);
 			vertex.uv.y = z / (float)(height -	1) * (tile * height ? tile * height : 1);
 
-			UINT index = width * z + x;
-			vertex.pos.y = pixels[index].x * 20.0f * hight;
-
+			if (defaltpixels == true) {
+				UINT index = width * z + x;
+				vertex.pos.y = pixels[index].x * 20.0f * hight;
+			}
 			vertices.push_back(vertex);
 		}
 	}

@@ -196,14 +196,8 @@ using namespace Utility;
 //#include "Objects/Shooting/Bullet.h"
 //#include "Objects/Shooting/ShootingPlayer.h"
 
-
-// RPG->Item Header
-#include "Object.h"
-
 // RPG Header
-#include "Objects/RPG/Character/TravelerSkin.h"
 #include "Objects/MincraftObject/UIManager.h"
-#include "Objects/RPG/Character/Player.h"
 #include "Objects/MincraftObject/BlockDataManager.h"
 #include "Objects/MincraftObject/Block.h"
 #include "Objects/MincraftObject/BlockManager.h"
@@ -219,6 +213,18 @@ using namespace Utility;
 #include "Objects/Raid/Traveler.h"
 #include "Objects/Raid/Monster.h"
 
+
+// TopViewGame Header
+#include "Objects/TopViewGame/_TopViewGamestruct.h"
+#include "Objects/TopViewGame/Obejct/Grass.h"
+#include "Objects/TopViewGame/Obejct/Trees.h"
+#include "Objects/TopViewGame/Monster/TopMonster.h"
+
+#include "Objects/TopViewGame/Master/MonsterMaster.h"
+#include "Objects/TopViewGame/Master/ObejctMaster.h"
+
+#include "Objects/TopViewGame/Map.h"
+#include "Objects/TopViewGame/TopPlayer.h"
 
 
 // Scene
@@ -238,7 +244,6 @@ using namespace Utility;
 #include "Scenes/BoxPlayDemo.h"
 #include "Scenes/MineCraftScene.h"
 #include "Scenes/RaidScene.h"
-#include "Scenes/RPG.h"
 #include "Scenes/LightScene.h"
 #include "Scenes/InstancingScene.h"
 #include "Scenes/TopViewGame.h"
