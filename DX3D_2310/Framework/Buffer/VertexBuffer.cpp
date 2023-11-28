@@ -25,3 +25,9 @@ void VertexBuffer::Set(D3D11_PRIMITIVE_TOPOLOGY type)
     DC->IASetVertexBuffers(0, 1, &buffer, &stride, &offset);
     DC->IASetPrimitiveTopology(type);
 }
+
+void VertexBuffer::Set(UINT slot, D3D11_PRIMITIVE_TOPOLOGY type)
+{
+    DC->IASetVertexBuffers(slot, 1, &buffer, &stride, &offset);
+    DC->IASetPrimitiveTopology(type);
+}

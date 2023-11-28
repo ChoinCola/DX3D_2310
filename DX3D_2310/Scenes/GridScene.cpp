@@ -9,6 +9,8 @@ GridScene::GridScene()
 	mesh->CreateMesh();
 
 	worldBuffer = new MatrixBuffer();
+
+    skyBox = new SkyBox(L"Textures/Landscape/Snow_ENV.dds");
 }
 
 GridScene::~GridScene()
@@ -16,6 +18,8 @@ GridScene::~GridScene()
 	delete material;
 	delete mesh;
 	delete worldBuffer;
+
+    delete skyBox;
 }
 
 void GridScene::Update()
@@ -28,6 +32,8 @@ void GridScene::PreRender()
 
 void GridScene::Render()
 {
+    skyBox->Render();
+
 	worldBuffer->SetVS(0);
 
 	material->Set();

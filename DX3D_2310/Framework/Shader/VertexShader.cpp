@@ -73,6 +73,18 @@ void VertexShader::CreateInputLayout()
         if (temp == "POSITION" && paramDesc.SemanticIndex == 0)
             elementDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
 
+        int n = temp.find_first_of("_"); // 시멘틱 이름에서 인스턴스 데이터는
+        // 인스턴스 _ 로 시작.
+        // _를 찾은뒤 앞까지 짜르면 인스턴스가 남음.
+
+        temp = temp.substr(0, n);
+        if (temp == "INSTANCE")
+        {
+            elementDesc.InputSlot = 1;
+            elementDesc.InputSlotClass = D3D11_INPUT_PER_INSTANCE_DATA;
+            elementDesc.InstanceDataStepRate = 1;
+        }
+
         inputLayouts.push_back(elementDesc);
     }
 

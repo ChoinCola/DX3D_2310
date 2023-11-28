@@ -8,6 +8,7 @@ public:
 	~Mesh();
 
 	void Draw(D3D11_PRIMITIVE_TOPOLOGY type = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	void DrawInstanced(UINT instanceCount, D3D11_PRIMITIVE_TOPOLOGY type = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	void CreateMesh();
 
@@ -45,6 +46,22 @@ inline void Mesh<T>::Draw(D3D11_PRIMITIVE_TOPOLOGY type)
 	else
 	{
 		DC->Draw(vertices.size(), 0);
+	}
+}
+
+template<typename T>
+inline void Mesh<T>::DrawInstanced(UINT instanceCount, D3D11_PRIMITIVE_TOPOLOGY type)
+{
+	vertexBuffer->Set(type);
+
+	if (indexBuffer)
+	{
+		indexBuffer->Set();
+		DC->DrawIndexedInstanced(indices.size(), instanceCount, 0, 0, 0);
+	}
+	else
+	{
+		DC->DrawInstanced(vertices.size(), instanceCount, 0, 0);
 	}
 }
 

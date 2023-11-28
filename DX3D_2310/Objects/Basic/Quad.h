@@ -9,6 +9,8 @@ public:
 	~Quad();
 
 	void Render();
+	void RenderInstanced(UINT count);
+
 	Float2 GetDaflatSize()
 	{
 		return size;

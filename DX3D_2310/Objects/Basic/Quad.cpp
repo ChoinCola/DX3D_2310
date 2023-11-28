@@ -28,10 +28,19 @@ Quad::~Quad()
 
 void Quad::Render()
 {
-	if (render) {
-		SetRender();
-		mesh->Draw();
-	}
+	if (!IsActive()) return;
+
+	SetRender();
+	mesh->Draw();
+
+}
+
+void Quad::RenderInstanced(UINT count)
+{
+	if (!IsActive()) return;
+
+	SetRender();
+	mesh->DrawInstanced(count);
 }
 
 bool Quad::CollisionChack(Vector3 inputpos)

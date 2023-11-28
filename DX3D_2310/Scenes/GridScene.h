@@ -24,4 +24,6 @@ private:
 	MatrixBuffer* worldBuffer;
 
 	UINT width, height;
+
+	SkyBox* skyBox;
 };

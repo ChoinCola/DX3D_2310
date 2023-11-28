@@ -5,23 +5,26 @@
 struct PixelInput
 {
 	float4 pos : SV_POSITION;
-	float2 uv : UV;
+	float3 originPos : POSITION;
 };
 
 PixelInput VS(VertexUV input)
 {
 	PixelInput output;
-	output.pos = mul(input.pos, world);
-	output.pos = mul(output.pos, view);
+	output.pos.xyz = mul(input.pos.xyz, (float3x3)view);
+	output.pos.w = 1.0f;
+	
 	output.pos = mul(output.pos, projection);
 	
-	output.uv = input.uv;
+	output.originPos = input.pos.xyz;
 	
 	return output;
 }
 
+TextureCube cubeMap : register(t10);
 
 float4 PS(PixelInput input) : SV_TARGET
 {
-	return diffuseMap.Sample(samp, input.uv) * mDiffuse;
+	return float4(cubeMap.Sample(samp, input.originPos).rgb, 1.0f);
+
 }

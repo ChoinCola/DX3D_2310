@@ -188,6 +188,7 @@ using namespace Utility;
 
 // Terrain Header
 #include "Objects/LandScape/Terrain.h"
+#include "Objects/LandScape/SkyBox.h"
 
 // Shooting Header
 //#include "Objects/Shooting/Item.h"
@@ -239,6 +240,8 @@ using namespace Utility;
 #include "Scenes/RaidScene.h"
 #include "Scenes/RPG.h"
 #include "Scenes/LightScene.h"
+#include "Scenes/InstancingScene.h"
+#include "Scenes/TopViewGame.h"
 
 extern HWND hWnd;
 extern Vector3 mousePos;

@@ -1,6 +1,14 @@
-//Tutorial.hlsl
+//TextureInstancing
 #include "../VertexHeader.hlsli"
 #include "../PixelHeader.hlsli"
+
+struct VertexInput
+{
+	float4 pos : POSITION;
+	float2 uv : UV;
+	
+	matrix transform : INSTANCE_TRANSFORM;
+};
 
 struct PixelInput
 {
@@ -8,10 +16,10 @@ struct PixelInput
 	float2 uv : UV;
 };
 
-PixelInput VS(VertexUV input)
+PixelInput VS(VertexInput input)
 {
 	PixelInput output;
-	output.pos = mul(input.pos, world);
+	output.pos = mul(input.pos, input.transform);
 	output.pos = mul(output.pos, view);
 	output.pos = mul(output.pos, projection);
 	

@@ -6,7 +6,6 @@ Monster::Monster()
     SetTag("Monster_collider");
     Load();
 
-
     bodyMesh = new ModelAnimator("Monster");
     bodyMesh->Load();
     bodyMesh->SetParent(this);
