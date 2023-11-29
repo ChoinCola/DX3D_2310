@@ -26,6 +26,8 @@ public:
 
 	void Update();
 	void Render();
+	void Render(VertexBuffer* input);
+
 	void GUIRender();
 
 	Transform* Add();
@@ -45,5 +47,4 @@ private:
 	FrameInstancingBuffer* frameInstancingBuffer;
 
 	UINT drawCount = 0;
-
 };

@@ -25,5 +25,5 @@ private:
 	map<pair<float, float>, VertexBuffer*> instanceBuffermap;
 	//VertexBuffer* instanceBuffer;
 
-	Model* model = nullptr;
+	ModelAnimatorInstancing* model = nullptr;
 };

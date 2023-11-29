@@ -3,7 +3,9 @@
 
 Trees::Trees()
 {
-	model = new Model("block0");
+	model = new ModelAnimatorInstancing("block0");
+	model->CreateTexture();
+
 	model->SetLocalScale(Vector3(0.05, 0.05, 0.05));
 	model->UpdateWorld();
 	model->SetShader(L"Model/ModelInstancing.hlsl");
@@ -71,6 +73,5 @@ void Trees::RenderTree(pair<float, float> nowpos)
 	if(instanceBuffermap.count(nowpos) <= 0)
 		instanceBuffermap[nowpos] = new VertexBuffer(treesmap[nowpos].data(), sizeof(Matrix), COUNT);
 
-	instanceBuffermap[nowpos]->Set(1);
-	model->RenderInstanced(COUNT);
+	model->Render(instanceBuffermap[nowpos]);
 }

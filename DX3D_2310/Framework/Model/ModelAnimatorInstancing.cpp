@@ -51,6 +51,15 @@ void ModelAnimatorInstancing::Render()
         mesh->RenderInstanced(drawCount);
 }
 
+void ModelAnimatorInstancing::Render(VertexBuffer* input)
+{
+    input->Set(1);
+    frameInstancingBuffer->SetVS(4);
+    DC->VSSetShaderResources(0, 1, &srv);
+
+    for (ModelMesh* mesh : meshes)
+        mesh->RenderInstanced(drawCount);
+}
 void ModelAnimatorInstancing::GUIRender()
 {
     ImGui::Text("DrawCount : %d", drawCount);
