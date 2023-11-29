@@ -21,9 +21,9 @@ private:
 	void RenderTree(pair<float, float> nowpos);
 
 private:
-	map<pair<float, float>, vector<Matrix>> treesmap;
+	map<pair<float, float>, vector<Vector3>> treesmap;
 	map<pair<float, float>, VertexBuffer*> instanceBuffermap;
 	//VertexBuffer* instanceBuffer;
 
-	ModelAnimatorInstancing* model = nullptr;
+	ModelAnimatorInstancingtoMap* model = nullptr;
 };

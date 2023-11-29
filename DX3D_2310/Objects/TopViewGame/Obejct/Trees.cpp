@@ -3,7 +3,8 @@
 
 Trees::Trees()
 {
-	model = new ModelAnimatorInstancing("block0");
+	model = new ModelAnimatorInstancing("Traveler");
+	model->ReadClip("Idle");
 	model->CreateTexture();
 
 	model->SetLocalScale(Vector3(0.05, 0.05, 0.05));
@@ -17,6 +18,7 @@ Trees::~Trees()
 
 void Trees::Update()
 {
+	model->Update();
 }
 
 void Trees::Render()
@@ -62,9 +64,7 @@ void Trees::MakeTree(pair<float, float> nowpos, Float2 size)
 		result.first = nowpos.first;
 		result.second = nowpos.second;
 
-		Matrix insret = XMMatrixTranslation(pos.x, pos.y, pos.z);
-		insret = XMMatrixTranspose(insret);
-		treesmap[result].push_back(insret); // 전치행렬화
+		treesmap[result].push_back(Vector3(pos.x, pos.y, pos.z)); // 전치행렬화
 	}
 }
 
@@ -73,5 +73,5 @@ void Trees::RenderTree(pair<float, float> nowpos)
 	if(instanceBuffermap.count(nowpos) <= 0)
 		instanceBuffermap[nowpos] = new VertexBuffer(treesmap[nowpos].data(), sizeof(Matrix), COUNT);
 
-	model->Render(instanceBuffermap[nowpos]);
+	model->RenderInstanced(instanceBuffermap[nowpos]);
 }

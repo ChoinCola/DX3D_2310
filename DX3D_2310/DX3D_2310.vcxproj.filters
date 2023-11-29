@@ -354,6 +354,18 @@
     <ClInclude Include="Objects\TopViewGame\_TopViewGamestruct.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Model\ModelAnimatorInstancing.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Model\ModelInstancing.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\ModelInstansingScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\TopViewGame\Obejct\ModelAnimatorInstancingtoMap.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2310.cpp">
@@ -608,6 +620,18 @@
     <ClCompile Include="Objects\TopViewGame\TopPlayer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\Model\ModelAnimatorInstancing.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Model\ModelInstancing.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\ModelInstansingScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\TopViewGame\Obejct\ModelAnimatorInstancingtoMap.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2310.rc">
@@ -632,6 +656,8 @@
     <FxCompile Include="Shaders\Instancing\TextureInstancing.hlsl" />
     <FxCompile Include="Shaders\LandScape\Skybox.hlsl" />
     <FxCompile Include="Shaders\Model\ModelInstancing.hlsl" />
+    <FxCompile Include="Shaders\Instancing\ModelAnimatorInstancing.hlsl" />
+    <FxCompile Include="Shaders\Instancing\ModelInstancing.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\Lib\DirectXTex.lib" />

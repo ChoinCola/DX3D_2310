@@ -248,6 +248,7 @@
     <ClInclude Include="Objects\TopViewGame\Map.h" />
     <ClInclude Include="Objects\TopViewGame\Master\ObejctMaster.h" />
     <ClInclude Include="Objects\TopViewGame\Master\MonsterMaster.h" />
+    <ClInclude Include="Objects\TopViewGame\Obejct\ModelAnimatorInstancingtoMap.h" />
     <ClInclude Include="Objects\TopViewGame\_TopViewGamestruct.h" />
     <ClInclude Include="Objects\TopViewGame\TopPlayer.h" />
     <ClInclude Include="Objects\TopViewGame\Obejct\Trees.h" />
@@ -343,6 +344,7 @@
     <ClCompile Include="Objects\Robot\Robot.cpp" />
     <ClCompile Include="Objects\Basic\UI\Button.cpp" />
     <ClCompile Include="Objects\TopViewGame\Map.cpp" />
+    <ClCompile Include="Objects\TopViewGame\Obejct\ModelAnimatorInstancingtoMap.cpp" />
     <ClCompile Include="Objects\TopViewGame\Obejct\Trees.cpp" />
     <ClCompile Include="Objects\TopViewGame\TopPlayer.cpp" />
     <ClCompile Include="Scenes\AnimationScene.cpp" />
