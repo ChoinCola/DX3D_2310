@@ -107,3 +107,9 @@ struct VertexUVNormalTangentBlend
     {
     }
 };
+
+struct InstanceData
+{
+    Matrix world = XMMatrixIdentity();
+    int index = 0;
+};

@@ -41,6 +41,7 @@ public:
 	void SetPivot(Vector3 pivot) { this->pivot = pivot; }
 	void SetTag(string tag) { this->tag = tag; }
 	void SetWorld(Matrix world) { this->world = world; }
+	Matrix GetWorld() { return world; }
 
 	Vector3 GetRight() const { return right.GetNormalized(); }
 	Vector3 GetLeft() const { return -right.GetNormalized(); }

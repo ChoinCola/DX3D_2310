@@ -23,7 +23,7 @@ ModelAnimator::~ModelAnimator()
 
 void ModelAnimator::Update()
 {
-    UpdateFrame();
+    UpdateFrame(frameBuffer->GetData());
     UpdateWorld();
 }
 
@@ -290,11 +290,9 @@ void ModelAnimator::CreateClipTransform(UINT index)
     }
 }
 
-void ModelAnimator::UpdateFrame()
+void ModelAnimator::UpdateFrame(Motion* motion)
 {
     if (!IsPlay) return;
-
-    Motion* motion = frameBuffer->GetData();
 
     {
         Frame* frame = &motion->cur;

@@ -1,4 +1,5 @@
 // VertexHeader.hlsli
+#define MAX_INSTANCE 256
 
 //VertexLayouts
 struct Vertex
@@ -48,6 +49,19 @@ struct VertexUVNormalTangentBlend
 	matrix transform : INSTANCE_TRANSFORM;
 };
 
+struct VertexInstancing
+{
+	float4 pos : POSITION;
+	float2 uv : UV;
+	float3 normal : NORMAL;
+	float3 tangent : TANGENT;
+	float4 indices : BLENDINDICES;
+	// 특정 본들, 본에 꼽혀있을 때, 어떤 본에 가중치를 줄 것인지 웨이트가 들어감.
+	float4 weights : BLENDWEIGHTS;
+	
+	matrix transform : INSTANCE_TRANSFORM;
+	int index : INSTANCE_INDEX;
+};
 ////////////////////////////////////////////////////
 
 cbuffer WordBuffer : register(b0)
@@ -89,6 +103,10 @@ cbuffer FrameBuffer : register(b3)
 	Motion motion;
 }
 
+cbuffer FrameInstancingBuffer : register(b4)
+{
+	Motion motions[MAX_INSTANCE];
+}
 Texture2DArray transformMap : register(t0);
 
 // 입력된 회전값을 쿼터니언값으로 반환하는 함수.
@@ -340,6 +358,70 @@ float4x4 MakeMatrix(float4 Scale, float4 Rotation, float4 Translation)
 	return mul(mul(translation, rotation), scale);
 }
 
+matrix SkinWorld(int instanceiIndex, float4 indices, float4 weights)
+{
+	Motion motion = motions[instanceiIndex];
+	
+	matrix transform = 0;
+	matrix cur, next;
+	
+	matrix curAnim, nextAnim;
+	
+	float4 c0, c1, c2, c3;
+	float4 n0, n1, n2, n3;
+	
+	[unroll(4)]
+	for (int i = 0; i < 4; i++)
+	{
+		int clip = motion.cur.clip;
+		int curFrame = motion.cur.curFrame;
+		
+		c0 = transformMap.Load(int4(indices[i] * 4 + 0, curFrame, clip, 0));
+		c1 = transformMap.Load(int4(indices[i] * 4 + 1, curFrame, clip, 0));
+		c2 = transformMap.Load(int4(indices[i] * 4 + 2, curFrame, clip, 0));
+		c3 = transformMap.Load(int4(indices[i] * 4 + 3, curFrame, clip, 0));
+		
+		cur = matrix(c0, c1, c2, c3);
+		
+		n0 = transformMap.Load(int4(indices[i] * 4 + 0, curFrame + 1, clip, 0));
+		n1 = transformMap.Load(int4(indices[i] * 4 + 1, curFrame + 1, clip, 0));
+		n2 = transformMap.Load(int4(indices[i] * 4 + 2, curFrame + 1, clip, 0));
+		n3 = transformMap.Load(int4(indices[i] * 4 + 3, curFrame + 1, clip, 0));
+		
+		next = matrix(n0, n1, n2, n3);
+		
+		curAnim = lerp(cur, next, motion.cur.time);
+		
+		clip = motion.next.clip;
+		curFrame = motion.next.curFrame;
+		
+		[flatten]
+		if (clip > -1)
+		{
+			c0 = transformMap.Load(int4(indices[i] * 4 + 0, curFrame, clip, 0));
+			c1 = transformMap.Load(int4(indices[i] * 4 + 1, curFrame, clip, 0));
+			c2 = transformMap.Load(int4(indices[i] * 4 + 2, curFrame, clip, 0));
+			c3 = transformMap.Load(int4(indices[i] * 4 + 3, curFrame, clip, 0));
+		
+			cur = matrix(c0, c1, c2, c3);
+		
+			n0 = transformMap.Load(int4(indices[i] * 4 + 0, curFrame + 1, clip, 0));
+			n1 = transformMap.Load(int4(indices[i] * 4 + 1, curFrame + 1, clip, 0));
+			n2 = transformMap.Load(int4(indices[i] * 4 + 2, curFrame + 1, clip, 0));
+			n3 = transformMap.Load(int4(indices[i] * 4 + 3, curFrame + 1, clip, 0));
+		
+			next = matrix(n0, n1, n2, n3);
+		
+			nextAnim = lerp(cur, next, motion.next.time);
+			
+			curAnim = lerp(curAnim, nextAnim, motion.tweenTime);
+		}
+		
+		transform += mul(weights[i], curAnim);
+	}
+	
+	return transform;
+}
 
 // 'SkinWorld' 함수 정의: float4 형식의 'indices'와 'weights' 매개변수를 받음
 matrix SkinWorld(float4 indices, float4 weights)

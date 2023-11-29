@@ -5,8 +5,6 @@ class ModelAnimator : public Model
 {
 protected:
 	// ClipTransform 구조체: 각 프레임 및 본에 대한 변환 매트릭스를 저장하는 구조체
-
-
 	struct ClipTransform
 	{
 		Matrix transform[MAX_FRAME][MAX_BONE]; // 각 프레임 및 본에 대한 변환 매트릭스 배열
@@ -76,7 +74,7 @@ public:
 protected:
 	// 클립 변환 생성 함수: 지정된 인덱스에 대한 클립 변환 매트릭스 생성
 	void CreateClipTransform(UINT index);
-	void UpdateFrame();
+	void UpdateFrame(Motion* motion);
 
 protected:
 	vector<ModelClip*> clips; // 모델 클립들을 저장하는 벡터

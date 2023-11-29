@@ -68,8 +68,9 @@ void Trees::MakeTree(pair<float, float> nowpos, Float2 size)
 
 void Trees::RenderTree(pair<float, float> nowpos)
 {
-	instanceBuffer = new VertexBuffer(treesmap[nowpos].data(), sizeof(Matrix), COUNT);
-	instanceBuffer->Set(1);
+	if(instanceBuffermap.count(nowpos) <= 0)
+		instanceBuffermap[nowpos] = new VertexBuffer(treesmap[nowpos].data(), sizeof(Matrix), COUNT);
+
+	instanceBuffermap[nowpos]->Set(1);
 	model->RenderInstanced(COUNT);
-	delete instanceBuffer;
 }

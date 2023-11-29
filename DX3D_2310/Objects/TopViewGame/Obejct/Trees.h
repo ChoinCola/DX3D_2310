@@ -22,7 +22,8 @@ private:
 
 private:
 	map<pair<float, float>, vector<Matrix>> treesmap;
-	VertexBuffer* instanceBuffer;
+	map<pair<float, float>, VertexBuffer*> instanceBuffermap;
+	//VertexBuffer* instanceBuffer;
 
 	Model* model = nullptr;
 };

@@ -10,6 +10,7 @@ void Transform::GUIRender()
 	if (ImGui::TreeNode((tag + "_Tarnsform").c_str()))
 		// 묶어주는 기능
 	{
+		ImGui::Checkbox("IsActive", &isActive);
 		string temp = tag + "_Pos";
 		ImGui::DragFloat3(temp.c_str(), (float*)&localPosition, 0.1f);
 
