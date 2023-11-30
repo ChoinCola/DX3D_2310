@@ -10,5 +10,5 @@ public:
 
 	void Fire(Vector3 pos, Vector3 direction);
 private:
-,	Transform* meshtransform;
+	Transform* meshtransform;
 };

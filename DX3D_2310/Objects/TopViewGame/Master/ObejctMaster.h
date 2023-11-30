@@ -29,6 +29,6 @@ private:
 	map<pair<float, float>, vector<Transform>> treesmap;
 	map<pair<float, float>, vector<Transform>> grasssmap;
 
-	ModelInstancing* tree = nullptr;
-	ModelInstancing* grass = nullptr;
+	Tree* tree = nullptr;
+	Grass* grass = nullptr;
 };
