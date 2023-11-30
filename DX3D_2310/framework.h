@@ -211,15 +211,20 @@ using namespace Utility;
 #include "Objects/MincraftObject/Steve.h"
 #include "Objects/MincraftObject/BlockIcon.h"
 #include "Objects/MincraftObject/Seller.h"
+
 #include "Objects/Raid/Sword.h"
 #include "Objects/Raid/UI/HPbar.h"
 #include "Objects/Raid/Traveler.h"
 #include "Objects/Raid/Monster.h"
+#include "Objects/Raid/TopviewTraveler.h"
+#include "Objects/Raid/FireBall.h"
+#include "Objects/Raid/FireBallManager.h"
+
 
 
 // TopViewGame Header
-#include "Objects/TopViewGame/Obejct/ModelAnimatorInstancingtoMap.h"
 #include "Objects/TopViewGame/_TopViewGamestruct.h"
+#include "Objects/TopViewGame/Obejct/Tree.h"
 #include "Objects/TopViewGame/Obejct/Grass.h"
 #include "Objects/TopViewGame/Obejct/Trees.h"
 #include "Objects/TopViewGame/Monster/TopMonster.h"
@@ -250,7 +255,7 @@ using namespace Utility;
 #include "Scenes/RaidScene.h"
 #include "Scenes/LightScene.h"
 #include "Scenes/InstancingScene.h"
-#include "Scenes/TopViewGame.h"
+//#include "Scenes/TopViewGame.h"
 #include "Scenes/ModelInstansingScene.h"
 
 extern HWND hWnd;

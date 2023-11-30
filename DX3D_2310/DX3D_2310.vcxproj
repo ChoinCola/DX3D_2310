@@ -237,21 +237,24 @@
     <ClInclude Include="Objects\MincraftObject\shopUI.h" />
     <ClInclude Include="Objects\MincraftObject\Steve.h" />
     <ClInclude Include="Objects\MincraftObject\UIManager.h" />
+    <ClInclude Include="Objects\Raid\FireBall.h" />
+    <ClInclude Include="Objects\Raid\FireBallManager.h" />
     <ClInclude Include="Objects\Raid\Monster.h" />
     <ClInclude Include="Objects\Raid\Sword.h" />
+    <ClInclude Include="Objects\Raid\TopviewTraveler.h" />
     <ClInclude Include="Objects\Raid\Traveler.h" />
     <ClInclude Include="Objects\Raid\UI\HPbar.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
     <ClInclude Include="Objects\Basic\UI\Button.h" />
+    <ClInclude Include="Objects\TopViewGame\Map.h" />
     <ClInclude Include="Objects\TopViewGame\Monster\TopMonster.h" />
     <ClInclude Include="Objects\TopViewGame\Obejct\Grass.h" />
-    <ClInclude Include="Objects\TopViewGame\Map.h" />
     <ClInclude Include="Objects\TopViewGame\Master\ObejctMaster.h" />
     <ClInclude Include="Objects\TopViewGame\Master\MonsterMaster.h" />
-    <ClInclude Include="Objects\TopViewGame\Obejct\ModelAnimatorInstancingtoMap.h" />
-    <ClInclude Include="Objects\TopViewGame\_TopViewGamestruct.h" />
-    <ClInclude Include="Objects\TopViewGame\TopPlayer.h" />
+    <ClInclude Include="Objects\TopViewGame\Obejct\Tree.h" />
     <ClInclude Include="Objects\TopViewGame\Obejct\Trees.h" />
+    <ClInclude Include="Objects\TopViewGame\TopPlayer.h" />
+    <ClInclude Include="Objects\TopViewGame\_TopViewGamestruct.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\AnimationScene.h" />
     <ClInclude Include="Scenes\BoxPlayDemo.h" />
@@ -266,7 +269,6 @@
     <ClInclude Include="Scenes\RaidScene.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\TerrainScene.h" />
-    <ClInclude Include="Scenes\TopViewGame.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -337,14 +339,16 @@
     <ClCompile Include="Objects\MincraftObject\shopUI.cpp" />
     <ClCompile Include="Objects\MincraftObject\Steve.cpp" />
     <ClCompile Include="Objects\MincraftObject\UIManager.cpp" />
+    <ClCompile Include="Objects\Raid\FireBall.cpp" />
+    <ClCompile Include="Objects\Raid\FireBallManager.cpp" />
     <ClCompile Include="Objects\Raid\Monster.cpp" />
     <ClCompile Include="Objects\Raid\Sword.cpp" />
+    <ClCompile Include="Objects\Raid\TopviewTraveler.cpp" />
     <ClCompile Include="Objects\Raid\Traveler.cpp" />
     <ClCompile Include="Objects\Raid\UI\HPbar.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />
     <ClCompile Include="Objects\Basic\UI\Button.cpp" />
     <ClCompile Include="Objects\TopViewGame\Map.cpp" />
-    <ClCompile Include="Objects\TopViewGame\Obejct\ModelAnimatorInstancingtoMap.cpp" />
     <ClCompile Include="Objects\TopViewGame\Obejct\Trees.cpp" />
     <ClCompile Include="Objects\TopViewGame\TopPlayer.cpp" />
     <ClCompile Include="Scenes\AnimationScene.cpp" />
@@ -359,7 +363,6 @@
     <ClCompile Include="Scenes\ModelRenderScene.cpp" />
     <ClCompile Include="Scenes\RaidScene.cpp" />
     <ClCompile Include="Scenes\TerrainScene.cpp" />
-    <ClCompile Include="Scenes\TopViewGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2310.rc" />

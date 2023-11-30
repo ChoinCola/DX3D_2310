@@ -12,8 +12,8 @@ public:
     void GUIRender() override;
 
 private:
-    Traveler* traveler;
-    Monster* monster;
+    TopviewTraveler* traveler;
+    //Monster* monster;
 
-    Terrain* terrain;
+    //Terrain* terrain;
 };

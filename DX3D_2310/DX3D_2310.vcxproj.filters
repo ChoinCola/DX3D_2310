@@ -327,19 +327,7 @@
     <ClInclude Include="Objects\LandScape\SkyBox.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\TopViewGame\Map.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\TopViewGame\TopPlayer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects\TopViewGame\Obejct\Trees.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Objects\TopViewGame\Obejct\Grass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Scenes\TopViewGame.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Objects\TopViewGame\Master\MonsterMaster.h">
@@ -351,9 +339,6 @@
     <ClInclude Include="Objects\TopViewGame\Monster\TopMonster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\TopViewGame\_TopViewGamestruct.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Model\ModelAnimatorInstancing.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -363,7 +348,28 @@
     <ClInclude Include="Scenes\ModelInstansingScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\TopViewGame\Obejct\ModelAnimatorInstancingtoMap.h">
+    <ClInclude Include="Objects\Raid\TopviewTraveler.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Raid\FireBall.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Raid\FireBallManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\TopViewGame\_TopViewGamestruct.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\TopViewGame\Map.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\TopViewGame\TopPlayer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\TopViewGame\Obejct\Trees.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\TopViewGame\Obejct\Tree.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -608,18 +614,6 @@
     <ClCompile Include="Objects\LandScape\SkyBox.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Scenes\TopViewGame.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\TopViewGame\Obejct\Trees.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\TopViewGame\Map.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects\TopViewGame\TopPlayer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Model\ModelAnimatorInstancing.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -629,7 +623,22 @@
     <ClCompile Include="Scenes\ModelInstansingScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\TopViewGame\Obejct\ModelAnimatorInstancingtoMap.cpp">
+    <ClCompile Include="Objects\Raid\TopviewTraveler.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Raid\FireBall.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Raid\FireBallManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\TopViewGame\Map.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\TopViewGame\TopPlayer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\TopViewGame\Obejct\Trees.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -3,23 +3,42 @@
 ModelMesh::ModelMesh(string name) : name(name)
 {
     data.name = name;
+    blendState[0] = new BlendState();
+    blendState[1] = new BlendState();
+
+    rasterizerstate[0] = new RasterizerState();
+    rasterizerstate[1] = new RasterizerState();
 }
 
 ModelMesh::~ModelMesh()
 {
+    delete blendState;
+    delete rasterizerstate;
 	delete mesh;
 }
 
 void ModelMesh::Render()
 {
 	material->Set();
+    
+    blendState[1]->SetState();
+    rasterizerstate[1]->SetState();
 	mesh->Draw();
+
+    blendState[0]->SetState();
+    rasterizerstate[0]->SetState();
+
 }
 
 void ModelMesh::RenderInstanced(UINT count)
 {
     material->Set();
+    blendState[1]->SetState();
+    rasterizerstate[1]->SetState();
     mesh->DrawInstanced(count);
+    blendState[0]->SetState();
+    rasterizerstate[0]->SetState();
+
 }
 
 void ModelMesh::CreateMesh(void* vertices, UINT vertexCount, void* indices, UINT indexCount)
