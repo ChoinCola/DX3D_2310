@@ -13,7 +13,6 @@ FireBall::FireBall(Transform* transform) : meshtransform(transform)
 
 FireBall::~FireBall()
 {
-	delete meshtransform;
 }
 
 void FireBall::Update()

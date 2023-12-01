@@ -32,7 +32,7 @@ void TopviewTraveler::Update()
 void TopviewTraveler::Render()
 {
     bodyMesh->Render();
-    //__super::Render();
+    __super::Render();
 }
 
 void TopviewTraveler::GUIRender()

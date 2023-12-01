@@ -220,6 +220,13 @@ using namespace Utility;
 #include "Objects/Raid/FireBall.h"
 #include "Objects/Raid/FireBallManager.h"
 
+#include "Objects/Raid/MonsterAction.h"
+#include "Objects/Raid/MonsterPatrol.h"
+#include "Objects/Raid/MonsterTrace.h"
+
+#include "Objects/Raid/TopViewMonster.h"
+#include "Objects/Raid/MonsterManager.h"
+
 
 
 // TopViewGame Header

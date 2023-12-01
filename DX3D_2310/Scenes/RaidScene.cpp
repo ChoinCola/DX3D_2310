@@ -10,6 +10,8 @@ RaidScene::RaidScene()
 
 	//terrain = new Terrain(L"Textures/HeightMaps/Miro.png", 1.0f, true);
 	FireBallManager::Get();
+	MonsterManager::Get();
+	MonsterManager::Get()->SetTarget(traveler);
 	CAM->SetTarget(traveler);
 	CAM->TargetOptionLoad("Survival");
 }
@@ -21,6 +23,8 @@ RaidScene::~RaidScene()
 	//delete terrain;
 
 	FireBallManager::Delete();
+
+	MonsterManager::Delete();
 }
 
 void RaidScene::Update()
@@ -28,6 +32,7 @@ void RaidScene::Update()
 	traveler->Update();
 	//monster->Update();
 	FireBallManager::Get()->Update();
+	MonsterManager::Get()->Update();
 }
 
 void RaidScene::PreRender()
@@ -40,6 +45,7 @@ void RaidScene::Render()
 	//terrain->Render();
 	//monster->Render();
 	FireBallManager::Get()->Render();
+	MonsterManager::Get()->Render();
 }
 
 void RaidScene::PostRender()
@@ -51,5 +57,6 @@ void RaidScene::GUIRender()
 {
 	traveler->GUIRender();
 	//monster->GUIRender();
-	FireBallManager::Get()->GUIRender();
+	//FireBallManager::Get()->GUIRender();
+	MonsterManager::Get()->GUIRender();
 }

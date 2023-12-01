@@ -240,7 +240,12 @@
     <ClInclude Include="Objects\Raid\FireBall.h" />
     <ClInclude Include="Objects\Raid\FireBallManager.h" />
     <ClInclude Include="Objects\Raid\Monster.h" />
+    <ClInclude Include="Objects\Raid\MonsterAction.h" />
+    <ClInclude Include="Objects\Raid\MonsterManager.h" />
+    <ClInclude Include="Objects\Raid\MonsterPatrol.h" />
+    <ClInclude Include="Objects\Raid\MonsterTrace.h" />
     <ClInclude Include="Objects\Raid\Sword.h" />
+    <ClInclude Include="Objects\Raid\TopViewMonster.h" />
     <ClInclude Include="Objects\Raid\TopviewTraveler.h" />
     <ClInclude Include="Objects\Raid\Traveler.h" />
     <ClInclude Include="Objects\Raid\UI\HPbar.h" />
@@ -341,7 +346,12 @@
     <ClCompile Include="Objects\Raid\FireBall.cpp" />
     <ClCompile Include="Objects\Raid\FireBallManager.cpp" />
     <ClCompile Include="Objects\Raid\Monster.cpp" />
+    <ClCompile Include="Objects\Raid\MonsterAction.cpp" />
+    <ClCompile Include="Objects\Raid\MonsterManager.cpp" />
+    <ClCompile Include="Objects\Raid\MonsterPatrol.cpp" />
+    <ClCompile Include="Objects\Raid\MonsterTrace.cpp" />
     <ClCompile Include="Objects\Raid\Sword.cpp" />
+    <ClCompile Include="Objects\Raid\TopViewMonster.cpp" />
     <ClCompile Include="Objects\Raid\TopviewTraveler.cpp" />
     <ClCompile Include="Objects\Raid\Traveler.cpp" />
     <ClCompile Include="Objects\Raid\UI\HPbar.cpp" />

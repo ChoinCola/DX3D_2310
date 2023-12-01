@@ -26,7 +26,7 @@ FireBallManager::~FireBallManager()
 
     // FireBall 객체들을 순회하면서 메모리에서 해제합니다.
     for (FireBall* fireBall : fireBalls)
-        delete fireBall;
+        SAFE_DELETE(fireBall);
 }
 
 // FireBallManager 클래스의 업데이트 함수

@@ -12,9 +12,13 @@ ModelMesh::ModelMesh(string name) : name(name)
 
 ModelMesh::~ModelMesh()
 {
-    delete[] blendState;
-    delete[] rasterizerstate;
 	delete mesh;
+
+    //delete blendState[0];
+    //delete blendState[1];
+
+    //delete rasterizerstate[0];
+    //delete rasterizerstate[1];
 }
 
 void ModelMesh::Render()
