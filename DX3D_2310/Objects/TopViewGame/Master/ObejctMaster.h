@@ -1,6 +1,6 @@
 #pragma once
 
-class ObjectMaster : public Singleton<Trees>
+class ObjectMaster : public Singleton<ObjectMaster>
 {
 private:
 	const UINT COUNT = 100;
@@ -30,5 +30,5 @@ private:
 	map<pair<float, float>, vector<Transform>> grasssmap;
 
 	Tree* tree = nullptr;
-	Grass* grass = nullptr;
+	//Grass* grass = nullptr;
 };

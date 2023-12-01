@@ -12,8 +12,8 @@ ModelMesh::ModelMesh(string name) : name(name)
 
 ModelMesh::~ModelMesh()
 {
-    delete blendState;
-    delete rasterizerstate;
+    delete[] blendState;
+    delete[] rasterizerstate;
 	delete mesh;
 }
 

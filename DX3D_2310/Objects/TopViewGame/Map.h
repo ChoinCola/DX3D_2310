@@ -21,7 +21,6 @@ private:
 
 private:
 	vector<Terrain*> map;
-	Trees* trees;
 	Collider* player;
 	Float2 defaltsize;
 };

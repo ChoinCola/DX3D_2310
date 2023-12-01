@@ -5,7 +5,6 @@ Map::Map(Collider* player, Float2 size) : player(player)
 {
 	map.reserve(9);
 	MakeTerrain();
-	trees = new Trees();
 }
 
 Map::~Map()
@@ -27,7 +26,6 @@ void Map::Render()
 	for (auto& def : map) {
 		def->Render();
 		pair<float, float> input(def->GetLocalPosition().x, def->GetLocalPosition().z);
-		trees->RenderTerraintoTree(input, defaltsize);
 	}
 }
 
