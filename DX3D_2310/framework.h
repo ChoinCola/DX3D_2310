@@ -231,6 +231,7 @@ using namespace Utility;
 
 // TopViewGame Header
 #include "Objects/TopViewGame/_TopViewGamestruct.h"
+#include "Objects/TopViewGame/Master/Object.h"
 #include "Objects/TopViewGame/Obejct/Tree.h"
 #include "Objects/TopViewGame/Obejct/Grass.h"
 #include "Objects/TopViewGame/Monster/TopMonster.h"

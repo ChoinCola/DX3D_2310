@@ -252,6 +252,7 @@
     <ClInclude Include="Objects\Robot\Robot.h" />
     <ClInclude Include="Objects\Basic\UI\Button.h" />
     <ClInclude Include="Objects\TopViewGame\Map.h" />
+    <ClInclude Include="Objects\TopViewGame\Master\Object.h" />
     <ClInclude Include="Objects\TopViewGame\Monster\TopMonster.h" />
     <ClInclude Include="Objects\TopViewGame\Obejct\Grass.h" />
     <ClInclude Include="Objects\TopViewGame\Master\ObejctMaster.h" />
@@ -358,6 +359,7 @@
     <ClCompile Include="Objects\Robot\Robot.cpp" />
     <ClCompile Include="Objects\Basic\UI\Button.cpp" />
     <ClCompile Include="Objects\TopViewGame\Map.cpp" />
+    <ClCompile Include="Objects\TopViewGame\Obejct\Tree.cpp" />
     <ClCompile Include="Objects\TopViewGame\TopPlayer.cpp" />
     <ClCompile Include="Scenes\AnimationScene.cpp" />
     <ClCompile Include="Scenes\BoxPlayDemo.cpp" />
