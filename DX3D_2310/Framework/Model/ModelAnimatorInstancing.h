@@ -32,6 +32,7 @@ public:
 
 	Transform* Add();
 
+	void SetTransforms(vector<Transform*>* transform);
 	void PlayClip(UINT instanceInex, int clip, float scale = 1.0f, float takeTime = 0.1f);
 
 	Motion* GetMotion(UINT instanceIndex)
@@ -41,6 +42,7 @@ public:
 
 private:
 	vector<Transform*> transforms;
+	vector<Transform*>* inputTransforms = nullptr;
 	InstanceData instanceDatas[MAX_INSTANCE];
 
 	VertexBuffer* instanceBuffer;

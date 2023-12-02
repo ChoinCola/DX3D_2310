@@ -3,7 +3,7 @@
 // TopViewMonster 클래스는 Object를 상속받아 Object 기본 동작을 정의합니다.
 class Tree : public Object
 {
-private:
+public:
     // 나무의 상태를 표현하는 열거형
     enum ActionState
     {
@@ -27,10 +27,10 @@ public:
     // 나무의 정보를 GUI로 렌더링하는 함수
     void GUIRender();
 
-private:
     // 나무의 행동 상태를 설정하는 함수
-    void SetAction(ActionState state);
+    void SetAction(UINT state);
 
+private:
     // 나무의 순찰 동작을 처리하는 함수
     void idle();
 

@@ -15,7 +15,7 @@
 #define MAX_LIGHT 100
 #define MAX_BONE 256
 #define MAX_FRAME 256
-#define MAX_INSTANCE 500
+#define MAX_INSTANCE 256
 
 #define DEVICE		Device::Get()->GetDevice()
 #define DC			Device::Get()->GetDeviceContext()

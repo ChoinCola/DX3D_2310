@@ -359,6 +359,8 @@
     <ClCompile Include="Objects\Robot\Robot.cpp" />
     <ClCompile Include="Objects\Basic\UI\Button.cpp" />
     <ClCompile Include="Objects\TopViewGame\Map.cpp" />
+    <ClCompile Include="Objects\TopViewGame\Master\ObejctMaster.cpp" />
+    <ClCompile Include="Objects\TopViewGame\Obejct\Grass.cpp" />
     <ClCompile Include="Objects\TopViewGame\Obejct\Tree.cpp" />
     <ClCompile Include="Objects\TopViewGame\TopPlayer.cpp" />
     <ClCompile Include="Scenes\AnimationScene.cpp" />

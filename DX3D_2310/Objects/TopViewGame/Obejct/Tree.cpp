@@ -20,7 +20,7 @@ void Tree::GUIRender()
 {
 }
 
-void Tree::SetAction(ActionState state)
+void Tree::SetAction(UINT state)
 {
 }
 

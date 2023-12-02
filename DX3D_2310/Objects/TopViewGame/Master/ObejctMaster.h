@@ -3,9 +3,12 @@
 // MonsterManager 클래스는 Singleton 패턴을 따르며 게임 내 몬스터를 관리하는 역할을 수행합니다.
 class ObjectMaster : public Singleton<ObjectMaster>
 {
+
+    const UINT Treecount = 5;
+    const UINT Grasscount = 100;
 private:
     // Object 풀의 크기를 나타내는 상수
-    const UINT POOL_SIZE = 100;
+    const UINT POOL_SIZE = 1800;
     // Object 생성 위치의 범위를 나타내는 상수
     const float SPAWN_RANGE = 20.0f;
 
@@ -26,6 +29,9 @@ public:
     // Object 렌더링을 처리하는 함수
     void Render();
 
+    void Rendermap(pair<float, float> inputpos, Float2 size);
+    void Collisionmap(pair<float, float> inputpos, Collider* input);
+    void AnimUpdatToemap(pair<float, float> inputpos);
     // GUI에서 몬스터 정보를 렌더링하는 함수
     void GUIRender();
 
@@ -36,9 +42,17 @@ public:
     // Object 매니저의 대상(Transform)을 반환하는 함수
     Transform* GetTarget() { return target; }
 
+    void ColliderRender(pair<float, float> inputpos);
+
 private:
     // Object 생성을 처리하는 내부 함수
     void Spawn();
+
+    void MakeTree(pair<float, float> input, Float2 size);
+    void MakeGrass(pair<float, float> input, Float2 size);
+
+    template<typename T>
+    vector<Transform*> RemakeTransform(vector<T>* input);
 
 private:
     // Object 인스턴싱에 사용되는 3D 모델 애니메이터
@@ -47,6 +61,27 @@ private:
     // Ojbect 객체를 저장하는 벡터 컨테이너
     vector<Object*> monsters;
 
+    map<pair<float, float>, vector<Object*>> TreePos;
+    ModelAnimatorInstancing* Trees;
+
+    map<pair<float, float>, vector<Object*>> GrassPos;
+    ModelAnimatorInstancing* Grasses;
+
     // Object 대상(Transform)
     Transform* target;
 };
+
+template<typename T>
+inline vector<Transform*> ObjectMaster::RemakeTransform(vector<T>* input)
+{
+    vector<Transform*> result;
+    result.reserve(input.size());  // 최적화: result 벡터의 크기를 미리 예약
+
+    for (const auto& element : input) {
+        // Transform 클래스에 대한 변환 로직을 구현해야 함
+        Transform* transformedElement = element;
+        result.push_back(transformedElement);
+    }
+
+    return result;
+}

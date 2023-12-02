@@ -1,4 +1,5 @@
 #include "Framework.h"
+#include "ModelAnimatorInstancing.h"
 
 ModelAnimatorInstancing::ModelAnimatorInstancing(string name)
     : ModelAnimator(name)
@@ -23,6 +24,26 @@ ModelAnimatorInstancing::~ModelAnimatorInstancing()
 void ModelAnimatorInstancing::Update()
 {
     drawCount = 0;
+
+    if (inputTransforms != nullptr)
+    {
+        FOR(inputTransforms->size())
+        {
+            if ((*inputTransforms)[i]->IsActive())
+            {
+                UpdateFrame(&frameInstancingBuffer->GetData()->motions[i]);
+                (*inputTransforms)[i]->UpdateWorld();
+                instanceDatas[drawCount].world =
+                    XMMatrixTranspose(transforms[i]->GetWorld());
+                instanceDatas[drawCount].index = i;
+
+                drawCount++;
+            }
+        }
+        instanceBuffer->Update(instanceDatas, drawCount);
+        return;
+    }
+
 
     FOR(transforms.size())
     {
@@ -75,6 +96,12 @@ Transform* ModelAnimatorInstancing::Add()
     transforms.push_back(transform);
 
     return transform;
+}
+
+
+void ModelAnimatorInstancing::SetTransforms(vector<Transform*>* transform)
+{
+    inputTransforms = transform;
 }
 
 void ModelAnimatorInstancing::PlayClip(UINT instanceInex, int clip, float scale, float takeTime)
