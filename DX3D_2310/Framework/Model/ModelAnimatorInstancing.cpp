@@ -25,16 +25,16 @@ void ModelAnimatorInstancing::Update()
 {
     drawCount = 0;
 
-    if (inputTransforms != nullptr)
+    if (inputTransforms.size() != 0)
     {
-        FOR(inputTransforms->size())
+        FOR(inputTransforms.size())
         {
-            if ((*inputTransforms)[i]->IsActive())
+            if (inputTransforms[i]->IsActive())
             {
                 UpdateFrame(&frameInstancingBuffer->GetData()->motions[i]);
-                (*inputTransforms)[i]->UpdateWorld();
+                inputTransforms[i]->UpdateWorld();
                 instanceDatas[drawCount].world =
-                    XMMatrixTranspose(transforms[i]->GetWorld());
+                    XMMatrixTranspose(inputTransforms[i]->GetWorld());
                 instanceDatas[drawCount].index = i;
 
                 drawCount++;
@@ -85,6 +85,7 @@ void ModelAnimatorInstancing::GUIRender()
 {
     ImGui::Text("DrawCount : %d", drawCount);
 
+    ModelAnimator::GUIRender();
     for (Transform* transform : transforms)
         transform->GUIRender();
 }
@@ -93,15 +94,41 @@ Transform* ModelAnimatorInstancing::Add()
 {
     Transform* transform = new Transform();
     transform->SetTag(name + "_" + to_string(transforms.size()));
-    transforms.push_back(transform);
 
+    //FOR(transforms.size())
+    //    if (!transforms[i]->IsActive())
+    //    {
+    //        delete transforms[i];
+    //        transforms[i] = transform;
+    //        LastInputnum = i;
+
+    //        return transform;
+    //    }
+
+    transforms.push_back(transform);
+    LastInputnum = transforms.size() - 1;
     return transform;
 }
 
-
-void ModelAnimatorInstancing::SetTransforms(vector<Transform*>* transform)
+void ModelAnimatorInstancing::TransformUnActive(UINT input)
 {
-    inputTransforms = transform;
+    transforms[input]->SetActive(false);
+}
+
+UINT ModelAnimatorInstancing::GetLastObjectNum()
+{
+    return LastInputnum;
+}
+
+
+void ModelAnimatorInstancing::SetTransforms(vector<Transform*> transform)
+{
+    inputTransforms.resize(0);
+    inputTransforms.reserve(transform.size());
+
+    for (auto& def : transform) {
+        inputTransforms.emplace_back(def);
+    }
 }
 
 void ModelAnimatorInstancing::PlayClip(UINT instanceInex, int clip, float scale, float takeTime)
@@ -110,4 +137,9 @@ void ModelAnimatorInstancing::PlayClip(UINT instanceInex, int clip, float scale,
     frameInstancingBuffer->GetData()->motions[instanceInex].next.scale = scale;
     frameInstancingBuffer->GetData()->motions[instanceInex].takeTime = takeTime;
     frameInstancingBuffer->GetData()->motions[instanceInex].runningTime = 0.0f;
+}
+
+UINT ModelAnimatorInstancing::GetPlayClip(UINT instanceInex)
+{
+    return frameInstancingBuffer->GetData()->motions[instanceInex].cur.clip;
 }

@@ -4,8 +4,8 @@
 class ObjectMaster : public Singleton<ObjectMaster>
 {
 
-    const UINT Treecount = 5;
-    const UINT Grasscount = 100;
+    const UINT Treecount = 1;
+    const UINT Grasscount = 30;
 private:
     // Object 풀의 크기를 나타내는 상수
     const UINT POOL_SIZE = 1800;
@@ -32,6 +32,7 @@ public:
     void Rendermap(pair<float, float> inputpos, Float2 size);
     void Collisionmap(pair<float, float> inputpos, Collider* input);
     void AnimUpdatToemap(pair<float, float> inputpos);
+    void OutputmapToObject(pair<float, float> input);
     // GUI에서 몬스터 정보를 렌더링하는 함수
     void GUIRender();
 
@@ -43,6 +44,7 @@ public:
     Transform* GetTarget() { return target; }
 
     void ColliderRender(pair<float, float> inputpos);
+    void GUIRendermap(pair<float, float> inputpos);
 
 private:
     // Object 생성을 처리하는 내부 함수
@@ -50,9 +52,10 @@ private:
 
     void MakeTree(pair<float, float> input, Float2 size);
     void MakeGrass(pair<float, float> input, Float2 size);
+    
+    void inputTransform(Object* input, ModelAnimatorInstancing* output);
 
-    template<typename T>
-    vector<Transform*> RemakeTransform(vector<T>* input);
+    void RemakeTransform(vector<Object*> input, vector<Transform*>& output);
 
 private:
     // Object 인스턴싱에 사용되는 3D 모델 애니메이터
@@ -69,19 +72,7 @@ private:
 
     // Object 대상(Transform)
     Transform* target;
+
+    int clip = 0;
+    int instanceIndex = 0;
 };
-
-template<typename T>
-inline vector<Transform*> ObjectMaster::RemakeTransform(vector<T>* input)
-{
-    vector<Transform*> result;
-    result.reserve(input.size());  // 최적화: result 벡터의 크기를 미리 예약
-
-    for (const auto& element : input) {
-        // Transform 클래스에 대한 변환 로직을 구현해야 함
-        Transform* transformedElement = element;
-        result.push_back(transformedElement);
-    }
-
-    return result;
-}

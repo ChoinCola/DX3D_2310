@@ -31,9 +31,11 @@ public:
 	void GUIRender();
 
 	Transform* Add();
-
-	void SetTransforms(vector<Transform*>* transform);
+	void TransformUnActive(UINT input);
+	UINT GetLastObjectNum();
+	void SetTransforms(vector<Transform*> transform);
 	void PlayClip(UINT instanceInex, int clip, float scale = 1.0f, float takeTime = 0.1f);
+	UINT GetPlayClip(UINT instanceInex);
 
 	Motion* GetMotion(UINT instanceIndex)
 	{
@@ -42,11 +44,13 @@ public:
 
 private:
 	vector<Transform*> transforms;
-	vector<Transform*>* inputTransforms = nullptr;
+	vector<Transform*> inputTransforms;
 	InstanceData instanceDatas[MAX_INSTANCE];
 
 	VertexBuffer* instanceBuffer;
 	FrameInstancingBuffer* frameInstancingBuffer;
 
 	UINT drawCount = 0;
+
+	UINT LastInputnum = 0;
 };

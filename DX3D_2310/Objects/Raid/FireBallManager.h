@@ -1,5 +1,7 @@
 #pragma once
 
+class TopViewMonster;
+
 class FireBallManager : public Singleton<FireBallManager>
 {
 private:
@@ -16,6 +18,8 @@ public:
 	void GUIRender();
 
 	void Fire(Vector3 pos, Vector3 direction);
+
+	bool ChackCollision(Collider* output);
 
 private:
 	ModelInstancing* modelInstancing;

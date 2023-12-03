@@ -6,17 +6,19 @@ MonsterManager::MonsterManager()
     // 몬스터에 사용될 3D 모델 애니메이터 초기화
     modelInstancing = new ModelAnimatorInstancing("Monster");
     modelInstancing->ReadClip("Walk");
+    modelInstancing->ReadClip("Run");
     modelInstancing->ReadClip("Attack1");
     modelInstancing->ReadClip("Hit1");
+    modelInstancing->ReadClip("death");
     modelInstancing->CreateTexture();
 
     // 몬스터 배열 크기 설정
     monsters.resize(POOL_SIZE);
 
     // 몬스터 객체 초기화 및 모델 인스턴스에 추가
-    for (TopViewMonster*& monster : monsters)
+    FOR(monsters.size())
     {
-        monster = new TopViewMonster(modelInstancing->Add());
+        monsters[i] = new TopViewMonster(modelInstancing->Add(), i);
     }
 }
 
@@ -47,6 +49,8 @@ void MonsterManager::Update()
     // 각 몬스터의 업데이트 함수 호출
     for (TopViewMonster* monster : monsters)
         monster->Update();
+
+    ChackAnim();
 }
 
 // 몬스터 렌더링을 처리하는 함수
@@ -91,6 +95,36 @@ void MonsterManager::Spawn()
 
             // 생성 후 바로 리턴하여 하나의 몬스터만 생성
             return;
+        }
+    }
+}
+
+void MonsterManager::ChackAnim()
+{
+    for (TopViewMonster* monster : monsters)
+    {
+        if (!monster->NowChangeMotion())
+            continue;
+
+        switch (monster->GetAction())
+        {
+        case TopViewMonster::PATROL:
+            modelInstancing->PlayClip(monster->Getnumber(), 0);
+            break;
+        case TopViewMonster::TRACE:
+            modelInstancing->PlayClip(monster->Getnumber(), 1);
+            break;
+        case TopViewMonster::ATTACK:
+            modelInstancing->PlayClip(monster->Getnumber(), 2);
+            break;
+        case TopViewMonster::HIT:
+            modelInstancing->PlayClip(monster->Getnumber(), 3);
+            break;
+        case TopViewMonster::DEAD:
+            modelInstancing->PlayClip(monster->Getnumber(), 4);
+            break;
+        case TopViewMonster::NONE:
+            break;
         }
     }
 }

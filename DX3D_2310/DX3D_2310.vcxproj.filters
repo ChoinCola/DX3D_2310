@@ -327,9 +327,6 @@
     <ClInclude Include="Objects\LandScape\SkyBox.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\TopViewGame\Obejct\Grass.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Objects\TopViewGame\Master\MonsterMaster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -366,9 +363,6 @@
     <ClInclude Include="Objects\TopViewGame\TopPlayer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\TopViewGame\Obejct\Tree.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Objects\Raid\TopViewMonster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -385,6 +379,15 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Objects\TopViewGame\Master\Object.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\TopViewGame.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Raid\MonsterAttack.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Raid\MonsterHit.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -668,13 +671,16 @@
     <ClCompile Include="Objects\Raid\MonsterAction.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\TopViewGame\Obejct\Tree.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Objects\TopViewGame\Master\ObejctMaster.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\TopViewGame\Obejct\Grass.cpp">
+    <ClCompile Include="Scenes\TopViewGame.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Raid\MonsterAttack.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Raid\MonsterHit.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

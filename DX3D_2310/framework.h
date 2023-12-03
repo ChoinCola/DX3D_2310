@@ -15,7 +15,7 @@
 #define MAX_LIGHT 100
 #define MAX_BONE 256
 #define MAX_FRAME 256
-#define MAX_INSTANCE 256
+#define MAX_INSTANCE 500
 
 #define DEVICE		Device::Get()->GetDevice()
 #define DC			Device::Get()->GetDeviceContext()
@@ -223,7 +223,8 @@ using namespace Utility;
 #include "Objects/Raid/MonsterAction.h"
 #include "Objects/Raid/MonsterPatrol.h"
 #include "Objects/Raid/MonsterTrace.h"
-
+#include "Objects/Raid/MonsterAttack.h"
+#include "Objects/Raid/MonsterHit.h"
 #include "Objects/Raid/TopViewMonster.h"
 #include "Objects/Raid/MonsterManager.h"
 
@@ -231,11 +232,10 @@ using namespace Utility;
 
 // TopViewGame Header
 #include "Objects/TopViewGame/_TopViewGamestruct.h"
-#include "Objects/TopViewGame/Master/Object.h"
-#include "Objects/TopViewGame/Obejct/Tree.h"
-#include "Objects/TopViewGame/Obejct/Grass.h"
+
 #include "Objects/TopViewGame/Monster/TopMonster.h"
 
+#include "Objects/TopViewGame/Master/Object.h"
 #include "Objects/TopViewGame/Master/MonsterMaster.h"
 #include "Objects/TopViewGame/Master/ObejctMaster.h"
 
@@ -262,7 +262,7 @@ using namespace Utility;
 #include "Scenes/RaidScene.h"
 #include "Scenes/LightScene.h"
 #include "Scenes/InstancingScene.h"
-//#include "Scenes/TopViewGame.h"
+#include "Scenes/TopViewGame.h"
 #include "Scenes/ModelInstansingScene.h"
 
 extern HWND hWnd;

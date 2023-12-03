@@ -12,9 +12,13 @@ private:
 public:
     // 생성자 - 나무의 초기 설정을 수행하며 Transform을 전달 받습니다.
     Object(Transform* transform) : meshTransform(transform) 
-    {   transform->SetParent(this); 
-        transform->SetTag("Object");
-        transform->Load();
+    {
+        this->SetLocalPosition(transform->GetLocalPosition());
+        this->SetLocalRotation(transform->GetLocalRotation());
+        this->SetLocalScale(transform->GetLocalScale());
+
+        this->SetTag("Object");
+        this->Load();
         // 몬스터는 처음에는 비활성화 상태로 시작
         isActive = false;
 
@@ -66,6 +70,11 @@ public:
     };
 
     UINT GetAction() { return curState; };
+
+    void EndAnim() { SetAction(IDLE); };
+
+    void SetObejctnum(int input) { Objectnum = input; }
+    UINT GetObejctnum() { return Objectnum; }
 protected:
 
 
@@ -79,4 +88,6 @@ private:
 
     // 몬스터의 현재 행동 상태
     ActionState curState = IDLE;
+
+    int Objectnum = 0;
 };

@@ -3,7 +3,6 @@
 Model::Model(string name) : name(name)
 {
 	SetTag(name);
-
 	ReadMaterial();
 	ReadMesh();
     MakeTreenode();

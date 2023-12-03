@@ -2,11 +2,11 @@
 
 ModelInstancingScene::ModelInstancingScene()
 {
-	modelInstancing = new ModelAnimatorInstancing("Traveler");
+	modelInstancing = new ModelAnimatorInstancing("Grass");
 
-	modelInstancing->ReadClip("Idle");
-	modelInstancing->ReadClip("Walk");
-	modelInstancing->ReadClip("Attack");
+	modelInstancing->ReadClip("Grass_Idle");
+	//modelInstancing->ReadClip("Walk");
+	modelInstancing->ReadClip("Shack");
 	modelInstancing->CreateTexture();
 	for (float z = -10.0f; z <= 10.0f; z++)
 	{
@@ -14,6 +14,7 @@ ModelInstancingScene::ModelInstancingScene()
 		{
 			Transform* transform = modelInstancing->Add();
 			transform->SetLocalPosition({ x, 0, z });
+			transform->SetLocalRotation({ 1.6, 0, 0 });
 			float scale = MATH->Random(0.5f, 1.0f);
 			transform->SetLocalScale(Vector3::One() * scale);
 		}

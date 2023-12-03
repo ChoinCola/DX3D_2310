@@ -14,6 +14,6 @@ public:
 	void GUIRender() override;
 
 private:
-	TopPlayer* player;
+	TopviewTraveler* player;
 	Map* map;
 };

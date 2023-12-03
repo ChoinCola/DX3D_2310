@@ -1,0 +1,13 @@
+<Material Name="Grass.005" Shader="Instancing/ModelAnimatorInstancing.hlsl">
+    <Texture>
+        <DiffsueMap DM="Textures/Colors/White.png"/>
+        <SpecularMap SM="Textures/Colors/White.png"/>
+        <NormalMap NM="Textures/Colors/Blue.png"/>
+    </Texture>
+    <Property Shininess="25.488001" HasNormalMap="0">
+        <Diffuse R="0.079775445" G="0.39705884" B="0.021410041" A="1"/>
+        <Specular R="0.058479637" G="0.23301485" B="0.026373245" A="1"/>
+        <Ambient R="0.15196079" G="0.15196079" B="0.15196079" A="1"/>
+        <Emissive R="0" G="0" B="0" A="1"/>
+    </Property>
+</Material>

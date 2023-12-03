@@ -43,6 +43,8 @@ private:
     // 몬스터 생성을 처리하는 내부 함수
     void Spawn();
 
+    void ChackAnim();
+
 private:
     // 몬스터 인스턴싱에 사용되는 3D 모델 애니메이터
     ModelAnimatorInstancing* modelInstancing;

@@ -1,4 +1,5 @@
 #include "Framework.h"
+#include "FireBallManager.h"
 // FireBallManager 클래스의 생성자
 FireBallManager::FireBallManager()
 {
@@ -74,4 +75,16 @@ void FireBallManager::Fire(Vector3 pos, Vector3 direction)
             return;
         }
     }
+}
+
+bool FireBallManager::ChackCollision(Collider* output)
+{
+    for (FireBall* fireBall : fireBalls)
+    {
+        if (fireBall->IsCollision(output))
+        {
+            return true;
+        }
+    }
+    return false;
 }

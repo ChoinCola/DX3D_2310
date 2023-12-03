@@ -1,7 +1,8 @@
 #include "Framework.h"
+#include "TopViewMonster.h"
 
 // TopViewMonster 클래스 생성자
-TopViewMonster::TopViewMonster(Transform* transform) : meshTransform(transform)
+TopViewMonster::TopViewMonster(Transform* transform, UINT num) : meshTransform(transform), monsternumber(num)
 {
     // 전달받은 Transform을 부모로 설정하고 필요한 초기화 수행
     transform->SetParent(this);
@@ -32,6 +33,8 @@ void TopViewMonster::Update()
 
     // 부모 클래스의 UpdateWorld 함수 호출
     UpdateWorld();
+    if (isActive == true) DeadTime = 0;
+    DeadObejctDelete();
 }
 
 // 몬스터를 렌더링하는 함수
@@ -58,9 +61,27 @@ void TopViewMonster::GUIRender()
     __super::GUIRender();
 }
 
+void TopViewMonster::Hit(float input)
+{
+    HP -= input;
+    if (HP <= 0)
+    {
+        curState = DEAD;
+        HP = 100;
+    }
+}
+
 // 몬스터의 행동 상태를 체크하는 함수
 void TopViewMonster::CheckAction()
 {
+    if (curState == DEAD) return;
+
+
+    if (FireBallManager::Get()->ChackCollision(this))
+        SetAction(HIT);
+
+    if (curState == HIT) return;
+    SetColor(Float4(0, 1, 0, 1));
     // 대상이 설정되어 있지 않다면 MonsterManager에서 대상을 가져옴
     if (target == nullptr)
         target = MonsterManager::Get()->GetTarget();
@@ -69,21 +90,33 @@ void TopViewMonster::CheckAction()
     float distance = (localPosition - target->GetLocalPosition()).Length();
 
     // 거리에 따라 행동 상태 설정
-    if (distance < 10)
+    if (distance < 1)
+        SetAction(ATTACK);
+    else if (distance < 10)
         SetAction(TRACE);
     else if (distance >= 10)
         SetAction(PATROL);
+
+    if (Attime > ATTACKDELAY) {
+        Attime -= ATTACKDELAY;
+    }
+    else
+        Attime += DELTA;
 }
 
 // 몬스터의 행동 상태를 설정하는 함수
 void TopViewMonster::SetAction(ActionState state)
 {
     // 현재 상태와 동일한 상태로 설정되면 무시
-    if (curState == state) return;
+    if (curState == state) {
+        ChangeMotion = false;
+        return;
+    }
 
     // 상태 변경 시 현재 상태 업데이트 및 해당 상태의 행동 시작
     curState = state;
     actions[state]->Start();
+    ChangeMotion = true;
 }
 
 // 몬스터의 순찰 동작을 처리하는 함수 (추후 구현 필요)
@@ -110,4 +143,13 @@ void TopViewMonster::CreateActions()
     // 순찰 및 추적 동작을 담은 행동 객체들을 생성하고 벡터에 추가
     actions.push_back(new MonsterPatrol(this));
     actions.push_back(new MonsterTrace(this));
+    actions.push_back(new MonsterAttack(this));
+    actions.push_back(new MonsterHit(this));
+}
+
+void TopViewMonster::DeadObejctDelete()
+{
+    if (DeadTime == DELETETIME)
+        isActive = false;
+    DeadTime += DELTA;
 }

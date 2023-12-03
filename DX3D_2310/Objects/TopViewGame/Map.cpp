@@ -5,6 +5,7 @@ Map::Map(Collider* player, Float2 size) : player(player)
 {
 	map.reserve(9);
 	MakeTerrain();
+	ObjectMaster::Get();
 }
 
 Map::~Map()
@@ -18,6 +19,9 @@ void Map::Update()
 	for (auto& def : map) {
 		MoveTerrain();
 		def->UpdateWorld();
+		pair<float, float> input(def->GetLocalPosition().x, def->GetLocalPosition().z);
+		ObjectMaster::Get()->Collisionmap(input, player);
+		//ObjectMaster::Get()->AnimUpdatToemap(input);
 	}
 }
 
@@ -26,11 +30,18 @@ void Map::Render()
 	for (auto& def : map) {
 		def->Render();
 		pair<float, float> input(def->GetLocalPosition().x, def->GetLocalPosition().z);
+		ObjectMaster::Get()->Rendermap(input, defaltsize);
 	}
 }
 
 void Map::GUIRender()
 {
+	for (auto& def : map) {
+		def->Render();
+		pair<float, float> input(def->GetLocalPosition().x, def->GetLocalPosition().z);
+		ObjectMaster::Get()->GUIRendermap(input);
+	}
+
 }
 
 void Map::SetScail()
@@ -94,7 +105,10 @@ void Map::MoveTerrain()
 		if (zb > distance.y)
 			movepos.z = defaltsize.y*3;
 
-		if(movepos != Vector3(0, 0, 0))
+		if (movepos != Vector3(0, 0, 0)) {
+			//pair<float, float> input(def->GetLocalPosition().x, def->GetLocalPosition().z);
+			//ObjectMaster::Get()->OutputmapToObject(input);
 			def->SetLocalPosition(def->GetLocalPosition() + movepos);
+		}
 	}
 }

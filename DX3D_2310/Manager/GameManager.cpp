@@ -10,25 +10,25 @@ GameManager::GameManager()
     SceneManager::Get()->Create("Grid", new GridScene());
     //SceneManager::Get()->Create("Collision", new CollisionScene());
     //SceneManager::Get()->Create("Instancing", new InstancingScene());
-    //SceneManager::Get()->Create("Topview", new TopViewGame());
+    SceneManager::Get()->Create("Topview", new TopViewGame());
     //SceneManager::Get()->Create("instancing", new ModelInstancingScene());
 
     //SceneManager::Get()->Create("Exporter", new ModelExportScene());
     //SceneManager::Get()->Create("Start", new ModelRenderScene());
     //SceneManager::Get()->Create("Animation", new AnimationScene());
     //SceneManager::Get()->Create("MineCraftScene", new MinceCraftScene());
-    SceneManager::Get()->Create("Raid", new RaidScene());
+    //SceneManager::Get()->Create("Raid", new RaidScene());
 
     SceneManager::Get()->Add("Grid");
     //SceneManager::Get()->Add("instancing");
     //SceneManager::Get()->Add("MineCraftScene");
     //SceneManager::Get()->Add("Collision");
     //SceneManager::Get()->Add("instancing");
-    //SceneManager::Get()->Add("Topview");
+    SceneManager::Get()->Add("Topview");
     //SceneManager::Get()->Add("RPG");
     //SceneManager::Get()->Add("Exporter");
     //SceneManager::Get()->Add("Start");
-    SceneManager::Get()->Add("Raid");
+    //SceneManager::Get()->Add("Raid");
     //SceneManager::Get()->Add("Animation");
 }
 
