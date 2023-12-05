@@ -12,10 +12,11 @@ public:
 
     // 추적 행동이 시작될 때 호출되는 함수
     void Start() override;
-
+    void SendDamage();
 private:
     // 순찰 동작의 회전 속도
     float rotSpeed = 10.0f;
+    float attackPower = 10.0f;
     // 추적 대상(Transform)
     Transform* target = nullptr;
 };

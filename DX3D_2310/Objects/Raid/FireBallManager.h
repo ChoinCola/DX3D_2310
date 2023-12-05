@@ -19,7 +19,7 @@ public:
 
 	void Fire(Vector3 pos, Vector3 direction);
 
-	bool ChackCollision(Collider* output);
+	bool IsCollision(Collider* output);
 
 private:
 	ModelInstancing* modelInstancing;

@@ -244,3 +244,17 @@ public:
 private:
 	Data data;
 };
+
+class FloatValueBuffer : public ConstBuffer
+{
+
+public:
+	FloatValueBuffer() : ConstBuffer(&values, sizeof(float) * 4)
+	{
+	}
+
+	float* GetData() { return values; }
+
+private:
+	float values[4] = {};
+};

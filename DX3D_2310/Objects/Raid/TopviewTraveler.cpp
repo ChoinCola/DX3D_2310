@@ -131,6 +131,11 @@ void TopviewTraveler::SearchPlayer()
 {
 }
 
+void TopviewTraveler::Hit(float damage)
+{
+    curHP -= damage;
+}
+
 void TopviewTraveler::Death()
 {
 }

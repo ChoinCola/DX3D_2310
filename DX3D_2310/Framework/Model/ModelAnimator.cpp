@@ -299,6 +299,7 @@ void ModelAnimator::UpdateFrame(Motion* motion)
         ModelClip* clip = clips[frame->clip];
 
         frame->time += clip->tickPerSecond * frame->scale * DELTA;
+        motion->runningTime += frame->scale * DELTA;
         clip->playTime += frame->scale * DELTA;
 
         if (frame->time >= 1.0f)

@@ -16,9 +16,9 @@ MonsterManager::MonsterManager()
     monsters.resize(POOL_SIZE);
 
     // 몬스터 객체 초기화 및 모델 인스턴스에 추가
-    FOR(monsters.size())
+    FOR(POOL_SIZE)
     {
-        monsters[i] = new TopViewMonster(modelInstancing->Add(), i);
+        monsters[i] = new TopViewMonster(modelInstancing->Add(), modelInstancing, i);
     }
 }
 
@@ -49,8 +49,6 @@ void MonsterManager::Update()
     // 각 몬스터의 업데이트 함수 호출
     for (TopViewMonster* monster : monsters)
         monster->Update();
-
-    ChackAnim();
 }
 
 // 몬스터 렌더링을 처리하는 함수
@@ -73,6 +71,11 @@ void MonsterManager::GUIRender()
     // 각 몬스터의 GUI 렌더링 함수 호출
     for (TopViewMonster* monster : monsters)
         monster->GUIRender();
+}
+
+void MonsterManager::Play(UINT index, UINT clip)
+{
+    modelInstancing->PlayClip(index, clip);
 }
 
 // 몬스터 생성을 처리하는 함수
@@ -99,32 +102,13 @@ void MonsterManager::Spawn()
     }
 }
 
-void MonsterManager::ChackAnim()
+void MonsterManager::Collision()
 {
     for (TopViewMonster* monster : monsters)
     {
-        if (!monster->NowChangeMotion())
-            continue;
-
-        switch (monster->GetAction())
+        if (FireBallManager::Get()->IsCollision(monster))
         {
-        case TopViewMonster::PATROL:
-            modelInstancing->PlayClip(monster->Getnumber(), 0);
-            break;
-        case TopViewMonster::TRACE:
-            modelInstancing->PlayClip(monster->Getnumber(), 1);
-            break;
-        case TopViewMonster::ATTACK:
-            modelInstancing->PlayClip(monster->Getnumber(), 2);
-            break;
-        case TopViewMonster::HIT:
-            modelInstancing->PlayClip(monster->Getnumber(), 3);
-            break;
-        case TopViewMonster::DEAD:
-            modelInstancing->PlayClip(monster->Getnumber(), 4);
-            break;
-        case TopViewMonster::NONE:
-            break;
+            monster->SetAction(TopViewMonster::DAMAGE);
         }
     }
 }

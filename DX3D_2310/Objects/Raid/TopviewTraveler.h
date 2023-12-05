@@ -19,7 +19,7 @@ public:
     void Update();
     void Render();
     void GUIRender();
-
+    void Hit(float damage);
 private:
     void Attack();
     void EndAttack();
@@ -32,6 +32,7 @@ private:
 
     void ReadClips();
     void SearchPlayer();
+
     void Death();
 
 private:
@@ -43,6 +44,8 @@ private:
 
     float moveSpeed = 10.0f;
     float rotSpeed = 10.0f;
+
+    float curHP = 100;
     Vector3 velocity;
 
 };

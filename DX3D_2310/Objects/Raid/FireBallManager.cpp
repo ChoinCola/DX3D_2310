@@ -77,12 +77,13 @@ void FireBallManager::Fire(Vector3 pos, Vector3 direction)
     }
 }
 
-bool FireBallManager::ChackCollision(Collider* output)
+bool FireBallManager::IsCollision(Collider* output)
 {
     for (FireBall* fireBall : fireBalls)
     {
         if (fireBall->IsCollision(output))
         {
+            fireBall->SetActive(false);
             return true;
         }
     }

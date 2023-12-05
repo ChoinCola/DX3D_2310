@@ -19,6 +19,8 @@ void Collider::Render()
 
 bool Collider::IsCollision(Collider* collider)
 {
+    if (!IsActive() || !collider->IsActive()) return false;
+
     switch (collider->type)
     {
     case Collider::BOX:

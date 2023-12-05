@@ -33,17 +33,20 @@ public:
     // GUI에서 몬스터 정보를 렌더링하는 함수
     void GUIRender();
 
+    void Play(UINT index, UINT clip);
+
     // 몬스터 매니저의 대상(Transform)을 설정하는 함수
     void SetTarget(Transform* target) { this->target = target; }
 
     // 몬스터 매니저의 대상(Transform)을 반환하는 함수
     Transform* GetTarget() { return target; }
+    ModelAnimatorInstancing* GetInstancing() { return modelInstancing; }
 
 private:
     // 몬스터 생성을 처리하는 내부 함수
     void Spawn();
 
-    void ChackAnim();
+    void Collision();
 
 private:
     // 몬스터 인스턴싱에 사용되는 3D 모델 애니메이터

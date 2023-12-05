@@ -133,10 +133,14 @@ void ModelAnimatorInstancing::SetTransforms(vector<Transform*> transform)
 
 void ModelAnimatorInstancing::PlayClip(UINT instanceInex, int clip, float scale, float takeTime)
 {
+    ModelClip* modelClip = clips[clip];
+
     frameInstancingBuffer->GetData()->motions[instanceInex].next.clip = clip;
     frameInstancingBuffer->GetData()->motions[instanceInex].next.scale = scale;
     frameInstancingBuffer->GetData()->motions[instanceInex].takeTime = takeTime;
     frameInstancingBuffer->GetData()->motions[instanceInex].runningTime = 0.0f;
+    frameInstancingBuffer->GetData()->motions[instanceInex].duration 
+        = modelClip->frameCount / modelClip->tickPerSecond;
 }
 
 UINT ModelAnimatorInstancing::GetPlayClip(UINT instanceInex)

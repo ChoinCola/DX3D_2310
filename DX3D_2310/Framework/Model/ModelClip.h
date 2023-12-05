@@ -4,7 +4,7 @@ class ModelClip
 {
 private:
 	friend class ModelAnimator;
-
+	friend class ModelAnimatorInstancing;
 	ModelClip() = default;
 	~ModelClip();
 

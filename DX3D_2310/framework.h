@@ -175,6 +175,7 @@ using namespace Utility;
 #include "Objects/Basic/Icosahedron.h"
 #include "Objects/Basic/UI/Button.h"
 #include "Objects/Basic/UI/Panel.h"
+#include "Objects/Basic/UI/ProgressBar.h"
 
 #include "Objects/ColliderBall/Ball.h"
 
@@ -224,6 +225,7 @@ using namespace Utility;
 #include "Objects/Raid/MonsterPatrol.h"
 #include "Objects/Raid/MonsterTrace.h"
 #include "Objects/Raid/MonsterAttack.h"
+#include "Objects/Raid/MonsterDamage.h"
 #include "Objects/Raid/MonsterHit.h"
 #include "Objects/Raid/TopViewMonster.h"
 #include "Objects/Raid/MonsterManager.h"

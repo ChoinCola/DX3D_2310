@@ -42,6 +42,8 @@ public:
 		return &frameInstancingBuffer->GetData()->motions[instanceIndex];
 	}
 
+	UINT GetClipSize() { return clips.size(); }
+
 private:
 	vector<Transform*> transforms;
 	vector<Transform*> inputTransforms;

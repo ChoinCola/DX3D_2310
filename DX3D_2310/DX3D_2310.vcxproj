@@ -223,6 +223,7 @@
     <ClInclude Include="Objects\Basic\Quad.h" />
     <ClInclude Include="Objects\Basic\Sphere.h" />
     <ClInclude Include="Objects\Basic\UI\Panel.h" />
+    <ClInclude Include="Objects\Basic\UI\ProgressBar.h" />
     <ClInclude Include="Objects\LandScape\SkyBox.h" />
     <ClInclude Include="Objects\LandScape\Terrain.h" />
     <ClInclude Include="Objects\MincraftObject\Block.h" />
@@ -242,6 +243,7 @@
     <ClInclude Include="Objects\Raid\Monster.h" />
     <ClInclude Include="Objects\Raid\MonsterAction.h" />
     <ClInclude Include="Objects\Raid\MonsterAttack.h" />
+    <ClInclude Include="Objects\Raid\MonsterDamage.h" />
     <ClInclude Include="Objects\Raid\MonsterHit.h" />
     <ClInclude Include="Objects\Raid\MonsterManager.h" />
     <ClInclude Include="Objects\Raid\MonsterPatrol.h" />
@@ -331,6 +333,7 @@
     <ClCompile Include="Objects\Basic\Quad.cpp" />
     <ClCompile Include="Objects\Basic\Sphere.cpp" />
     <ClCompile Include="Objects\Basic\UI\Panel.cpp" />
+    <ClCompile Include="Objects\Basic\UI\ProgressBar.cpp" />
     <ClCompile Include="Objects\LandScape\SkyBox.cpp" />
     <ClCompile Include="Objects\LandScape\Terrain.cpp" />
     <ClCompile Include="Objects\MincraftObject\Block.cpp" />
@@ -350,6 +353,7 @@
     <ClCompile Include="Objects\Raid\Monster.cpp" />
     <ClCompile Include="Objects\Raid\MonsterAction.cpp" />
     <ClCompile Include="Objects\Raid\MonsterAttack.cpp" />
+    <ClCompile Include="Objects\Raid\MonsterDamage.cpp" />
     <ClCompile Include="Objects\Raid\MonsterHit.cpp" />
     <ClCompile Include="Objects\Raid\MonsterManager.cpp" />
     <ClCompile Include="Objects\Raid\MonsterPatrol.cpp" />
@@ -447,6 +451,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="Shaders\Model\ModelInstancing.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\UI\ProgressBar.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

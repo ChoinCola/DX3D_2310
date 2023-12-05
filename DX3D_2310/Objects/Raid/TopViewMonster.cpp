@@ -2,7 +2,8 @@
 #include "TopViewMonster.h"
 
 // TopViewMonster 클래스 생성자
-TopViewMonster::TopViewMonster(Transform* transform, UINT num) : meshTransform(transform), monsternumber(num)
+TopViewMonster::TopViewMonster(Transform* transform, ModelAnimatorInstancing* instancing, UINT num)
+    : meshTransform(transform), index(index), instancing(instancing)
 {
     // 전달받은 Transform을 부모로 설정하고 필요한 초기화 수행
     transform->SetParent(this);
@@ -12,11 +13,16 @@ TopViewMonster::TopViewMonster(Transform* transform, UINT num) : meshTransform(t
     // 몬스터는 처음에는 비활성화 상태로 시작
     isActive = false;
 
-    // 몬스터의 다양한 행동을 생성하는 함수 호출
-    CreateActions();
+    motion = instancing->GetMotion(index);
+    totalEvent.resize(instancing->GetClipSize());
+    eventIters.resize(instancing->GetClipSize());
+
 
     // 초기 행동 상태를 PATROL로 설정
-    SetAction(PATROL);
+    SetEvent(HIT, bind(&TopViewMonster::EndDamage, this), 0.8f);
+    SetEvent(ATK, bind(&TopViewMonster::EndAttack, this), 0.8f);
+    // 몬스터의 다양한 행동을 생성하는 함수 호출
+    CreateActions();
 }
 
 // TopViewMonster 클래스 소멸자
@@ -66,19 +72,50 @@ void TopViewMonster::Hit(float input)
     HP -= input;
     if (HP <= 0)
     {
-        curState = DEAD;
+        curState = DIE;
         HP = 100;
     }
+}
+
+void TopViewMonster::Play(AnimState clip)
+{
+    MonsterManager::Get()->Play(index, clip);
+
+    this->animState = clip;
+    eventIters[clip] = totalEvent[clip].begin();
+}
+
+void TopViewMonster::SetEvent(int clip, Event event, float timeRatio)
+{
+    if (totalEvent[clip].count(timeRatio) > 0)
+        return;
+
+    totalEvent[clip][timeRatio] = event;
+}
+
+void TopViewMonster::ExcuteEvent()
+{
+    int clip = curState;
+
+
+    if (totalEvent[clip].empty()) return;
+    if (eventIters[clip] == totalEvent[clip].end()) return;
+
+    // 모션 진행중인 비율
+    float ratio = motion->runningTime / motion->duration;
+
+    if (eventIters[clip]->first > ratio) return;
+
+    eventIters[clip]->second();
+    eventIters[clip]++;
+
 }
 
 // 몬스터의 행동 상태를 체크하는 함수
 void TopViewMonster::CheckAction()
 {
     if (curState == DEAD) return;
-
-
-    if (FireBallManager::Get()->ChackCollision(this))
-        SetAction(HIT);
+    if (curState == HIT) return;
 
     if (curState == HIT) return;
     SetColor(Float4(0, 1, 0, 1));
@@ -90,18 +127,12 @@ void TopViewMonster::CheckAction()
     float distance = (localPosition - target->GetLocalPosition()).Length();
 
     // 거리에 따라 행동 상태 설정
-    if (distance < 1)
+    if (distance < ATTACK_RANGE)
         SetAction(ATTACK);
-    else if (distance < 10)
+    else if (distance < TRACE_RANGE)
         SetAction(TRACE);
     else if (distance >= 10)
         SetAction(PATROL);
-
-    if (Attime > ATTACKDELAY) {
-        Attime -= ATTACKDELAY;
-    }
-    else
-        Attime += DELTA;
 }
 
 // 몬스터의 행동 상태를 설정하는 함수
@@ -116,7 +147,6 @@ void TopViewMonster::SetAction(ActionState state)
     // 상태 변경 시 현재 상태 업데이트 및 해당 상태의 행동 시작
     curState = state;
     actions[state]->Start();
-    ChangeMotion = true;
 }
 
 // 몬스터의 순찰 동작을 처리하는 함수 (추후 구현 필요)
@@ -144,7 +174,17 @@ void TopViewMonster::CreateActions()
     actions.push_back(new MonsterPatrol(this));
     actions.push_back(new MonsterTrace(this));
     actions.push_back(new MonsterAttack(this));
-    actions.push_back(new MonsterHit(this));
+    actions.push_back(new MonsterDamage(this));
+}
+
+void TopViewMonster::EndDamage()
+{
+    SetAction(PATROL);
+}
+
+void TopViewMonster::EndAttack()
+{
+    SetAction(PATROL);
 }
 
 void TopViewMonster::DeadObejctDelete()

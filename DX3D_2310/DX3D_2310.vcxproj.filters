@@ -390,6 +390,12 @@
     <ClInclude Include="Objects\Raid\MonsterHit.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Objects\Raid\MonsterDamage.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Basic\UI\ProgressBar.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2310.cpp">
@@ -683,6 +689,12 @@
     <ClCompile Include="Objects\Raid\MonsterHit.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Objects\Raid\MonsterDamage.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Basic\UI\ProgressBar.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2310.rc">
@@ -709,6 +721,7 @@
     <FxCompile Include="Shaders\Model\ModelInstancing.hlsl" />
     <FxCompile Include="Shaders\Instancing\ModelAnimatorInstancing.hlsl" />
     <FxCompile Include="Shaders\Instancing\ModelInstancing.hlsl" />
+    <FxCompile Include="Shaders\UI\ProgressBar.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\Lib\DirectXTex.lib" />

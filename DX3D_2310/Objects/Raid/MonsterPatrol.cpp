@@ -26,6 +26,7 @@ void MonsterPatrol::Start()
 {
     // 초기 목표 위치 설정
     SetDestPos();
+    monster->Play(TopViewMonster::WALK);
 }
 
 // 순찰 목표 위치를 설정하는 함수

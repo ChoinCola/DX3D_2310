@@ -21,4 +21,5 @@ void MonsterTrace::Start()
 {
     // MonsterManager에서 대상을 가져와 설정
     target = MonsterManager::Get()->GetTarget();
+    monster->Play(TopViewMonster::RUN);
 }

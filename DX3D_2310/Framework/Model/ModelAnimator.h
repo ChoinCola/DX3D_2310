@@ -3,13 +3,7 @@
 // ModelAnimator 클래스: Model 클래스를 상속하여 모델의 애니메이션을 다루는 클래스
 class ModelAnimator : public Model
 {
-protected:
-	// ClipTransform 구조체: 각 프레임 및 본에 대한 변환 매트릭스를 저장하는 구조체
-	struct ClipTransform
-	{
-		Matrix transform[MAX_FRAME][MAX_BONE]; // 각 프레임 및 본에 대한 변환 매트릭스 배열
-	};
-
+public:
 	// Frame 구조체: 애니메이션 재생에 사용되는 프레임 정보를 저장하는 구조체
 	struct Frame
 	{
@@ -24,7 +18,7 @@ protected:
 		float takeTime = 0.2f;
 		float tweenTime = 0.0f;
 		float runningTime = 0.0f;
-		float padding;
+		float duration = 0;
 
 		Frame cur, next;
 
@@ -32,6 +26,13 @@ protected:
 		{
 			next.clip = -1.0f;
 		}
+	};
+
+protected:
+	// ClipTransform 구조체: 각 프레임 및 본에 대한 변환 매트릭스를 저장하는 구조체
+	struct ClipTransform
+	{
+		Matrix transform[MAX_FRAME][MAX_BONE]; // 각 프레임 및 본에 대한 변환 매트릭스 배열
 	};
 
 	// FrameBuffer 클래스: 상속된 ConstBuffer를 사용하여 프레임 데이터를 GPU에 전달하는 클래스
