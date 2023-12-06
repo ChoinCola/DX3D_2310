@@ -213,6 +213,10 @@ using namespace Utility;
 #include "Objects/MincraftObject/BlockIcon.h"
 #include "Objects/MincraftObject/Seller.h"
 
+#include "Objects/TopViewGame/SurvivalDataManager.h"
+#include "Objects/TopViewGame/TopViewWeapon.h"
+#include "Objects/TopViewGame/TopViewWeaponFireball.h"
+
 #include "Objects/Raid/Sword.h"
 #include "Objects/Raid/UI/HPbar.h"
 #include "Objects/Raid/Traveler.h"

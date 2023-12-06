@@ -60,3 +60,8 @@ Vector3 GameMath::ClosestPointOnLine(const Vector3& start, const Vector3& end, c
     float t = Clamp(0.0f, 1.0f, x / y);
     return start + line * t;
 }
+
+float GameMath::Distance(const Vector3& v1, const Vector3& v2)
+{
+    return (v1 - v2).Length();
+}

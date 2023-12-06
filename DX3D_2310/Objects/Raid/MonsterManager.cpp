@@ -49,6 +49,7 @@ void MonsterManager::Update()
     // 각 몬스터의 업데이트 함수 호출
     for (TopViewMonster* monster : monsters)
         monster->Update();
+    Collision();
 }
 
 // 몬스터 렌더링을 처리하는 함수
@@ -60,6 +61,12 @@ void MonsterManager::Render()
     // 각 몬스터의 렌더링 함수 호출
     for (TopViewMonster* monster : monsters)
         monster->Render();
+}
+
+void MonsterManager::PostRender()
+{
+    for (TopViewMonster* monster : monsters)
+        monster->PostRender();
 }
 
 // GUI에서 몬스터 정보를 렌더링하는 함수
@@ -76,6 +83,26 @@ void MonsterManager::GUIRender()
 void MonsterManager::Play(UINT index, UINT clip)
 {
     modelInstancing->PlayClip(index, clip);
+}
+
+Transform* MonsterManager::GetClosestMonster(Vector3 pos)
+{
+    float minDistance = FLT_MAX;
+    Transform* closestMosnter = nullptr;
+
+    for (TopViewMonster* monster : monsters)
+    {
+        if (!monster->IsActive()) continue;
+
+        float distance = MATH->Distance(pos, monster->GetLocalPosition());
+
+        if (minDistance > distance)
+        {
+            closestMosnter = monster;
+            minDistance = distance;
+        }
+    }
+    return closestMosnter;
 }
 
 // 몬스터 생성을 처리하는 함수

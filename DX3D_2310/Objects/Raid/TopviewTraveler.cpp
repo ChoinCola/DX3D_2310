@@ -41,6 +41,10 @@ void TopviewTraveler::GUIRender()
     __super::GUIRender();
 }
 
+void TopviewTraveler::PostRender()
+{
+}
+
 void TopviewTraveler::Attack()
 {
     FireBallManager::Get()->Fire(localPosition, GetForward());

@@ -27,6 +27,8 @@ public:
 	// 선분과 점이 있을 때, 점과 가장 가까운 선분의 점
 	Vector3 ClosestPointOnLine(const Vector3& start, const Vector3& end, const Vector3& point) const;
 
+	float Distance(const Vector3& v1, const Vector3& v2);
+
 private:
 	random_device randomDevice;
 	mt19937_64 generator;

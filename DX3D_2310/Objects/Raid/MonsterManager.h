@@ -30,10 +30,14 @@ public:
     // 몬스터 렌더링을 처리하는 함수
     void Render();
 
+    // 몬스터의 HPBar를 렌더처리하는 함수.
+    void PostRender();
     // GUI에서 몬스터 정보를 렌더링하는 함수
     void GUIRender();
 
     void Play(UINT index, UINT clip);
+
+    Transform* GetClosestMonster(Vector3 pos);
 
     // 몬스터 매니저의 대상(Transform)을 설정하는 함수
     void SetTarget(Transform* target) { this->target = target; }

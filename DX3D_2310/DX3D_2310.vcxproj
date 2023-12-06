@@ -260,7 +260,10 @@
     <ClInclude Include="Objects\TopViewGame\Monster\TopMonster.h" />
     <ClInclude Include="Objects\TopViewGame\Master\ObejctMaster.h" />
     <ClInclude Include="Objects\TopViewGame\Master\MonsterMaster.h" />
+    <ClInclude Include="Objects\TopViewGame\SurvivalDataManager.h" />
     <ClInclude Include="Objects\TopViewGame\TopPlayer.h" />
+    <ClInclude Include="Objects\TopViewGame\TopViewWeapon.h" />
+    <ClInclude Include="Objects\TopViewGame\TopViewWeaponFireball.h" />
     <ClInclude Include="Objects\TopViewGame\_TopViewGamestruct.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\AnimationScene.h" />
@@ -367,7 +370,9 @@
     <ClCompile Include="Objects\Basic\UI\Button.cpp" />
     <ClCompile Include="Objects\TopViewGame\Map.cpp" />
     <ClCompile Include="Objects\TopViewGame\Master\ObejctMaster.cpp" />
+    <ClCompile Include="Objects\TopViewGame\SurvivalDataManager.cpp" />
     <ClCompile Include="Objects\TopViewGame\TopPlayer.cpp" />
+    <ClCompile Include="Objects\TopViewGame\TopViewWeaponFireball.cpp" />
     <ClCompile Include="Scenes\AnimationScene.cpp" />
     <ClCompile Include="Scenes\BoxPlayDemo.cpp" />
     <ClCompile Include="Scenes\CollisionScene.cpp" />

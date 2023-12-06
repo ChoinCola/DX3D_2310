@@ -19,6 +19,7 @@ public:
     void Update();
     void Render();
     void GUIRender();
+    void PostRender();
     void Hit(float damage);
 private:
     void Attack();
