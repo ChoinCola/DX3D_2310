@@ -32,6 +32,7 @@ private:
     void SetState(ActionState state);
 
     void ReadClips();
+    void CreateWeapons();
     void SearchPlayer();
 
     void Death();

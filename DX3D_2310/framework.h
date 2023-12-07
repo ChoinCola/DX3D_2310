@@ -217,22 +217,22 @@ using namespace Utility;
 #include "Objects/TopViewGame/TopViewWeapon.h"
 #include "Objects/TopViewGame/TopViewWeaponFireball.h"
 
-#include "Objects/Raid/Sword.h"
+#include "Objects/Raid/Weapon/Sword.h"
 #include "Objects/Raid/UI/HPbar.h"
 #include "Objects/Raid/Traveler.h"
-#include "Objects/Raid/Monster.h"
+#include "Objects/Raid/Monster/Monster.h"
 #include "Objects/Raid/TopviewTraveler.h"
-#include "Objects/Raid/FireBall.h"
-#include "Objects/Raid/FireBallManager.h"
+#include "Objects/Raid/Weapon/FireBall.h"
+#include "Objects/Raid/Weapon/FireBallManager.h"
 
-#include "Objects/Raid/MonsterAction.h"
-#include "Objects/Raid/MonsterPatrol.h"
-#include "Objects/Raid/MonsterTrace.h"
-#include "Objects/Raid/MonsterAttack.h"
-#include "Objects/Raid/MonsterDamage.h"
-#include "Objects/Raid/MonsterHit.h"
+#include "Objects/Raid/Monster/MonsterAction.h"
+#include "Objects/Raid/Monster/MonsterPatrol.h"
+#include "Objects/Raid/Monster/MonsterTrace.h"
+#include "Objects/Raid/Monster/MonsterAttack.h"
+#include "Objects/Raid/Monster/MonsterDamage.h"
+#include "Objects/Raid/Monster/MonsterHit.h"
 #include "Objects/Raid/TopViewMonster.h"
-#include "Objects/Raid/MonsterManager.h"
+#include "Objects/Raid/Monster/MonsterManager.h"
 
 
 

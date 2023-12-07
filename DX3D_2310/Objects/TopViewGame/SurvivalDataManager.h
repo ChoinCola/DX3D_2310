@@ -26,9 +26,9 @@ private:
 public:
 	void LoadTable();
 
-	SkillData GetBlockData(int key) { return SkillDatas[key]; }
+	SkillData GetSkillData(int key) { return SkillDatas[key]; }
 
-	int GetBlockSize() { return SkillDatas.size(); }
+	int GetSkillSize() { return SkillDatas.size(); }
 
 private:
 	map<int, SkillData> SkillDatas;

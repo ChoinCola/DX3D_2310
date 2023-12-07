@@ -303,7 +303,7 @@
     <ClInclude Include="Framework\Model\ModelAnimator.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Raid\Sword.h">
+    <ClInclude Include="Objects\Raid\Weapon\Sword.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Raid\Traveler.h">
@@ -312,7 +312,7 @@
     <ClInclude Include="Scenes\RaidScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Raid\Monster.h">
+    <ClInclude Include="Objects\Raid\Monster\Monster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Raid\UI\HPbar.h">
@@ -348,10 +348,10 @@
     <ClInclude Include="Objects\Raid\TopviewTraveler.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Raid\FireBall.h">
+    <ClInclude Include="Objects\Raid\Weapon\FireBall.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Raid\FireBallManager.h">
+    <ClInclude Include="Objects\Raid\Weapon\FireBallManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Objects\TopViewGame\_TopViewGamestruct.h">
@@ -366,16 +366,16 @@
     <ClInclude Include="Objects\Raid\TopViewMonster.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Raid\MonsterManager.h">
+    <ClInclude Include="Objects\Raid\Monster\MonsterManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Raid\MonsterAction.h">
+    <ClInclude Include="Objects\Raid\Monster\MonsterAction.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Raid\MonsterPatrol.h">
+    <ClInclude Include="Objects\Raid\Monster\MonsterPatrol.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Raid\MonsterTrace.h">
+    <ClInclude Include="Objects\Raid\Monster\MonsterTrace.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Objects\TopViewGame\Master\Object.h">
@@ -384,13 +384,13 @@
     <ClInclude Include="Scenes\TopViewGame.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Raid\MonsterAttack.h">
+    <ClInclude Include="Objects\Raid\Monster\MonsterAttack.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Raid\MonsterHit.h">
+    <ClInclude Include="Objects\Raid\Monster\MonsterHit.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Raid\MonsterDamage.h">
+    <ClInclude Include="Objects\Raid\Monster\MonsterDamage.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Objects\Basic\UI\ProgressBar.h">
@@ -623,7 +623,7 @@
     <ClCompile Include="Framework\Model\ModelAnimator.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Raid\Sword.cpp">
+    <ClCompile Include="Objects\Raid\Weapon\Sword.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Raid\Traveler.cpp">
@@ -632,7 +632,7 @@
     <ClCompile Include="Scenes\RaidScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Raid\Monster.cpp">
+    <ClCompile Include="Objects\Raid\Monster\Monster.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Environment\UIRenderMaster.cpp">
@@ -659,10 +659,10 @@
     <ClCompile Include="Objects\Raid\TopviewTraveler.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Raid\FireBall.cpp">
+    <ClCompile Include="Objects\Raid\Weapon\FireBall.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Raid\FireBallManager.cpp">
+    <ClCompile Include="Objects\Raid\Weapon\FireBallManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Objects\TopViewGame\Map.cpp">
@@ -674,16 +674,16 @@
     <ClCompile Include="Objects\Raid\TopViewMonster.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Raid\MonsterManager.cpp">
+    <ClCompile Include="Objects\Raid\Monster\MonsterManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Raid\MonsterPatrol.cpp">
+    <ClCompile Include="Objects\Raid\Monster\MonsterPatrol.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Raid\MonsterTrace.cpp">
+    <ClCompile Include="Objects\Raid\Monster\MonsterTrace.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Raid\MonsterAction.cpp">
+    <ClCompile Include="Objects\Raid\Monster\MonsterAction.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Objects\TopViewGame\Master\ObejctMaster.cpp">
@@ -692,13 +692,13 @@
     <ClCompile Include="Scenes\TopViewGame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Raid\MonsterAttack.cpp">
+    <ClCompile Include="Objects\Raid\Monster\MonsterAttack.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Raid\MonsterHit.cpp">
+    <ClCompile Include="Objects\Raid\Monster\MonsterHit.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Raid\MonsterDamage.cpp">
+    <ClCompile Include="Objects\Raid\Monster\MonsterDamage.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Objects\Basic\UI\ProgressBar.cpp">
