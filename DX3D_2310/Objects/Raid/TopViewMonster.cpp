@@ -22,6 +22,8 @@ TopViewMonster::TopViewMonster(Transform* transform, ModelAnimatorInstancing* in
     SetEvent(ATK, bind(&TopViewMonster::EndAttack, this), 0.8f);
     // 몬스터의 다양한 행동을 생성하는 함수 호출
     CreateActions();
+    hpBar = new ProgressBar(L"Textures/UI/HPBar/enemy_hp_bar.png", L"Textures/UI/HPBar/enemy_hp_bar_BG.png");
+    hpBarOffset.y = 2.0f;
 }
 
 // TopViewMonster 클래스 소멸자
@@ -43,6 +45,10 @@ void TopViewMonster::Update()
     actions[curState]->Update();
 
     UpdateWorld();
+    ExcuteEvent();
+    if (isActive == true) DeadTime = 0;
+    DeadObejctDelete();
+    SetHPBar();
 }
 
 // 몬스터를 렌더링하는 함수
@@ -70,7 +76,7 @@ void TopViewMonster::Hit(float input)
     if (HP <= 0)
     {
         curState = DIE;
-        HP = 100;
+        maxHP = 100;
     }
 }
 
@@ -113,6 +119,7 @@ void TopViewMonster::CheckAction()
 {
     if (curState == DAMAGE) return;
 
+    if (curState == HIT) return;
     SetColor(Float4(0, 1, 0, 1));
 
     // 대상이 설정되어 있지 않다면 MonsterManager에서 대상을 가져옴
@@ -129,6 +136,14 @@ void TopViewMonster::CheckAction()
         SetAction(TRACE);
     else
         SetAction(PATROL);
+}
+
+void TopViewMonster::SetHPBar()
+{
+    Vector3 screenPos = CAM->WorldToScreen(localPosition + hpBarOffset);
+
+    hpBar->SetLocalPosition(screenPos);
+    hpBar->UpdateWorld();
 }
 
 // 몬스터의 행동 상태를 설정하는 함수

@@ -16,4 +16,6 @@ void MonsterDamage::Update()
 void MonsterDamage::Start()
 {
 	monster->Play(TopViewMonster::HIT);
+
+	monster->Hit(20);
 }

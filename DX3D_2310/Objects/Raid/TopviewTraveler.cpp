@@ -11,11 +11,16 @@ TopviewTraveler::TopviewTraveler()
     bodyMesh->SetParent(this);
     bodyMesh->SetLocalRotation(Vector3(0, 135, 0));
     ReadClips();
+
+    CreateWeapons();
 }
 
 TopviewTraveler::~TopviewTraveler()
 {
 	delete bodyMesh;
+
+    for (Weapon* weapon : weapons)
+        delete weapon;
 }
 
 void TopviewTraveler::Update()
@@ -27,18 +32,28 @@ void TopviewTraveler::Update()
     SetAction();
     UpdateWorld();
     bodyMesh->Update();
+
+    for (Weapon* weapon : weapons)
+        weapon->Update();
 }
 
 void TopviewTraveler::Render()
 {
     bodyMesh->Render();
     __super::Render();
+
+    for (Weapon* weapon : weapons)
+        weapon->Render();
 }
 
 void TopviewTraveler::GUIRender()
 {
     bodyMesh->GUIRender();
     __super::GUIRender();
+}
+
+void TopviewTraveler::PostRender()
+{
 }
 
 void TopviewTraveler::Attack()
@@ -125,6 +140,12 @@ void TopviewTraveler::ReadClips()
 
     bodyMesh->GetClip(ATTACK)->SetEvent(bind(&TopviewTraveler::Attack, this), 0.1f);
     bodyMesh->GetClip(ATTACK)->SetEvent(bind(&TopviewTraveler::EndAttack, this), 0.8f);
+}
+
+void TopviewTraveler::CreateWeapons()
+{
+    SkillData skillData = SurvivalDataManager::Get()->GetSkillData(101);
+    weapons.push_back(new TopViewWeaponFireBall())
 }
 
 void TopviewTraveler::SearchPlayer()

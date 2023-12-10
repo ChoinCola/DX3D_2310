@@ -19,6 +19,7 @@ public:
     void Update();
     void Render();
     void GUIRender();
+    void PostRender();
     void Hit(float damage);
 private:
     void Attack();
@@ -31,6 +32,7 @@ private:
     void SetState(ActionState state);
 
     void ReadClips();
+    void CreateWeapons();
     void SearchPlayer();
 
     void Death();

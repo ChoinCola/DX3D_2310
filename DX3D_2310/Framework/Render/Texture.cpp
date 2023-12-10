@@ -39,6 +39,8 @@ void Texture::ReadPixels(vector<Float4>& pixels)
 
 Texture* Texture::Add(wstring file)
 {
+
+    HRESULT result;
     if (textures.count(file) > 0)
         return textures[file];
 
@@ -47,13 +49,16 @@ Texture* Texture::Add(wstring file)
     wstring extension = GetExtension(file);
 
     if (extension.compare(L"tga") == 0)
-        LoadFromTGAFile(file.c_str(), nullptr, image);
+        result = LoadFromTGAFile(file.c_str(), nullptr, image);
     else if (extension.compare(L"dds") == 0)
-        LoadFromDDSFile(file.c_str(), DDS_FLAGS_NONE,
+        result = LoadFromDDSFile(file.c_str(), DDS_FLAGS_NONE,
             nullptr, image);
     else
-        LoadFromWICFile(file.c_str(), WIC_FLAGS_NONE,
+        result = LoadFromWICFile(file.c_str(), WIC_FLAGS_NONE,
             nullptr, image);
+
+    // 이미지 못불러오면 터짐
+    assert(SUCCEEDED(result));
 
     ID3D11ShaderResourceView* srv;
 

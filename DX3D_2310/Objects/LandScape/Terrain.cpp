@@ -7,7 +7,7 @@ Terrain::Terrain()
 	material->SetShader(L"Light/Light.hlsl");
 	material->SetDiffuseMap(L"Textures/Colors/White.png");
 
-	heightMap = Texture::Add(L"Textures/Coloes/Black.png");
+	heightMap = Texture::Add(L"Textures/Colors/Black.png");
 
 	mesh = new Mesh<VertexUVNormal>();
 	normalline = new Mesh<VertexColor>();

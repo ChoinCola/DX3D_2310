@@ -47,6 +47,8 @@ void TopViewGame::Render()
 
 void TopViewGame::PostRender()
 {
+	player->PostRender();
+	MonsterManager::Get()->PostRender();
 }
 
 void TopViewGame::GUIRender()
