@@ -25,6 +25,8 @@ MonsterManager::MonsterManager()
 // MonsterManager 소멸자
 MonsterManager::~MonsterManager()
 {
+    delete modelInstancing;
+
     // 할당된 몬스터 객체들을 메모리에서 해제
     for (TopViewMonster* monster : monsters)
         delete monster;
@@ -42,6 +44,8 @@ void MonsterManager::Update()
         spawnTime -= SPAWN_INTERVAL;
         Spawn();
     }
+
+    Collision();
 
     // 모델 인스턴싱 업데이트
     modelInstancing->Update();

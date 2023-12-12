@@ -41,7 +41,6 @@ public:
 
     // 몬스터 매니저의 대상(Transform)을 설정하는 함수
     void SetTarget(Transform* target) { this->target = target; }
-
     // 몬스터 매니저의 대상(Transform)을 반환하는 함수
     Transform* GetTarget() { return target; }
     ModelAnimatorInstancing* GetInstancing() { return modelInstancing; }

@@ -94,19 +94,8 @@ Transform* ModelAnimatorInstancing::Add()
 {
     Transform* transform = new Transform();
     transform->SetTag(name + "_" + to_string(transforms.size()));
-
-    //FOR(transforms.size())
-    //    if (!transforms[i]->IsActive())
-    //    {
-    //        delete transforms[i];
-    //        transforms[i] = transform;
-    //        LastInputnum = i;
-
-    //        return transform;
-    //    }
-
     transforms.push_back(transform);
-    LastInputnum = transforms.size() - 1;
+
     return transform;
 }
 
