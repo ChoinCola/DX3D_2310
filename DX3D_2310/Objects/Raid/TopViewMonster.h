@@ -41,7 +41,6 @@ public:
 
     // 몬스터를 렌더링하는 함수
     void Render();
-    void PostRender();
     // 몬스터의 정보를 GUI로 렌더링하는 함수
     void GUIRender();
 
@@ -66,22 +65,11 @@ private:
 
     void SetHPBar();
 
-    // 몬스터의 순찰 동작을 처리하는 함수
-    void Patrol();
-
-    // 몬스터의 추적 동작을 처리하는 함수
-    void Trace();
-
-    // 몬스터의 공격 동작을 처리하는 함수
-    void Attack();
-
     // 몬스터의 다양한 행동을 생성하는 함수
     void CreateActions();
 
     void EndDamage();
     void EndAttack();
-
-    void DeadObejctDelete();
 
 private:
     // 몬스터의 3D 모델 Transform

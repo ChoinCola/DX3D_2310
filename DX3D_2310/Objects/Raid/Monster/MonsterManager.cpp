@@ -69,8 +69,6 @@ void MonsterManager::Render()
 
 void MonsterManager::PostRender()
 {
-    for (TopViewMonster* monster : monsters)
-        monster->PostRender();
 }
 
 // GUI에서 몬스터 정보를 렌더링하는 함수

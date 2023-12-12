@@ -47,7 +47,6 @@ void TopViewMonster::Update()
     UpdateWorld();
     ExcuteEvent();
     if (isActive == true) DeadTime = 0;
-    DeadObejctDelete();
     SetHPBar();
 }
 
@@ -72,12 +71,6 @@ void TopViewMonster::GUIRender()
 
 void TopViewMonster::Hit(float input)
 {
-    HP -= input;
-    if (HP <= 0)
-    {
-        curState = DIE;
-        maxHP = 100;
-    }
 }
 
 void TopViewMonster::Play(AnimState clip)

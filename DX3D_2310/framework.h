@@ -234,6 +234,7 @@ using namespace Utility;
 #include "Objects/Raid/Monster/MonsterDamage.h"
 #include "Objects/Raid/Monster/MonsterHit.h"
 #include "Objects/Raid/TopViewMonster.h"
+
 #include "Objects/Raid/Monster/MonsterManager.h"
 
 
@@ -242,7 +243,6 @@ using namespace Utility;
 #include "Objects/TopViewGame/_TopViewGamestruct.h"
 
 #include "Objects/TopViewGame/Monster/TopMonster.h"
-
 #include "Objects/TopViewGame/Master/Object.h"
 #include "Objects/TopViewGame/Master/MonsterMaster.h"
 #include "Objects/TopViewGame/Master/ObejctMaster.h"

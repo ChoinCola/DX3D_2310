@@ -77,6 +77,6 @@ void RenderTargetScene::CreateObjects()
 	traveler->Load();
 
 	sphere = new Sphere();
-	sphere->GetMaterial()->Load("TextData/Materials/2.mat");
+	//sphere->GetMaterial()->Load("TextData/Materials/1.mat");
 	sphere->Load();
 }
