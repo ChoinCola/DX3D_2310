@@ -20,11 +20,13 @@ public:
 public:
 	static Texture* Add(wstring file);
 	static Texture* Add(wstring file, wstring key);
+	static Texture* Add(wstring key, ID3D11ShaderResourceView* srv);
 
 	static void Delete();
 
 private:
 	wstring file;
+	bool isReferenced = false; // 참조여부검사
 
 	ScratchImage image;
 

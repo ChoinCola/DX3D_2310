@@ -19,8 +19,7 @@ TopviewTraveler::~TopviewTraveler()
 {
 	delete bodyMesh;
 
-    for (Weapon* weapon : weapons)
-        delete weapon;
+
 }
 
 void TopviewTraveler::Update()
@@ -33,8 +32,7 @@ void TopviewTraveler::Update()
     UpdateWorld();
     bodyMesh->Update();
 
-    for (Weapon* weapon : weapons)
-        weapon->Update();
+
 }
 
 void TopviewTraveler::Render()
@@ -42,8 +40,6 @@ void TopviewTraveler::Render()
     bodyMesh->Render();
     __super::Render();
 
-    for (Weapon* weapon : weapons)
-        weapon->Render();
 }
 
 void TopviewTraveler::GUIRender()
@@ -144,8 +140,6 @@ void TopviewTraveler::ReadClips()
 
 void TopviewTraveler::CreateWeapons()
 {
-    SkillData skillData = SurvivalDataManager::Get()->GetSkillData(101);
-    weapons.push_back(new TopViewWeaponFireBall())
 }
 
 void TopviewTraveler::SearchPlayer()

@@ -36,8 +36,8 @@ void Traveler::Update()
     if (curState == ATTACK) Observer::Get()->ExcuteParamEvent("MonsterHit", sword);
     attack = nullptr;
     Attack();
-    Control();
-    Move();
+    //Control();
+    //Move();
     SetAction();
 
     rightHand->SetWorld(bodyMesh->GetTransformByNode(sword_transform));

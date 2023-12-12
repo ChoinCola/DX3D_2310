@@ -17,6 +17,8 @@ Device::~Device()
 
 void Device::Clear()
 {
+    deviceContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
+
     float clearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f };
     deviceContext->ClearRenderTargetView(renderTargetView, clearColor);
     deviceContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
@@ -84,5 +86,5 @@ void Device::CreateDeviceAndSwapChain()
     depthViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 
     device->CreateDepthStencilView(depthBuffer, &depthViewDesc, &depthStencilView);
-    deviceContext->OMSetRenderTargets(1, &renderTargetView, depthStencilView);
+
 }

@@ -135,6 +135,8 @@ using namespace Utility;
 #include "Framework/Render/Texture.h"
 #include "Framework/Render/Material.h"
 #include "Framework/Render/Mesh.h"
+#include "Framework/Render/DepthStencil.h"
+#include "Framework/Render/RenderTarget.h"
 
 // State Header
 #include "Framework/State/RasterizerState.h"
@@ -270,6 +272,7 @@ using namespace Utility;
 #include "Scenes/InstancingScene.h"
 #include "Scenes/TopViewGame.h"
 #include "Scenes/ModelInstansingScene.h"
+#include "Scenes/RenderTargetScene.h"
 
 extern HWND hWnd;
 extern Vector3 mousePos;

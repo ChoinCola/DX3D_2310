@@ -9,7 +9,8 @@ Texture::Texture(ID3D11ShaderResourceView* srv, ScratchImage& image, wstring fil
 
 Texture::~Texture()
 {
-    SAFE_RELEASE(srv);
+    if(!isReferenced)
+        SAFE_RELEASE(srv);
 }
 
 void Texture::PSSet(UINT slot)
@@ -95,6 +96,17 @@ Texture* Texture::Add(wstring file, wstring key)
         image.GetImageCount(), image.GetMetadata(), &srv);
 
     textures[key] = new Texture(srv, image, file);
+    return textures[key];
+}
+
+Texture* Texture::Add(wstring key, ID3D11ShaderResourceView* srv)
+{
+    if (textures.count(key) > 0)
+        return textures[key];
+
+    ScratchImage image;
+    textures[key] = new Texture(srv, image, key);
+    textures[key]->isReferenced = true;
     return textures[key];
 }
 
