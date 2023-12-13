@@ -9,6 +9,9 @@ ModelAnimatorInstancing::ModelAnimatorInstancing(string name)
     instanceBuffer = new VertexBuffer(instanceDatas, sizeof(InstanceData),
         MAX_INSTANCE);
 
+    instancePrerenderBuffer = new VertexBuffer(PreRenderinstanceDatas, sizeof(InstanceData),
+        MAX_INSTANCE);
+
     frameInstancingBuffer = new FrameInstancingBuffer();
 }
 
@@ -24,27 +27,7 @@ ModelAnimatorInstancing::~ModelAnimatorInstancing()
 void ModelAnimatorInstancing::Update()
 {
     drawCount = 0;
-
-    if (inputTransforms.size() != 0)
-    {
-        FOR(inputTransforms.size())
-        {
-            if (inputTransforms[i]->IsActive())
-            {
-                UpdateFrame(&frameInstancingBuffer->GetData()->motions[i]);
-                inputTransforms[i]->UpdateWorld();
-                instanceDatas[drawCount].world =
-                    XMMatrixTranspose(inputTransforms[i]->GetWorld());
-                instanceDatas[drawCount].index = i;
-
-                drawCount++;
-            }
-        }
-        instanceBuffer->Update(instanceDatas, drawCount);
-        return;
-    }
-
-
+    PreRenderdrawCount = 0;
     FOR(transforms.size())
     {
         if (transforms[i]->IsActive())
@@ -56,10 +39,28 @@ void ModelAnimatorInstancing::Update()
             instanceDatas[drawCount].index = i;
 
             drawCount++;
+
+            if (transforms[i]->IsPreRender()) {
+                PreRenderinstanceDatas[PreRenderdrawCount].world =
+                    XMMatrixTranspose(transforms[i]->GetWorld());
+                PreRenderinstanceDatas[PreRenderdrawCount].index = i;
+                PreRenderdrawCount++;
+            }
         }
     }
 
     instanceBuffer->Update(instanceDatas, drawCount);
+    instancePrerenderBuffer->Update(PreRenderinstanceDatas, PreRenderdrawCount);
+}
+
+void ModelAnimatorInstancing::PreRender()
+{
+    instancePrerenderBuffer->Set(1);
+    frameInstancingBuffer->SetVS(4);
+    DC->VSSetShaderResources(0, 1, &srv);
+
+    for (ModelMesh* mesh : meshes)
+        mesh->RenderInstanced(PreRenderdrawCount);
 }
 
 void ModelAnimatorInstancing::Render()
@@ -81,6 +82,7 @@ void ModelAnimatorInstancing::Render(VertexBuffer* input)
     for (ModelMesh* mesh : meshes)
         mesh->RenderInstanced(drawCount);
 }
+
 void ModelAnimatorInstancing::GUIRender()
 {
     ImGui::Text("DrawCount : %d", drawCount);
@@ -109,16 +111,6 @@ UINT ModelAnimatorInstancing::GetLastObjectNum()
     return LastInputnum;
 }
 
-
-void ModelAnimatorInstancing::SetTransforms(vector<Transform*> transform)
-{
-    inputTransforms.resize(0);
-    inputTransforms.reserve(transform.size());
-
-    for (auto& def : transform) {
-        inputTransforms.emplace_back(def);
-    }
-}
 
 void ModelAnimatorInstancing::PlayClip(UINT instanceInex, int clip, float scale, float takeTime)
 {

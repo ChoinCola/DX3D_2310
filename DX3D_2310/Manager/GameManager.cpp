@@ -9,7 +9,9 @@ GameManager::GameManager()
 
     SceneManager::Get()->Create("Grid", new GridScene());
     //SceneManager::Get()->Create("Start", new RenderTargetScene());
-    SceneManager::Get()->Create("Start", new OutLineScene());
+    //SceneManager::Get()->Create("Start", new OutLineScene());
+    SceneManager::Get()->Create("Start", new SubScene());
+    //SceneManager::Get()->Create("Start", new ModelInstancingScene());
     //SceneManager::Get()->Create("Topview", new TopViewGame());
 
     SceneManager::Get()->Add("Grid");

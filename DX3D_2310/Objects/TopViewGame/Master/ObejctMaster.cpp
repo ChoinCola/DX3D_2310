@@ -58,7 +58,6 @@ void ObjectMaster::Rendermap(pair<float, float> inputpos, Float2 size)
 	//		inputTransform(def, Grasses);
 	//}
 	RemakeTransform(GrassPos[inputpos], definput);
-	Grasses->SetTransforms(definput);
 	Grasses->Update();
 	Grasses->Render();
 

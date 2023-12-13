@@ -25,6 +25,7 @@ public:
 	~ModelAnimatorInstancing();
 
 	void Update();
+	void PreRender();
 	void Render();
 	void Render(VertexBuffer* input);
 
@@ -33,7 +34,7 @@ public:
 	Transform* Add();
 	void TransformUnActive(UINT input);
 	UINT GetLastObjectNum();
-	void SetTransforms(vector<Transform*> transform);
+	void SetIsPreRneder(UINT input, bool isprerender) { transforms[input]->SetPreRender(isprerender); }
 	void PlayClip(UINT instanceInex, int clip, float scale = 1.0f, float takeTime = 0.1f);
 	UINT GetPlayClip(UINT instanceInex);
 
@@ -46,13 +47,17 @@ public:
 
 private:
 	vector<Transform*> transforms;
-	vector<Transform*> inputTransforms;
+
 	InstanceData instanceDatas[MAX_INSTANCE];
+	InstanceData PreRenderinstanceDatas[MAX_INSTANCE];
 
 	VertexBuffer* instanceBuffer;
+	VertexBuffer* instancePrerenderBuffer;
+
 	FrameInstancingBuffer* frameInstancingBuffer;
 
 	UINT drawCount = 0;
+	UINT PreRenderdrawCount = 0;
 
 	UINT LastInputnum = 0;
 };

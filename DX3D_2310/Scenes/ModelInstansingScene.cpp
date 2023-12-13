@@ -2,11 +2,11 @@
 
 ModelInstancingScene::ModelInstancingScene()
 {
-	modelInstancing = new ModelAnimatorInstancing("Grass");
+	modelInstancing = new ModelAnimatorInstancing("Traveler");
 
-	modelInstancing->ReadClip("Grass_Idle");
+	modelInstancing->ReadClip("Idle");
 	//modelInstancing->ReadClip("Walk");
-	modelInstancing->ReadClip("Shack");
+	modelInstancing->ReadClip("Walk");
 	modelInstancing->CreateTexture();
 	for (float z = -10.0f; z <= 10.0f; z++)
 	{

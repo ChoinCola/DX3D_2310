@@ -257,6 +257,7 @@
     <ClInclude Include="Objects\Raid\UI\HPbar.h" />
     <ClInclude Include="Objects\Robot\Robot.h" />
     <ClInclude Include="Objects\Basic\UI\Button.h" />
+    <ClInclude Include="Objects\SubObject\UnitCollider.h" />
     <ClInclude Include="Objects\TopViewGame\Map.h" />
     <ClInclude Include="Objects\TopViewGame\Master\Object.h" />
     <ClInclude Include="Objects\TopViewGame\Monster\TopMonster.h" />
@@ -282,6 +283,7 @@
     <ClInclude Include="Scenes\RaidScene.h" />
     <ClInclude Include="Scenes\RenderTargetScene.h" />
     <ClInclude Include="Scenes\Scene.h" />
+    <ClInclude Include="Scenes\SubScene.h" />
     <ClInclude Include="Scenes\TerrainScene.h" />
     <ClInclude Include="Scenes\TopViewGame.h" />
     <ClInclude Include="targetver.h" />
@@ -374,6 +376,7 @@
     <ClCompile Include="Objects\Raid\UI\HPbar.cpp" />
     <ClCompile Include="Objects\Robot\Robot.cpp" />
     <ClCompile Include="Objects\Basic\UI\Button.cpp" />
+    <ClCompile Include="Objects\SubObject\UnitCollider.cpp" />
     <ClCompile Include="Objects\TopViewGame\Map.cpp" />
     <ClCompile Include="Objects\TopViewGame\Master\ObejctMaster.cpp" />
     <ClCompile Include="Objects\TopViewGame\SurvivalDataManager.cpp" />
@@ -392,6 +395,7 @@
     <ClCompile Include="Scenes\OutlineScene.cpp" />
     <ClCompile Include="Scenes\RaidScene.cpp" />
     <ClCompile Include="Scenes\RenderTargetScene.cpp" />
+    <ClCompile Include="Scenes\SubScene.cpp" />
     <ClCompile Include="Scenes\TerrainScene.cpp" />
     <ClCompile Include="Scenes\TopViewGame.cpp" />
   </ItemGroup>

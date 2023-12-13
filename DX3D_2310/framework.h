@@ -250,6 +250,8 @@ using namespace Utility;
 #include "Objects/TopViewGame/Map.h"
 #include "Objects/TopViewGame/TopPlayer.h"
 
+#include "Objects/SubObject/UnitCollider.h"
+
 
 // Scene
 #include "Scenes/Scene.h"
@@ -274,6 +276,7 @@ using namespace Utility;
 #include "Scenes/ModelInstansingScene.h"
 #include "Scenes/RenderTargetScene.h"
 #include "Scenes/OutlineScene.h"
+#include "Scenes/SubScene.h"
 
 extern HWND hWnd;
 extern Vector3 mousePos;

@@ -18,6 +18,7 @@ public:
 	void Load();
 
 	bool IsActive();
+	bool IsPreRender() { return isPreRender; };
 
 	Vector3 GetLocalPosition() const { return localPosition; }
 	Vector3 GetLocalRotation() const { return localRotation; }
@@ -51,12 +52,13 @@ public:
 	Vector3 GetBack() const { return -forward.GetNormalized(); }
 
 	void SetActive(bool isActive) { this->isActive = isActive; }
-
+	void SetPreRender(bool isPreRender) { this->isPreRender = isPreRender; }
 
 protected:
 	string tag;
 	bool isActive = true;
-	
+	bool isPreRender = false;
+
 	Vector3 localPosition = {};
 	Vector3 localRotation = {};
 	Vector3 localScale = { 1, 1, 1 }; // 배율이기 떄문에 0이 되면 안됨.
