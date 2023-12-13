@@ -414,6 +414,9 @@
     <ClInclude Include="Framework\Render\DepthStencil.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Scenes\OutlineScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2310.cpp">
@@ -728,6 +731,9 @@
     <ClCompile Include="Framework\Render\DepthStencil.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Scenes\OutlineScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2310.rc">
@@ -757,6 +763,11 @@
     <FxCompile Include="Shaders\UI\ProgressBar.hlsl" />
     <FxCompile Include="Shaders\PostEffect\Grayscale.hlsl" />
     <FxCompile Include="Shaders\PostEffect\Sepia.hlsl" />
+    <FxCompile Include="Shaders\PostEffect\Mosaic.hlsl" />
+    <FxCompile Include="Shaders\PostEffect\Blur.hlsl" />
+    <FxCompile Include="Shaders\PostEffect\RadialBlur.hlsl" />
+    <FxCompile Include="Shaders\PostEffect\PostLight.hlsl" />
+    <FxCompile Include="Shaders\PostEffect\OutLine.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\Lib\DirectXTex.lib" />

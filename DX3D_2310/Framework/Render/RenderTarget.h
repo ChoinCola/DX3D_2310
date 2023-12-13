@@ -12,7 +12,7 @@ public:
     ID3D11ShaderResourceView*& GetSRV() { return srv; }
 
 public:
-    static void SetMulti(RenderTarget** targets, UINT count, DepthStencil* depthStencil, Float4 clearColor = Float4(1, 1, 1, 1));
+    static void SetMulti(RenderTarget** targets, UINT count, DepthStencil* depthStencil, Float4 clearColor = Float4(1, 1, 1, 0));
 
 private:
     void CreateRTVTexture();

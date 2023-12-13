@@ -273,6 +273,7 @@ using namespace Utility;
 #include "Scenes/TopViewGame.h"
 #include "Scenes/ModelInstansingScene.h"
 #include "Scenes/RenderTargetScene.h"
+#include "Scenes/OutlineScene.h"
 
 extern HWND hWnd;
 extern Vector3 mousePos;

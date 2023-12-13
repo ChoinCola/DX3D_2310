@@ -19,19 +19,29 @@ PixelInput VS(VertexUV input)
 	
 	return output;
 }
-
+cbuffer ValueBuffer : register(b10)
+{
+	float range;
+	float2 imageSize;
+}
 
 float4 PS(PixelInput input) : SV_TARGET
 {
-	float4 baseColore = diffuseMap.Sample(samp, input.uv);
+	float count = 0;
 	
-	//float scale = (baseColore.r + baseColore.g + baseColore.b) / 3;
-	//float3 grayColor;
-	//grayColor.r = baseColore.r * 0.3f;
-	//grayColor.g = baseColore.g * 0.59f;
-	//grayColor.b = baseColore.b * 0.11f;
+	for (int y = -1; y <= 1; y++)
+	{
+		for (int x = -1; x <= 1; x++)
+		{
+			float2 offset = (float2(x, y) / imageSize) * (range + 1);
+			float4 result = diffuseMap.Sample(samp, input.uv + offset);
+			
+			count += result.a;
+		}
+		
+	}
+	if (count > 0 && count < 9)
+		return mDiffuse;
 	
-	float scale = dot(baseColore.rgb, float3(0.3f, 0.59f, 0.11f));
-	
-	return float4(scale.xxx,baseColore.a) * mDiffuse;
+	return float4(0, 0, 0, 0);
 }

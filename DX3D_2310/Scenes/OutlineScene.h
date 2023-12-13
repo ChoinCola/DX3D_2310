@@ -1,10 +1,9 @@
 #pragma once
-
-class RenderTargetScene : public Scene
+class OutLineScene : public Scene
 {
 public:
-	RenderTargetScene();
-	~RenderTargetScene();
+	OutLineScene();
+	~OutLineScene();
 
 	// Scene을(를) 통해 상속됨
 	void Update() override;

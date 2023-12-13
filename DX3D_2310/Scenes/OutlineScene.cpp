@@ -1,7 +1,6 @@
 #include "Framework.h"
-#include "RenderTargetScene.h"
 
-RenderTargetScene::RenderTargetScene()
+OutLineScene::OutLineScene()
 {
 	CreateObjects();
 
@@ -10,24 +9,24 @@ RenderTargetScene::RenderTargetScene()
 
 	Texture* target = Texture::Add(L"Target", renderTarget->GetSRV());
 	targetQuad = new Quad(Float2(CENTER_X, CENTER_Y));
-	targetQuad->GetMaterial()->SetShader(L"PostEffect/Mosaic.hlsl");
+	targetQuad->GetMaterial()->SetShader(L"PostEffect/OutLine.hlsl");
 	targetQuad->GetMaterial()->SetDiffuseMap(target);
 	targetQuad->SetTag("def");
 
-	targetQuad->SetLocalPosition({ CENTER_X * 0.5f, CENTER_Y * 0.5f});
+	targetQuad->SetLocalPosition({ CENTER_X * 0.5f, CENTER_Y * 0.5f });
 
 	targetQuad2 = new Quad(Float2(CENTER_X, CENTER_Y));
 	targetQuad2->GetMaterial()->SetShader(L"PostEffect/Grayscale.hlsl");
 	targetQuad2->GetMaterial()->SetDiffuseMap(target);
 	targetQuad2->SetTag("def");
-	targetQuad2->SetLocalPosition({ CENTER_X*0.5f, CENTER_Y*1.5f});
+	targetQuad2->SetLocalPosition({ CENTER_X * 0.5f, CENTER_Y * 1.5f });
 
 	valueBuffer = new FloatValueBuffer();
 	valueBuffer->GetData()[1] = CENTER_X;
 	valueBuffer->GetData()[2] = CENTER_Y;
 }
 
-RenderTargetScene::~RenderTargetScene()
+OutLineScene::~OutLineScene()
 {
 	delete quad;
 	delete model;
@@ -35,7 +34,7 @@ RenderTargetScene::~RenderTargetScene()
 	delete sphere;
 }
 
-void RenderTargetScene::Update()
+void OutLineScene::Update()
 {
 	quad->UpdateWorld();
 	model->UpdateWorld();
@@ -45,10 +44,10 @@ void RenderTargetScene::Update()
 	targetQuad2->UpdateWorld();
 }
 
-void RenderTargetScene::PreRender()
+void OutLineScene::PreRender()
 {
 	valueBuffer->SetPS(10);
-	renderTarget->Set(depthStencil);
+	renderTarget->Set(depthStencil, {0, 0, 0, 0});
 
 	quad->Render();
 	model->Render();
@@ -56,31 +55,26 @@ void RenderTargetScene::PreRender()
 	sphere->Render();
 }
 
-void RenderTargetScene::Render()
+void OutLineScene::Render()
 {
 
 }
 
-void RenderTargetScene::PostRender()
+void OutLineScene::PostRender()
 {
 	targetQuad->Render();
 	targetQuad2->Render();
 }
 
-void RenderTargetScene::GUIRender()
+void OutLineScene::GUIRender()
 {
-	//quad->		GUIRender();
-	//model->		GUIRender();
-	//traveler->	GUIRender();
-	//sphere->	GUIRender();
-	//targetQuad->GUIRender();
-	ImGui::DragFloat("Scale", &valueBuffer->GetData()[0]);
-	ImGui::DragFloat("Scale1", &valueBuffer->GetData()[1]);
-	ImGui::DragFloat("Scale2", &valueBuffer->GetData()[2]);
+	ImGui::DragFloat("Scale0", &valueBuffer->GetData()[0], 0.1f);
+	ImGui::DragFloat("Scale1", &valueBuffer->GetData()[1], 0.1f);
+	ImGui::DragFloat("Scale2", &valueBuffer->GetData()[2], 0.1f);
 	targetQuad->GetMaterial()->GUIRender();
 }
 
-void RenderTargetScene::CreateObjects()
+void OutLineScene::CreateObjects()
 {
 	quad = new Quad();
 	quad->Load();
