@@ -47,10 +47,13 @@
 #include <assert.h>
 #include <fstream>
 #include <functional>
+#include <thread>
+#include <mutex>
 
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
+#include <DirectXCollision.h>
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
@@ -85,6 +88,7 @@
 
 using namespace std;
 using namespace DirectX;
+using namespace DirectX::TriangleTests;
 
 typedef XMFLOAT4 Float4;
 typedef XMFLOAT3 Float3;
@@ -121,6 +125,7 @@ using namespace Utility;
 #include "Framework/Shader/Shader.h"
 #include "Framework/Shader/VertexShader.h"
 #include "Framework/Shader/PixelShader.h"
+#include "Framework/Shader/ComputeShader.h"
 
 
 // Buffer Header
@@ -130,6 +135,8 @@ using namespace Utility;
 #include "Framework/Buffer/GlobalBuffer.h"
 #include "Framework/Buffer/VertexLayouts.h"
 #include "Framework/Buffer/DepthBuffer.h"
+#include "Framework/Buffer/RawBuffer.h"
+#include "Framework/Buffer/StructuredBuffer.h"
 
 // Render Header
 #include "Framework/Render/Texture.h"
@@ -194,6 +201,7 @@ using namespace Utility;
 
 // Terrain Header
 #include "Objects/LandScape/Terrain.h"
+#include "Objects/LandScape/TerrainEditor.h"
 #include "Objects/LandScape/SkyBox.h"
 
 // Shooting Header
@@ -277,6 +285,7 @@ using namespace Utility;
 #include "Scenes/RenderTargetScene.h"
 #include "Scenes/OutlineScene.h"
 #include "Scenes/SubScene.h"
+#include "Scenes/TerrainEditScene.h"
 
 extern HWND hWnd;
 extern Vector3 mousePos;

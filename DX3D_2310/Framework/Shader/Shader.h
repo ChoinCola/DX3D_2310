@@ -10,6 +10,7 @@ protected:
 public:
 	static class VertexShader* AddVS(wstring fiile);
 	static class PixelShader* AddPS(wstring fiile);
+	static class ComputeShader* AddCS(wstring fiile);
 
 	static void Delete();
 
