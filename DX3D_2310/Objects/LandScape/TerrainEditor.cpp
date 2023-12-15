@@ -3,6 +3,7 @@
 TerrainEditer::TerrainEditer() : width(MAX_SIZE), height(MAX_SIZE)
 {
 	material->SetDiffuseMap(L"Textures/Landscape/Dirt2.png");
+	material->SetShader(L"LandScape/TerrainEditer.hlsl");
 	mesh = new Mesh<VertexType>;
 	MakeMesh();
 	MakeNormal();
@@ -15,21 +16,37 @@ TerrainEditer::TerrainEditer() : width(MAX_SIZE), height(MAX_SIZE)
 		inputs.data(), sizeof(InputDesc), triangleSize,
 		sizeof(OutputDesc), triangleSize);
 	rayBuffer = new RayBuffer();
+	brushBuffer = new BrushBuffer();
+
+	char path[128];
+	GetCurrentDirectoryA(128, path);
+	projectPath = path;
 }
 
 TerrainEditer::~TerrainEditer()
 {
 	delete mesh;
+
+	delete structuredBuffer;
+	delete rayBuffer;
+	delete brushBuffer;
 }
 
 void TerrainEditer::Update()
 {
 	//Picking();
 	ComputePicking(pickingPos);
+	brushBuffer->Get().pickingPos = pickingPos;
+
+	if (KEY->Press(VK_LBUTTON) && !ImGui::GetIO().WantCaptureMouse)
+	{
+		AdjustHeight();
+	}
 }
 
 void TerrainEditer::Render()
 {
+	brushBuffer->SetPS(10);
 	SetRender();
 	mesh->Draw();
 }
@@ -38,6 +55,13 @@ void TerrainEditer::GUIRender()
 {
 	string def = pickingPos;
 	ImGui::Text(def.c_str());
+	ImGui::DragFloat("Range", &brushBuffer->Get().range);
+	ImGui::ColorEdit3("BrushColor", (float*)&brushBuffer->Get().color);
+	ImGui::DragFloat("AdjustHeight", &adjustValue);
+
+	SaveHeightMap();
+	ImGui::SameLine();
+	LoadHeightMap();
 }
 
 void TerrainEditer::Picking()
@@ -75,7 +99,7 @@ void TerrainEditer::Picking()
 		}
 	}
 }
-
+// 지형 편집기의 컴퓨트 피킹 함수입니다.
 bool TerrainEditer::ComputePicking(Vector3& pos)
 {
 	// 마우스 위치로부터 레이 생성
@@ -140,7 +164,7 @@ bool TerrainEditer::ComputePicking(Vector3& pos)
 	return false;
 }
 
-
+// 지형 편집기의 컴퓨트 데이터 생성 함수입니다.
 void TerrainEditer::MakeComputeData()
 {
 	vector<VertexType> vertices = mesh->GetVertices();
@@ -262,4 +286,161 @@ void TerrainEditer::MakeNormal(bool Flip)
 			vertices[index2].normal += noraml;
 		}
 	}
+}
+
+// 브러시를 사용하여 지형의 높이를 동적으로 조절하는 함수입니다.
+void TerrainEditer::AdjustHeight()
+{
+	// 지형 메시의 정점들을 가져옵니다.
+	vector<VertexType>& vertices = mesh->GetVertices();
+
+	// 각 정점에 대해 브러시 영향을 계산하고 높이를 조절합니다.
+	for (VertexType& vertex : vertices)
+	{
+		// 정점의 x, z 좌표를 포함하는 3D 위치 생성
+		Vector3 pos = Vector3(vertex.pos.x, 0.0f, vertex.pos.z);
+
+		// 브러시의 피킹 위치를 가져오고 y 좌표를 0으로 설정
+		Vector3 pickingPos = brushBuffer->Get().pickingPos;
+		pickingPos.y = 0.0f;
+
+		// 정점과 브러시 피킹 위치 간의 거리 계산
+		float distance = MATH->Distance(pos, pickingPos);
+
+		// 거리가 브러시의 효과 범위 내에 있는 경우에만 높이를 조절합니다.
+		if (distance <= brushBuffer->Get().range)
+		{
+			// 높이를 조절하는 부분
+			vertex.pos.y += adjustValue * DELTA;
+
+			// 높이를 최대 높이(MAX_HEIGHT)로 제한합니다.
+			vertex.pos.y = MATH->Clamp(0.0f, MAX_HEIGHT, vertex.pos.y);
+		}
+	}
+
+	// 높이가 조절된 후에는 메시의 높이맵 및 노말을 업데이트합니다.
+	UpdateHeight();
+}
+
+void TerrainEditer::AdjustAlpha()
+{
+
+}
+
+void TerrainEditer::SaveHeightMap()
+{
+	// "SaveHeight" 버튼이 눌렸는지 확인하고, 눌렸다면 파일 다이얼로그를 엽니다.
+	if (ImGui::Button("SaveHeight"))
+		DIALOG->OpenDialog("SaveHeight", "SaveHeight", ".png", ".");
+
+	// 파일 다이얼로그가 열려있는 경우
+	if (DIALOG->Display("SaveHeight"))
+	{
+		// "OK" 버튼이 눌렸는지 확인
+		if (DIALOG->IsOk())
+		{
+			// 선택된 파일 경로를 가져와서 프로젝트 경로 이후의 상대 경로로 변환합니다.
+			string file = DIALOG->GetFilePathName();
+			file = file.substr(projectPath.size() + 1, file.size());
+
+			// 이미지의 크기에 맞게 픽셀 데이터를 저장할 배열을 동적으로 할당합니다.
+			UINT size = width * height * 4;
+			uint8_t* pixels = new uint8_t[size];
+
+			// 메시의 정점에서 높이 정보를 가져와 픽셀 데이터로 변환합니다.
+			vector<VertexType>& vertices = mesh->GetVertices();
+			FOR(size / 4)
+			{
+				float y = vertices[i].pos.y;
+
+				// 높이 값을 0에서 MAX_HEIGHT까지의 범위로 정규화하여 0에서 255 사이의 값으로 변환합니다.
+				uint8_t height = y / MAX_HEIGHT * 255;
+
+				// 픽셀 데이터에 저장합니다. (RGBA 형식)
+				pixels[i * 4 + 0] = height;
+				pixels[i * 4 + 1] = height;
+				pixels[i * 4 + 2] = height;
+				pixels[i * 4 + 3] = 255;
+			}
+
+			// 이미지 정보를 담는 구조체를 초기화하고 픽셀 데이터를 할당된 메모리에 복사합니다.
+			Image image;
+			image.width = width;
+			image.height = height;
+			image.format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			image.rowPitch = width * 4;
+			image.slicePitch = size;
+			image.pixels = pixels;
+
+			// WIC 파일로 이미지를 저장합니다. (PNG 형식)
+			SaveToWICFile(image, WIC_FLAGS_FORCE_RGB,
+				GetWICCodec(WIC_CODEC_PNG), ToWString(file).c_str());
+
+			// 동적으로 할당된 픽셀 데이터의 메모리를 해제합니다.
+			delete[] pixels;
+		}
+
+		// 파일 다이얼로그를 닫습니다.
+		DIALOG->Close();
+	}
+}
+
+void TerrainEditer::LoadHeightMap()
+{
+	// "LoadHeight" 버튼이 눌렸는지 확인하고, 눌렸다면 파일 다이얼로그를 엽니다.
+	if (ImGui::Button("LoadHeight"))
+		DIALOG->OpenDialog("LoadHeight", "LoadHeight", ".png", ".");
+
+	// 파일 다이얼로그가 열려있는 경우
+	if (DIALOG->Display("LoadHeight"))
+	{
+		// "OK" 버튼이 눌렸는지 확인
+		if (DIALOG->IsOk())
+		{
+			// 선택된 파일 경로를 가져와서 프로젝트 경로 이후의 상대 경로로 변환합니다.
+			string file = DIALOG->GetFilePathName();
+			file = file.substr(projectPath.size() + 1, file.size());
+
+			// 텍스처로 높이맵을 불러옵니다.
+			heightMap = Texture::Add(ToWString(file));
+
+			// 메시를 리사이즈하여 새로운 높이맵에 맞게 조정합니다.
+			Resize();
+		}
+
+		// 파일 다이얼로그를 닫습니다.
+		DIALOG->Close();
+	}
+}
+
+void TerrainEditer::SaveAlphaMap()
+{
+}
+
+void TerrainEditer::LoadAlphaMap()
+{
+}
+
+void TerrainEditer::UpdateHeight()
+{
+	vector<VertexType>& vertices = mesh->GetVertices();
+	for (VertexType& vertex : vertices)
+		vertex.normal = {};
+
+	MakeNormal();
+	MakeComputeData();
+	mesh->UpdateVertices();
+	structuredBuffer->UpdateInput(inputs.data());
+}
+
+void TerrainEditer::Resize()
+{
+	MakeMesh();
+	MakeNormal();
+	MakeComputeData();
+
+	mesh->UpdateVertices();
+	mesh->UpdateIndices();
+
+	structuredBuffer->UpdateInput(inputs.data());
 }

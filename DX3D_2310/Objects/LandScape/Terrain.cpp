@@ -4,10 +4,12 @@ Terrain::Terrain()
 {
 	SetLocalPosition({ 0, 0, 0 });
 	tag = "Terrain";
-	material->SetShader(L"Light/Light.hlsl");
+	material->SetShader(L"LandScape/Terrain.hlsl");
 	material->SetDiffuseMap(L"Textures/Colors/White.png");
 
-	heightMap = Texture::Add(L"Textures/Colors/Black.png");
+	heightMap = Texture::Add(L"Textures/HeightMaps/HeightMap.png");
+	alphaMap = Texture::Add(L"Textures/HeightMaps/AlphaMap.png");
+	secondMap = Texture::Add(L"Textures/Landscape/Dirt3.png");
 
 	mesh = new Mesh<VertexUVNormal>();
 	normalline = new Mesh<VertexColor>();
@@ -25,10 +27,12 @@ Terrain::Terrain(const wstring hightmap, const float hight, bool tile, bool flip
 {
 	SetLocalPosition({ 0, 0, 0 });
 	tag = "Terrain";
-	material->SetShader(L"Light/Light.hlsl");
+	material->SetShader(L"LandScape/Terrain.hlsl");
 	material->SetDiffuseMap(L"Textures/Colors/White.png");
 
-	heightMap = Texture::Add(hightmap);
+	heightMap = Texture::Add(L"Textures/HeightMaps/HeightMap.png");
+	alphaMap = Texture::Add(L"Textures/HeightMaps/AlphaMap.png");
+	secondMap = Texture::Add(L"Textures/Landscape/Dirt3.png");
 
 	mesh = new Mesh<VertexUVNormal>();
 	normalline = new Mesh<VertexColor>();
@@ -47,32 +51,15 @@ Terrain::~Terrain()
 
 void Terrain::Render()
 {
+	alphaMap->PSSet(10);
+	secondMap->PSSet(11);
+
 	SetRender();
-	if (IsPrintNormalLine)
-		normalline->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
-
-	if (IsMapLine)
-	{
-		RSset->CullMode(D3D11_CULL_NONE);
-		RSset->FillMode(D3D11_FILL_WIREFRAME);
-		RSset->SetState();
-		ChackOne = true;
-	}
-
-	if (!IsMapLine) {
-		RSset->CullMode(D3D11_CULL_BACK);
-		RSset->FillMode(D3D11_FILL_SOLID);
-		RSset->SetState();
-		ChackOne = false;
-	}
-
 	mesh->Draw();
 }
 
 void Terrain::GUIRender()
 {
-	ImGui::Checkbox("Terrain_Print_NormalLine", &IsPrintNormalLine);
-	ImGui::Checkbox("Terrain_Onley_Line", &IsMapLine);
 	ImGui::Text("x: %d, z: %d, y:%d", x, z, y);
 	ImGui::Text("normalize : x: %d, y: %d, z: %d", v.x, v.y, v.z);
 	ImGui::Text("D : %d", D);

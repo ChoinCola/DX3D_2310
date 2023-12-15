@@ -23,3 +23,8 @@ void IndexBuffer::Set()
 {
     DC->IASetIndexBuffer(buffer, DXGI_FORMAT_R32_UINT, 0);
 }
+
+void IndexBuffer::Update(void* data, UINT count)
+{
+    DC->UpdateSubresource(buffer, 0, nullptr, data, sizeof(UINT), count);
+}

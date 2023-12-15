@@ -30,10 +30,14 @@ private:
 private:
 	UINT width = 10, height = 10;
 	Mesh<VertexType>* mesh;
-	Mesh<VertexColor>* normalline;
-	RasterizerState* RSset;
 
 	Texture* heightMap;
+	Texture* alphaMap;
+	Texture* secondMap;
+
+
+	Mesh<VertexColor>* normalline;
+	RasterizerState* RSset;
 	Vector3 defaltsize = {};
 
 	int x = 0, z = 0;
@@ -43,7 +47,4 @@ private:
 
 
 	Vector3 v;
-	bool IsPrintNormalLine = false;
-	bool IsMapLine = false;
-	bool ChackOne = false;
 };

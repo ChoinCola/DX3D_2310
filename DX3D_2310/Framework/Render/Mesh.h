@@ -11,7 +11,8 @@ public:
 	void DrawInstanced(UINT instanceCount, D3D11_PRIMITIVE_TOPOLOGY type = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	void CreateMesh();
-
+	void UpdateVertices();
+	void UpdateIndices();
 	vector<T>& GetVertices() { return vertices; }
 	vector<UINT>& GetIndices() { return indices; }
 
@@ -75,4 +76,16 @@ inline void Mesh<T>::CreateMesh()
 	{
 		indexBuffer = new IndexBuffer(indices.data(), indices.size());
 	}
+}
+
+template<typename T>
+inline void Mesh<T>::UpdateVertices()
+{
+	vertexBuffer->Update(vertices.data(), vertices.size());
+}
+
+template<typename T>
+inline void Mesh<T>::UpdateIndices()
+{
+	indexBuffer->Update(indices.data(), indices.size());
 }
