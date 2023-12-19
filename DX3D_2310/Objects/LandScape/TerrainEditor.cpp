@@ -1,9 +1,13 @@
 #include "Framework.h"
 
-TerrainEditer::TerrainEditer() : width(MAX_SIZE), height(MAX_SIZE)
+TerrainEditor::TerrainEditor() : width(MAX_SIZE), height(MAX_SIZE)
 {
 	material->SetDiffuseMap(L"Textures/Landscape/Dirt2.png");
 	material->SetShader(L"LandScape/TerrainEditer.hlsl");
+
+	secondMap = Texture::Add(L"Textures/Landscape/Stones.png");
+	thirdMap = Texture::Add(L"Textures/Landscape/Bricks.png");
+
 	mesh = new Mesh<VertexType>;
 	MakeMesh();
 	MakeNormal();
@@ -23,7 +27,7 @@ TerrainEditer::TerrainEditer() : width(MAX_SIZE), height(MAX_SIZE)
 	projectPath = path;
 }
 
-TerrainEditer::~TerrainEditer()
+TerrainEditor::~TerrainEditor()
 {
 	delete mesh;
 
@@ -32,7 +36,7 @@ TerrainEditer::~TerrainEditer()
 	delete brushBuffer;
 }
 
-void TerrainEditer::Update()
+void TerrainEditor::Update()
 {
 	//Picking();
 	ComputePicking(pickingPos);
@@ -40,31 +44,54 @@ void TerrainEditer::Update()
 
 	if (KEY->Press(VK_LBUTTON) && !ImGui::GetIO().WantCaptureMouse)
 	{
-		AdjustHeight();
+		switch (editType)
+		{
+		case TerrainEditor::HEIGHT:
+			AdjustHeight();
+			break;
+		case TerrainEditor::ALPHA:
+			AdjustAlpha();
+			break;
+		default:
+			break;
+		}
 	}
 }
 
-void TerrainEditer::Render()
+void TerrainEditor::Render()
 {
 	brushBuffer->SetPS(10);
+	secondMap->PSSet(11);
+	thirdMap->PSSet(12);
+
 	SetRender();
 	mesh->Draw();
 }
 
-void TerrainEditer::GUIRender()
+void TerrainEditor::GUIRender()
 {
 	string def = pickingPos;
 	ImGui::Text(def.c_str());
-	ImGui::DragFloat("Range", &brushBuffer->Get().range);
+
+	const char* editList[] = { "Height", "Alpha" };
+	ImGui::Combo("EditType", (int*)&editType, editList, 2);
+
+
+	ImGui::DragFloat("BrushRange", &brushBuffer->Get().range);
 	ImGui::ColorEdit3("BrushColor", (float*)&brushBuffer->Get().color);
 	ImGui::DragFloat("AdjustHeight", &adjustValue);
+	ImGui::DragInt("SecondMap", &selectMap);
 
 	SaveHeightMap();
 	ImGui::SameLine();
 	LoadHeightMap();
+
+	SaveAlphaMap();
+	ImGui::SameLine();
+	LoadAlphaMap();
 }
 
-void TerrainEditer::Picking()
+void TerrainEditor::Picking()
 {
 	Ray ray = CAM->ScreenPointToRay(mousePos);
 
@@ -100,7 +127,7 @@ void TerrainEditer::Picking()
 	}
 }
 // 지형 편집기의 컴퓨트 피킹 함수입니다.
-bool TerrainEditer::ComputePicking(Vector3& pos)
+bool TerrainEditor::ComputePicking(Vector3& pos)
 {
 	// 마우스 위치로부터 레이 생성
 	Ray ray = CAM->ScreenPointToRay(mousePos);
@@ -165,7 +192,7 @@ bool TerrainEditer::ComputePicking(Vector3& pos)
 }
 
 // 지형 편집기의 컴퓨트 데이터 생성 함수입니다.
-void TerrainEditer::MakeComputeData()
+void TerrainEditor::MakeComputeData()
 {
 	vector<VertexType> vertices = mesh->GetVertices();
 	vector<UINT> indices = mesh->GetIndices();
@@ -187,22 +214,22 @@ void TerrainEditer::MakeComputeData()
 	}
 }
 
-Vector3 TerrainEditer::GetOngravityAcceleration(const Vector3 ObjectPos, const Vector3 correction)
+Vector3 TerrainEditor::GetOngravityAcceleration(const Vector3 ObjectPos, const Vector3 correction)
 {
     return Vector3();
 }
 
-bool TerrainEditer::ChackOnGround(const Vector3 ObjectPos)
+bool TerrainEditor::ChackOnGround(const Vector3 ObjectPos)
 {
     return false;
 }
 
-pair<Vector3, Vector3> TerrainEditer::FindLowPos(Vector3 e0, Vector3 e1, Vector3 e2, Vector3 e3)
+pair<Vector3, Vector3> TerrainEditor::FindLowPos(Vector3 e0, Vector3 e1, Vector3 e2, Vector3 e3)
 {
     return pair<Vector3, Vector3>();
 }
 
-void TerrainEditer::MakeMesh(bool tile, bool flip)
+void TerrainEditor::MakeMesh(bool tile, bool flip)
 {
 	vector<Float4> pixels(width * height, Float4(0, 0, 0, 0));
 	if (heightMap)
@@ -254,7 +281,7 @@ void TerrainEditer::MakeMesh(bool tile, bool flip)
 	}
 }
 
-void TerrainEditer::MakeNormal(bool Flip)
+void TerrainEditor::MakeNormal(bool Flip)
 {
 	vector<VertexType>& vertices = mesh->GetVertices();
 	vector<UINT>& indices = mesh->GetIndices();
@@ -289,7 +316,7 @@ void TerrainEditer::MakeNormal(bool Flip)
 }
 
 // 브러시를 사용하여 지형의 높이를 동적으로 조절하는 함수입니다.
-void TerrainEditer::AdjustHeight()
+void TerrainEditor::AdjustHeight()
 {
 	// 지형 메시의 정점들을 가져옵니다.
 	vector<VertexType>& vertices = mesh->GetVertices();
@@ -322,12 +349,37 @@ void TerrainEditer::AdjustHeight()
 	UpdateHeight();
 }
 
-void TerrainEditer::AdjustAlpha()
+void TerrainEditor::AdjustAlpha()
 {
+	// 지형 메시의 정점들을 가져옵니다.
+	vector<VertexType>& vertices = mesh->GetVertices();
 
+	// 각 정점에 대해 브러시 영향을 계산하고 높이를 조절합니다.
+	for (VertexType& vertex : vertices)
+	{
+		// 정점의 x, z 좌표를 포함하는 3D 위치 생성
+		Vector3 pos = Vector3(vertex.pos.x, 0.0f, vertex.pos.z);
+
+		// 브러시의 피킹 위치를 가져오고 y 좌표를 0으로 설정
+		Vector3 pickingPos = brushBuffer->Get().pickingPos;
+		pickingPos.y = 0.0f;
+
+		// 정점과 브러시 피킹 위치 간의 거리 계산
+		float distance = MATH->Distance(pos, pickingPos);
+
+		// 거리가 브러시의 효과 범위 내에 있는 경우에만 높이를 조절합니다.
+		if (distance <= brushBuffer->Get().range)
+		{
+			vertex.alpha[selectMap] += adjustValue * DELTA;
+			vertex.alpha[selectMap] = MATH->Clamp(0.0f, 1.0f, vertex.alpha[selectMap]);
+		}
+	}
+
+	// 높이가 조절된 후에는 메시의 높이맵 및 노말을 업데이트합니다.
+	UpdateHeight();
 }
 
-void TerrainEditer::SaveHeightMap()
+void TerrainEditor::SaveHeightMap()
 {
 	// "SaveHeight" 버튼이 눌렸는지 확인하고, 눌렸다면 파일 다이얼로그를 엽니다.
 	if (ImGui::Button("SaveHeight"))
@@ -385,7 +437,7 @@ void TerrainEditer::SaveHeightMap()
 	}
 }
 
-void TerrainEditer::LoadHeightMap()
+void TerrainEditor::LoadHeightMap()
 {
 	// "LoadHeight" 버튼이 눌렸는지 확인하고, 눌렸다면 파일 다이얼로그를 엽니다.
 	if (ImGui::Button("LoadHeight"))
@@ -413,15 +465,86 @@ void TerrainEditer::LoadHeightMap()
 	}
 }
 
-void TerrainEditer::SaveAlphaMap()
+void TerrainEditor::SaveAlphaMap()
 {
+	if (ImGui::Button("SaveAlpha"))
+		DIALOG->OpenDialog("SaveAlpha", "SaveAlpha", ".png", ".");
+
+	if (DIALOG->Display("SaveAlpha"))
+	{
+		if (DIALOG->IsOk())
+		{
+			string file = DIALOG->GetFilePathName();
+
+			file = file.substr(projectPath.size() + 1, file.size());
+
+			UINT size = width * height * 4;
+			uint8_t* pixels = new uint8_t[size];
+
+			vector<VertexType>& vertices = mesh->GetVertices();
+
+			FOR(size / 4)
+			{
+				pixels[i * 4 + 0] = vertices[i].alpha[0] * 255;
+				pixels[i * 4 + 1] = vertices[i].alpha[1] * 255;
+				pixels[i * 4 + 2] = vertices[i].alpha[2] * 255;
+				pixels[i * 4 + 3] = 255;
+			}
+
+			Image image;
+			image.width = width;
+			image.height = height;
+			image.format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			image.rowPitch = width * 4;
+			image.slicePitch = size;
+			image.pixels = pixels;
+
+			SaveToWICFile(image, WIC_FLAGS_FORCE_RGB,
+				GetWICCodec(WIC_CODEC_PNG), ToWString(file).c_str());
+
+			delete[] pixels;
+		}
+
+		DIALOG->Close();
+	}
 }
 
-void TerrainEditer::LoadAlphaMap()
+void TerrainEditor::LoadAlphaMap()
 {
+	if (ImGui::Button("LoadAlpha"))
+		DIALOG->OpenDialog("LoadAlpha", "LoadAlpha", ".png", ".");
+
+	if (DIALOG->Display("LoadAlpha"))
+	{
+		if (DIALOG->IsOk())
+		{
+			string file = DIALOG->GetFilePathName();
+
+			file = file.substr(projectPath.size() + 1, file.size());
+
+			Texture* alphaMap = Texture::Add(ToWString(file));
+
+			vector<Float4> pixels;
+			alphaMap->ReadPixels(pixels);
+
+			vector<VertexType>& vertices = mesh->GetVertices();
+
+			FOR(vertices.size())
+			{
+				vertices[i].alpha[0] = pixels[i].z;
+				vertices[i].alpha[1] = pixels[i].y;
+				vertices[i].alpha[2] = pixels[i].x;
+				vertices[i].alpha[3] = pixels[i].w;
+			}
+
+			mesh->UpdateVertices();
+		}
+
+		DIALOG->Close();
+	}
 }
 
-void TerrainEditer::UpdateHeight()
+void TerrainEditor::UpdateHeight()
 {
 	vector<VertexType>& vertices = mesh->GetVertices();
 	for (VertexType& vertex : vertices)
@@ -433,7 +556,7 @@ void TerrainEditer::UpdateHeight()
 	structuredBuffer->UpdateInput(inputs.data());
 }
 
-void TerrainEditer::Resize()
+void TerrainEditor::Resize()
 {
 	MakeMesh();
 	MakeNormal();

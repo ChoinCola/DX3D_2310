@@ -1,35 +1,46 @@
-//SpecularLight
 #include "../VertexHeader.hlsli"
 #include "../PixelHeader.hlsli"
 
-// 꼭짓점 셰이더 함수입니다.
-LightPixelInput VS(VertexUVNormalTangent input)
+struct VertexInput
 {
-	LightPixelInput output;
-	// 입력 꼭짓점을 월드 공간으로 변환합니다.
+	float4 pos : POSITION;
+	float2 uv : UV;
+	float3 normal : NORMAL;
+	float4 alpha : ALPHA;
+};
+
+struct PixelInput
+{
+	float4 pos : SV_POSITION;
+	float2 uv : UV;
+	float3 normal : NORMAL;
+	float3 tangent : TANGENT;
+	float3 binormal : BINORMAL;
+	float3 worldPos : POSITION0;
+	float3 viewPos : POSITION1;
+	float4 alpha : ALPHA;
+};
+
+PixelInput VS(VertexInput input)
+{
+	PixelInput output;
 	output.pos = mul(input.pos, world);
-	// 월드 공간에서의 위치를 저장합니다.
 	output.worldPos = output.pos;
-	// 뷰 공간에서의 위치를 저장합니다.
 	output.viewPos = invView._41_42_43;
 	
-	// 위치를 뷰 공간으로 변환합니다.
 	output.pos = mul(output.pos, view);
-	// 위치를 투영 공간으로 변환합니다.
 	output.pos = mul(output.pos, projection);
 	
-	// UV 좌표를 저장합니다.
 	output.uv = input.uv;
+	output.alpha = input.alpha;
 	
-	// 노멀과 탄젠트를 월드 공간으로 변환하고, 
-	// 빈노멀(노멀과 탄젠트에 수직인 벡터)을 계산합니다.
 	output.normal = mul(input.normal, (float3x3) world);
-	output.tangent = mul(input.tangent, (float3x3) world);
-	output.binormal = cross(output.normal, output.tangent);
+	output.tangent = float3(1, 0, 0);
+	output.binormal = float3(0, 1, 0);
 	
 	return output;
 }
-// 레이드 할 때 스킬쓰기전 범위 표시. 할때 많이 사용하는 방법이다.
+
 cbuffer BrushBuffer : register(b10)
 {
 	int type;
@@ -47,23 +58,37 @@ float4 BrushColor(float3 pos)
 	
 	if (dist < range)
 		return float4(color, 0);
-	
+
 	return float4(0, 0, 0, 0);
 }
 
-// 픽셀 셰이더 함수입니다.
-float4 PS(LightPixelInput input) : SV_TARGET
+Texture2D secondDiffuseMap : register(t11);
+Texture2D thirdDiffuseMap : register(t12);
+
+float4 PS(PixelInput input) : SV_TARGET
 {
-	// 광원 데이터를 가져옵니다.
-	Material material = GetMaterial(input);
+	Material material;
+	material.normal = GetNormal(input.tangent,
+		input.binormal, input.normal, input.uv);
+	material.baseColor = diffuseMap.Sample(samp, input.uv);
+	material.specularIntensity = specularMap.Sample(samp, input.uv);
+	material.worldPos = input.worldPos;
+	material.viewDir = normalize(input.worldPos - input.viewPos);
+	
+	float4 second = secondDiffuseMap.Sample(samp, input.uv);
+	float4 third = thirdDiffuseMap.Sample(samp, input.uv);
+	
+	material.baseColor = lerp(material.baseColor, second, input.alpha.r);
+	material.baseColor = lerp(material.baseColor, third, input.alpha.g);
 	
 	float4 ambient = CalcAmbient(material);
 	float4 result = 0;
+	
 	for (int i = 0; i < lightCount; i++)
 	{
 		if (!lights[i].isActive)
 			continue;
-
+	
 		if (lights[i].type == 0)
 			result += CalcDirectional(material, lights[i]);
 		else if (lights[i].type == 1)

@@ -5,7 +5,6 @@
 Texture2D diffuseMap : register(t0);
 Texture2D specularMap : register(t1);
 Texture2D normalMap : register(t2);
-Texture2D depthBuffer : register(t3);
 
 SamplerState samp : register(s0);
 
@@ -83,6 +82,7 @@ struct LightPixelInput
 	float3 worldPos : POSITION0;
 	float3 viewPos : POSITION1;
 };
+
 
 // Function
 float3 GetNormal(float3 T, float3 B, float3 N, float2 uv)

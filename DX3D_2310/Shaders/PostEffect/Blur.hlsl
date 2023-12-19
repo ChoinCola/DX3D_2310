@@ -1,4 +1,3 @@
-//Tutorial.hlsl
 #include "../VertexHeader.hlsli"
 #include "../PixelHeader.hlsli"
 
@@ -19,6 +18,7 @@ PixelInput VS(VertexUV input)
 	
 	return output;
 }
+
 cbuffer ValueBuffer : register(b10)
 {
 	float scale;

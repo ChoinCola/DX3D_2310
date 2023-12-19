@@ -1,6 +1,6 @@
 #pragma once
 
-class TerrainEditer : public GameObject
+class TerrainEditor : public GameObject
 {
 private:
 	//typedef VertexUVNormal VertexType;
@@ -12,6 +12,11 @@ private:
 		Float2 uv = {};
 		Float3 normal = {};
 		float alpha[4] = {};
+	};
+
+	enum EditType
+	{
+		HEIGHT, ALPHA
 	};
 
 	// 지형 편집기의 최대 크기 및 최대 높이를 상수로 정의합니다.
@@ -80,8 +85,8 @@ private:
 
 public:
 	// 지형 편집기의 생성자와 소멸자를 선언합니다.
-	TerrainEditer();
-	~TerrainEditer();
+	TerrainEditor();
+	~TerrainEditor();
 
 	// 지형 편집기의 업데이트, 렌더링, GUI 렌더링, 피킹, 컴퓨트 데이터 생성 등의 기능을 정의합니다.
 	void Update();
@@ -119,9 +124,16 @@ private:
 	Vector3 pickingPos;
 	float adjustValue = 20.0f;
 	string projectPath;
+	EditType editType = HEIGHT;
+	int selectMap = 0;
+
 	Mesh<VertexType>* mesh;
 	Mesh<VertexColor>* normalline;
+
 	Texture* heightMap;
+	Texture* secondMap;
+	Texture* thirdMap;
+
 	Vector3 defaltsize = {};
 	RayBuffer* rayBuffer;
 	BrushBuffer* brushBuffer;

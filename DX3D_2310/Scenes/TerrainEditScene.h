@@ -18,5 +18,5 @@ private:
 
 private:
 
-	TerrainEditer* terrainEditor;
+	TerrainEditor* terrainEditor;
 };

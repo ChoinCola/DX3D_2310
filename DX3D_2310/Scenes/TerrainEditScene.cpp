@@ -2,7 +2,7 @@
 
 TerrainEditScene::TerrainEditScene()
 {
-	terrainEditor = new TerrainEditer();
+	terrainEditor = new TerrainEditor();
 }
 
 TerrainEditScene::~TerrainEditScene()
