@@ -22,7 +22,7 @@ InstancingScene::InstancingScene()
 	for (Matrix& transform : instanceData)
 	{
 		Vector3 pos(MATH->Random(-10, 10), MATH->Random(-10, 10));
-
+		pos += Vector3(WIN_WIDTH * 0.5, WIN_HEIGHT * 0.5);
 		transform = XMMatrixTranslation(pos.x, pos.y, pos.z);
 
 		transform = XMMatrixTranspose(transform); // 전치행렬화
@@ -50,12 +50,14 @@ void InstancingScene::Render()
 	//for (Quad* quad : quads)
 	//	quad->Render();
 
-	instanceBuffer->Set(1);
-	quad->RenderInstanced(COUNT);
+	//instanceBuffer->Set(1);
+	//quad->RenderInstanced(COUNT);
 }
 
 void InstancingScene::PostRender()
 {
+	instanceBuffer->Set(1);
+	quad->RenderInstanced(COUNT);
 }
 
 void InstancingScene::GUIRender()
