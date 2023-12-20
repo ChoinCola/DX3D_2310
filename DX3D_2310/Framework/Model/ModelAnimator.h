@@ -77,6 +77,8 @@ protected:
 	void CreateClipTransform(UINT index);
 	void UpdateFrame(Motion* motion);
 
+	UINT GetMaxFrameNum();
+
 protected:
 	vector<ModelClip*> clips; // 모델 클립들을 저장하는 벡터
 

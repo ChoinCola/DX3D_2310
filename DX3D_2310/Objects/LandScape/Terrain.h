@@ -17,10 +17,12 @@ public:
 	Vector3 GetOnGrondPosition(const Vector3 ObjectPos, const Vector3 correction = {0, 0, 0});
 	// 현재 위치에서 중력가속도 구하는 함수
 	Vector3 GetOngravityAcceleration(const Vector3 ObjectPos, const Vector3 correction = { 0, 0, 0 });
-
+	Vector3 Picking();
 	bool ChackOnGround(const Vector3 ObjectPos);
 	int GetWidth() { return width; }
 	int GetHeight() { return height; }
+
+	Float2 GetSize() { return Float2(width, height); }
 
 private:
 	pair<Vector3, Vector3> FindLowPos(Vector3 e0, Vector3 e1, Vector3 e2, Vector3 e3);
@@ -34,7 +36,6 @@ private:
 	Texture* heightMap;
 	Texture* alphaMap;
 	Texture* secondMap;
-
 
 	Mesh<VertexColor>* normalline;
 	RasterizerState* RSset;

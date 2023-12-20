@@ -192,6 +192,39 @@ Vector3 Terrain::GetOngravityAcceleration(const Vector3 ObjectPos, const Vector3
 	return gravityDirection;
 
 }
+Vector3 Terrain::Picking()
+{
+	Ray ray = CAM->ScreenPointToRay(mousePos);
+
+	for (UINT z = 0; z < height - 1; z++)
+	{
+		for (UINT x = 0; x < width - 1; x++)
+		{
+			UINT index[4];
+			index[0] = width * z + x;
+			index[1] = width * z + x + 1;
+			index[2] = width * (z + 1) + x;
+			index[3] = width * (z + 1) + x + 1;
+
+			vector<VertexType>& vertices = mesh->GetVertices();
+
+			Vector3 p[4];
+			FOR(4)
+				p[i] = vertices[index[i]].pos;
+
+			float distance = 0.0f;
+
+			if (Intersects(ray.pos, ray.dir, p[0], p[1], p[2], distance))
+			{
+				return ray.pos + ray.dir * distance;
+			}
+			if (Intersects(ray.pos, ray.dir, p[3], p[1], p[2], distance))
+			{
+				return ray.pos + ray.dir * distance;
+			}
+		}
+	}
+}
 bool Terrain::ChackOnGround(const Vector3 ObjectPos)
 {
 	x = (int)ObjectPos.x;

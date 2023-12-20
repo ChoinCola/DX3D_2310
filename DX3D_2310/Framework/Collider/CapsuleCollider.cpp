@@ -9,13 +9,42 @@ CapsuleCollider::CapsuleCollider(float radius, float height, UINT stackCount, UI
     mesh->CreateMesh();
 }
 
+void CapsuleCollider::GUIRender()
+{
+	Transform::GUIRender();
+
+	string key = tag + "_Radius";
+	if (ImGui::DragFloat(key.c_str(), &radius, 0.1f))
+	{
+		UpdateMesh();
+	}
+
+	key = tag + "_Height";
+	if (ImGui::DragFloat(key.c_str(), &height, 0.1f))
+	{
+		UpdateMesh();
+	}
+
+	key = tag + "_Offset";
+	if (ImGui::DragFloat3(key.c_str(), (float*)&offset, 0.1f))
+	{
+		UpdateMesh();
+	}
+
+	if (ImGui::Button("Save"))
+		CapsuleSave();
+	ImGui::SameLine();
+	if (ImGui::Button("Load"))
+		CapsuleLoad();
+}
+
 // 캡슐(CapsuleCollider)과 광선(Ray) 간의 충돌 여부를 검사하는 함수
 bool CapsuleCollider::IsRayCollision(IN const Ray& ray, OUT Contact* contact)
 {
 	// 캡슐 충돌선의 방향 벡터와 시작점, 끝점 계산
 	Vector3 direction = GetUp();
-	Vector3 pa = GetGlobalPosition() - direction * Height() * 0.5f;
-	Vector3 pb = GetGlobalPosition() + direction * Height() * 0.5f;
+	Vector3 pa = Center() - direction * Height() * 0.5f;
+	Vector3 pb = Center() + direction * Height() * 0.5f;
 
 	float r = Radius(); // 캡슐의 반지름
 
@@ -104,8 +133,8 @@ bool CapsuleCollider::IsBoxCollision(BoxCollider* collider)
 
 	// 현재 캡슐의 방향 벡터와 시작점, 끝점 계산
 	Vector3 direction = GetUp();
-	Vector3 pa = GetGlobalPosition() - direction * Height() * 0.5f; // 시작점
-	Vector3 pb = GetGlobalPosition() + direction * Height() * 0.5f; // 끝점
+	Vector3 pa = Center() - direction * Height() * 0.5f; // 시작점
+	Vector3 pb = Center() + direction * Height() * 0.5f; // 끝점
 
 	// 캡슐 충돌선상에서 상자에 가장 가까운 점과 해당 점이 속한 축 찾기
 	Vector3 closestPointToSphere = box.pos;
@@ -134,11 +163,11 @@ bool CapsuleCollider::IsSphereCollision(SphereCollider* collider)
 	Vector3 direction = GetUp();
 
 	// 캡슐의 시작점과 끝점 계산
-	Vector3 pa = GetGlobalPosition() - direction * Height() * 0.5f; // 시작점
-	Vector3 pb = GetGlobalPosition() + direction * Height() * 0.5f; // 끝점
+	Vector3 pa = Center() - direction * Height() * 0.5f; // 시작점
+	Vector3 pb = Center() + direction * Height() * 0.5f; // 끝점
 
 	// 구의 중심점 위치 구하기
-	Vector3 P = collider->GetGlobalPosition();
+	Vector3 P = collider->Center();
 
 	// 캡슐의 충돌선 상에서 구에 가장 가까운 점 계산
 	Vector3 pointOnLine = MATH->ClosestPointOnLine(pa, pb, P);
@@ -155,13 +184,13 @@ bool CapsuleCollider::IsCapsuleCollision(CapsuleCollider* collider)
 {
 	// 첫 번째 캡슐의 방향 벡터와 시작점, 끝점 계산
 	Vector3 aDirection = GetUp();
-	Vector3 aA = GetGlobalPosition() - aDirection * Height() * 0.5f; // 시작점
-	Vector3 aB = GetGlobalPosition() + aDirection * Height() * 0.5f; // 끝점
+	Vector3 aA = Center() - aDirection * Height() * 0.5f; // 시작점
+	Vector3 aB = Center() + aDirection * Height() * 0.5f; // 끝점
 
 	// 두 번째 캡슐의 방향 벡터와 시작점, 끝점 계산
 	Vector3 bDirection = collider->GetUp();
-	Vector3 bA = collider->GetGlobalPosition() - bDirection * collider->Height() * 0.5f; // 시작점
-	Vector3 bB = collider->GetGlobalPosition() + bDirection * collider->Height() * 0.5f; // 끝점
+	Vector3 bA = collider->Center() - bDirection * collider->Height() * 0.5f; // 시작점
+	Vector3 bB = collider->Center() + bDirection * collider->Height() * 0.5f; // 끝점
 
 	// 각 캡슐의 네 개의 꼭짓점에 대한 벡터 계산
 	Vector3 v0 = bA - aA;
@@ -191,6 +220,33 @@ bool CapsuleCollider::IsCapsuleCollision(CapsuleCollider* collider)
 
 	// 계산된 거리가 두 캡슐의 반지름 합 이하이면 충돌이 발생한 것으로 판단
 	return distance <= (Radius() + collider->Radius());
+}
+
+void CapsuleCollider::CapsuleSave()
+{
+	BinaryWriter* writer = new BinaryWriter("TextData/Colliders/" + tag + "_Capsule.col");
+	writer->Float(radius);
+	writer->Float(height);
+	writer->Vector(offset);
+
+	delete writer;
+}
+
+void CapsuleCollider::CapsuleLoad()
+{
+	BinaryReader* reader = new BinaryReader("TextData/Colliders/" + tag + "_Capsule.col");
+	if (reader->IsFailed())
+	{
+		delete reader;
+		return;
+	}
+
+	radius = reader->Float();
+	height = reader->Float();
+	offset = reader->Vector();
+	UpdateMesh();
+
+	delete reader;
 }
 
 void CapsuleCollider::MakeMesh()
@@ -239,4 +295,39 @@ void CapsuleCollider::MakeMesh()
 			indices.push_back((sliceCount + 1) * i + j + 1);	// 2
 		}
 	}
+}
+
+void CapsuleCollider::UpdateMesh()
+{
+	float thetaStep = XM_2PI / sliceCount;
+	float phiStep = XM_PI / stackCount;
+
+	vector<Vertex>& vertices = mesh->GetVertices();
+
+	for (UINT i = 0; i <= stackCount; i++)
+	{
+		float phi = i * phiStep;
+
+		for (UINT j = 0; j <= sliceCount; j++)
+		{
+			float theta = j * thetaStep;
+
+			Vertex vertex;
+			vertex.pos.x = sin(phi) * cos(theta) * radius;
+			vertex.pos.y = cos(phi) * radius;
+			vertex.pos.z = sin(phi) * sin(theta) * radius;
+
+			if (vertex.pos.y > 0)
+				vertex.pos.y += height * 0.5f;
+			else if (vertex.pos.y < 0)
+				vertex.pos.y -= height * 0.5f;
+
+			vertex.pos += offset;
+
+			int index = (sliceCount + 1) * i + j;
+			vertices[index] = vertex;
+		}
+	}
+
+	mesh->UpdateVertices();
 }

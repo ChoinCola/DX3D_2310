@@ -221,6 +221,8 @@
     <ClInclude Include="Manager\GameManager.h" />
     <ClInclude Include="Manager\SceneManager.h" />
     <ClInclude Include="Framework\Model\ModelExporter.h" />
+    <ClInclude Include="Objects\Algorithm\AStar.h" />
+    <ClInclude Include="Objects\Algorithm\Node.h" />
     <ClInclude Include="Objects\Basic\Cube.h" />
     <ClInclude Include="Objects\Basic\GameBox.h" />
     <ClInclude Include="Objects\Basic\GameObject.h" />
@@ -229,6 +231,7 @@
     <ClInclude Include="Objects\Basic\Sphere.h" />
     <ClInclude Include="Objects\Basic\UI\Panel.h" />
     <ClInclude Include="Objects\Basic\UI\ProgressBar.h" />
+    <ClInclude Include="Objects\Character\Lion.h" />
     <ClInclude Include="Objects\LandScape\SkyBox.h" />
     <ClInclude Include="Objects\LandScape\Terrain.h" />
     <ClInclude Include="Objects\LandScape\TerrainEditor.h" />
@@ -274,6 +277,7 @@
     <ClInclude Include="Objects\TopViewGame\_TopViewGamestruct.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\AnimationScene.h" />
+    <ClInclude Include="Scenes\AStarScene.h" />
     <ClInclude Include="Scenes\BoxPlayDemo.h" />
     <ClInclude Include="Scenes\InstancingScene.h" />
     <ClInclude Include="Scenes\LightScene.h" />
@@ -345,6 +349,8 @@
     <ClCompile Include="Manager\GameManager.cpp" />
     <ClCompile Include="Manager\SceneManager.cpp" />
     <ClCompile Include="Framework\Model\ModelExporter.cpp" />
+    <ClCompile Include="Objects\Algorithm\AStar.cpp" />
+    <ClCompile Include="Objects\Algorithm\Node.cpp" />
     <ClCompile Include="Objects\Basic\Cube.cpp" />
     <ClCompile Include="Objects\Basic\GameBox.cpp" />
     <ClCompile Include="Objects\Basic\GameObject.cpp" />
@@ -353,6 +359,7 @@
     <ClCompile Include="Objects\Basic\Sphere.cpp" />
     <ClCompile Include="Objects\Basic\UI\Panel.cpp" />
     <ClCompile Include="Objects\Basic\UI\ProgressBar.cpp" />
+    <ClCompile Include="Objects\Character\Lion.cpp" />
     <ClCompile Include="Objects\LandScape\SkyBox.cpp" />
     <ClCompile Include="Objects\LandScape\Terrain.cpp" />
     <ClCompile Include="Objects\LandScape\TerrainEditor.cpp" />
@@ -392,6 +399,7 @@
     <ClCompile Include="Objects\TopViewGame\TopPlayer.cpp" />
     <ClCompile Include="Objects\TopViewGame\TopViewWeaponFireball.cpp" />
     <ClCompile Include="Scenes\AnimationScene.cpp" />
+    <ClCompile Include="Scenes\AStarScene.cpp" />
     <ClCompile Include="Scenes\BoxPlayDemo.cpp" />
     <ClCompile Include="Scenes\CollisionScene.cpp" />
     <ClCompile Include="Scenes\GridScene.cpp" />

@@ -126,10 +126,13 @@ void ModelAnimator::CreateTexture()
     FOR(clipCount)
         CreateClipTransform(i);
 
+    UINT boneNum = nodes.size();
+    UINT frameNum = GetMaxFrameNum();
+
     // 텍스처에 대한 설명을 설정합니다.
     D3D11_TEXTURE2D_DESC desc = {};
-    desc.Width = MAX_BONE * 4;
-    desc.Height = MAX_FRAME;
+    desc.Width = boneNum * 4;
+    desc.Height = frameNum;
     desc.MipLevels = 1;
     desc.ArraySize = clipCount;
     desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -137,8 +140,8 @@ void ModelAnimator::CreateTexture()
     desc.Usage = D3D11_USAGE_IMMUTABLE;
     desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 
-    UINT pitchSize = MAX_BONE * sizeof(Matrix);
-    UINT pageSize = pitchSize * MAX_FRAME;
+    UINT pitchSize = boneNum * sizeof(Matrix);
+    UINT pageSize = pitchSize * frameNum;
 
     // 가상 메모리를 할당하여 텍스처 데이터를 저장할 공간을 만듭니다.
     void* p = VirtualAlloc(nullptr, pageSize * clipCount,
@@ -149,7 +152,7 @@ void ModelAnimator::CreateTexture()
     {
         UINT start = i * pageSize;
 
-        for (UINT y = 0; y < MAX_FRAME; y++)
+        for (UINT y = 0; y < frameNum; y++)
         {
             void* temp = (BYTE*)p + pitchSize * y + start;
 
@@ -339,4 +342,16 @@ void ModelAnimator::UpdateFrame(Motion* motion)
             frame->time -= 1.0f;
         }
     }
+}
+
+UINT ModelAnimator::GetMaxFrameNum()
+{
+    UINT maxNum = 0;
+
+    for (ModelClip* clip : clips)
+    {
+        if (clip->frameCount > maxNum)
+            maxNum = clip->frameCount;
+    }
+    return maxNum;
 }

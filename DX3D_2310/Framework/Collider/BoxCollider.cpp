@@ -9,6 +9,29 @@ BoxCollider::BoxCollider(Vector3 size)
     mesh->CreateMesh();
 }
 
+void BoxCollider::GUIRender()
+{
+    Transform::GUIRender();
+
+    string key = tag + "_Size";
+    if (ImGui::DragFloat3(key.c_str(), (float*)&size, 0.1f))
+    {
+        UpdateMesh();
+    }
+
+    key = tag + "_Offset";
+    if (ImGui::DragFloat3(key.c_str(), (float*)&offset, 0.1f))
+    {
+        UpdateMesh();
+    }
+
+    if (ImGui::Button("Save"))
+        BoxSave();
+    ImGui::SameLine();
+    if (ImGui::Button("Load"))
+        BoxLoad();
+}
+
 bool BoxCollider::IsRayCollision(IN const Ray& ray, OUT Contact* contact)
 {
     ObbDesc box;
@@ -106,7 +129,7 @@ bool BoxCollider::IsSphereCollision(SphereCollider* collider)
 
     FOR(3) // OBB의 3개의 로컬 축에 대한 루프를 시작합니다.
     {
-        Vector3 direction = collider->GetGlobalPosition() - box.pos; // OBB 중심에서 충돌체의 중심까지의 방향을 계산합니다.
+        Vector3 direction = collider->Center() - box.pos; // OBB 중심에서 충돌체의 중심까지의 방향을 계산합니다.
 
         float length = Vector3::Dot(box.axis[i], direction); // 충돌체 중심과 OBB 축 사이의 내적을 계산하여 OBB 축 방향으로의 거리(length)를 얻습니다.
 
@@ -117,7 +140,7 @@ bool BoxCollider::IsSphereCollision(SphereCollider* collider)
         closestPointToSphere += box.axis[i] * length * mult; // 가장 가까운 지점을 업데이트합니다. 이 지점은 OBB의 표면 위의 지점입니다.
     }
 
-    float distance = (collider->GetGlobalPosition() - closestPointToSphere).Length(); // 충돌체의 중심과 OBB 표면의 가장 가까운 지점 사이의 거리를 계산합니다.
+    float distance = (collider->Center() - closestPointToSphere).Length(); // 충돌체의 중심과 OBB 표면의 가장 가까운 지점 사이의 거리를 계산합니다.
     collider->Getdistance() = distance;
     collider->GetHitpoint() = closestPointToSphere;
     return distance <= collider->Radius(); // 계산된 거리가 충돌체의 반지름보다 작거나 같으면 충돌이 발생한 것으로 간주합니다.
@@ -125,18 +148,43 @@ bool BoxCollider::IsSphereCollision(SphereCollider* collider)
 
 bool BoxCollider::IsCapsuleCollision(CapsuleCollider* collider)
 {
-    return false;
+    return collider->IsBoxCollision(this);
 }
 
 void BoxCollider::GetObb(ObbDesc& obbDesc)
 {
-    obbDesc.pos = GetGlobalPosition(); // 상속을 많이 받아서 월드로 계산한다.
+    obbDesc.pos = Center(); // 상속을 많이 받아서 월드로 계산한다.
 
     obbDesc.axis[0] = GetRight();
     obbDesc.axis[1] = GetUp();
     obbDesc.axis[2] = GetForward();
 
     obbDesc.halfSize = size * 0.5f * GetGlobalScale();
+}
+
+void BoxCollider::BoxSave()
+{
+    BinaryWriter* writer = new BinaryWriter("TextData/Colliders/" + tag + "_Box.col");
+    writer->Vector(size);
+    writer->Vector(offset);
+
+    delete writer;
+}
+
+void BoxCollider::BoxLoad()
+{
+    BinaryReader* reader = new BinaryReader("TextData/Colliders/" + tag + "_Box.col");
+    if (reader->IsFailed())
+    {
+        delete reader;
+        return;
+    }
+
+    size = reader->Vector();
+    offset = reader->Vector();
+    UpdateMesh();
+
+    delete reader;
 }
 
 void BoxCollider::MakeMesh()
@@ -176,6 +224,25 @@ void BoxCollider::MakeMesh()
         4, 5, 5, 7, 7, 6, 6, 4,
         0, 4, 1, 5, 3, 7, 2, 6
     };
+}
+
+void BoxCollider::UpdateMesh()
+{
+    Vector3 halfSize = size * 0.5;
+
+    vector<Vertex>& vertices = mesh->GetVertices();
+
+    //Front
+    vertices[0] = Vertex(-halfSize.x + offset.x, -halfSize.y + offset.y, -halfSize.z + offset.z);
+    vertices[1] = Vertex(-halfSize.x + offset.x, +halfSize.y + offset.y, -halfSize.z + offset.z);
+    vertices[2] = Vertex(+halfSize.x + offset.x, -halfSize.y + offset.y, -halfSize.z + offset.z);
+    vertices[3] = Vertex(+halfSize.x + offset.x, +halfSize.y + offset.y, -halfSize.z + offset.z);
+    vertices[4] = Vertex(-halfSize.x + offset.x, -halfSize.y + offset.y, +halfSize.z + offset.z);
+    vertices[5] = Vertex(-halfSize.x + offset.x, +halfSize.y + offset.y, +halfSize.z + offset.z);
+    vertices[6] = Vertex(+halfSize.x + offset.x, -halfSize.y + offset.y, +halfSize.z + offset.z);
+    vertices[7] = Vertex(+halfSize.x + offset.x, +halfSize.y + offset.y, +halfSize.z + offset.z);
+    
+    mesh->UpdateVertices();
 }
 
 bool BoxCollider::IsSeperateAxis(const Vector3 D, const Vector3 axis, const ObbDesc& box1, const ObbDesc& box2)

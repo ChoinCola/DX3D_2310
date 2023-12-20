@@ -186,6 +186,8 @@ using namespace Utility;
 #include "Objects/Basic/UI/Panel.h"
 #include "Objects/Basic/UI/ProgressBar.h"
 
+
+
 #include "Objects/ColliderBall/Ball.h"
 
 #include "Framework/Environment/UIRenderMaster.h"
@@ -203,6 +205,13 @@ using namespace Utility;
 #include "Objects/LandScape/Terrain.h"
 #include "Objects/LandScape/TerrainEditor.h"
 #include "Objects/LandScape/SkyBox.h"
+
+#include "Objects/Algorithm/Node.h"
+#include "Objects/Algorithm/AStar.h"
+
+#include "Objects/Character/Lion.h"
+
+
 
 // Shooting Header
 //#include "Objects/Shooting/Item.h"
@@ -286,6 +295,7 @@ using namespace Utility;
 #include "Scenes/OutlineScene.h"
 #include "Scenes/SubScene.h"
 #include "Scenes/TerrainEditScene.h"
+#include "Scenes/AStarScene.h"
 
 extern HWND hWnd;
 extern Vector3 mousePos;

@@ -33,7 +33,7 @@ public:
 	~Collider();
 
 	void Render();
-
+	virtual void GUIRender() {}
 	bool IsCollision(Collider* collider);
 								// 넣는값			나오는값.
 	virtual bool IsRayCollision(IN const Ray& ray, OUT Contact* contact = nullptr) = 0;
@@ -45,11 +45,18 @@ public:
 	void SetColor(Float4 color) { material->GetBuffer()->diffuse = color; }
 	void SetColor(float r, float g, float b) { material->GetBuffer()->diffuse = { r, g, b, 1 }; }
 
+	Vector3 Center()
+	{
+		return XMVector3TransformCoord(offset, world);
+	}
+
 public:
 
 
 protected:
 	Type type;
 	Mesh<Vertex>* mesh; // 충돌체 임으로 선만 그려준다.
+
+	Vector3 offset;
 
 };

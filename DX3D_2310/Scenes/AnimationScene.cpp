@@ -3,10 +3,9 @@
 
 AnimationScene::AnimationScene()
 {
-	model = new ModelAnimator("Traveler");
-	model->ReadClip("Walk");
-	model->ReadClip("Right_Walk");
-	model->ReadClip("Attack");
+	model = new ModelAnimator("Lion");
+	model->ReadClip("Idle");
+	model->ReadClip("Run");
 	model->CreateTexture();
 	//model->SetLocalScale(Vector3(0.01, 0.01, 0.01));
 
