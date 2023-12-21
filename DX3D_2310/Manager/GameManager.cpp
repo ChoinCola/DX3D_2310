@@ -14,8 +14,8 @@ GameManager::GameManager()
     //SceneManager::Get()->Create("Start", new TerrainEditScene());
     //SceneManager::Get()->Create("Start", new ModelRenderScene());
     //SceneManager::Get()->Create("Start", new AnimationScene());
-    //SceneManager::Get()->Create("Start", new AStarScene());
-    SceneManager::Get()->Create("Start", new InstancingScene());
+    SceneManager::Get()->Create("Start", new AStarScene());
+    //SceneManager::Get()->Create("Start", new InstancingScene());
     //SceneManager::Get()->Create("Start", new TerrainScene());
     //SceneManager::Get()->Create("Start", new ModelInstancingScene());
     //SceneManager::Get()->Create("Topview", new TopViewGame());

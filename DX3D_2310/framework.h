@@ -86,6 +86,10 @@
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "dwrite.lib")
 
+//FMOD
+#include <FMOD/fmod.hpp>
+#pragma comment(lib, "fmod_vc.lib")
+
 using namespace std;
 using namespace DirectX;
 using namespace DirectX::TriangleTests;
@@ -113,6 +117,7 @@ typedef function<void(int)> IntParamEvent;
 #include "Framework/Utilities/tinyxml2.h"
 #include "Framework/Utilities/Font.h"
 #include "Framework/Utilities/Observer.h"
+#include "Framework/Utilities/Audio.h"
 
 // Readcsv
 #include "Framework/Utilities/rapidcsv.h"
@@ -207,6 +212,7 @@ using namespace Utility;
 #include "Objects/LandScape/SkyBox.h"
 
 #include "Objects/Algorithm/Node.h"
+#include "Objects/Algorithm/Heap.h"
 #include "Objects/Algorithm/AStar.h"
 
 #include "Objects/Character/Lion.h"

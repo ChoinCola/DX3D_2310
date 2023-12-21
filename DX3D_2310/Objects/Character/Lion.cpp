@@ -49,7 +49,12 @@ void Lion::Control()
 	{
 		destPos = terrain->Picking();
 
-		path.insert(path.begin(), destPos);
+		int start = aStar->FindCloseNode(GetGlobalPosition());
+		int end = aStar->FindCloseNode(destPos);
+
+		aStar->GetPath(start, end, path);
+
+		//path.insert(path.begin(), destPos);
 	}
 }
 

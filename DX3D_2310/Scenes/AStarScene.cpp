@@ -8,12 +8,14 @@ AStarScene::AStarScene()
 
 	lion = new Lion();
 	lion->SetTerrain(terrain);
+	lion->SetAStar(astar);
 }
 
 AStarScene::~AStarScene()
 {
 	delete terrain;
 	delete lion;
+	delete astar;
 }
 
 void AStarScene::Update()
@@ -28,8 +30,9 @@ void AStarScene::PreRender()
 void AStarScene::Render()
 {
 	terrain->Render();
-	lion->Render();
 	astar->Render();
+	lion->Render();
+
 }
 
 void AStarScene::PostRender()

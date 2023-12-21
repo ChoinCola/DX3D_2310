@@ -18,7 +18,7 @@ Audio::~Audio()
 
 void Audio::Update()
 {
-    listenerPos = { CAM->Pos().x, CAM->Pos().y, CAM->Pos().z };
+    listenerPos = { CAM->GetLocalPosition().x, CAM->GetLocalPosition().y, CAM->GetLocalPosition().z };
     soundSystem->set3DListenerAttributes(0, &listenerPos, nullptr, nullptr, nullptr);
 
     soundSystem->update();

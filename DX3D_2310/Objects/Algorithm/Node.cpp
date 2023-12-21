@@ -1,6 +1,6 @@
 #include "Framework.h"
 
-Node::Node(Vector3 pos, int index)
+Node::Node(Vector3 pos, int index) : index(index)
 {
     // 노드의 로컬 위치를 초기화합니다.
     localPosition = pos;

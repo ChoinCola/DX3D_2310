@@ -193,6 +193,7 @@
     <ClInclude Include="Framework\State\DepthStencilState.h" />
     <ClInclude Include="Framework\State\RasterizerState.h" />
     <ClInclude Include="Framework\State\SamplerState.h" />
+    <ClInclude Include="Framework\Utilities\Audio.h" />
     <ClInclude Include="Framework\Utilities\BinaryReader.h" />
     <ClInclude Include="Framework\Utilities\BinaryWriter.h" />
     <ClInclude Include="Framework\Utilities\Font.h" />
@@ -204,24 +205,11 @@
     <ClInclude Include="Framework\Utilities\Timer.h" />
     <ClInclude Include="Framework\Utilities\tinyxml2.h" />
     <ClInclude Include="Framework\Utilities\Utility.h" />
-    <ClInclude Include="Libraries\DirectXTex\DirectXTex.h" />
-    <ClInclude Include="Libraries\ImGui\dirent\dirent.h" />
-    <ClInclude Include="Libraries\ImGui\imconfig.h" />
-    <ClInclude Include="Libraries\ImGui\imgui.h" />
-    <ClInclude Include="Libraries\ImGui\ImGuiFileDialog.h" />
-    <ClInclude Include="Libraries\ImGui\ImGuiFileDialogConfig.h" />
-    <ClInclude Include="Libraries\ImGui\imgui_impl_dx11.h" />
-    <ClInclude Include="Libraries\ImGui\imgui_impl_win32.h" />
-    <ClInclude Include="Libraries\ImGui\imgui_internal.h" />
-    <ClInclude Include="Libraries\ImGui\imstb_rectpack.h" />
-    <ClInclude Include="Libraries\ImGui\imstb_textedit.h" />
-    <ClInclude Include="Libraries\ImGui\imstb_truetype.h" />
-    <ClInclude Include="Libraries\ImGui\stb\stb_image.h" />
-    <ClInclude Include="Libraries\ImGui\stb\stb_image_resize.h" />
     <ClInclude Include="Manager\GameManager.h" />
     <ClInclude Include="Manager\SceneManager.h" />
     <ClInclude Include="Framework\Model\ModelExporter.h" />
     <ClInclude Include="Objects\Algorithm\AStar.h" />
+    <ClInclude Include="Objects\Algorithm\Heap.h" />
     <ClInclude Include="Objects\Algorithm\Node.h" />
     <ClInclude Include="Objects\Basic\Cube.h" />
     <ClInclude Include="Objects\Basic\GameBox.h" />
@@ -337,6 +325,7 @@
     <ClCompile Include="Framework\State\DepthStencilState.cpp" />
     <ClCompile Include="Framework\State\RasterizerState.cpp" />
     <ClCompile Include="Framework\State\SamplerState.cpp" />
+    <ClCompile Include="Framework\Utilities\Audio.cpp" />
     <ClCompile Include="Framework\Utilities\BinaryReader.cpp" />
     <ClCompile Include="Framework\Utilities\BinaryWriter.cpp" />
     <ClCompile Include="Framework\Utilities\Font.cpp" />
@@ -350,6 +339,7 @@
     <ClCompile Include="Manager\SceneManager.cpp" />
     <ClCompile Include="Framework\Model\ModelExporter.cpp" />
     <ClCompile Include="Objects\Algorithm\AStar.cpp" />
+    <ClCompile Include="Objects\Algorithm\Heap.cpp" />
     <ClCompile Include="Objects\Algorithm\Node.cpp" />
     <ClCompile Include="Objects\Basic\Cube.cpp" />
     <ClCompile Include="Objects\Basic\GameBox.cpp" />
@@ -582,14 +572,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Libraries\DirectXTex\DirectXTex.inl" />
     <None Include="Shaders\PixelHeader.hlsli">
       <FileType>Document</FileType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="Libraries\Lib\DirectXTex.lib" />
-    <Library Include="Libraries\Lib\imGui.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

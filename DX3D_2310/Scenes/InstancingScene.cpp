@@ -21,10 +21,11 @@ InstancingScene::InstancingScene()
 
 	for (Matrix& transform : instanceData)
 	{
-		Vector3 pos(MATH->Random(-10, 10), MATH->Random(-10, 10));
+		Vector3 pos(MATH->Random(-100, 100), MATH->Random(-100, 100));
 		pos += Vector3(WIN_WIDTH * 0.5, WIN_HEIGHT * 0.5);
-		transform = XMMatrixTranslation(pos.x, pos.y, pos.z);
-
+		transform = XMMatrixScaling(100, 100, 1);
+		transform *= XMMatrixTranslation(pos.x, pos.y, pos.z);
+		
 		transform = XMMatrixTranspose(transform); // 전치행렬화
 	}
 

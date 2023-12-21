@@ -21,5 +21,6 @@ public:
 private:
 	Terrain* terrain;
 	AStar* astar;
+
 	Lion* lion;
 };

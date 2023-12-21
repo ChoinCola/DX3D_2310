@@ -3,6 +3,7 @@
 AStar::AStar(UINT width, UINT height)
     : width(width), height(height)
 {
+    heap = new Heap();
 }
 
 AStar::~AStar()
@@ -10,6 +11,8 @@ AStar::~AStar()
     // 동적으로 할당된 노드들을 정리합니다.
     for (Node* node : nodes)
         delete node;
+
+    delete heap;
 }
 
 void AStar::Render()
@@ -23,6 +26,7 @@ void AStar::SetNode(Terrain* terrain)
 {
     // 지형 크기를 기반으로 노드 간의 간격을 계산합니다.
     Float2 size = terrain->GetSize();
+
     interval.x = size.x / width;
     interval.y = size.y / height;
 
@@ -55,13 +59,70 @@ void AStar::SetNode(Terrain* terrain)
 
 int AStar::FindCloseNode(Vector3 pos)
 {
-    // TODO: 주어진 위치에 가장 가까운 노드를 찾는 로직을 구현합니다.
-    return 0;
+    float minDist = FLT_MAX;
+    int index = -1;
+
+    FOR(nodes.size())
+    {
+        if (nodes[i]->state == Node::OBSTACLE)
+            continue;
+
+        float distance = MATH->Distance(pos, nodes[i]->GetGlobalPosition());
+
+        if (minDist > distance)
+        {
+            minDist = distance;
+            index = i;
+        }
+    }
+
+    return index;
 }
 
 void AStar::GetPath(IN int start, IN int end, OUT vector<Vector3>& path)
 {
-    // TODO: 시작 노드에서 종단 노드까지의 최적 경로를 찾는 로직을 구현합니다.
+    Reset();
+    path.clear();
+
+    //1. 시작노드 초기화하고 오픈노드에 추가
+    float G = 0;
+    float H = GetDiagonalManhattanDistance(start, end);
+
+    nodes[start]->f = G + H;
+    nodes[start]->g = G;
+    nodes[start]->h = H;
+    nodes[start]->via = start;
+    nodes[start]->state = Node::OPEN;
+
+    //openNodes.push_back(start);
+    heap->Insert(nodes[start]);
+
+    while (nodes[end]->state != Node::CLOSED)
+    {
+        //길이 막힌 상황
+        //if (openNodes.empty())
+        if (heap->Empty())
+            return;
+
+        //2. 오픈노드 중에서 효율이 가장 좋은 노드 찾기
+        int curIndex = GetMinNode();
+        //3. 찾은 노드와 연결된 노드의 정보를 갱신 후 오픈노드에 추가하고
+        //확장이 끝난 노드는 닫기
+        Extend(curIndex, end);
+        nodes[curIndex]->state = Node::CLOSED;
+    }
+
+    //5. BackTracking
+    int curIndex = end;
+
+    while (curIndex != start)
+    {
+        nodes[curIndex]->state = Node::USING;
+        path.push_back(nodes[curIndex]->GetGlobalPosition());
+        curIndex = nodes[curIndex]->via;
+    }
+    //시작노드 추가하기
+    //path.push_back(nodes[start]->GetGlobalPosition());
 }
 
 bool AStar::IsCollisionObstacle(Vector3 start, Vector3 end)
@@ -72,59 +133,120 @@ bool AStar::IsCollisionObstacle(Vector3 start, Vector3 end)
 
 void AStar::Reset()
 {
-    // TODO: A* 알고리즘의 내부 상태를 초기화하는 로직을 구현합니다.
+    for (Node* node : nodes)
+    {
+        if (node->state != Node::OBSTACLE)
+            node->SetState(Node::NONE);
+    }
+
+    //openNodes.clear();
+    heap->Clear();
 }
 
 float AStar::GetDiagonalManhattanDistance(int start, int end)
 {
-    // TODO: 두 노드 사이의 대각 맨해튼 거리를 계산하는 로직을 구현합니다.
-    return 0.0f;
+    Vector3 startPos = nodes[start]->GetGlobalPosition();
+    Vector3 endPos = nodes[end]->GetGlobalPosition();
+
+    Vector3 temp = endPos - startPos;
+
+    float x = abs(temp.x);
+    float z = abs(temp.z);
+
+    float minSize = min(x, z);
+    float maxSize = max(x, z);
+
+    return (maxSize - minSize) + sqrt(minSize * minSize * 2);
 }
 
 void AStar::Extend(int center, int end)
 {
-    // TODO: 현재 중심 노드에서 종단 노드로 검색을 확장하는 로직을 구현합니다.
+    for (Node::Edge* edge : nodes[center]->edges)
+    {
+        int index = edge->index;
+
+        if (nodes[index]->state == Node::CLOSED)
+            continue;
+        if (nodes[index]->state == Node::OBSTACLE)
+            continue;
+
+        float G = nodes[center]->g + edge->cost;
+        float H = GetDiagonalManhattanDistance(index, end);
+        float F = G + H;
+
+        if (nodes[index]->state == Node::OPEN)
+        {
+            if (F < nodes[index]->f)
+            {
+                nodes[index]->g = G;
+                nodes[index]->f = F;
+                nodes[index]->via = center;
+            }
+        }
+        else if (nodes[index]->state == Node::NONE)
+        {
+            nodes[index]->g = G;
+            nodes[index]->h = H;
+            nodes[index]->f = F;
+            nodes[index]->via = center;
+            nodes[index]->state = Node::OPEN;
+
+            //openNodes.push_back(index);
+            heap->Insert(nodes[index]);
+        }
+    }
 }
 
 int AStar::GetMinNode()
 {
-    // TODO: openNodes 목록에서 총 비용이 가장 작은 노드를 찾는 로직을 구현합니다.
-    return 0;
+    //int openIndex = 0;
+    //int nodeIndex = openNodes[openIndex];
+    //float minF = nodes[nodeIndex]->f;
+
+    //FOR(openNodes.size())
+    //{
+    //    nodeIndex = openNodes[i];
+
+    //    if (nodes[nodeIndex]->f < minF)
+    //    {
+    //        minF = nodes[nodeIndex]->f;
+    //        openIndex = i;
+    //    }
+    //}
+    //nodeIndex = openNodes[openIndex];
+    //openNodes.erase(openNodes.begin() + openIndex);
+    //return nodeIndex;
+    return heap->DeleteRoot()->index;
 }
 
 void AStar::SetEdge()
 {
-    // 그리드 내의 각 노드에 대해 엣지를 설정합니다.
-    UINT gridWidth = this->width + 1;
+    UINT width = this->width + 1;
 
     FOR(nodes.size())
     {
-        if (i % gridWidth != gridWidth - 1)
+        if (i % width != width - 1)
         {
-            // 오른쪽 노드와의 엣지를 추가합니다.
             nodes[i]->AddEdge(nodes[i + 1]);
             nodes[i + 1]->AddEdge(nodes[i]);
         }
 
-        if (i < nodes.size() - gridWidth)
+        if (i < nodes.size() - width)
         {
-            // 아래쪽 노드와의 엣지를 추가합니다.
-            nodes[i]->AddEdge(nodes[i + gridWidth]);
-            nodes[i + gridWidth]->AddEdge(nodes[i]);
+            nodes[i]->AddEdge(nodes[i + width]);
+            nodes[i + width]->AddEdge(nodes[i]);
         }
 
-        if (i % gridWidth != gridWidth - 1 && i < nodes.size() - gridWidth)
+        if (i % width != width - 1 && i < nodes.size() - width)
         {
-            // 오른쪽 아래 대각선 노드와의 엣지를 추가합니다.
-            nodes[i]->AddEdge(nodes[i + 1 + gridWidth]);
-            nodes[i + 1 + gridWidth]->AddEdge(nodes[i]);
+            nodes[i]->AddEdge(nodes[i + 1 + width]);
+            nodes[i + 1 + width]->AddEdge(nodes[i]);
         }
 
-        if (i % gridWidth != 0 && i < nodes.size() - gridWidth)
+        if (i % width != 0 && i < nodes.size() - width)
         {
-            // 왼쪽 아래 대각선 노드와의 엣지를 추가합니다.
-            nodes[i]->AddEdge(nodes[i - 1 + gridWidth]);
-            nodes[i - 1 + gridWidth]->AddEdge(nodes[i]);
+            nodes[i]->AddEdge(nodes[i - 1 + width]);
+            nodes[i - 1 + width]->AddEdge(nodes[i]);
         }
     }
 }

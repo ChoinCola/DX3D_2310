@@ -45,7 +45,8 @@ private:
     Vector3 interval;             // 노드 간의 간격.
 
     vector<Node*> nodes;          // 그리드 내 모든 노드의 목록.
-    vector<int> openNodes;        // 탐색을 위한 열린 노드 목록.
+    //vector<int> openNodes;        // 탐색을 위한 열린 노드 목록.
+    Heap* heap;
 
     vector<Collider*> obstacles;  // 그리드 내의 장애물 목록.
 };
