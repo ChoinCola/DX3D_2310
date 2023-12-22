@@ -14,7 +14,8 @@ GameManager::GameManager()
     //SceneManager::Get()->Create("Start", new TerrainEditScene());
     //SceneManager::Get()->Create("Start", new ModelRenderScene());
     //SceneManager::Get()->Create("Start", new AnimationScene());
-    SceneManager::Get()->Create("Start", new AStarScene());
+    //SceneManager::Get()->Create("Start", new AStarScene());
+    SceneManager::Get()->Create("Start", new BillboardScene());
     //SceneManager::Get()->Create("Start", new InstancingScene());
     //SceneManager::Get()->Create("Start", new TerrainScene());
     //SceneManager::Get()->Create("Start", new ModelInstancingScene());
@@ -36,6 +37,7 @@ void GameManager::Update()
     Mouse::Get()->Update();
     Timer::Get()->Update();
     Environment::Get()->Update();
+    Audio::Get()->Update();
 
     SceneManager::Get()->Update();
     UIRenderMaster::Get()->Update();
@@ -92,6 +94,7 @@ void GameManager::Create()
     Mouse::Get();
     Font::Get();
     UIRenderMaster::Get();
+    Audio::Get();
     Font::Get()->AddColor("white", 1, 1, 1);
     Font::Get()->AddStyle("Default", L"배민 을지로10년후체");
 
@@ -114,6 +117,7 @@ void GameManager::Delete()
     Mouse::Delete();
     Font::Delete();
     UIRenderMaster::Delete();
+    Audio::Delete();
 
     ImGui_ImplDX11_Shutdown();
     ImGui_ImplWin32_Shutdown();

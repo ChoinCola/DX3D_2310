@@ -266,6 +266,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\AnimationScene.h" />
     <ClInclude Include="Scenes\AStarScene.h" />
+    <ClInclude Include="Scenes\BilboardScene.h" />
     <ClInclude Include="Scenes\BoxPlayDemo.h" />
     <ClInclude Include="Scenes\InstancingScene.h" />
     <ClInclude Include="Scenes\LightScene.h" />
@@ -390,6 +391,7 @@
     <ClCompile Include="Objects\TopViewGame\TopViewWeaponFireball.cpp" />
     <ClCompile Include="Scenes\AnimationScene.cpp" />
     <ClCompile Include="Scenes\AStarScene.cpp" />
+    <ClCompile Include="Scenes\BilboardScene.cpp" />
     <ClCompile Include="Scenes\BoxPlayDemo.cpp" />
     <ClCompile Include="Scenes\CollisionScene.cpp" />
     <ClCompile Include="Scenes\GridScene.cpp" />

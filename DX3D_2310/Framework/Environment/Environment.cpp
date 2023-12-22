@@ -70,7 +70,7 @@ void Environment::GUIRender()
 void Environment::Set()
 {
 	rasterizerSate[isWireMode]->SetState();
-	blendState[0]->SetState();
+	blendState[1]->SetState();
 	depthState[0]->SetState();
 
 	mainCamera->SetView();
@@ -129,6 +129,7 @@ void Environment::CreateState()
 	blendState[0] = new BlendState();
 	blendState[1] = new BlendState();
 	blendState[1]->Alpha(true);
+	//blendState[1]->AlphaToCoverage(true);
 
 	depthState[0] = new DepthStencilState();
 	depthState[1] = new DepthStencilState();

@@ -302,6 +302,7 @@ using namespace Utility;
 #include "Scenes/SubScene.h"
 #include "Scenes/TerrainEditScene.h"
 #include "Scenes/AStarScene.h"
+#include "Scenes/BilboardScene.h"
 
 extern HWND hWnd;
 extern Vector3 mousePos;
