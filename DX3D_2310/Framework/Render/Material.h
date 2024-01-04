@@ -21,6 +21,7 @@ public:
 
 	void SetDiffuseMap(wstring textureFile);
 	void SetDiffuseMap(Texture* textureFile) { diffuseMap = textureFile; };
+	Texture* GetDiffuseMap() { return diffuseMap; };
 
 	void SetSpecularMap(wstring textureFile);
 	void SetNormalMap(wstring textureFile);

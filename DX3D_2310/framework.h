@@ -131,6 +131,7 @@ using namespace Utility;
 #include "Framework/Shader/VertexShader.h"
 #include "Framework/Shader/PixelShader.h"
 #include "Framework/Shader/ComputeShader.h"
+#include "Framework/Shader/GeometryShader.h"
 
 
 // Buffer Header
@@ -191,7 +192,13 @@ using namespace Utility;
 #include "Objects/Basic/UI/Panel.h"
 #include "Objects/Basic/UI/ProgressBar.h"
 
-
+// ParticleSystem
+#include "Objects/Particle/ParticleSystem.h"
+#include "Objects/Particle/Particle.h"
+#include "Objects/Particle/Sprite.h"
+#include "Objects/Particle/Rain.h"
+#include "Objects/Particle/Snow.h"
+#include "Objects/Particle/Spark.h"
 
 #include "Objects/ColliderBall/Ball.h"
 
@@ -303,6 +310,8 @@ using namespace Utility;
 #include "Scenes/TerrainEditScene.h"
 #include "Scenes/AStarScene.h"
 #include "Scenes/BilboardScene.h"
+#include "Scenes/ParticleEditScene.h"
+#include "Scenes/ParticleScene.h"
 
 extern HWND hWnd;
 extern Vector3 mousePos;

@@ -417,6 +417,33 @@
     <ClInclude Include="Scenes\BilboardScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Framework\Shader\GeometryShader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\ParticleEditScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\ParticleScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Particle\ParticleSystem.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Particle\Particle.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Particle\Rain.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Particle\Snow.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Particle\Spark.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\Particle\Sprite.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX3D_2310.cpp">
@@ -776,6 +803,33 @@
     <ClCompile Include="Scenes\BilboardScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\Shader\GeometryShader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\ParticleEditScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\ParticleScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Particle\ParticleSystem.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Particle\Particle.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Particle\Rain.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Particle\Snow.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Particle\Spark.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\Particle\Sprite.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3D_2310.rc">
@@ -814,6 +868,12 @@
     <FxCompile Include="Shaders\Compute\ComputePicking.hlsl" />
     <FxCompile Include="Shaders\LandScape\TerrainEditer.hlsl" />
     <FxCompile Include="Shaders\LandScape\Terrain.hlsl" />
+    <FxCompile Include="Shaders\Geometry\Billboard.hlsl" />
+    <FxCompile Include="Shaders\Instancing\Particle.hlsl" />
+    <FxCompile Include="Shaders\Geometry\Sprite.hlsl" />
+    <FxCompile Include="Shaders\Geometry\Rain.hlsl" />
+    <FxCompile Include="Shaders\Geometry\Snow.hlsl" />
+    <FxCompile Include="Shaders\Geometry\Spark.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\PixelHeader.hlsli" />

@@ -17,6 +17,7 @@ public:
 
 	int Random(const int& min, const int& max);
 	float Random(const float& min, const float& max);
+	Vector3 Random(const Vector3& min, const Vector3& max);
 
 	float Clamp(const float& min, const float& max, const float& value) const;
 

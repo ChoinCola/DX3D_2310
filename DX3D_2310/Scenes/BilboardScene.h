@@ -18,7 +18,14 @@ public:
 
 private:
 	Terrain* terrain;
-	vector<Quad*> trees;
+	//vector<Quad*> trees;
 
 	DepthStencilState* depthState[2];
+
+	Material* material;
+	VertexBuffer* vertexBuffer;
+	GeometryShader* geometryShader;
+
+	vector<VertexUV> vertices;
+	vector<VertexUV> drawVertices;
 };
